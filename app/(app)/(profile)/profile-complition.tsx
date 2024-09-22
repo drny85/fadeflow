@@ -18,7 +18,6 @@ const profileScheme = z.object({
    apt: z.string().optional(),
    city: z.string().min(3, { message: 'City is too short' }),
    state: z.string().min(2, { message: 'State is invalid' }),
-
    zip: z.string().min(5, { message: 'Zip is too short' }),
    phone: z.string().min(14, { message: 'Phone is too short' }),
    country: z.string().min(3, { message: 'Country is too short' }),
@@ -41,6 +40,7 @@ const ProfileComplition = () => {
          city: (profile && profile.city) || '',
          state: (profile && profile.state) || '',
          zip: (profile && profile.zip) || '',
+         phone: (profile && profile.phone) || user?.phone || '',
          bio: (profile && profile.bio) || '',
          country: (profile && profile.country) || 'United States',
       },
@@ -50,7 +50,12 @@ const ProfileComplition = () => {
    const onSubmit = async (data: Profile) => {
       if (!user || !user.isBarber) return;
       try {
-         const saved = await updateUser({ ...user, profile: data, profileCompleted: true });
+         const saved = await updateUser({
+            ...user,
+            profile: data,
+            profileCompleted: true,
+            phone: data.phone,
+         });
          if (saved) {
             toastMessage({
                title: 'success',
@@ -99,6 +104,12 @@ const ProfileComplition = () => {
                   keyboardType="numeric"
                />
             </View>
+            <TextInput
+               control={control}
+               name="phone"
+               placeholder="(718) 777-8899"
+               keyboardType="numeric"
+            />
 
             <TextInput
                control={control}

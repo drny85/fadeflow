@@ -338,16 +338,17 @@ export default function ModernSettingsPage() {
 
                <TouchableOpacity
                   onPress={() => {
-                     // handle onPress
-                     setView('user-update');
-                     bottomSheetRef.current?.present();
+                     // // handle onPress
+                     // setView('user-update');
+                     // bottomSheetRef.current?.present();
+                     router.push('/profile-complition');
                   }}
                   style={[styles.row, { backgroundColor: colors.card }]}>
                   <View style={[styles.rowIcon, { backgroundColor: colors.destructive }]}>
                      <Feather color="#fff" name="user" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Change Phone/Name</Text>
+                  <Text style={styles.rowLabel}>Update Profile</Text>
 
                   <View style={styles.rowSpacer} />
 

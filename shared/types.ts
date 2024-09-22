@@ -30,6 +30,7 @@ type BarberProfile = {
    apt?: string;
    city: string;
    state: string;
+   phone: string;
    zip: string;
    bio?: string;
    country: string;
