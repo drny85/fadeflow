@@ -79,13 +79,13 @@ const BarberImageHeader = ({
                      onPress={onPressBack}
                      className="z-30 rounded-full bg-slate-300 p-1"
                      style={{ top }}>
-                     <Feather name="chevron-left" size={30} color="blue" />
+                     <Feather name="chevron-left" size={30} color={colors.accent} />
                   </TouchableOpacity>
                   <TouchableOpacity
                      onPress={() => shareBarberLink(barber.id)}
                      className="rounded-full bg-slate-300 p-1"
                      style={{ top }}>
-                     <Feather name="share" size={30} color="blue" />
+                     <Feather name="share" size={30} color={colors.accent} />
                   </TouchableOpacity>
                </View>
             )}
@@ -122,8 +122,8 @@ const BarberImageHeader = ({
                               params: { barberId: barber.id },
                            })
                         }
-                        className="mr-3 rounded-md bg-card px-3 py-1 dark:bg-primary">
-                        <Text className="font-bold text-accent dark:text-white">Book Now</Text>
+                        className="mr-3 rounded-md bg-accent px-3 py-1 dark:bg-primary">
+                        <Text className="font-bold text-white">Book Now</Text>
                      </TouchableOpacity>
                   )}
                </View>

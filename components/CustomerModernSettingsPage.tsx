@@ -2,11 +2,7 @@ import { AntDesign, Feather, FontAwesome, FontAwesome6 } from '@expo/vector-icon
 import Constants from 'expo-constants';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
-
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet';
-
-const IMAGE_HEIGHT = 100;
-
 import { ImageBackground } from 'expo-image';
 import { updateUser } from '~/actions/users';
 import { SIZES } from '~/constants';
@@ -15,16 +11,17 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { useAuth } from '~/providers/AuthContext';
 
 import { BlurView } from 'expo-blur';
-import { deleteUserFunction } from '~/firebase';
+import { router } from 'expo-router';
+import { deleteUserFunction } from '~/firebase-collections';
 import { formatPhone } from '~/utils/formatPhone';
+import { Container } from './Container';
+import { ActivityIndicator } from './nativewindui/ActivityIndicator';
 import { Sheet, useSheetRef } from './nativewindui/Sheet';
 import { Text } from './nativewindui/Text';
 import { ThemeToggle } from './nativewindui/ThemeToggle';
 import ParallaxScrollView from './ParallaxScrollView';
-import { router } from 'expo-router';
-import { Container } from './Container';
-import { ActivityIndicator } from './nativewindui/ActivityIndicator';
 
+const IMAGE_HEIGHT = 100;
 export default function CustomerModernSettingsPage() {
    const { user, logOut } = useAuth();
    const [loading, setLoading] = useState(false);
@@ -54,7 +51,6 @@ export default function CustomerModernSettingsPage() {
          setLoading(true);
          const { data } = await deleteUserFunction();
 
-         console.log(data);
          if (data.success) {
             logOut();
             Alert.alert('Account Deleted', 'Your account has been deleted.');
@@ -146,7 +142,7 @@ export default function CustomerModernSettingsPage() {
                      width: '100%',
                   }}>
                   <TouchableOpacity
-                     className="h-10 w-10 items-center justify-center rounded-full bg-blue-600"
+                     className="h-10 w-10 items-center justify-center rounded-full bg-accent"
                      onPress={handleImageUpload}>
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>

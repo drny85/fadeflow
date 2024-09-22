@@ -6,6 +6,7 @@ import { TabBarIcon } from '../../../components/TabBarIcon';
 import { useBarbers } from '~/hooks/useBarbers';
 import { useNotifications } from '~/hooks/useNotification';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { StackScreenWithSearchBar } from '~/constants/layout';
 
 export default function TabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme();
@@ -38,13 +39,10 @@ export default function TabLayout() {
             }}
          />
          <Tabs.Screen
-            name="barbers"
+            name="(barbers)"
             options={{
                title: 'Barbers',
-               headerTitle: 'Barbers',
-
-               //headerShown: false,
-
+               headerShown: false,
                tabBarIcon: ({ color }) => <TabBarIcon name="scissors" color={color} />,
             }}
          />

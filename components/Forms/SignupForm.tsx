@@ -96,6 +96,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             if (userSaved) {
                if (user) {
                   if (params && params.returnUrl) {
+                     router.canDismiss() && router.dismiss();
                      router.replace(params.returnUrl as any);
                   }
                }

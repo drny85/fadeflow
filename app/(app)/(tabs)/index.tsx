@@ -1,12 +1,11 @@
 import { isPast } from 'date-fns';
 import { BlurView } from 'expo-blur';
-import { Redirect, router } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
 import AppointmentCard from '~/components/Appointment/AppointmentCard';
 import BarberCard from '~/components/BarberCard';
 import { Button } from '~/components/Button';
-import Loading from '~/components/Loading';
 import MapHeader from '~/components/MapHeader';
 import { Text } from '~/components/nativewindui/Text';
 import ParallaxScrollView from '~/components/ParallaxScrollView';
@@ -85,7 +84,10 @@ const Home = () => {
                   <View className="gap-3">
                      <Text className="text-muted dark:text-slate-400">No Upcoming Appointment</Text>
                      <View className="w-1/2 self-center">
-                        <Button title="Book Now" onPress={() => router.push('/barbers')} />
+                        <Button
+                           title="Book Now"
+                           onPress={() => router.push('/(app)/(barbers)/barbers-screen')}
+                        />
                      </View>
                   </View>
                )}
@@ -98,7 +100,10 @@ const Home = () => {
                   <View className="gap-3">
                      <Text className="text-muted dark:text-slate-400">No Barber Available</Text>
                      <View className="w-1/2 self-center">
-                        <Button title="Find Barber" onPress={() => router.push('/barbers')} />
+                        <Button
+                           title="Find Barber"
+                           onPress={() => router.push('/(app)/(barbers)/barbers-screen')}
+                        />
                      </View>
                   </View>
                )}
