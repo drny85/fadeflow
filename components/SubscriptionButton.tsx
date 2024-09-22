@@ -1,6 +1,5 @@
 import { PaymentSheetError, StripeProvider, useStripe } from '@stripe/stripe-react-native';
-import { addDays, differenceInDays } from 'date-fns';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { createSubscrition } from '~/firebase-collections';
 import { useUser } from '~/hooks/useUser';
@@ -10,15 +9,16 @@ import { useAuth } from '~/providers/AuthContext';
 import { PaymentIntentResponse } from '~/shared/types';
 import { Button } from './Button';
 import { ActivityIndicator } from './nativewindui/ActivityIndicator';
+import ConfettiComponent, { ConfettiComponentRef } from './ConfettiComponent';
 
 const SubscriptionButton = () => {
    const { initPaymentSheet, presentPaymentSheet } = useStripe();
    const { isDarkColorScheme, colors } = useColorScheme();
+   const confettiRef = useRef<ConfettiComponentRef>(null);
    useUser();
    const { user } = useAuth();
    const [loading, setLoading] = useState(false);
 
-   const daysRemaining = differenceInDays(addDays(user?.createdAt!, 14), new Date());
    const onSubscrivePress = useCallback(async () => {
       try {
          if (!user?.email) return;
@@ -49,6 +49,7 @@ const SubscriptionButton = () => {
             applePay: {
                merchantCountryCode: 'US',
             },
+            primaryButtonLabel: 'Subscribe',
             appearance: {
                colors: {
                   background: colors.background,
@@ -90,7 +91,8 @@ const SubscriptionButton = () => {
                console.log('error', paymentError);
             } else {
                // Payment successful
-               console.log('Payment successful');
+
+               confettiRef.current?.triggerConfetti();
             }
          }
       } catch (error) {
@@ -110,11 +112,12 @@ const SubscriptionButton = () => {
                <ActivityIndicator size={'large'} />
             ) : (
                <Button
-                  textStyle={{ paddingHorizontal: 10 }}
+                  textStyle={{ paddingHorizontal: 16 }}
                   title="Susbcribe Now"
                   onPress={onSubscrivePress}
                />
             )}
+            <ConfettiComponent ref={confettiRef} />
          </View>
       </StripeProvider>
    );

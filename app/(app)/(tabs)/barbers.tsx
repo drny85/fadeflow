@@ -10,7 +10,7 @@ const BarbersPage = () => {
    const { barbers, loading } = useBarbersStore();
    if (loading) return <BarbersSkelenton />;
    return (
-      <Container>
+      <View className="flex-1">
          <FlatList
             data={barbers}
             ListEmptyComponent={
@@ -32,7 +32,7 @@ const BarbersPage = () => {
                // <BarberCard barber={item} index={index} isOwner={false} />
             )}
          />
-      </Container>
+      </View>
    );
 };
 

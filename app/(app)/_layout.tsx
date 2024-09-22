@@ -87,7 +87,7 @@ export default function RootLayout() {
                            <TouchableOpacity onPress={router.back}>
                               <Feather
                                  name="chevron-left"
-                                 className="p-2"
+                                 className="p-1"
                                  size={26}
                                  color={isDarkColorScheme ? '#ffffff' : '#212121'}
                               />
@@ -117,6 +117,17 @@ export default function RootLayout() {
                         contentStyle: {
                            backgroundColor: colors.background,
                         },
+                        headerLeft: ({ canGoBack }) =>
+                           canGoBack ? (
+                              <TouchableOpacity activeOpacity={0.3} onPress={() => router.back()}>
+                                 <Feather
+                                    className="p-1"
+                                    name="chevron-left"
+                                    size={26}
+                                    color={isDarkColorScheme ? 'white' : 'black'}
+                                 />
+                              </TouchableOpacity>
+                           ) : null,
 
                         headerRight: () => {
                            return <ThemeToggle />;

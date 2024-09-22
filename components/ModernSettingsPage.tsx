@@ -32,6 +32,8 @@ import { ThemeToggle } from './nativewindui/ThemeToggle';
 import { Toggle } from './nativewindui/Toggle';
 import ParallaxScrollView from './ParallaxScrollView';
 import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
+WebBrowser.warmUpAsync();
 
 const MINUTES_INTERVAL = [15, 30, 45];
 const IMAGE_HEIGHT = 100;
@@ -257,13 +259,17 @@ export default function ModernSettingsPage() {
 
                   <ThemeToggle />
                </View>
-               <Pressable
+               <TouchableOpacity
+                  // disabled={user?.isBarber && user.subscriptionStatus === 'incomplete'}
                   onPress={async () => {
                      const res = await getPortalUrl();
-                     if (res.data.success) {
-                        setPortalUrl(res.data.result);
+                     WebBrowser.dismissBrowser();
+                     if (res.data.success && res.data.result) {
+                        WebBrowser.openBrowserAsync(res.data.result, {
+                           presentationStyle: WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
+                        }).then((r) => console.log(r));
+                        //setPortalUrl(res.data.result);
                      }
-                     console.log(res);
                   }}>
                   <View style={[styles.row, { backgroundColor: colors.card }]}>
                      <View style={[styles.rowIcon, { backgroundColor: '#007afe' }]}>
@@ -280,7 +286,7 @@ export default function ModernSettingsPage() {
                         <Feather color="#C6C6C6" name="chevron-right" size={20} />
                      </View>
                   </View>
-               </Pressable>
+               </TouchableOpacity>
                <View style={[styles.row, { backgroundColor: colors.card }]}>
                   <View style={[styles.rowIcon, { backgroundColor: '#00eeff' }]}>
                      <Feather color="#fff" name="clock" size={20} />

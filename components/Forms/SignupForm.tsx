@@ -67,7 +67,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
                   phone: data.phone || '',
                   name: data.name || '',
                   isBarber: true,
-                  isActive: false,
+                  isActive: true,
                   pushToken: null,
                   gallery: [],
                   minutesInterval: 30,

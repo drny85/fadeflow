@@ -30,6 +30,7 @@ export const getPortalUrl = httpsCallable<{}, Response>(functions, 'getPortalUrl
 
 export const deleteUserFunction = httpsCallable<{}, Response>(functions, 'deleteUser');
 export const usersCollection = createCollection<AppUser>('users');
+export const stripeCustomers = createCollection<{ customer_id: string }>('stripe_customers');
 export const appointmentsCollection = createCollection<Appointment>('appointments');
 export const reviewsCollection = createCollection<Review>('reviews');
 export const servicesCollection = (barberId: string) =>

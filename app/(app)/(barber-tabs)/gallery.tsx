@@ -66,6 +66,14 @@ const GalleryReviews = () => {
             duration: 3,
          });
       }
+      if (!service.duration || !service.price) {
+         return toastAlert({
+            title: 'Invalid',
+            message: 'Please select a duration & price',
+            preset: 'error',
+            duration: 3,
+         });
+      }
 
       try {
          if (!user?.id || !service) return;
@@ -99,6 +107,15 @@ const GalleryReviews = () => {
    const onUpdateService = async (service: Service) => {
       try {
          if (!user?.id || !service) return;
+
+         if (!service.duration || !service.price) {
+            return toastAlert({
+               title: 'Invalid',
+               message: 'Please select a duration & price',
+               preset: 'error',
+               duration: 3,
+            });
+         }
          if (!icon) {
             return toastAlert({
                title: 'Icon Required',
@@ -281,7 +298,7 @@ const GalleryReviews = () => {
                         autoFocus
                         value={serviceToEdit?.name}
                         autoCapitalize="words"
-                        placeholder="Name"
+                        placeholder="Haircut Only"
                         onChangeText={(text) => setServiceToEdit({ ...serviceToEdit!, name: text })}
                      />
                      <BottomSheetTextInput

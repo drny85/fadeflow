@@ -1,18 +1,22 @@
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 import Stripe from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_TEST_SK as string, {
+   apiVersion: '2024-06-20',
+});
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
    const customerId = subscription.customer as string;
    const subscriptionId = subscription.id;
    const status = subscription.status;
+   const userId = subscription.metadata.userId;
 
-   await getFirestore().collection('subscriptions').doc(subscriptionId).set({
+   await getFirestore().collection('subscriptions').doc(userId).set({
       customerId,
       subscriptionId,
       status,
       createdAt: FieldValue.serverTimestamp(),
    });
-   await updateUSerSubscription(status, subscription.metadata.userId as string);
+   await updateUSerSubscription(status, userId);
 
    console.log(`Subscription created for customer ${customerId}`);
 }
@@ -21,12 +25,13 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
    const subscriptionId = subscription.id;
    const status = subscription.status;
+   const userId = subscription.metadata.userId;
 
-   await getFirestore().collection('subscriptions').doc(subscriptionId).update({
+   await getFirestore().collection('subscriptions').doc(userId).update({
       status,
       updatedAt: FieldValue.serverTimestamp(),
    });
-   await updateUSerSubscription(status, subscription.metadata.userId as string);
+   await updateUSerSubscription(status, userId);
 
    console.log(`Subscription updated: ${subscriptionId}, status: ${status}`);
 }
@@ -34,9 +39,10 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 // Function to handle subscription deletion
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
    const subscriptionId = subscription.id;
+   const userId = subscription.metadata.userId;
 
-   await getFirestore().collection('subscriptions').doc(subscriptionId).delete();
-   await updateUSerSubscription('canceled', subscription.metadata.userId as string);
+   await getFirestore().collection('subscriptions').doc(userId).delete();
+   await updateUSerSubscription('canceled', userId);
 
    console.log(`Subscription deleted: ${subscriptionId}`);
 }
@@ -79,6 +85,48 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
    console.error(`Payment failed for payment intent: ${paymentIntentId}`);
 }
 
+// Function to handle checkout session completed
+async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
+   const sessionId = session.id;
+   const customerId = session.customer as string;
+
+   const customer = session.customer_details;
+   const email = customer?.email;
+   const user = await getFirestore().collection('users').where('email', '==', email).limit(1).get();
+   const sub = session.subscription as string;
+   const { status } = await stripe.subscriptions.retrieve(sub);
+   await updateUSerSubscription(status, user.docs[0].id);
+
+   console.log(`Checkout session completed: ${sessionId}, customer: ${customerId}`);
+}
+
+// Function to handle async payment succeeded for checkout session
+async function handleAsyncPaymentSucceeded(session: Stripe.Checkout.Session) {
+   const sessionId = session.id;
+   const customer = session.customer_details;
+   const email = customer?.email;
+   const user = await getFirestore().collection('users').where('email', '==', email).limit(1).get();
+   const sub = session.subscription as string;
+   const { status } = await stripe.subscriptions.retrieve(sub);
+   await updateUSerSubscription(status, user.docs[0].id);
+
+   console.log(`Async payment succeeded for checkout session: ${sessionId}`);
+}
+
+// Function to handle async payment failed for checkout session
+async function handleAsyncPaymentFailed(session: Stripe.Checkout.Session) {
+   const sessionId = session.id;
+
+   const customer = session.customer_details;
+   const email = customer?.email;
+   const user = await getFirestore().collection('users').where('email', '==', email).limit(1).get();
+   const sub = session.subscription as string;
+   const { status } = await stripe.subscriptions.retrieve(sub);
+   await updateUSerSubscription(status, user.docs[0].id);
+
+   console.error(`Async payment failed for checkout session: ${sessionId}`);
+}
+
 async function updateUSerSubscription(status: Stripe.Subscription.Status, userId: string) {
    try {
       await getFirestore().collection('users').doc(userId).update({
@@ -94,5 +142,8 @@ export {
    handleSubscriptionUpdated,
    handleSubscriptionDeleted,
    handlePaymentIntentSucceeded,
+   handleCheckoutSessionCompleted,
+   handleAsyncPaymentSucceeded,
+   handleAsyncPaymentFailed,
    handlePaymentIntentFailed,
 };

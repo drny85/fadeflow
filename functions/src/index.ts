@@ -28,6 +28,9 @@ import { onCall, onRequest } from 'firebase-functions/v2/https';
 import Stripe from 'stripe';
 import { sendPushNotification } from './common';
 import {
+   handleAsyncPaymentFailed,
+   handleAsyncPaymentSucceeded,
+   handleCheckoutSessionCompleted,
    handlePaymentIntentFailed,
    handlePaymentIntentSucceeded,
    handleSubscriptionCreated,
@@ -370,7 +373,7 @@ exports.getPortalUrl = onCall(async ({ data, auth }): Promise<CreateSubscription
       const { customer_id } = customer.data() as { customer_id: string };
       const portalSession = await stripe.billingPortal.sessions.create({
          customer: customer_id,
-         return_url: 'fadeflow://',
+         return_url: 'https://fadeflow.com?returnUrl=fadeflow://',
       });
       return { success: true, result: portalSession.url };
    } catch (error) {
@@ -402,13 +405,6 @@ exports.handleStripeWebhook = onRequest(
       switch (event.type) {
          case 'customer.subscription.created':
             await handleSubscriptionCreated(event.data.object as Stripe.Subscription);
-            await stripe.subscriptions.update(event.data.object.id, {
-               trial_settings: {
-                  end_behavior: {
-                     missing_payment_method: 'pause',
-                  },
-               },
-            });
             break;
          case 'customer.subscription.updated':
             await handleSubscriptionUpdated(event.data.object as Stripe.Subscription);
@@ -421,6 +417,16 @@ exports.handleStripeWebhook = onRequest(
             break;
          case 'payment_intent.payment_failed':
             await handlePaymentIntentFailed(event.data.object as Stripe.PaymentIntent);
+            break;
+
+         case 'checkout.session.completed':
+            await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
+            break;
+         case 'checkout.session.async_payment_succeeded':
+            await handleAsyncPaymentSucceeded(event.data.object as Stripe.Checkout.Session);
+            break;
+         case 'checkout.session.async_payment_failed':
+            await handleAsyncPaymentFailed(event.data.object as Stripe.Checkout.Session);
             break;
          default:
             console.log(`Unhandled event type ${event.type}`);

@@ -1,11 +1,10 @@
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useColorScheme } from '~/lib/useColorScheme';
+import { View } from 'react-native';
+import { SIZES } from '~/constants';
 
 export const Container = ({ children }: { children: React.ReactNode }) => {
-   const { colors } = useColorScheme();
    return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <View className="bg-background" style={{ flex: 1, paddingTop: SIZES.statusBarHeight }}>
          {children}
-      </SafeAreaView>
+      </View>
    );
 };

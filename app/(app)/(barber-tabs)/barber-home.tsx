@@ -15,9 +15,11 @@ import { useAuth } from '~/providers/AuthContext';
 import { useAppointmentStore } from '~/providers/useAppointmentStore';
 import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter';
 import { shareBarberLink } from '~/utils/shareBarberLink';
+import { addDays, differenceInDays } from 'date-fns';
 
 const BarberHome = () => {
    const { user } = useAuth();
+   const daysRemaining = differenceInDays(addDays(user?.createdAt!, 14), new Date());
    const { top } = useSafeAreaInsets();
    const { services, loading } = useServices(user?.id!);
    const data = useAppointmentStore((s) => s.appointments);
@@ -72,44 +74,52 @@ const BarberHome = () => {
                   </TouchableOpacity>
                </View>
                <Text className="mt-2 text-center">{new Date().toDateString()}</Text>
-               <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
-                  <Text variant={'title2'}>Estimated Earnings</Text>
-                  <AnimatedNumber textStyle={{ fontSize: 40 }} value={allAppointments} />
-                  <View className="w-full flex-row justify-evenly">
-                     <View className="items-center justify-center">
-                        <Text className="text-muted">Earned</Text>
-                        <AnimatedNumber value={confirmedTotal} />
-                     </View>
-                     <View className="items-center justify-center">
-                        <Text className="text-muted">Pending</Text>
-                        <AnimatedNumber value={allAppointments - confirmedTotal} />
+               {services.length > 0 && (
+                  <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
+                     <Text variant={'title2'}>Estimated Earnings</Text>
+                     <AnimatedNumber textStyle={{ fontSize: 40 }} value={allAppointments} />
+                     <View className="w-full flex-row justify-evenly">
+                        <View className="items-center justify-center">
+                           <Text className="text-muted">Earned</Text>
+                           <AnimatedNumber value={confirmedTotal} />
+                        </View>
+                        <View className="items-center justify-center">
+                           <Text className="text-muted">Pending</Text>
+                           <AnimatedNumber value={allAppointments - confirmedTotal} />
+                        </View>
                      </View>
                   </View>
-               </View>
+               )}
+               {!loading && services.length === 0 && (
+                  <View className="mt-5 w-full items-center justify-center gap-2 p-1">
+                     <Text className="text-center text-xl text-muted">No services available</Text>
+                     <Button
+                        textStyle={{ paddingHorizontal: 20 }}
+                        title="Add Service"
+                        onPress={() => {
+                           router.push({
+                              pathname: '/(barber-tabs)/gallery',
+                              params: { show: 'true' },
+                           });
+                        }}
+                     />
+                  </View>
+               )}
             </View>
 
-            {!loading && services.length === 0 && (
-               <View className="w-full items-center justify-center gap-2 p-1">
-                  <Text className="text-center text-xl text-muted">No services available</Text>
-                  <Button
-                     textStyle={{ paddingHorizontal: 20 }}
-                     title="Add Service"
-                     onPress={() => {
-                        router.push({
-                           pathname: '/(barber-tabs)/gallery',
-                           params: { show: 'true' },
-                        });
-                     }}
-                  />
-               </View>
-            )}
-            {user?.isBarber && !user.isActive && user.subscriptionStatus !== 'active' && (
+            {user?.isBarber && user.isActive && user.subscriptionStatus !== 'active' && (
                <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
                   <Text className="mb-2 text-center font-roboto-bold text-xl">
                      Your account is 14 days Free-trial
                   </Text>
-                  <Text className="text-center">Remainging Days {13}</Text>
-                  <SubscriptionButton />
+                  <Text className="text-center">Remainging Days {daysRemaining}</Text>
+                  <View className="self-center">
+                     <Button
+                        title="Subscribe Now"
+                        textStyle={{ paddingHorizontal: 12 }}
+                        onPress={() => router.push('/subscription')}
+                     />
+                  </View>
                </View>
             )}
             <ScrollView
