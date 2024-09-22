@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 import { BottomSheetTextInput, TouchableOpacity } from '@gorhom/bottom-sheet';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { deleteObject, ref } from 'firebase/storage';
@@ -16,7 +16,7 @@ import { Text } from '~/components/nativewindui/Text';
 import ReviewsList from '~/components/ReviewsLIst';
 import Stepper from '~/components/Stepper';
 import UploadPhoto from '~/components/UploadPhoto';
-import { ICON_IMAGES } from '~/constants';
+import { ICON_IMAGES, SIZES } from '~/constants';
 import { storage } from '~/firebase';
 import { useServices } from '~/hooks/useServices';
 import { toastAlert, toastMessage } from '~/lib/toast';
@@ -187,6 +187,7 @@ const GalleryReviews = () => {
    return (
       <Container>
          <View className="flex-1 bg-background">
+            <Text className="mb-2 text-center font-roboto-bold text-2xl">My Stuffs</Text>
             <SegmentedControl
                values={VALUES}
                fontStyle={{ fontSize: 16, color: isDarkColorScheme ? '#ffffff' : '#000000' }}
@@ -211,17 +212,6 @@ const GalleryReviews = () => {
             <View className="flex-1">
                {selectedIndex === 0 && (
                   <>
-                     <Button
-                        iconName="plus"
-                        title="Add Service"
-                        textStyle={{ color: '#ffffff' }}
-                        style={{
-                           alignSelf: 'center',
-                           backgroundColor: colors.primary,
-                           marginBottom: 2,
-                        }}
-                        onPress={() => bottomSheetRef.current?.present()}
-                     />
                      <View className="flex-1 bg-background p-2">
                         {services.length > 0 && (
                            <ServicePicker
@@ -238,13 +228,16 @@ const GalleryReviews = () => {
                            />
                         )}
                      </View>
+                     <TouchableOpacity
+                        onPress={() => bottomSheetRef.current?.present()}
+                        className="absolute bottom-4 right-4 h-16 w-16 items-center justify-center rounded-full bg-accent shadow-sm">
+                        <FontAwesome name="plus" color={'#ffffff'} size={32} />
+                     </TouchableOpacity>
                   </>
                )}
                {selectedIndex === 1 && (
                   <View className="flex-1">
-                     <View className="flex-row items-center justify-evenly">
-                        <Text className="text-center text-lg font-bold">My Photos</Text>
-
+                     <View className="absolute bottom-4 right-4">
                         <UploadPhoto />
                      </View>
 
@@ -259,8 +252,10 @@ const GalleryReviews = () => {
                )}
             </View>
             <Sheet
-               snapPoints={['85%']}
+               snapPoints={['90%']}
+               topInset={SIZES.statusBarHeight}
                ref={bottomSheetRef}
+               keyboardBehavior="interactive"
                onChange={(e) => {
                   if (e === -1) {
                      setServiceToEdit(null);

@@ -28,7 +28,7 @@ export default function CustomerModernSettingsPage() {
    const [view, setView] = useState<'schedule' | 'services' | 'user-update' | undefined>(undefined);
 
    const { photo, selectedImage, handleImageUpload, resetAll, uploadPhoto } = usePhoto();
-   const { colors, isDarkColorScheme } = useColorScheme();
+   const { colors } = useColorScheme();
 
    const bottomSheetRef = useSheetRef();
    const snapoints = useMemo(() => ['80%'], []);

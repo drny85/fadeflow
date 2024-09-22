@@ -24,6 +24,7 @@ import { Text } from './nativewindui/Text';
 import { ThemeToggle } from './nativewindui/ThemeToggle';
 import { Toggle } from './nativewindui/Toggle';
 import ParallaxScrollView from './ParallaxScrollView';
+import ScheduleComponent from './Appointment/SchedulerComponent';
 WebBrowser.warmUpAsync();
 
 const MINUTES_INTERVAL = [15, 30, 45];
@@ -38,7 +39,7 @@ export default function ModernSettingsPage() {
    const [minutes, setMinutes] = useState(0);
    const [portalUrl, setPortalUrl] = useState<string | null>(null);
    const bottomSheetRef = useSheetRef();
-   const snapoints = useMemo(() => ['90%'], []);
+   const snapoints = useMemo(() => ['100%'], []);
    const [name, setName] = useState('');
    const [phone, setPhone] = useState('');
 
@@ -193,7 +194,7 @@ export default function ModernSettingsPage() {
                      width: '100%',
                   }}>
                   <TouchableOpacity
-                     className="h-10 w-10 items-center justify-center rounded-full bg-blue-600"
+                     className="h-10 w-10 items-center justify-center rounded-full bg-accent"
                      onPress={handleImageUpload}>
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
@@ -451,6 +452,7 @@ export default function ModernSettingsPage() {
                      onPressSave={handleScheduleChanges}
                      onCancel={() => bottomSheetRef.current?.close()}
                   />
+                  // <ScheduleComponent />
                )}
 
                {view === 'user-update' && (

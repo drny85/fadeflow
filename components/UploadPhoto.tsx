@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import React, { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, TouchableOpacity, View } from 'react-native';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { updateUser } from '~/actions/users';
 import { storage } from '~/firebase';
@@ -11,6 +11,7 @@ import { Button } from './Button';
 import { toastMessage } from '~/lib/toast';
 import { MAXIMUM_IMAGES_UPLOAD } from '~/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { FontAwesome } from '@expo/vector-icons';
 
 const UploadPhoto: React.FC = () => {
    const { user } = useAuth();
@@ -96,7 +97,12 @@ const UploadPhoto: React.FC = () => {
 
    return (
       <View>
-         <Button
+         <TouchableOpacity
+            onPress={pickAndUploadImage}
+            className="h-16 w-16 items-center justify-center rounded-full bg-accent shadow-sm">
+            <FontAwesome name="plus" color={'#ffffff'} size={32} />
+         </TouchableOpacity>
+         {/* <Button
             iconName="plus"
             title="Upload Photo"
             onPress={pickAndUploadImage}
@@ -107,7 +113,7 @@ const UploadPhoto: React.FC = () => {
                marginBottom: 2,
             }}
             disabled={uploading}
-         />
+         /> */}
          {uploading && progress && <ProgressBar progress={progress} />}
       </View>
    );
