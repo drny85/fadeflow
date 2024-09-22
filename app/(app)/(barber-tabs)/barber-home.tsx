@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { format, isPast, isToday } from 'date-fns';
+import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
@@ -9,16 +9,16 @@ import AnimatedNumber from '~/components/AnimatedNumber';
 import AppointmentCard from '~/components/Appointment/AppointmentCard';
 import { Button } from '~/components/Button';
 import { Text } from '~/components/nativewindui/Text';
-import SubscriptionButton from '~/components/SubscriptionButton';
 import { useServices } from '~/hooks/useServices';
+import { useColorScheme } from '~/lib/useColorScheme';
 import { useAuth } from '~/providers/AuthContext';
 import { useAppointmentStore } from '~/providers/useAppointmentStore';
 import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter';
 import { shareBarberLink } from '~/utils/shareBarberLink';
-import { addDays, differenceInDays } from 'date-fns';
 
 const BarberHome = () => {
    const { user } = useAuth();
+   const { colors } = useColorScheme();
    const daysRemaining = differenceInDays(addDays(user?.createdAt!, 14), new Date());
    const { top } = useSafeAreaInsets();
    const { services, loading } = useServices(user?.id!);
@@ -60,17 +60,19 @@ const BarberHome = () => {
                style={{ paddingTop: top, height: '50%' }}
                className="rounded-3xl bg-card p-2 shadow-sm">
                <View className="flex-row items-center justify-between">
-                  <Image
-                     source={
-                        user?.image ? { uri: user.image } : require('~/assets/images/banner.png')
-                     }
-                     style={{ height: 60, width: 60, borderRadius: 30, objectFit: 'cover' }}
-                  />
+                  <TouchableOpacity onPress={() => router.replace('/barber-profile')}>
+                     <Image
+                        source={
+                           user?.image ? { uri: user.image } : require('~/assets/images/banner.png')
+                        }
+                        style={{ height: 60, width: 60, borderRadius: 30, objectFit: 'cover' }}
+                     />
+                  </TouchableOpacity>
                   <Text className="font-raleway text-2xl">Hi {user?.name?.split(' ')[0]}</Text>
                   <TouchableOpacity
                      onPress={() => shareBarberLink(user?.id!)}
                      className="h-10 w-10 items-center justify-center rounded-full bg-slate-200 p-1">
-                     <Feather name="share" size={26} color="blue" />
+                     <Feather name="share" size={26} color={colors.accent} />
                   </TouchableOpacity>
                </View>
                <Text className="mt-2 text-center">{new Date().toDateString()}</Text>
@@ -111,6 +113,9 @@ const BarberHome = () => {
                <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
                   <Text className="mb-2 text-center font-roboto-bold text-xl">
                      Your account is 14 days Free-trial
+                  </Text>
+                  <Text className="text-center text-sm text-muted">
+                     created at: {format(user.createdAt, 'PPpp')}
                   </Text>
                   <Text className="text-center">Remainging Days {daysRemaining}</Text>
                   <View className="self-center">

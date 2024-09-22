@@ -50,7 +50,6 @@ const BarberImageHeader = ({
       }
       if (!user || !barber) return;
       if (user.isBarber) return;
-      console.log('TOG');
 
       try {
          await updateUser({ ...user, favoriteBarber: user.favoriteBarber ? null : barber.id });
@@ -67,7 +66,7 @@ const BarberImageHeader = ({
             contentFit="cover"
             transition={300}
             style={{
-               height: SIZES.height * 0.26,
+               height: SIZES.height * 0.28,
                borderRadius: 20,
                backgroundColor: colors.card,
                overflow: 'hidden',
@@ -94,8 +93,8 @@ const BarberImageHeader = ({
             <BlurView
                intensity={70}
                tint="prominent"
-               className="absolute bottom-0 left-0 right-0 z-10 gap-1 overflow-hidden rounded-b-2xl p-4">
-               <View className="mb-2 flex-row items-center justify-between gap-3">
+               className="absolute bottom-0 left-0 right-0 z-10  overflow-hidden rounded-b-2xl p-3">
+               <View className="mb-2 flex-row items-center justify-between gap-2">
                   <View className="flex-row items-center justify-between gap-2">
                      <Text variant="title2" className="text-slate-700 dark:text-slate-200">
                         {barber.name}
@@ -128,6 +127,11 @@ const BarberImageHeader = ({
                      </TouchableOpacity>
                   )}
                </View>
+               {barber.profile && barber.profile.address && (
+                  <Text className="font-roboto text-sm text-muted">
+                     {barber.profile.address}, {barber.profile.city}
+                  </Text>
+               )}
                <View className="flex-row items-center justify-between">
                   <View className="flex-row items-center gap-1">
                      <FontAwesome name="star" color="orange" size={20} />

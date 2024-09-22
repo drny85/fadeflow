@@ -24,7 +24,7 @@ export type Photo = {
    date: string;
 };
 
-type BarberProfile = {
+export type BarberProfile = {
    barbershopName: string;
    address: string;
    apt?: string;
@@ -34,6 +34,7 @@ type BarberProfile = {
    zip: string;
    bio?: string;
    country: string;
+   coords: { lat: number; lng: number } | null;
 };
 
 export type SubscriptionStatusResponse = {

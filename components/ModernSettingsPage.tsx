@@ -1,19 +1,13 @@
 import { AntDesign, Feather, FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
-import Constants from 'expo-constants';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-   Alert,
-   Button,
-   Keyboard,
-   Pressable,
-   StyleSheet,
-   TouchableOpacity,
-   View,
-} from 'react-native';
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet';
-import { router } from 'expo-router';
 import { BlurView } from 'expo-blur';
+import Constants from 'expo-constants';
 import { ImageBackground } from 'expo-image';
+import * as Linking from 'expo-linking';
+import { router } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, Button, Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { updateUser } from '~/actions/users';
 import { SIZES } from '~/constants';
 import { deleteUserFunction, getPortalUrl } from '~/firebase-collections';
@@ -25,14 +19,11 @@ import { useAuth } from '~/providers/AuthContext';
 import { Schedule } from '~/shared/types';
 import { formatPhone } from '~/utils/formatPhone';
 import ScheduleEditor from './CurrentSchedule';
-import ManageBarbers from './ManageBarbers';
 import { Sheet, useSheetRef } from './nativewindui/Sheet';
 import { Text } from './nativewindui/Text';
 import { ThemeToggle } from './nativewindui/ThemeToggle';
 import { Toggle } from './nativewindui/Toggle';
 import ParallaxScrollView from './ParallaxScrollView';
-import * as Linking from 'expo-linking';
-import * as WebBrowser from 'expo-web-browser';
 WebBrowser.warmUpAsync();
 
 const MINUTES_INTERVAL = [15, 30, 45];
@@ -47,7 +38,6 @@ export default function ModernSettingsPage() {
    const [minutes, setMinutes] = useState(0);
    const [portalUrl, setPortalUrl] = useState<string | null>(null);
    const bottomSheetRef = useSheetRef();
-   const bottomSheetRefBarbers = useSheetRef();
    const snapoints = useMemo(() => ['90%'], []);
    const [name, setName] = useState('');
    const [phone, setPhone] = useState('');
@@ -375,24 +365,6 @@ export default function ModernSettingsPage() {
 
             <View style={styles.section}>
                <Text style={styles.sectionTitle}>Resources</Text>
-               {user?.isOwner && (
-                  <TouchableOpacity
-                     onPress={() => {
-                        // handle onPress
-                        bottomSheetRefBarbers.current?.present();
-                     }}
-                     style={[styles.row, { backgroundColor: colors.card }]}>
-                     <View style={[styles.rowIcon, { backgroundColor: '#007afe' }]}>
-                        <Feather color="#fff" name="users" size={20} />
-                     </View>
-
-                     <Text style={styles.rowLabel}>Manage Barbers</Text>
-
-                     <View style={styles.rowSpacer} />
-
-                     <Feather color="#C6C6C6" name="chevron-right" size={20} />
-                  </TouchableOpacity>
-               )}
 
                <TouchableOpacity
                   onPress={() => {
@@ -568,9 +540,6 @@ export default function ModernSettingsPage() {
                   </View>
                )}
             </View>
-         </Sheet>
-         <Sheet snapPoints={['92%']} ref={bottomSheetRefBarbers}>
-            <ManageBarbers />
          </Sheet>
       </ParallaxScrollView>
    );

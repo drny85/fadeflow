@@ -1,6 +1,6 @@
 type Coords = {
-   latitude: number;
-   longitude: number;
+   lat: number;
+   lng: number;
 };
 
 export function getDistanceFromLatLonInMeters(loc1: Coords, loc2: Coords): number {
@@ -9,12 +9,12 @@ export function getDistanceFromLatLonInMeters(loc1: Coords, loc2: Coords): numbe
    }
 
    const R = 6371000; // Radius of the Earth in meters
-   const dLat = deg2rad(loc2.latitude - loc1.latitude);
-   const dLon = deg2rad(loc2.longitude - loc1.longitude);
+   const dLat = deg2rad(loc2.lat - loc1.lat);
+   const dLon = deg2rad(loc2.lng - loc1.lng);
    const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(loc1.latitude)) *
-         Math.cos(deg2rad(loc2.latitude)) *
+      Math.cos(deg2rad(loc1.lat)) *
+         Math.cos(deg2rad(loc2.lat)) *
          Math.sin(dLon / 2) *
          Math.sin(dLon / 2);
    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));

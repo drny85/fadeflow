@@ -12,6 +12,7 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { useAuth } from '~/providers/AuthContext';
 import Loading from './Loading';
 import { Text } from './nativewindui/Text';
+import { useBarbersStore } from '~/providers/useBarbersStore';
 
 type Props = {
    shouldGoBack: boolean;
@@ -23,21 +24,26 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
    const { isDarkColorScheme, colors } = useColorScheme();
    const { user } = useAuth();
    const { top } = useSafeAreaInsets();
+   const { getBarberById } = useBarbersStore();
    const { location, loading } = useLocation();
+   const barberId = user && !user.isBarber && user.favoriteBarber;
+   const barber = getBarberById(barberId as string);
+   const coords = barber && barber.profile?.coords;
 
    useEffect(() => {
       mapRef.current?.animateToRegion({
-         ...COORDS,
+         longitude: coords?.lng!,
+         latitude: coords?.lat!,
          latitudeDelta: 0.002, // Smaller value for closer zoom
          longitudeDelta: 0.002,
       });
       mapRef.current?.animateCamera({
-         center: COORDS,
+         center: { longitude: coords?.lng!, latitude: coords?.lat! },
          pitch: 70,
          heading: 90,
          altitude: 140,
       });
-   }, [mapRef]);
+   }, [mapRef, user, coords]);
 
    if (loading) return <Loading />;
 
@@ -49,20 +55,22 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
                customMapStyle={customMapStyle}
                style={{ flex: 1 }}
                region={{
-                  ...COORDS,
+                  longitude: coords?.lng!,
+                  latitude: coords?.lat!,
                   latitudeDelta: 0.002, // Smaller value for closer zoom
                   longitudeDelta: 0.002,
                }}
                initialRegion={{
-                  ...COORDS,
+                  longitude: coords?.lng!,
+                  latitude: coords?.lat!,
                   latitudeDelta: 0.002, // Smaller value for closer zoom
                   longitudeDelta: 0.002,
                }}>
                <Marker
-                  coordinate={COORDS}
+                  coordinate={{ longitude: coords?.lng!, latitude: coords?.lat! }}
                   identifier="barber"
-                  description="1420 Clay Ave"
-                  title="Moya Barber-Shop"
+                  description={barber.profile?.address}
+                  title={barber.profile?.barbershopName}
                />
             </MapView>
          ) : (
@@ -115,7 +123,7 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
             <TouchableOpacity
                onPress={() => {
                   mapRef.current?.animateCamera({
-                     center: COORDS,
+                     center: { longitude: coords?.lng!, latitude: coords?.lat! },
                      pitch: 60,
                      heading: 90,
                      altitude: 100,

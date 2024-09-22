@@ -10,6 +10,7 @@ import KeyboardScreen from '~/components/KeyboardScreen';
 import TextInput from '~/components/TextInput';
 import { toastMessage } from '~/lib/toast';
 import { useAuth } from '~/providers/AuthContext';
+import { getCoordinatesFromProfile } from '~/utils/getCoordinates';
 
 const profileScheme = z.object({
    barbershopName: z.string().min(3, { message: 'Name is too short' }),
@@ -50,9 +51,11 @@ const ProfileComplition = () => {
    const onSubmit = async (data: Profile) => {
       if (!user || !user.isBarber) return;
       try {
+         const coords = await getCoordinatesFromProfile({ ...data, coords: null });
+
          const saved = await updateUser({
             ...user,
-            profile: data,
+            profile: { ...data, coords },
             profileCompleted: true,
             phone: data.phone,
          });

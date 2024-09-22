@@ -1,5 +1,6 @@
 import { isPast } from 'date-fns';
 import { BlurView } from 'expo-blur';
+import Constants from 'expo-constants';
 import { router } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
@@ -9,9 +10,7 @@ import { Button } from '~/components/Button';
 import MapHeader from '~/components/MapHeader';
 import { Text } from '~/components/nativewindui/Text';
 import ParallaxScrollView from '~/components/ParallaxScrollView';
-import Constants from 'expo-constants';
 
-import { COORDS } from '~/constants';
 import { useLocation } from '~/hooks/useLocation';
 import { useAuth } from '~/providers/AuthContext';
 import { useAppointmentStore } from '~/providers/useAppointmentStore';
@@ -28,10 +27,13 @@ const Home = () => {
    const barber = getBarberById(favoriteBarber!);
    const distance =
       location &&
+      barber &&
+      barber.profile &&
+      barber.profile.coords &&
       !loading &&
-      getDistanceFromLatLonInMeters(COORDS, {
-         latitude: location?.coords.latitude,
-         longitude: location?.coords.longitude,
+      getDistanceFromLatLonInMeters(barber.profile.coords, {
+         lat: location?.coords.latitude,
+         lng: location?.coords.longitude,
       });
 
    const apppoitments = useAppointmentStore((state) =>
@@ -54,17 +56,17 @@ const Home = () => {
                      tint="light"
                      className="absolute bottom-0 left-0 right-0 z-10 gap-1 overflow-hidden rounded-md  px-2 py-1"
                      intensity={40}>
-                     {favoriteBarber ? (
+                     {favoriteBarber && barber && distance ? (
                         <View>
                            <View className="flex-row items-center justify-between">
-                              <Text variant={'title3'}>Moya Barber Shop</Text>
+                              <Text variant={'title3'}>{barber.profile?.barbershopName}</Text>
                               {distance && <Text>{distance.toFixed(1)} miles</Text>}
                            </View>
                            <Text className=" text-sm text-slate-500 dark:text-white">
-                              1420 Clay Ave
+                              {barber.profile?.address}
                            </Text>
                            <Text className="text-sm text-slate-500 dark:text-white">
-                              Bronx, NY 10456
+                              {barber.profile?.city}, {barber.profile?.state} {barber.profile?.zip}
                            </Text>
                         </View>
                      ) : (
@@ -95,7 +97,7 @@ const Home = () => {
                      <View className="w-1/2 self-center">
                         <Button
                            title="Book Now"
-                           onPress={() => router.push('/(app)/(barbers)/barbers-screen')}
+                           onPress={() => router.push('/(modals)/quick-booking')}
                         />
                      </View>
                   </View>
