@@ -13,11 +13,14 @@ import { useAuth } from '~/providers/AuthContext';
 
 const profileScheme = z.object({
    barbershopName: z.string().min(3, { message: 'Name is too short' }),
+   bio: z.string().optional(),
    address: z.string().min(3, { message: 'Address is too short' }),
    apt: z.string().optional(),
    city: z.string().min(3, { message: 'City is too short' }),
    state: z.string().min(2, { message: 'State is invalid' }),
+
    zip: z.string().min(5, { message: 'Zip is too short' }),
+   phone: z.string().min(14, { message: 'Phone is too short' }),
    country: z.string().min(3, { message: 'Country is too short' }),
 });
 
@@ -38,6 +41,7 @@ const ProfileComplition = () => {
          city: (profile && profile.city) || '',
          state: (profile && profile.state) || '',
          zip: (profile && profile.zip) || '',
+         bio: (profile && profile.bio) || '',
          country: (profile && profile.country) || 'United States',
       },
       resolver: zodResolver(profileScheme),
@@ -69,6 +73,7 @@ const ProfileComplition = () => {
                placeholder="Barbershop Name"
                autoCapitalize="words"
             />
+            <TextInput control={control} name="bio" multiline placeholder="About me (optional)" />
             <TextInput
                control={control}
                name="address"

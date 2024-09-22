@@ -31,6 +31,7 @@ type BarberProfile = {
    city: string;
    state: string;
    zip: string;
+   bio?: string;
    country: string;
 };
 
