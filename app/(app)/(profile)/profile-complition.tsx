@@ -14,7 +14,7 @@ import { getCoordinatesFromProfile } from '~/utils/getCoordinates';
 
 const profileScheme = z.object({
    barbershopName: z.string().min(3, { message: 'Name is too short' }),
-   bio: z.string().optional(),
+   bio: z.string().max(250, { message: 'Message is too large' }).optional(),
    address: z.string().min(3, { message: 'Address is too short' }),
    apt: z.string().optional(),
    city: z.string().min(3, { message: 'City is too short' }),

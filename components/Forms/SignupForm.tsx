@@ -72,7 +72,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
                   gallery: [],
                   minutesInterval: 30,
                   isAvailable: true,
-                  bio: 'Professional barber with a focus on traditional styles and techniques.',
+                  bio: '',
                   image: null,
                   subscriptionStatus: 'incomplete',
                   schedule: DEFAULT_SCHEDULE,

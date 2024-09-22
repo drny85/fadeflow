@@ -129,7 +129,7 @@ const BarberDetails = () => {
                <View className="gap-7">
                   <View className="mt-2 gap-1">
                      <Text variant="title3">About {barber.name}</Text>
-                     <Text className="opacity-60">{barber.bio}</Text>
+                     <Text className="opacity-60">{barber.bio || barber.profile?.bio}</Text>
                   </View>
 
                   <TopServices services={services} />
