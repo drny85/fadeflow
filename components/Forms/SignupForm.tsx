@@ -76,6 +76,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
                   image: null,
                   subscriptionStatus: 'incomplete',
                   schedule: DEFAULT_SCHEDULE,
+                  profileCompleted: false,
+                  profile: null,
                   createdAt: new Date().toISOString(),
                };
             } else {

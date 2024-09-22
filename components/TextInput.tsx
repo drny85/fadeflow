@@ -1,5 +1,11 @@
 import React from 'react';
-import { TextInput as RNTextInput, View, StyleSheet, TextInputProps } from 'react-native';
+import {
+   TextInput as RNTextInput,
+   View,
+   StyleSheet,
+   TextInputProps,
+   ViewStyle,
+} from 'react-native';
 import { Controller } from 'react-hook-form';
 import { formatPhone } from '~/utils/formatPhone';
 import { useColorScheme } from '~/lib/useColorScheme';
@@ -13,6 +19,7 @@ type TextInputParams = TextInputProps & {
    secureTextEntry?: boolean;
    capitalize?: boolean;
    rules?: any;
+   containerStyle?: ViewStyle;
 };
 
 const TextInput: React.FC<TextInputParams> = ({
@@ -21,12 +28,13 @@ const TextInput: React.FC<TextInputParams> = ({
    label,
    placeholder,
    secureTextEntry,
+   containerStyle,
    rules,
    ...others
 }) => {
    const { isDarkColorScheme } = useColorScheme();
    return (
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
          {label && <Text style={styles.label}>{label}</Text>}
          <Controller
             control={control}
@@ -50,7 +58,9 @@ const TextInput: React.FC<TextInputParams> = ({
                            ? (text) => onChange(text.toLowerCase())
                            : name === 'phone'
                              ? (text) => onChange(formatPhone(text))
-                             : onChange
+                             : name === 'state'
+                               ? (text) => onChange(text.toUpperCase())
+                               : onChange
                      }
                      value={value}
                      placeholderTextColor={'grey'}

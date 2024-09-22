@@ -10,6 +10,7 @@ const _layout = () => {
             name="barbers-screen"
             options={{
                title: 'Barbers',
+               animation: 'slide_from_bottom',
                ...StackScreenWithSearchBar(colors.background),
             }}
          />

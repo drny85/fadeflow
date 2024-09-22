@@ -64,6 +64,24 @@ export default function RootLayout() {
                   <Stack.Screen name="(terms)" options={TABS_OPTIONS} />
                   <Stack.Screen name="(modals)" options={TABS_OPTIONS} />
                   <Stack.Screen
+                     name="(profile)"
+                     options={{
+                        ...MODAL_OPTIONS,
+                        headerStyle: { backgroundColor: colors.background },
+                        headerBackTitle: 'Back',
+                        headerLeft: () => (
+                           <TouchableOpacity onPress={router.back}>
+                              <Feather
+                                 name="chevron-left"
+                                 className="p-1"
+                                 size={26}
+                                 color={isDarkColorScheme ? '#ffffff' : '#212121'}
+                              />
+                           </TouchableOpacity>
+                        ),
+                     }}
+                  />
+                  <Stack.Screen
                      name="(auth)"
                      options={{
                         headerBackTitle: 'Back',
@@ -154,8 +172,9 @@ const TABS_OPTIONS = {
 
 const MODAL_OPTIONS = {
    presentation: 'modal',
+
    animation: 'fade_from_bottom', // for android
-   title: 'Settings',
+   title: 'Profile',
    headerRight: () => <ThemeToggle />,
 } as const;
 

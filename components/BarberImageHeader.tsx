@@ -50,9 +50,10 @@ const BarberImageHeader = ({
       }
       if (!user || !barber) return;
       if (user.isBarber) return;
+      console.log('TOG');
 
       try {
-         await updateUser({ ...user, favoriteBarber: barber.id });
+         await updateUser({ ...user, favoriteBarber: user.favoriteBarber ? null : barber.id });
       } catch (error) {
          console.log(error);
       }

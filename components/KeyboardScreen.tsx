@@ -1,5 +1,5 @@
 import { Keyboard, TouchableWithoutFeedback, ViewStyle, ScrollView, View } from 'react-native';
-import { useKeyboardHandler, KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { useKeyboardHandler } from 'react-native-keyboard-controller';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { useColorScheme } from '~/lib/useColorScheme';
 

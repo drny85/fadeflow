@@ -9,6 +9,7 @@ import { Button } from '~/components/Button';
 import MapHeader from '~/components/MapHeader';
 import { Text } from '~/components/nativewindui/Text';
 import ParallaxScrollView from '~/components/ParallaxScrollView';
+import Constants from 'expo-constants';
 
 import { COORDS } from '~/constants';
 import { useLocation } from '~/hooks/useLocation';
@@ -53,18 +54,26 @@ const Home = () => {
                      tint="light"
                      className="absolute bottom-0 left-0 right-0 z-10 gap-1 overflow-hidden rounded-md  px-2 py-1"
                      intensity={40}>
-                     <View>
-                        <View className="flex-row items-center justify-between">
-                           <Text variant={'title3'}>Moya Barber Shop</Text>
-                           {distance && <Text>{distance.toFixed(1)} miles</Text>}
+                     {favoriteBarber ? (
+                        <View>
+                           <View className="flex-row items-center justify-between">
+                              <Text variant={'title3'}>Moya Barber Shop</Text>
+                              {distance && <Text>{distance.toFixed(1)} miles</Text>}
+                           </View>
+                           <Text className=" text-sm text-slate-500 dark:text-white">
+                              1420 Clay Ave
+                           </Text>
+                           <Text className="text-sm text-slate-500 dark:text-white">
+                              Bronx, NY 10456
+                           </Text>
                         </View>
-                        <Text className=" text-sm text-slate-500 dark:text-white">
-                           1420 Clay Ave
-                        </Text>
-                        <Text className="text-sm text-slate-500 dark:text-white">
-                           Bronx, NY 10456
-                        </Text>
-                     </View>
+                     ) : (
+                        <View className="p-3">
+                           <Text className="font-raleway-bold text-2xl text-muted dark:text-slate-400">
+                              {Constants.expoConfig?.name}
+                           </Text>
+                        </View>
+                     )}
                   </BlurView>
                </>
             }>

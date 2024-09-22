@@ -14,13 +14,24 @@ export type Barber = {
    pushToken: string | null;
    minutesInterval: number;
    schedule: Schedule;
-   createdAt: string;
+   profileCompleted: boolean;
+   profile: BarberProfile | null;
    subscriptionStatus: Stripe.Subscription.Status; // Optional biography or description of the barber
 };
 export type Photo = {
    id: string;
    uri: string;
    date: string;
+};
+
+type BarberProfile = {
+   barbershopName: string;
+   address: string;
+   apt?: string;
+   city: string;
+   state: string;
+   zip: string;
+   country: string;
 };
 
 export type SubscriptionStatusResponse = {

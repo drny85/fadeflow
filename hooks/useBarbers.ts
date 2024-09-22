@@ -11,7 +11,8 @@ export const useBarbers = () => {
       const barberQuery = query(
          usersCollection,
          where('isActive', '==', true),
-         where('isBarber', '==', true)
+         where('isBarber', '==', true),
+         where('profileCompleted', '==', true)
       );
       setLoading(true);
       return onSnapshot(barberQuery, (snapshot) => {

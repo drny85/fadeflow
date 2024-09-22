@@ -1,16 +1,18 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { ComponentProps, forwardRef } from 'react';
 import { StyleSheet, Text, TextStyle, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { ActivityIndicator } from './nativewindui/ActivityIndicator';
 
 type ButtonProps = {
    title?: string;
    textStyle?: TextStyle;
    iconName?: ComponentProps<typeof FontAwesome>['name'];
    iconSize?: number;
+   isLoading?: boolean;
 } & TouchableOpacityProps;
 
 export const Button = forwardRef<TouchableOpacity, ButtonProps>(
-   ({ title, textStyle, iconName, iconSize, ...touchableProps }, ref) => {
+   ({ title, textStyle, iconName, iconSize, isLoading, ...touchableProps }, ref) => {
       return (
          <TouchableOpacity
             ref={ref}
@@ -25,7 +27,11 @@ export const Button = forwardRef<TouchableOpacity, ButtonProps>(
                   style={{ marginRight: 8 }}
                />
             )}
-            <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+            {isLoading ? (
+               <ActivityIndicator />
+            ) : (
+               <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+            )}
          </TouchableOpacity>
       );
    }

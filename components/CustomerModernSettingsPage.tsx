@@ -121,7 +121,7 @@ export default function CustomerModernSettingsPage() {
          headerImage={
             <ImageBackground
                style={{ height: SIZES.height * 0.4, width: '100%' }}
-               tintColor={user?.image ? undefined : isDarkColorScheme ? '#ffffff' : '#212121'}
+               tintColor={user?.image ? undefined : colors.accent}
                imageStyle={{
                   objectFit: 'cover',
                }}

@@ -1,8 +1,10 @@
 import { addDays, differenceInDays } from 'date-fns';
 import { useRouter, useSegments } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '~/providers/AuthContext';
 import { useUser } from './useUser';
+import { checkObjectValues } from '~/utils/checkObjectValues';
+import { updateUser } from '~/actions/users';
 
 export function useProtectedRoute() {
    const segments = useSegments();
@@ -16,6 +18,22 @@ export function useProtectedRoute() {
          : 0;
    }, [user]);
 
+   const profileCompleted = useMemo(() => {
+      return user && user?.isBarber && user?.profileCompleted;
+   }, [user]);
+
+   const updateProfileIsIncomplete = useCallback(async () => {
+      if (user && user.isBarber && user.profile) {
+         const isIncomplete = checkObjectValues(user.profile, 'apt');
+
+         if (isIncomplete) return;
+
+         updateUser({ ...user, profileCompleted: false });
+         // Update the user's profile as incomplete
+         // You can use a database or storage service to store this information
+      }
+   }, [user]);
+
    useEffect(() => {
       setMounted(true);
    }, [loading]);
@@ -27,6 +45,7 @@ export function useProtectedRoute() {
       const inBarberGroup = segments[1] === '(barber-tabs)';
       const inUserGroup = segments[1] === '(tabs)';
       console.log(daysRemaining, 'DAYS REMAINING');
+      updateProfileIsIncomplete();
 
       // Redirect non-signed-in users trying to access protected routes
       if (user && inAuthGroup && !user.isBarber) {
@@ -40,15 +59,17 @@ export function useProtectedRoute() {
          daysRemaining <= 0
       ) {
          router.replace('/subscription');
-      } else if (user && inAuthGroup && user.isBarber) {
+      } else if (user && inBarberGroup && user.isBarber && !profileCompleted) {
+         router.push('/profile-complition');
+      } else if (user && inAuthGroup && user.isBarber && profileCompleted) {
          router.replace('/(barber-tabs)');
       } else if (user && inBarberGroup && !user.isBarber) {
          router.replace('/(tabs)');
-      } else if (user && inUserGroup && user.isBarber) {
+      } else if (user && inUserGroup && user.isBarber && profileCompleted) {
          console.log('BARBER TABS 2');
          router.replace('/(barber-tabs)');
       }
-   }, [user, segments, mounted, daysRemaining]);
+   }, [user, segments, mounted, daysRemaining, profileCompleted]);
 
    return { mounted };
 }

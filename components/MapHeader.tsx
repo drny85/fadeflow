@@ -20,7 +20,7 @@ type Props = {
 
 const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
    const mapRef = useRef<MapView>(null);
-   const { isDarkColorScheme } = useColorScheme();
+   const { isDarkColorScheme, colors } = useColorScheme();
    const { user } = useAuth();
    const { top } = useSafeAreaInsets();
    const { location, loading } = useLocation();
@@ -43,7 +43,7 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
 
    return (
       <View style={[{ flex: 0.5 }, containerStyle]}>
-         {location ? (
+         {location && !user?.isBarber && user?.favoriteBarber ? (
             <MapView
                ref={mapRef}
                customMapStyle={customMapStyle}
@@ -69,7 +69,7 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
             <ImageBackground
                source={require('~/assets/images/banner.png')}
                style={{ width: '100%', height: '100%' }}
-               tintColor={isDarkColorScheme ? '#ffffff' : '#212121'}
+               tintColor={colors.accent}
             />
          )}
          <View
@@ -108,7 +108,9 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
                />
             )}
             {user && (
-               <Text className="font-raleway-bold text-2xl">Hi, {user?.name?.split(' ')[0]}</Text>
+               <Text className="font-raleway-bold text-2xl text-accent">
+                  Hi, {user?.name?.split(' ')[0]}
+               </Text>
             )}
             <TouchableOpacity
                onPress={() => {
