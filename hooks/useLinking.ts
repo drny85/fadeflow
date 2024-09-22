@@ -20,7 +20,7 @@ export const useLinking = () => {
                   pathname: '/barber',
                   params: { barberId: data.queryParams.barberId },
                });
-            } else if (data.hostname === 'moya-site.vercel.app' && data.queryParams?.linking) {
+            } else if (data.hostname === 'fadeflow.vercel.app' && data.queryParams?.linking) {
                router.push({
                   pathname: '/barber',
                   params: { barberId: (data.queryParams.linking as string).split('=')[1] },
