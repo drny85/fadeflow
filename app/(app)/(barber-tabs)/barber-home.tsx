@@ -2,14 +2,16 @@ import { Feather } from '@expo/vector-icons';
 import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
+
 import { useMemo } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AnimatedNumber from '~/components/AnimatedNumber';
 import AppointmentCard from '~/components/Appointment/AppointmentCard';
 import { Button } from '~/components/Button';
 import { Text } from '~/components/nativewindui/Text';
 import { useServices } from '~/hooks/useServices';
+import { useStatusBarColor } from '~/hooks/useStatusBarColor';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { useAuth } from '~/providers/AuthContext';
 import { useAppointmentStore } from '~/providers/useAppointmentStore';
@@ -50,6 +52,7 @@ const BarberHome = () => {
    }, [data]);
 
    const confirmedTotal = calculateEarningsByFilter(appointmentsData, 'today', 'completed');
+   useStatusBarColor('light');
 
    if (!appointmentsData) return;
 
@@ -58,7 +61,7 @@ const BarberHome = () => {
          <View className="flex-1 gap-2">
             <View
                style={{ paddingTop: top, height: '50%' }}
-               className="rounded-3xl bg-card p-2 shadow-sm">
+               className="rounded-3xl bg-accent p-2 shadow-sm">
                <View className="flex-row items-center justify-between">
                   <TouchableOpacity onPress={() => router.replace('/barber-profile')}>
                      <Image
@@ -68,26 +71,36 @@ const BarberHome = () => {
                         style={{ height: 60, width: 60, borderRadius: 30, objectFit: 'cover' }}
                      />
                   </TouchableOpacity>
-                  <Text className="font-raleway text-2xl">Hi {user?.name?.split(' ')[0]}</Text>
+                  <Text className="font-raleway text-2xl text-white">
+                     Hi {user?.name?.split(' ')[0]}
+                  </Text>
                   <TouchableOpacity
                      onPress={() => shareBarberLink(user?.id!)}
                      className="h-10 w-10 items-center justify-center rounded-full bg-slate-200 p-1">
                      <Feather name="share" size={26} color={colors.accent} />
                   </TouchableOpacity>
                </View>
-               <Text className="mt-2 text-center">{new Date().toDateString()}</Text>
+               <Text className="mt-2 text-center text-white">{new Date().toDateString()}</Text>
                {services.length > 0 && (
                   <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
-                     <Text variant={'title2'}>Estimated Earnings</Text>
-                     <AnimatedNumber textStyle={{ fontSize: 40 }} value={allAppointments} />
+                     <Text className="text-white" variant={'title2'}>
+                        Estimated Earnings
+                     </Text>
+                     <AnimatedNumber
+                        textStyle={{ fontSize: 40, color: 'white' }}
+                        value={allAppointments}
+                     />
                      <View className="w-full flex-row justify-evenly">
                         <View className="items-center justify-center">
-                           <Text className="text-muted">Earned</Text>
-                           <AnimatedNumber value={confirmedTotal} />
+                           <Text className="text-muted text-slate-300">Earned</Text>
+                           <AnimatedNumber value={confirmedTotal} textStyle={{ color: 'white' }} />
                         </View>
                         <View className="items-center justify-center">
-                           <Text className="text-muted">Pending</Text>
-                           <AnimatedNumber value={allAppointments - confirmedTotal} />
+                           <Text className="text-slate-300">Pending</Text>
+                           <AnimatedNumber
+                              value={allAppointments - confirmedTotal}
+                              textStyle={{ color: 'white' }}
+                           />
                         </View>
                      </View>
                   </View>
@@ -144,8 +157,10 @@ const BarberHome = () => {
                         }}
                      />
                   ) : (
-                     <View className="my-2">
-                        <Text className="text-muted">No Appointments Scheduled</Text>
+                     <View className="p-2">
+                        <Text className="text-muted dark:text-slate-300">
+                           No Appointments Scheduled
+                        </Text>
                      </View>
                   )}
                </View>
@@ -158,7 +173,7 @@ const BarberHome = () => {
                      horizontal
                      ListEmptyComponent={
                         <View className="p-2">
-                           <Text className="text-muted dark:text-white">No appointments</Text>
+                           <Text className="text-muted dark:text-slate-300">No appointments</Text>
                         </View>
                      }
                      renderItem={({ item }) => {

@@ -5,14 +5,13 @@ import { useEffect, useRef } from 'react';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COORDS } from '~/constants';
 import { useLocation } from '~/hooks/useLocation';
 import { customMapStyle } from '~/lib/customMapStyle';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { useAuth } from '~/providers/AuthContext';
+import { useBarbersStore } from '~/providers/useBarbersStore';
 import Loading from './Loading';
 import { Text } from './nativewindui/Text';
-import { useBarbersStore } from '~/providers/useBarbersStore';
 
 type Props = {
    shouldGoBack: boolean;
@@ -21,7 +20,7 @@ type Props = {
 
 const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
    const mapRef = useRef<MapView>(null);
-   const { isDarkColorScheme, colors } = useColorScheme();
+   const { isDarkColorScheme } = useColorScheme();
    const { user } = useAuth();
    const { top } = useSafeAreaInsets();
    const { getBarberById } = useBarbersStore();
@@ -77,7 +76,6 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
             <ImageBackground
                source={require('~/assets/images/banner.png')}
                style={{ width: '100%', height: '100%' }}
-               tintColor={colors.accent}
             />
          )}
          <View

@@ -4,14 +4,17 @@ import BarberImageHeader from '~/components/BarberImageHeader';
 import { Text } from '~/components/nativewindui/Text';
 import BarbersSkelenton from '~/components/Skeletons/BarbersSkeleton';
 import { useNavigationSearch } from '~/hooks/useNavigationSeach';
+import { useColorScheme } from '~/lib/useColorScheme';
 import { useBarbersStore } from '~/providers/useBarbersStore';
 
 const BarbersPage = () => {
    const { barbers, loading } = useBarbersStore();
+   const { isDarkColorScheme, colors } = useColorScheme();
 
    const search = useNavigationSearch({
       searchBarOptions: {
          placeholder: 'Search Barbers',
+         tintColor: isDarkColorScheme ? '#dedede' : colors.accent,
       },
    });
 

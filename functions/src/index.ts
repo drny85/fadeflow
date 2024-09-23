@@ -373,7 +373,7 @@ exports.getPortalUrl = onCall(async ({ data, auth }): Promise<CreateSubscription
       const { customer_id } = customer.data() as { customer_id: string };
       const portalSession = await stripe.billingPortal.sessions.create({
          customer: customer_id,
-         return_url: 'https://fadeflow.com?returnUrl=fadeflow://',
+         return_url: 'https://fadeflow.vercel.app/stripe-redirect?returnUrl=fadeflow://',
       });
       return { success: true, result: portalSession.url };
    } catch (error) {

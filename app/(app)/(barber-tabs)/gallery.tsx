@@ -1,6 +1,7 @@
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { BottomSheetTextInput, TouchableOpacity } from '@gorhom/bottom-sheet';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import { StatusBar } from 'expo-status-bar';
 import { deleteObject, ref } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, View } from 'react-native';
@@ -19,6 +20,7 @@ import UploadPhoto from '~/components/UploadPhoto';
 import { ICON_IMAGES, SIZES } from '~/constants';
 import { storage } from '~/firebase';
 import { useServices } from '~/hooks/useServices';
+import { useStatusBarColor } from '~/hooks/useStatusBarColor';
 import { toastAlert, toastMessage } from '~/lib/toast';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { useAuth } from '~/providers/AuthContext';
@@ -182,10 +184,13 @@ const GalleryReviews = () => {
       setBarbersPhotos(user.gallery);
    }, [user?.gallery]);
 
+   useStatusBarColor('dark');
+
    if (loading) return null;
 
    return (
       <Container>
+         <StatusBar style="dark" />
          <View className="flex-1 bg-background">
             <Text className="mb-2 text-center font-roboto-bold text-2xl">My Stuffs</Text>
             <SegmentedControl
@@ -193,7 +198,7 @@ const GalleryReviews = () => {
                fontStyle={{ fontSize: 16, color: isDarkColorScheme ? '#ffffff' : '#000000' }}
                tintColor={colors.accent}
                activeFontStyle={{
-                  color: isDarkColorScheme ? '#212121' : '#ffffff',
+                  color: '#ffffff',
                   fontWeight: '700',
                   fontSize: 18,
                }}

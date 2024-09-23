@@ -19,8 +19,8 @@ export default function BarberTabLayout() {
       <Tabs
          screenOptions={{
             headerShown: false,
-            tabBarActiveTintColor: isDarkColorScheme ? 'orange' : colors.primary,
-            tabBarInactiveTintColor: colors.accent,
+            tabBarActiveTintColor: isDarkColorScheme ? colors.grey2 : colors.grey,
+            tabBarInactiveTintColor: isDarkColorScheme ? '#ffffff' : colors.accent,
             tabBarStyle: { backgroundColor: colors.background },
             headerStyle: {
                backgroundColor: colors.background,

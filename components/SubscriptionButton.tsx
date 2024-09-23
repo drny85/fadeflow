@@ -50,7 +50,14 @@ const SubscriptionButton = () => {
                merchantCountryCode: 'US',
             },
             primaryButtonLabel: 'Subscribe',
+
             appearance: {
+               primaryButton: {
+                  colors: {
+                     background: colors.accent,
+                     text: '#ffffff',
+                  },
+               },
                colors: {
                   background: colors.background,
                   primaryText: isDarkColorScheme ? '#ffffff' : '#212121',

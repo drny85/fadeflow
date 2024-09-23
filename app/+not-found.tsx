@@ -1,9 +1,12 @@
-import { Link, Stack, usePathname } from 'expo-router';
+import { Link, Redirect, Stack, usePathname } from 'expo-router';
 import { Text, View } from 'react-native';
 
 export default function NotFoundScreen() {
    const path = usePathname();
    console.log({ path });
+   if (path.includes('barbers')) return <Redirect href={'/(app)/(barbers)/barbers-screen'} />;
+   if (path.includes('stripe-redirect'))
+      return <Redirect href={'/(app)/(barber-tabs)/barber-profile'} />;
    return (
       <>
          <Stack.Screen options={{ title: 'Oops!' }} />

@@ -71,7 +71,6 @@ const BarberImageHeader = ({
                backgroundColor: colors.card,
                overflow: 'hidden',
             }}
-            tintColor={barber.image ? undefined : isDarkColorScheme ? '#ddd' : '#212121'}
             source={barber.image ? { uri: barber.image } : require('~/assets/images/banner.png')}>
             {showTopControl && (
                <View className="absolute left-3 right-3 z-30 flex-row justify-between">
@@ -128,17 +127,17 @@ const BarberImageHeader = ({
                   )}
                </View>
                {barber.profile && barber.profile.address && (
-                  <Text className="font-roboto text-sm text-muted">
+                  <Text className="font-roboto text-sm text-slate-800 dark:text-slate-200">
                      {barber.profile.address}, {barber.profile.city}
                   </Text>
                )}
                <View className="flex-row items-center justify-between">
                   <View className="flex-row items-center gap-1">
                      <FontAwesome name="star" color="orange" size={20} />
-                     <Text className="text-sm text-slate-500 dark:text-slate-200">
+                     <Text className="text-sm text-slate-700 dark:text-slate-200">
                         {barberRating.toFixed(1)} rating
                      </Text>
-                     <Text className="text-sm text-muted dark:text-slate-200">
+                     <Text className="text-sm text-slate-700 dark:text-slate-200">
                         ({barberReviews.length} reviews)
                      </Text>
                   </View>

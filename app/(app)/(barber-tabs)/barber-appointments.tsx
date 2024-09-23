@@ -3,7 +3,7 @@ import { FlashList } from '@shopify/flash-list';
 import { isSameDay } from 'date-fns';
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, StatusBar, View } from 'react-native';
 import { updateAppointmentInDatabase } from '~/actions/appointments';
 import AppointmentCard from '~/components/Appointment/AppointmentCard';
 import WeekSelector from '~/components/Appointment/WeekSelectorComponent';
@@ -11,6 +11,7 @@ import { Button } from '~/components/Button';
 import { Container } from '~/components/Container';
 import { Text } from '~/components/nativewindui/Text';
 import { DEFAULT_SCHEDULE } from '~/constants';
+import { useStatusBarColor } from '~/hooks/useStatusBarColor';
 import { toastAlert } from '~/lib/toast';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { useAuth } from '~/providers/AuthContext';
@@ -55,6 +56,8 @@ const BarberAppointments = () => {
          return upcomingAppointments;
       }
    }, [selectedIndex, appointmentsByDate, todayAppoinments, upcomingAppointments]);
+
+   useStatusBarColor('dark');
    return (
       <Container>
          <SegmentedControl
@@ -62,7 +65,7 @@ const BarberAppointments = () => {
             fontStyle={{ fontSize: 16, color: isDarkColorScheme ? 'white' : 'black' }}
             tintColor={colors.accent}
             activeFontStyle={{
-               color: !isDarkColorScheme ? 'white' : 'black',
+               color: 'white',
                fontWeight: '700',
                fontSize: 18,
             }}
@@ -102,7 +105,7 @@ const BarberAppointments = () => {
                data={data}
                ListEmptyComponent={
                   <View className="mt-10 flex-1 items-center justify-center">
-                     <Text className="text-center font-semibold text-muted">
+                     <Text className="text-center font-semibold text-muted dark:text-slate-300">
                         No Appointments Scheduled
                      </Text>
                   </View>

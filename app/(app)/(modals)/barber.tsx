@@ -93,18 +93,25 @@ const BarberDetails = () => {
       }
       bottomSheetRef.current?.present();
    };
+   console.log(router.canGoBack());
 
    if (!barber || loading) return <Loading />;
 
    return (
       <View className="mb-2 flex-1 bg-background">
-         <BarberImageHeader barber={barber} onPressBack={router.back} showBookingButton={true} />
+         <BarberImageHeader
+            barber={barber}
+            onPressBack={() => {
+               router.canGoBack() ? router.back() : router.replace('/(barbers)/barbers-screen');
+            }}
+            showBookingButton={true}
+         />
          <SegmentedControl
             values={VALUES}
             fontStyle={{ fontSize: 16, color: isDarkColorScheme ? '#ffffff' : '#212121' }}
             tintColor={colors.accent}
             activeFontStyle={{
-               color: !isDarkColorScheme ? '#ffffff' : '#212121',
+               color: '#ffffff',
                fontWeight: '700',
                fontSize: 18,
             }}

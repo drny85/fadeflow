@@ -47,7 +47,6 @@ const BarberCard = ({ barber, index, isOwner, activeNode, disabled = false }: Pr
                   source={
                      barber.image ? { uri: barber.image } : require('~/assets/images/banner.png')
                   }
-                  tintColor={!barber.image && isDarkColorScheme ? 'white' : undefined}
                   contentFit="cover"
                   contentPosition="center"
                   style={{

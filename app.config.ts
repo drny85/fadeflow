@@ -84,7 +84,7 @@ const config: ExpoConfig = {
       config: {
          googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_API_IOS,
       },
-      associatedDomains: ['applinks:'],
+      associatedDomains: ['applinks:fadeflow.vercel.app'],
    },
    android: {
       adaptiveIcon: {
@@ -92,7 +92,7 @@ const config: ExpoConfig = {
          backgroundColor: '#ffffff',
       },
       softwareKeyboardLayoutMode: 'pan',
-      package: 'net.robertdev.moyabarber',
+      package: 'net.robertdev.fadeflow',
       versionCode: 1,
       intentFilters: [
          {
@@ -101,7 +101,7 @@ const config: ExpoConfig = {
             data: [
                {
                   scheme: 'https',
-                  host: 'moya-site.vercel.app',
+                  host: 'fadeflow.vercel.app',
                   pathPrefix: '/',
                },
             ],
@@ -115,6 +115,9 @@ const config: ExpoConfig = {
       },
    },
    extra: {
+      eas: {
+         projectId: 'cb7be3e3-9d35-412f-ad3b-064c09c29bfa',
+      },
       router: {
          origin: false,
       },

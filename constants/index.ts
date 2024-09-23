@@ -10,7 +10,7 @@ export const SIZES = {
    statusBarHeight: Constants.statusBarHeight,
 };
 
-export const SITE_URL = 'https://moya-site.vercel.app';
+export const SITE_URL = 'https://fadeflow.vercel.app';
 
 export const MAXIMUM_IMAGES_UPLOAD = 10;
 

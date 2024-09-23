@@ -3,7 +3,7 @@ import { StackScreenWithSearchBar } from '~/constants/layout';
 import { useColorScheme } from '~/lib/useColorScheme';
 
 const _layout = () => {
-   const { colors } = useColorScheme();
+   const { colors, colorScheme } = useColorScheme();
    return (
       <Stack>
          <Stack.Screen
@@ -11,7 +11,7 @@ const _layout = () => {
             options={{
                title: 'Barbers',
                animation: 'slide_from_bottom',
-               ...StackScreenWithSearchBar(colors.background),
+               ...StackScreenWithSearchBar(colors.background, colorScheme),
             }}
          />
       </Stack>
