@@ -1,4 +1,4 @@
-import { Service } from '~/shared/types';
+import { Service } from '~/shared/types'
 
 export const getAppointmentPrice = (services: Service[]) =>
-   services.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
+    services.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)

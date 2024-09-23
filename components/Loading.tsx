@@ -1,13 +1,13 @@
-import { View } from 'react-native';
+import { View } from 'react-native'
 
-import { ActivityIndicator } from './nativewindui/ActivityIndicator';
+import { ActivityIndicator } from './nativewindui/ActivityIndicator'
 
 const Loading = () => {
-   return (
-      <View className="flex-1 items-center justify-center bg-background">
-         <ActivityIndicator />
-      </View>
-   );
-};
+    return (
+        <View className="flex-1 items-center justify-center bg-background">
+            <ActivityIndicator />
+        </View>
+    )
+}
 
-export default Loading;
+export default Loading

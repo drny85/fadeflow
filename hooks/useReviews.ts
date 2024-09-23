@@ -1,30 +1,34 @@
-import { getDocs } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { reviewsCollection } from '~/firebase-collections';
-import { Review } from '~/shared/types';
+import { getDocs } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
+
+import { reviewsCollection } from '~/firebase-collections'
+import { Review } from '~/shared/types'
 
 export const useReviews = () => {
-   const [reviews, setReviews] = useState<Review[]>([]);
-   const [loading, setLoading] = useState(false);
+    const [reviews, setReviews] = useState<Review[]>([])
+    const [loading, setLoading] = useState(false)
 
-   const getReviews = async () => {
-      try {
-         setLoading(true);
-         const response = await getDocs(reviewsCollection);
-         const data = response.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-         setReviews(data as Review[]);
-      } catch (error) {
-         console.log(error);
-      } finally {
-         setLoading(false);
-      }
-   };
-   useEffect(() => {
-      getReviews();
-   }, []);
+    const getReviews = async () => {
+        try {
+            setLoading(true)
+            const response = await getDocs(reviewsCollection)
+            const data = response.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            }))
+            setReviews(data as Review[])
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+    useEffect(() => {
+        getReviews()
+    }, [])
 
-   return {
-      reviews,
-      loading,
-   };
-};
+    return {
+        reviews,
+        loading
+    }
+}
