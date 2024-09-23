@@ -1,8 +1,5 @@
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
-import Stripe from 'stripe';
-const stripe = new Stripe(process.env.STRIPE_TEST_SK as string, {
-   apiVersion: '2024-06-20',
-});
+import { stripe, Stripe } from './stripe';
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
    const customerId = subscription.customer as string;

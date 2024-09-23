@@ -13,6 +13,7 @@ import { COLORS } from '~/theme/colors';
 import { useAuth } from '~/providers/AuthContext';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { Container } from '~/components/Container';
+import MenuItems from '~/components/Menu';
 
 const VALUES = ['Upcoming', 'Past'];
 
@@ -70,6 +71,7 @@ const AppointmentPage = () => {
          <Text variant={'heading'} className="mb-2 text-center">
             Appointments
          </Text>
+
          <SegmentedControl
             values={VALUES}
             fontStyle={{ fontSize: 16, color: isDarkColorScheme ? '#ffffff' : '#212121' }}

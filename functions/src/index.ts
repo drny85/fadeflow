@@ -26,7 +26,7 @@ import * as logger from 'firebase-functions/logger';
 import { onDocumentCreated, onDocumentUpdated } from 'firebase-functions/v2/firestore';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import Stripe from 'stripe';
-import { sendPushNotification } from './common';
+import { sendPushNotification } from './utils/common';
 import {
    handleAsyncPaymentFailed,
    handleAsyncPaymentSucceeded,
@@ -37,10 +37,8 @@ import {
    handleSubscriptionDeleted,
    handleSubscriptionUpdated,
 } from './utils';
+import { stripe } from './utils/stripe';
 dotenv.config();
-const stripe = new Stripe(process.env.STRIPE_TEST_SK as string, {
-   apiVersion: '2024-06-20',
-});
 
 getApps().length === 0 ? initializeApp() : getApp();
 // Start writing functions

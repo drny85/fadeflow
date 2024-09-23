@@ -1,5 +1,7 @@
 {
-  "projects": {
-    "default": "fadeflow-7d31b"
-  }
+   "projects": {
+      "default": "fadeflow-7d31b",
+      "dev": "fadeflow-7d31b",
+      "prod": "fadeflow-7d31b"
+   }
 }

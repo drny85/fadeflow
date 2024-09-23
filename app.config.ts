@@ -60,13 +60,8 @@ const config: ExpoConfig = {
    userInterfaceStyle: 'automatic',
    splash: {
       image: './assets/splash.png',
-      resizeMode: 'contain',
-      backgroundColor: '#ffffff',
-      dark: {
-         image: './assets/splash-dark.png',
-         backgroundColor: '#2b2d42',
-         resizeMode: 'contain',
-      },
+      resizeMode: 'cover',
+      backgroundColor: '#773344',
    },
    assetBundlePatterns: ['**/*'],
 
