@@ -227,7 +227,7 @@ const BookingPage = () => {
          }
 
          bottomSheetModalRef.current?.close();
-         router.dismiss();
+         router.canDismiss() && router.dismiss();
          router.replace({ pathname: '/appointments', params: { confetti: 'yes' } });
       }
    };

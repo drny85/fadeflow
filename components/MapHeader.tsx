@@ -48,7 +48,7 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
 
    return (
       <View style={[{ flex: 0.5 }, containerStyle]}>
-         {location && !user?.isBarber && user?.favoriteBarber ? (
+         {location && barber && !user?.isBarber && user?.favoriteBarber ? (
             <MapView
                ref={mapRef}
                customMapStyle={customMapStyle}

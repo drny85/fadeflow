@@ -19,7 +19,6 @@ export const generateAvailableTimeSlots = (
 ): TimeSlot[] => {
    const slots: TimeSlot[] = [];
    const now = new Date();
-
    const isToday = currentDate.toDateString() === now.toDateString();
 
    // Parse startTime and endTime into 24-hour format
@@ -99,6 +98,7 @@ export const generateAvailableTimeSlots = (
 
             const nextBookedSlotStart = addMinutes(bookedSlotEnd, incrementMinutes);
 
+            // Check if the current slot overlaps with a booked slot
             if (
                startHours * 60 + startMinutes >= bookedHours * 60 + bookedMinutes &&
                startHours * 60 + startMinutes <
@@ -116,12 +116,13 @@ export const generateAvailableTimeSlots = (
             }
          }
 
-         if (!isDuringLunchBreak && !isBookedSlot) {
+         // Only push available slots that are not during lunch or booked
+         if (!isDuringLunchBreak && !isBookedSlot && !bookedSlots.includes(timeSlot)) {
             slots.push({ time: timeSlot, isBooked: false });
-         } else {
-            slots.push({ time: timeSlot, isBooked: true });
          }
       }
+
+      // Increment time for the next slot
       startMinutes += incrementMinutes;
       if (startMinutes >= 60) {
          startMinutes %= 60;
