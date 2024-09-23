@@ -121,7 +121,6 @@ export default function CustomerModernSettingsPage() {
          headerImage={
             <ImageBackground
                style={{ height: SIZES.height * 0.4, width: '100%' }}
-               tintColor={user?.image ? undefined : colors.accent}
                imageStyle={{
                   objectFit: 'cover',
                }}
@@ -147,9 +146,7 @@ export default function CustomerModernSettingsPage() {
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={handleSignOut}>
-                     <Text className="font-semibold text-slate-700 dark:text-slate-200">
-                        Log Out
-                     </Text>
+                     <Text className="font-semibold text-slate-200">Log Out</Text>
                   </TouchableOpacity>
                </View>
                <BlurView
@@ -157,9 +154,9 @@ export default function CustomerModernSettingsPage() {
                   intensity={60}
                   className="absolute bottom-0 left-0 right-0 flex-1 overflow-hidden rounded-md p-2">
                   <View>
-                     <Text className="text-xl text-slate-700 dark:text-white">{user?.name}</Text>
-                     <Text className="text-sm text-slate-500 dark:text-white">{user?.phone}</Text>
-                     <Text className="text-sm text-slate-500 dark:text-white">{user?.email}</Text>
+                     <Text className="text-xl text-slate-200 dark:text-white">{user?.name}</Text>
+                     <Text className="text-sm text-slate-300 dark:text-white">{user?.phone}</Text>
+                     <Text className="text-sm text-slate-300 dark:text-white">{user?.email}</Text>
                   </View>
                </BlurView>
             </ImageBackground>

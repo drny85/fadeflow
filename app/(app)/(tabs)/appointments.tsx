@@ -98,7 +98,10 @@ const AppointmentPage = () => {
                   </Text>
                   {selectedIndex === 1 && (
                      <View className="w-1/2 self-center">
-                        <Button title="Book Appointment" onPress={() => router.push('/barbers')} />
+                        <Button
+                           title="Book Appointment"
+                           onPress={() => router.push('/barbers-screen')}
+                        />
                      </View>
                   )}
                </View>

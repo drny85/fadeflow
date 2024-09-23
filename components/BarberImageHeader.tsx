@@ -32,12 +32,14 @@ const BarberImageHeader = ({
 }: Props) => {
    const { top } = useSafeAreaInsets();
    useUser();
-   const { colors, isDarkColorScheme } = useColorScheme();
+   const { colors } = useColorScheme();
    const { user } = useAuth();
    const { reviews } = useReviews();
    const barberReviews = reviews.filter((r) => r.barberId === barber.id);
    const barberRating =
       barberReviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length || 0;
+
+   const address = barber.profile?.address;
 
    const toggleFavorite = async () => {
       if (!user) {
@@ -126,9 +128,14 @@ const BarberImageHeader = ({
                      </TouchableOpacity>
                   )}
                </View>
-               {barber.profile && barber.profile.address && (
-                  <Text className="font-roboto text-sm text-slate-800 dark:text-slate-200">
-                     {barber.profile.address}, {barber.profile.city}
+               {barber.profile && address && (
+                  <Text
+                     numberOfLines={1}
+                     ellipsizeMode="tail"
+                     className="font-roboto text-sm text-slate-800 dark:text-slate-200">
+                     {address && address.includes('USA')
+                        ? address.slice(0, address.length - 5)
+                        : address}
                   </Text>
                )}
                <View className="flex-row items-center justify-between">

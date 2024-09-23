@@ -54,7 +54,7 @@ const Home = () => {
                   <MapHeader shouldGoBack={false} containerStyle={{ flex: 1 }} />
                   <BlurView
                      tint="light"
-                     className="absolute bottom-0 left-0 right-0 z-10 gap-1 overflow-hidden rounded-md  px-2 py-1"
+                     className="absolute bottom-0 left-0 right-0 z-10 gap-1 overflow-hidden rounded-md  px-2 py-3"
                      intensity={40}>
                      {favoriteBarber && barber && distance ? (
                         <View>
@@ -63,10 +63,7 @@ const Home = () => {
                               {distance && <Text>{distance.toFixed(1)} miles</Text>}
                            </View>
                            <Text className=" text-sm text-slate-500 dark:text-white">
-                              {barber.profile?.address}
-                           </Text>
-                           <Text className="text-sm text-slate-500 dark:text-white">
-                              {barber.profile?.city}, {barber.profile?.state} {barber.profile?.zip}
+                              {barber.profile?.address.slice(0, barber.profile.address.length - 5)}
                            </Text>
                         </View>
                      ) : (
@@ -95,10 +92,7 @@ const Home = () => {
                   <View className="gap-3">
                      <Text className="text-muted dark:text-slate-400">No Upcoming Appointment</Text>
                      <View className="w-1/2 self-center">
-                        <Button
-                           title="Book Now"
-                           onPress={() => router.push('/(modals)/quick-booking')}
-                        />
+                        <Button title="Book Now" onPress={() => router.push('/quick-booking')} />
                      </View>
                   </View>
                )}
@@ -111,10 +105,7 @@ const Home = () => {
                   <View className="gap-3">
                      <Text className="text-muted dark:text-slate-400">No Barber Available</Text>
                      <View className="w-1/2 self-center">
-                        <Button
-                           title="Find Barber"
-                           onPress={() => router.push('/(app)/(barbers)/barbers-screen')}
-                        />
+                        <Button title="Find Barber" onPress={() => router.push('/quick-booking')} />
                      </View>
                   </View>
                )}

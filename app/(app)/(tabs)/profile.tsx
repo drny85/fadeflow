@@ -21,6 +21,7 @@ const ProfilePage = () => {
                   <Text className="font-raleway text-xl text-muted dark:text-white">
                      Please login to see your profile page
                   </Text>
+
                   <Button
                      title="Login"
                      textStyle={{ paddingHorizontal: 24 }}

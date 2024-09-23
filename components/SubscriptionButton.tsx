@@ -21,7 +21,7 @@ const SubscriptionButton = () => {
 
    const onSubscrivePress = useCallback(async () => {
       try {
-         if (!user?.email) return;
+         if (!user?.email || !user.isBarber) return;
          setLoading(true);
          const { data } = await createSubscrition({ email: user.email });
 
@@ -42,14 +42,27 @@ const SubscriptionButton = () => {
                preset: 'error',
             });
          }
+         if (!response.clientSecret) return;
 
          const { error } = await initPaymentSheet({
             merchantDisplayName: `FadeFlow Inc`,
-            paymentIntentClientSecret: response.clientSecret!,
+            paymentIntentClientSecret: response.clientSecret,
             applePay: {
                merchantCountryCode: 'US',
             },
             primaryButtonLabel: 'Subscribe',
+            defaultBillingDetails: {
+               name: user.name,
+               email: user.email,
+               address: {
+                  city: user.profile?.city,
+                  country: user.profile?.country,
+                  line1: user.profile?.address,
+                  postalCode: user.profile?.zip!,
+                  state: user.profile?.state,
+               },
+               phone: user.profile?.phone,
+            },
 
             appearance: {
                primaryButton: {
@@ -66,7 +79,6 @@ const SubscriptionButton = () => {
             googlePay: {
                merchantCountryCode: 'US',
                currencyCode: 'usd',
-               testEnv: true,
             },
             customerId: response.customer_id,
             returnURL: 'stripe-example://payment-sheet',

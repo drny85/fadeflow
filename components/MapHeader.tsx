@@ -118,21 +118,23 @@ const MapHeader = ({ shouldGoBack, containerStyle }: Props) => {
                   Hi, {user?.name?.split(' ')[0]}
                </Text>
             )}
-            <TouchableOpacity
-               onPress={() => {
-                  mapRef.current?.animateCamera({
-                     center: { longitude: coords?.lng!, latitude: coords?.lat! },
-                     pitch: 60,
-                     heading: 90,
-                     altitude: 100,
-                  });
-               }}>
-               <MaterialIcons
-                  name="location-searching"
-                  size={28}
-                  color={isDarkColorScheme ? 'white' : 'black'}
-               />
-            </TouchableOpacity>
+            {location && !user?.isBarber && user?.favoriteBarber && (
+               <TouchableOpacity
+                  onPress={() => {
+                     mapRef.current?.animateCamera({
+                        center: { longitude: coords?.lng!, latitude: coords?.lat! },
+                        pitch: 60,
+                        heading: 90,
+                        altitude: 100,
+                     });
+                  }}>
+                  <MaterialIcons
+                     name="location-searching"
+                     size={28}
+                     color={isDarkColorScheme ? 'white' : 'black'}
+                  />
+               </TouchableOpacity>
+            )}
          </View>
       </View>
    );

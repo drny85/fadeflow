@@ -204,14 +204,17 @@ export default function ModernSettingsPage() {
                </View>
                <BlurView
                   tint="prominent"
-                  intensity={40}
+                  intensity={30}
                   className="absolute bottom-0 left-0 right-0 flex-1 overflow-hidden rounded-md p-2">
                   <View>
-                     <Text className="text-xl text-slate-700 dark:text-slate-200">
+                     <Text className="text-xl text-slate-300 dark:text-slate-200">
                         {user?.name}
                      </Text>
+                     <Text className="text-slate-300">
+                        {user?.isBarber && user.profile?.address}
+                     </Text>
                      {user?.phone ? (
-                        <Text className="text-sm text-slate-500 dark:text-slate-200">
+                        <Text className="text-sm text-slate-300 dark:text-slate-200">
                            {user?.phone}
                         </Text>
                      ) : (
@@ -229,7 +232,7 @@ export default function ModernSettingsPage() {
                            </TouchableOpacity>
                         </View>
                      )}
-                     <Text className="text-sm text-slate-500 dark:text-slate-200">
+                     <Text className="text-sm text-slate-300 dark:text-slate-200">
                         {user?.email}
                      </Text>
                   </View>
