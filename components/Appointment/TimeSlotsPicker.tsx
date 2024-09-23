@@ -72,6 +72,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({ barber, date, 
       isGreater ? duration : incrementMinutes
    );
    //if (!duration) return;
+   console.log(unaivailableTimeSlots);
 
    const timeSlots = isDayOff
       ? []
