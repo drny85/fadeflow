@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { TabBarIcon } from '../../../components/TabBarIcon';
 
@@ -7,6 +7,7 @@ import { useBarbers } from '~/hooks/useBarbers';
 import { useNotifications } from '~/hooks/useNotification';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { StackScreenWithSearchBar } from '~/constants/layout';
+import MenuItems from '~/components/Menu';
 
 export default function TabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme();
@@ -52,7 +53,28 @@ export default function TabLayout() {
             name="appointments"
             options={{
                title: 'Appointments',
-               headerShown: false,
+               headerRight: () => (
+                  <View className="mr-3">
+                     <MenuItems
+                        onSelect={(value) => console.log(value)}
+                        items={[
+                           {
+                              title: 'Filter',
+                              key: '1',
+                           },
+                           {
+                              title: 'Sort',
+                              key: '2',
+                           },
+                           {
+                              title: 'Share',
+                              key: '3',
+                           },
+                        ]}
+                     />
+                  </View>
+               ),
+
                tabBarIcon: ({ color }) => (
                   <Image
                      source={require('~/assets/images/appointment.png')}

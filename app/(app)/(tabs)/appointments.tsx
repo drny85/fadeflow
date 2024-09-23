@@ -67,11 +67,7 @@ const AppointmentPage = () => {
          </Container>
       );
    return (
-      <Container>
-         <Text variant={'heading'} className="mb-2 text-center">
-            Appointments
-         </Text>
-
+      <View className="flex-1">
          <SegmentedControl
             values={VALUES}
             fontStyle={{ fontSize: 16, color: isDarkColorScheme ? '#ffffff' : '#212121' }}
@@ -88,6 +84,7 @@ const AppointmentPage = () => {
                setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
             }}
          />
+
          <FlashList
             data={selectedIndex === 0 ? upcomingAppointments : pastAppointmens}
             estimatedItemSize={102}
@@ -121,7 +118,7 @@ const AppointmentPage = () => {
          <ConfettiComponent
             ref={confettiRef} // <reference path="" />
          />
-      </Container>
+      </View>
    );
 };
 
