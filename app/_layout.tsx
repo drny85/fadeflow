@@ -7,19 +7,19 @@ import { useLinking } from '~/hooks/useLinking'
 import { AuthProvider } from '~/providers/AuthContext'
 
 export default function Root() {
-    useLinking()
+   useLinking()
 
-    // useDevRoutes();
-    // Set up the auth context and render our layout inside of it.
-    return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <AuthProvider>
-                <KeyboardProvider>
-                    <BottomSheetModalProvider>
-                        <Slot />
-                    </BottomSheetModalProvider>
-                </KeyboardProvider>
-            </AuthProvider>
-        </GestureHandlerRootView>
-    )
+   // useDevRoutes();
+   // Set up the auth context and render our layout inside of it.
+   return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+         <AuthProvider>
+            <KeyboardProvider>
+               <BottomSheetModalProvider>
+                  <Slot />
+               </BottomSheetModalProvider>
+            </KeyboardProvider>
+         </AuthProvider>
+      </GestureHandlerRootView>
+   )
 }

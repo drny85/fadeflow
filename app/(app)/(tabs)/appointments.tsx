@@ -7,7 +7,7 @@ import { View } from 'react-native'
 import AppointmentCard from '~/components/Appointment/AppointmentCard'
 import { Button } from '~/components/Button'
 import ConfettiComponent, {
-    ConfettiComponentRef
+   ConfettiComponentRef
 } from '~/components/ConfettiComponent'
 import { Container } from '~/components/Container'
 import { Text } from '~/components/nativewindui/Text'
@@ -20,131 +20,127 @@ import { COLORS } from '~/theme/colors'
 const VALUES = ['Upcoming', 'Past']
 
 type ParamsProps = {
-    confetti?: string
+   confetti?: string
 }
 const AppointmentPage = () => {
-    const { user } = useAuth()
-    const { confetti } = useLocalSearchParams<ParamsProps>()
-    const { colors, isDarkColorScheme } = useColorScheme()
-    const [selectedIndex, setSelectedIndex] = useState(0)
-    const appointments = useAppointmentStore((s) =>
-        s.appointments.filter(
-            (appointment) => appointment.customer.id === user?.id
-        )
-    )
+   const { user } = useAuth()
+   const { confetti } = useLocalSearchParams<ParamsProps>()
+   const { colors, isDarkColorScheme } = useColorScheme()
+   const [selectedIndex, setSelectedIndex] = useState(0)
+   const appointments = useAppointmentStore((s) =>
+      s.appointments.filter(
+         (appointment) => appointment.customer.id === user?.id
+      )
+   )
 
-    const confettiRef = useRef<ConfettiComponentRef>(null)
-    const data = useMemo(
-        () => appointments.sort((a, b) => (a.date < b.date ? 1 : -1)),
-        [appointments]
-    )
+   const confettiRef = useRef<ConfettiComponentRef>(null)
+   const data = useMemo(
+      () => appointments.sort((a, b) => (a.date < b.date ? 1 : -1)),
+      [appointments]
+   )
 
-    const pastAppointmens = data
-        .filter((item) => new Date(item.date) < new Date())
-        .sort((a, b) => (new Date(a.date) > new Date(b.date) ? 1 : -1))
+   const pastAppointmens = data
+      .filter((item) => new Date(item.date) < new Date())
+      .sort((a, b) => (new Date(a.date) > new Date(b.date) ? 1 : -1))
 
-    const upcomingAppointments = data
-        .filter((item) => new Date(item.date) >= new Date())
-        .sort((a, b) => (new Date(a.date) > new Date(b.date) ? 1 : -1))
+   const upcomingAppointments = data
+      .filter((item) => new Date(item.date) >= new Date())
+      .sort((a, b) => (new Date(a.date) > new Date(b.date) ? 1 : -1))
 
-    useEffect(() => {
-        if (confetti) {
-            confettiRef.current?.triggerConfetti()
-        }
-    }, [confetti])
+   useEffect(() => {
+      if (confetti) {
+         confettiRef.current?.triggerConfetti()
+      }
+   }, [confetti])
 
-    useStatusBarColor('dark')
+   useStatusBarColor('dark')
 
-    if (!user)
-        return (
-            <Container>
-                <View className="flex-1 items-center justify-center gap-6">
-                    <Text className="font-raleway text-xl text-muted dark:text-white">
-                        Please login to view your appointments
-                    </Text>
-                    <Button
-                        title="Login"
-                        textStyle={{ paddingHorizontal: 22 }}
-                        onPress={() => {
-                            router.push({
-                                pathname: '/login',
-                                params: { returnUrl: '/appointments' }
-                            })
-                        }}
-                    />
-                </View>
-            </Container>
-        )
-    return (
-        <View className="flex-1">
-            <SegmentedControl
-                values={VALUES}
-                fontStyle={{
-                    fontSize: 16,
-                    color: isDarkColorScheme ? '#ffffff' : '#212121'
-                }}
-                tintColor={COLORS.light.accent}
-                activeFontStyle={{
-                    color: '#ffffff',
-                    fontWeight: '700',
-                    fontSize: 18
-                }}
-                style={{
-                    backgroundColor: colors.card,
-                    height: 40,
-                    width: '70%',
-                    alignSelf: 'center'
-                }}
-                selectedIndex={selectedIndex}
-                onChange={(event) => {
-                    setSelectedIndex(event.nativeEvent.selectedSegmentIndex)
-                }}
-            />
+   if (!user)
+      return (
+         <Container>
+            <View className="flex-1 items-center justify-center gap-6">
+               <Text className="font-raleway text-xl text-muted dark:text-white">
+                  Please login to view your appointments
+               </Text>
+               <Button
+                  title="Login"
+                  textStyle={{ paddingHorizontal: 22 }}
+                  onPress={() => {
+                     router.push({
+                        pathname: '/login',
+                        params: { returnUrl: '/appointments' }
+                     })
+                  }}
+               />
+            </View>
+         </Container>
+      )
+   return (
+      <View className="flex-1">
+         <SegmentedControl
+            values={VALUES}
+            fontStyle={{
+               fontSize: 16,
+               color: isDarkColorScheme ? '#ffffff' : '#212121'
+            }}
+            tintColor={COLORS.light.accent}
+            activeFontStyle={{
+               color: '#ffffff',
+               fontWeight: '700',
+               fontSize: 18
+            }}
+            style={{
+               backgroundColor: colors.card,
+               height: 40,
+               width: '70%',
+               alignSelf: 'center'
+            }}
+            selectedIndex={selectedIndex}
+            onChange={(event) => {
+               setSelectedIndex(event.nativeEvent.selectedSegmentIndex)
+            }}
+         />
 
-            <FlashList
-                data={
-                    selectedIndex === 0 ? upcomingAppointments : pastAppointmens
-                }
-                estimatedItemSize={102}
-                showsVerticalScrollIndicator={false}
-                ItemSeparatorComponent={() => (
-                    <View className="h-[1px] w-full bg-accent  opacity-30" />
-                )}
-                ListEmptyComponent={
-                    <View className="mx-3 gap-10">
-                        <Text className=" mt-10 text-center text-xl text-muted">
-                            No Appointments Scheduled
-                        </Text>
-                        {selectedIndex === 1 && (
-                            <View className="w-1/2 self-center">
-                                <Button
-                                    title="Book Appointment"
-                                    onPress={() =>
-                                        router.push('/barbers-screen')
-                                    }
-                                />
-                            </View>
-                        )}
-                    </View>
-                }
-                contentContainerClassName="p-2"
-                renderItem={({ item }) => (
-                    <AppointmentCard
-                        appointmentId={item.id!}
-                        onPress={() =>
-                            router.push({
-                                pathname: '/appointment',
-                                params: { appointmentId: item.id }
-                            })
-                        }
-                    />
-                )}
-            />
-            <ConfettiComponent
-                ref={confettiRef} // <reference path="" />
-            />
-        </View>
-    )
+         <FlashList
+            data={selectedIndex === 0 ? upcomingAppointments : pastAppointmens}
+            estimatedItemSize={102}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => (
+               <View className="h-[1px] w-full bg-accent  opacity-30" />
+            )}
+            ListEmptyComponent={
+               <View className="mx-3 gap-10">
+                  <Text className=" mt-10 text-center text-xl text-muted">
+                     No Appointments Scheduled
+                  </Text>
+                  {selectedIndex === 1 && (
+                     <View className="w-1/2 self-center">
+                        <Button
+                           title="Book Appointment"
+                           onPress={() => router.push('/barbers-screen')}
+                        />
+                     </View>
+                  )}
+               </View>
+            }
+            contentContainerClassName="p-2"
+            renderItem={({ item }) => (
+               <AppointmentCard
+                  appointmentId={item.id!}
+                  onPress={() =>
+                     router.push({
+                        pathname: '/appointment',
+                        params: { appointmentId: item.id }
+                     })
+                  }
+               />
+            )}
+         />
+         <ConfettiComponent
+            ref={confettiRef} // <reference path="" />
+         />
+      </View>
+   )
 }
 
 export default AppointmentPage

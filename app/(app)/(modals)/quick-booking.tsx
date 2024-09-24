@@ -1,7 +1,7 @@
 import BarbersPage from '../(tabs)/(barbers)/barbers-screen'
 
 const QuickBooking = () => {
-    return <BarbersPage />
+   return <BarbersPage />
 }
 
 export default QuickBooking

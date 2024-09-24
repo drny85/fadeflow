@@ -5,17 +5,17 @@ import { usersCollection } from '~/firebase-collections'
 import { useAuth } from '~/providers/AuthContext'
 
 export const useUser = () => {
-    const { user, setUser } = useAuth()
-    useEffect(() => {
-        if (!user) {
-            setUser(null)
-            return
-        }
-        const userRef = doc(usersCollection, user?.id)
-        return onSnapshot(userRef, (snap) => {
-            if (snap.exists()) {
-                setUser({ ...snap.data(), id: snap.id })
-            }
-        })
-    }, [])
+   const { user, setUser } = useAuth()
+   useEffect(() => {
+      if (!user) {
+         setUser(null)
+         return
+      }
+      const userRef = doc(usersCollection, user?.id)
+      return onSnapshot(userRef, (snap) => {
+         if (snap.exists()) {
+            setUser({ ...snap.data(), id: snap.id })
+         }
+      })
+   }, [])
 }

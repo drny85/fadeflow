@@ -5,34 +5,34 @@ import { SearchBarProps } from 'react-native-screens'
 import { COLORS } from '~/theme/colors'
 
 const defaultSearchOptions: SearchBarProps = {
-    tintColor: COLORS.light.accent,
-    hideWhenScrolling: false
+   tintColor: COLORS.light.accent,
+   hideWhenScrolling: false
 }
 
 export const useNavigationSearch = ({
-    searchBarOptions
+   searchBarOptions
 }: {
-    searchBarOptions?: SearchBarProps
+   searchBarOptions?: SearchBarProps
 }) => {
-    const [search, setSearch] = useState('')
+   const [search, setSearch] = useState('')
 
-    const navigation = useNavigation()
+   const navigation = useNavigation()
 
-    const handleOnChangeText: SearchBarProps['onChangeText'] = ({
-        nativeEvent: { text }
-    }) => {
-        setSearch(text)
-    }
+   const handleOnChangeText: SearchBarProps['onChangeText'] = ({
+      nativeEvent: { text }
+   }) => {
+      setSearch(text)
+   }
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerSearchBarOptions: {
-                ...defaultSearchOptions,
-                ...searchBarOptions,
-                onChangeText: handleOnChangeText
-            }
-        })
-    }, [navigation, searchBarOptions])
+   useLayoutEffect(() => {
+      navigation.setOptions({
+         headerSearchBarOptions: {
+            ...defaultSearchOptions,
+            ...searchBarOptions,
+            onChangeText: handleOnChangeText
+         }
+      })
+   }, [navigation, searchBarOptions])
 
-    return search
+   return search
 }

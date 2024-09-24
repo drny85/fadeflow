@@ -1,35 +1,35 @@
 {
-    "cli": {
-        "version": ">= 10.1.1",
-        "appVersionSource": "local"
-    },
-    "build": {
-        "development": {
-            "channel": "development",
-            "developmentClient": true,
-            "distribution": "internal",
-            "ios": {
-                "resourceClass": "medium"
-            }
-        },
-        "preview": {
-            "extends": "development",
-            "channel": "preview",
-            "ios": {
-                "simulator": true
-            }
-        },
-        "production": {
-            "channel": "production",
-            "android": {
-                "image": "latest"
-            },
-            "ios": {
-                "image": "latest"
-            }
-        }
-    },
-    "submit": {
-        "production": {}
-    }
+   "cli": {
+      "version": ">= 10.1.1",
+      "appVersionSource": "local"
+   },
+   "build": {
+      "development": {
+         "channel": "development",
+         "developmentClient": true,
+         "distribution": "internal",
+         "ios": {
+            "resourceClass": "medium"
+         }
+      },
+      "preview": {
+         "extends": "development",
+         "channel": "preview",
+         "ios": {
+            "simulator": true
+         }
+      },
+      "production": {
+         "channel": "production",
+         "android": {
+            "image": "latest"
+         },
+         "ios": {
+            "image": "latest"
+         }
+      }
+   },
+   "submit": {
+      "production": {}
+   }
 }

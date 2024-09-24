@@ -8,8 +8,8 @@ console.log(KEY)
 if (!KEY) throw new Error('STRIPE_SK is not defined')
 const STRIPE_KEY = functions.config()[KEY]
 const stripe = new Stripe(STRIPE_KEY, {
-    apiVersion: '2024-06-20',
-    typescript: true
+   apiVersion: '2024-06-20',
+   typescript: true
 })
 
 export { stripe, Stripe }

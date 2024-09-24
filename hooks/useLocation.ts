@@ -2,24 +2,30 @@ import * as Location from 'expo-location'
 import { useEffect, useState } from 'react'
 
 export const useLocation = () => {
-    const [location, setLocation] = useState<Location.LocationObject | null>(
-        null
-    )
-    const [loading, setLoading] = useState(false)
+   const [loading, setLoading] = useState<boolean>(false)
+   const [location, setLocation] = useState<Location.LocationObject | null>(
+      null
+   )
 
-    useEffect(() => {
-        ;(async () => {
+   useEffect(() => {
+      const fetchLocation = async () => {
+         try {
             const { status } =
-                await Location.requestForegroundPermissionsAsync()
+               await Location.requestForegroundPermissionsAsync()
             if (status !== 'granted') return
             setLoading(true)
             const location = await Location.getCurrentPositionAsync({
-                accuracy: Location.Accuracy.Balanced
+               accuracy: Location.Accuracy.Balanced
             })
-            setLocation(location)
+            if (location) setLocation(location)
+         } catch (error) {
+            console.log(error)
+         } finally {
             setLoading(false)
-        })()
-    }, [])
+         }
+      }
+      fetchLocation()
+   }, [])
 
-    return { location, loading }
+   return { location, loading }
 }

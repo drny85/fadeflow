@@ -21,196 +21,185 @@ import { useAuth } from '~/providers/AuthContext'
 import { NAV_THEME } from '~/theme'
 SplashScreen.preventAutoHideAsync()
 export {
-    // Catch any errors thrown by the Layout component.
-    ErrorBoundary
+   // Catch any errors thrown by the Layout component.
+   ErrorBoundary
 } from 'expo-router'
 
 export default function RootLayout() {
-    useInitialAndroidBarSync()
-    const [loaded, error] = useFonts(Fonts)
-    const { colorScheme, isDarkColorScheme, colors } = useColorScheme()
-    useSchemeListener()
-    useUser()
-    const { loading } = useAuth()
-    useAppointments()
-    const { mounted } = useProtectedRoute()
+   useInitialAndroidBarSync()
+   const [loaded, error] = useFonts(Fonts)
+   const { colorScheme, isDarkColorScheme, colors } = useColorScheme()
+   useSchemeListener()
+   useUser()
+   const { loading } = useAuth()
+   useAppointments()
+   const { mounted } = useProtectedRoute()
 
-    useEffect(() => {
-        if (loaded && !error && mounted) {
-            SplashScreen.hideAsync()
-        }
-    }, [loaded, error, mounted])
+   useEffect(() => {
+      if (loaded && !error && mounted) {
+         SplashScreen.hideAsync()
+      }
+   }, [loaded, error, mounted])
 
-    if (!loaded && !error) {
-        return null
-    }
+   if (!loaded && !error) {
+      return null
+   }
 
-    if (loading) return <Loading />
-    // if (user && user.isBarber) return <Redirect href={'/(app)/(barber-tabs)'} />;
+   if (loading) return <Loading />
+   // if (user && user.isBarber) return <Redirect href={'/(app)/(barber-tabs)'} />;
 
-    return (
-        <>
-            <StatusBar
-                key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
-                style={isDarkColorScheme ? 'light' : 'dark'}
-            />
-            {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
-            {/* <ExampleProvider> */}
+   return (
+      <>
+         <StatusBar
+            key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
+            style={isDarkColorScheme ? 'light' : 'dark'}
+         />
+         {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
+         {/* <ExampleProvider> */}
 
-            <ActionSheetProvider>
-                <NavThemeProvider value={NAV_THEME[colorScheme]}>
-                    <Stack screenOptions={{ ...SCREEN_OPTIONS }}>
-                        <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
-                        <Stack.Screen
-                            name="(barber-tabs)"
-                            options={TABS_OPTIONS}
-                        />
-                        <Stack.Screen name="(terms)" options={TABS_OPTIONS} />
-                        <Stack.Screen name="(modals)" options={TABS_OPTIONS} />
-                        <Stack.Screen
-                            name="(profile)"
-                            options={{
-                                ...MODAL_OPTIONS,
-                                headerStyle: {
-                                    backgroundColor: colors.background
-                                },
-                                headerBackTitle: 'Back',
-                                headerLeft: () => (
-                                    <TouchableOpacity onPress={router.back}>
-                                        <Feather
-                                            name="chevron-left"
-                                            className="p-1"
-                                            size={26}
-                                            color={
-                                                isDarkColorScheme
-                                                    ? '#ffffff'
-                                                    : '#212121'
-                                            }
-                                        />
-                                    </TouchableOpacity>
-                                )
-                            }}
-                        />
-                        <Stack.Screen
-                            name="(auth)"
-                            options={{
-                                headerBackTitle: 'Back',
-                                title: '',
-                                headerShadowVisible: false,
-                                headerStyle: {
-                                    backgroundColor: colors.background
-                                },
-                                // headerTintColor: colors.grey,
-                                headerTitleStyle: {
-                                    fontWeight: 'bold',
-                                    color: '#ffffff'
-                                },
-                                presentation: 'modal',
-                                animation: 'slide_from_bottom',
-                                //headerShown: false,
-                                contentStyle: {
-                                    backgroundColor: colors.background
-                                },
-                                headerLeft: () => (
-                                    <TouchableOpacity onPress={router.back}>
-                                        <Feather
-                                            name="chevron-left"
-                                            className="p-1"
-                                            size={26}
-                                            color={
-                                                isDarkColorScheme
-                                                    ? '#ffffff'
-                                                    : '#212121'
-                                            }
-                                        />
-                                    </TouchableOpacity>
-                                ),
-                                headerRight: () => {
-                                    return <ThemeToggle />
-                                }
-                            }}
-                        />
-                        <Stack.Screen
-                            name="subscription"
-                            options={{
-                                title: 'Subscription',
-                                headerShadowVisible: false,
-                                headerStyle: {
-                                    backgroundColor: colors.background
-                                },
-                                // headerTintColor: colors.grey,
-                                headerTitleStyle: {
-                                    fontWeight: 'bold',
-                                    color: isDarkColorScheme
-                                        ? '#ffffff'
-                                        : '#212121'
-                                },
-                                presentation: 'modal',
-                                animation: 'slide_from_bottom',
-                                //headerShown: false,
-                                contentStyle: {
-                                    backgroundColor: colors.background
-                                },
-                                headerLeft: ({ canGoBack }) =>
-                                    canGoBack ? (
-                                        <TouchableOpacity
-                                            activeOpacity={0.3}
-                                            onPress={() => router.back()}
-                                        >
-                                            <Feather
-                                                className="p-1"
-                                                name="chevron-left"
-                                                size={26}
-                                                color={
-                                                    isDarkColorScheme
-                                                        ? 'white'
-                                                        : 'black'
-                                                }
-                                            />
-                                        </TouchableOpacity>
-                                    ) : null,
+         <ActionSheetProvider>
+            <NavThemeProvider value={NAV_THEME[colorScheme]}>
+               <Stack screenOptions={{ ...SCREEN_OPTIONS }}>
+                  <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
+                  <Stack.Screen name="(barber-tabs)" options={TABS_OPTIONS} />
+                  <Stack.Screen name="(terms)" options={TABS_OPTIONS} />
+                  <Stack.Screen name="(modals)" options={TABS_OPTIONS} />
+                  <Stack.Screen
+                     name="(profile)"
+                     options={{
+                        ...MODAL_OPTIONS,
+                        headerStyle: {
+                           backgroundColor: colors.background
+                        },
+                        headerBackTitle: 'Back',
+                        headerLeft: () => (
+                           <TouchableOpacity onPress={router.back}>
+                              <Feather
+                                 name="chevron-left"
+                                 className="p-1"
+                                 size={26}
+                                 color={
+                                    isDarkColorScheme ? '#ffffff' : '#212121'
+                                 }
+                              />
+                           </TouchableOpacity>
+                        )
+                     }}
+                  />
+                  <Stack.Screen
+                     name="(auth)"
+                     options={{
+                        headerBackTitle: 'Back',
+                        title: '',
+                        headerShadowVisible: false,
+                        headerStyle: {
+                           backgroundColor: colors.background
+                        },
+                        // headerTintColor: colors.grey,
+                        headerTitleStyle: {
+                           fontWeight: 'bold',
+                           color: '#ffffff'
+                        },
+                        presentation: 'modal',
+                        animation: 'slide_from_bottom',
+                        //headerShown: false,
+                        contentStyle: {
+                           backgroundColor: colors.background
+                        },
+                        headerLeft: () => (
+                           <TouchableOpacity onPress={router.back}>
+                              <Feather
+                                 name="chevron-left"
+                                 className="p-1"
+                                 size={26}
+                                 color={
+                                    isDarkColorScheme ? '#ffffff' : '#212121'
+                                 }
+                              />
+                           </TouchableOpacity>
+                        ),
+                        headerRight: () => {
+                           return <ThemeToggle />
+                        }
+                     }}
+                  />
+                  <Stack.Screen
+                     name="subscription"
+                     options={{
+                        title: 'Subscription',
+                        headerShadowVisible: false,
+                        headerStyle: {
+                           backgroundColor: colors.background
+                        },
+                        // headerTintColor: colors.grey,
+                        headerTitleStyle: {
+                           fontWeight: 'bold',
+                           color: isDarkColorScheme ? '#ffffff' : '#212121'
+                        },
+                        presentation: 'modal',
+                        animation: 'slide_from_bottom',
+                        //headerShown: false,
+                        contentStyle: {
+                           backgroundColor: colors.background
+                        },
+                        headerLeft: ({ canGoBack }) =>
+                           canGoBack ? (
+                              <TouchableOpacity
+                                 activeOpacity={0.3}
+                                 onPress={() => router.back()}
+                              >
+                                 <Feather
+                                    className="p-1"
+                                    name="chevron-left"
+                                    size={26}
+                                    color={
+                                       isDarkColorScheme ? 'white' : 'black'
+                                    }
+                                 />
+                              </TouchableOpacity>
+                           ) : null,
 
-                                headerRight: () => {
-                                    return <ThemeToggle />
-                                }
-                            }}
-                        />
-                    </Stack>
-                </NavThemeProvider>
-            </ActionSheetProvider>
+                        headerRight: () => {
+                           return <ThemeToggle />
+                        }
+                     }}
+                  />
+               </Stack>
+            </NavThemeProvider>
+         </ActionSheetProvider>
 
-            {/* </ExampleProvider> */}
-        </>
-    )
+         {/* </ExampleProvider> */}
+      </>
+   )
 }
 
 const SCREEN_OPTIONS = {
-    animation: 'ios'
-    // for android
+   animation: 'ios'
+   // for android
 } as const
 
 const TABS_OPTIONS = {
-    headerShown: false
+   headerShown: false
 } as const
 
 const MODAL_OPTIONS = {
-    presentation: 'modal',
+   presentation: 'modal',
 
-    animation: 'fade_from_bottom', // for android
-    title: 'Profile',
-    headerRight: () => <ThemeToggle />
+   animation: 'fade_from_bottom', // for android
+   title: 'Profile',
+   headerRight: () => <ThemeToggle />
 } as const
 
 const useSchemeListener = () => {
-    const { setColorScheme } = useColorScheme()
-    useEffect(() => {
-        const listener = Appearance.addChangeListener(({ colorScheme }) => {
-            Appearance.setColorScheme(colorScheme)
+   const { setColorScheme } = useColorScheme()
+   useEffect(() => {
+      const listener = Appearance.addChangeListener(({ colorScheme }) => {
+         Appearance.setColorScheme(colorScheme)
 
-            //setColorScheme(colorScheme)
-        })
-        return () => {
-            listener.remove()
-        }
-    }, [])
+         //setColorScheme(colorScheme)
+      })
+      return () => {
+         listener.remove()
+      }
+   }, [])
 }

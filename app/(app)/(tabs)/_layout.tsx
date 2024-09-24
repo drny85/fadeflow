@@ -10,97 +10,97 @@ import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
 
 export default function TabLayout() {
-    const { colors, isDarkColorScheme } = useColorScheme()
+   const { colors, isDarkColorScheme } = useColorScheme()
 
-    useNotifications()
-    useBarbers()
+   useNotifications()
+   useBarbers()
 
-    return (
-        <Tabs
-            screenOptions={{
-                tabBarActiveTintColor: isDarkColorScheme
-                    ? colors.grey2
-                    : colors.grey,
-                tabBarInactiveTintColor: isDarkColorScheme
-                    ? '#ffffff'
-                    : colors.accent,
-                tabBarStyle: { backgroundColor: colors.background },
-                headerStyle: {
-                    backgroundColor: colors.background
-                }
+   return (
+      <Tabs
+         screenOptions={{
+            tabBarActiveTintColor: isDarkColorScheme
+               ? colors.grey2
+               : colors.grey,
+            tabBarInactiveTintColor: isDarkColorScheme
+               ? '#ffffff'
+               : colors.accent,
+            tabBarStyle: { backgroundColor: colors.background },
+            headerStyle: {
+               backgroundColor: colors.background
+            }
+         }}
+      >
+         <Tabs.Screen
+            name="index"
+            options={{
+               headerShown: false,
+               title: 'Home',
+               tabBarIcon: ({ color }) => (
+                  <Image
+                     source={require('~/assets/images/barbershop.png')}
+                     tintColor={color}
+                     className="-mb-1 h-8 w-8"
+                  />
+               )
             }}
-        >
-            <Tabs.Screen
-                name="index"
-                options={{
-                    headerShown: false,
-                    title: 'Home',
-                    tabBarIcon: ({ color }) => (
-                        <Image
-                            source={require('~/assets/images/barbershop.png')}
-                            tintColor={color}
-                            className="-mb-1 h-8 w-8"
-                        />
-                    )
-                }}
-            />
-            <Tabs.Screen
-                name="(barbers)"
-                options={{
-                    unmountOnBlur: true,
-                    title: 'Barbers',
-                    headerShown: false,
+         />
+         <Tabs.Screen
+            name="(barbers)"
+            options={{
+               unmountOnBlur: true,
+               title: 'Barbers',
+               headerShown: false,
 
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="scissors" color={color} />
-                    )
-                }}
-            />
-            <Tabs.Screen
-                name="appointments"
-                options={{
-                    title: 'Appointments',
-                    headerRight: () => (
-                        <View className="mr-3">
-                            <MenuItems
-                                onSelect={(value) => console.log(value)}
-                                items={[
-                                    {
-                                        title: 'Filter',
-                                        key: '1'
-                                    },
-                                    {
-                                        title: 'Sort',
-                                        key: '2'
-                                    },
-                                    {
-                                        title: 'Share',
-                                        key: '3'
-                                    }
-                                ]}
-                            />
-                        </View>
-                    ),
+               tabBarIcon: ({ color }) => (
+                  <TabBarIcon name="scissors" color={color} />
+               )
+            }}
+         />
+         <Tabs.Screen
+            name="appointments"
+            options={{
+               title: 'Appointments',
+               headerRight: () => (
+                  <View className="mr-3">
+                     <MenuItems
+                        onSelect={(value) => console.log(value)}
+                        items={[
+                           {
+                              title: 'Filter',
+                              key: '1'
+                           },
+                           {
+                              title: 'Sort',
+                              key: '2'
+                           },
+                           {
+                              title: 'Share',
+                              key: '3'
+                           }
+                        ]}
+                     />
+                  </View>
+               ),
 
-                    tabBarIcon: ({ color }) => (
-                        <Image
-                            source={require('~/assets/images/appointment.png')}
-                            tintColor={color}
-                            className="-mb-1 h-8 w-8"
-                        />
-                    )
-                }}
-            />
-            <Tabs.Screen
-                name="profile"
-                options={{
-                    headerShown: false,
+               tabBarIcon: ({ color }) => (
+                  <Image
+                     source={require('~/assets/images/appointment.png')}
+                     tintColor={color}
+                     className="-mb-1 h-8 w-8"
+                  />
+               )
+            }}
+         />
+         <Tabs.Screen
+            name="profile"
+            options={{
+               headerShown: false,
 
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="user-circle" color={color} />
-                    )
-                }}
-            />
-        </Tabs>
-    )
+               tabBarIcon: ({ color }) => (
+                  <TabBarIcon name="user-circle" color={color} />
+               )
+            }}
+         />
+      </Tabs>
+   )
 }
