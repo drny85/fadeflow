@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Separator } from 'zeego/dropdown-menu'
+
 import { updateAppointmentInDatabase } from '~/actions/appointments'
 import { updateUser } from '~/actions/users'
 import AnimatedNumber from '~/components/AnimatedNumber'
@@ -445,7 +446,7 @@ const BookingPage = () => {
                   Cancel
                </Text>
                <ScrollView className="flex-1" contentContainerClassName="p-3">
-                  <Text variant={'largeTitle'} className="text-center">
+                  <Text variant="largeTitle" className="text-center">
                      Review & Confirm
                   </Text>
                   <View className="h-[1px] w-2/3 bg-slate-400 self-center my-2" />
@@ -453,9 +454,7 @@ const BookingPage = () => {
                   <Text className="my-2 text-xl">
                      {format(selectedDate, 'E, PP')} at {selectedTimeSlot?.time}
                   </Text>
-                  <Text variant={'title2'}>
-                     {barber.profile?.barbershopName}
-                  </Text>
+                  <Text variant="title2">{barber.profile?.barbershopName}</Text>
 
                   <Text className="text-slate-400 font-roboto-bold text-lg dark:text-slate-300">
                      {barber.name}
@@ -488,7 +487,7 @@ const BookingPage = () => {
                   </View>
 
                   <View className="flex-row p-2 justify-between">
-                     <Text variant={'title1'}>Total</Text>
+                     <Text variant="title1">Total</Text>
                      <AnimatedNumber
                         textStyle={{
                            color: isDarkColorScheme ? '#ffffff' : '#212121',

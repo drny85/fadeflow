@@ -4,6 +4,7 @@ import { router } from 'expo-router'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
 import Map, { Marker, MarkerPressEvent } from 'react-native-maps'
+
 import BarbersListMapView from '~/components/BarbersListMapView'
 import { SIZES } from '~/constants'
 import { useLocation } from '~/hooks/useLocation'

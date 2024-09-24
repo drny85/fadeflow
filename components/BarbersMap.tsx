@@ -1,14 +1,16 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
-import { useColorScheme } from '~/lib/useColorScheme'
-import { Sheet, useSheetRef } from './nativewindui/Sheet'
-import Map, { Marker } from 'react-native-maps'
-import { useBarbersStore } from '~/providers/useBarbersStore'
 import { Image } from 'expo-image'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import Map, { Marker } from 'react-native-maps'
+
+import BarbersListMapView from './BarbersListMapView'
+import { Sheet, useSheetRef } from './nativewindui/Sheet'
+
 import { SIZES } from '~/constants'
 import { useLocation } from '~/hooks/useLocation'
-import BarbersListMapView from './BarbersListMapView'
+import { useColorScheme } from '~/lib/useColorScheme'
+import { useBarbersStore } from '~/providers/useBarbersStore'
 
 const BarbersMap = () => {
    const { colors } = useColorScheme()

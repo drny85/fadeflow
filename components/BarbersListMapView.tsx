@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, FlatList, Platform, TouchableOpacity } from 'react-native'
 import MapView from 'react-native-maps'
+
+import BarberImageHeader from './BarberImageHeader'
+
 import { SIZES } from '~/constants'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { Barber } from '~/shared/types'
-import BarberImageHeader from './BarberImageHeader'
 
 const CARD_HEIGHT = 220
 const CARD_WIDTH = SIZES.width * 0.8
@@ -23,7 +25,7 @@ type Props = {
 
 const BarbersListMapView = ({ index, barbers, mapRef }: Props) => {
    const { colors } = useColorScheme()
-   let animatedX = new Animated.Value(0)
+   const animatedX = new Animated.Value(0)
    const flatListRef = useRef<FlatList>(null)
    let mapIndex = 0
 
@@ -101,7 +103,7 @@ const BarbersListMapView = ({ index, barbers, mapRef }: Props) => {
             ],
             { useNativeDriver: true }
          )}
-         snapToAlignment={'center'}
+         snapToAlignment="center"
          snapToInterval={CARD_WIDTH + 20}
          decelerationRate="fast"
          bounces={false}

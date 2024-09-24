@@ -1,7 +1,7 @@
+import { getAuth } from 'firebase-admin/auth'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 
 import { stripe, Stripe } from './stripe'
-import { getAuth } from 'firebase-admin/auth'
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
    const customerId = subscription.customer as string

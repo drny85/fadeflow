@@ -428,7 +428,8 @@ exports.getPortalUrl = onCall(
 
 exports.handleStripeWebhook = onRequest(
    {
-      maxInstances: 10 // adjust based on your scaling needs
+      maxInstances: 10,
+      memory: '1GiB' // adjust based on your scaling needs
    },
    async (
       req: functions.https.Request,

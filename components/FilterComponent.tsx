@@ -8,15 +8,17 @@ import {
    TouchableOpacity,
    View
 } from 'react-native'
+
+import { Sheet, useSheetRef } from './nativewindui/Sheet'
+import { Text } from './nativewindui/Text'
+
 import { useLocation } from '~/hooks/useLocation'
 import { useReviews } from '~/hooks/useReviews'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
 import { Barber } from '~/shared/types'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
-import { Sheet, useSheetRef } from './nativewindui/Sheet'
-import { Text } from './nativewindui/Text'
-import { useAppointmentStore } from '~/providers/useAppointmentStore'
 
 type BarberFiltered = Barber & {
    distance: number
@@ -101,7 +103,7 @@ const FilterComponent = () => {
             enablePanDownToClose
          >
             <View className="flex-1 justify-evenly p-6">
-               <Text variant={'title2'}>Filter Barbers</Text>
+               <Text variant="title2">Filter Barbers</Text>
 
                {/* Distance Filter */}
                <View style={styles.filterRow}>

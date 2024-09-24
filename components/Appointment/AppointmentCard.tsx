@@ -2,6 +2,7 @@ import { format, formatDistanceToNow, isPast } from 'date-fns'
 import { Image } from 'expo-image'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
+
 import { Text } from '../nativewindui/Text'
 
 import { useAuth } from '~/providers/AuthContext'

@@ -1,9 +1,9 @@
 import { Feather } from '@expo/vector-icons'
 import { router, Stack } from 'expo-router'
 import { TouchableOpacity } from 'react-native'
+
 import BarbersMap from '~/components/BarbersMap'
 import FilterComponent from '~/components/FilterComponent'
-
 import { StackScreenWithSearchBar } from '~/constants/layout'
 import { useColorScheme } from '~/lib/useColorScheme'
 
