@@ -297,6 +297,7 @@ export default function ModernSettingsPage() {
                   onPress={async () => {
                      const res = await getPortalUrl()
                      WebBrowser.dismissBrowser()
+                     console.log(res.data)
                      if (res.data.success && res.data.result) {
                         WebBrowser.openBrowserAsync(res.data.result, {
                            presentationStyle:

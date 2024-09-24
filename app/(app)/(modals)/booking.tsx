@@ -1,14 +1,15 @@
-import { FontAwesome } from '@expo/vector-icons'
+import { Feather, FontAwesome } from '@expo/vector-icons'
 import { BottomSheetTextInput, TouchableOpacity } from '@gorhom/bottom-sheet'
-import { isPast, isSameDay } from 'date-fns'
+import { isPast, isSameDay, format } from 'date-fns'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useCallback, useEffect, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
+import { Separator } from 'zeego/dropdown-menu'
 import { updateAppointmentInDatabase } from '~/actions/appointments'
 import { updateUser } from '~/actions/users'
+import AnimatedNumber from '~/components/AnimatedNumber'
 import AppointmentDatePicker from '~/components/Appointment/AppointmentDatePicker'
 import DateTimeAppointmentPicker from '~/components/Appointment/DateTimeAppointmentPicker'
 import ServicePicker from '~/components/Appointment/ServicePicker'
@@ -41,7 +42,7 @@ const BookingPage = () => {
    useUser()
    const { barberId, appointmentId } = useLocalSearchParams<ParamProps>()
    const { loading, services } = useServices(barberId)
-   const { colors } = useColorScheme()
+   const { colors, isDarkColorScheme } = useColorScheme()
    const barbers = useBarbersStore((state) => state.barbers)
    const { user } = useAuth()
 
@@ -49,6 +50,7 @@ const BookingPage = () => {
    const [phone, setPhone] = useState(user?.phone)
    const bottomSheetModalRef = useSheetRef()
    const bottomSheetModalRef2 = useSheetRef()
+   const bottomSheetModalRefConfirm = useSheetRef()
    const {
       setSelectedTimeSlot,
       setIndex,
@@ -382,12 +384,12 @@ const BookingPage = () => {
             <View className="w-[80%] self-center">
                <Button
                   disabled={!barber.isAvailable || services.length === 0}
-                  title={appointmentId ? 'Update Appointment' : 'Book Now'}
+                  title={appointmentId ? 'Update Appointment' : 'Continue'}
                   style={{
                      opacity:
                         !barber.isAvailable || services.length === 0 ? 0.5 : 1
                   }}
-                  onPress={handleSchuduleAppointment}
+                  onPress={() => bottomSheetModalRefConfirm.current?.present()}
                />
             </View>
          </View>
@@ -432,6 +434,80 @@ const BookingPage = () => {
                   barber={barber}
                   onPress={() => bottomSheetModalRef.current?.close()}
                />
+            </View>
+         </Sheet>
+         <Sheet snapPoints={['85%']} ref={bottomSheetModalRefConfirm}>
+            <View className="flex-1 bg-card pb-8">
+               <Text
+                  onPress={() => bottomSheetModalRefConfirm.current?.close()}
+                  className="text-right mr-2 p-2 text-slate-600 dark:text-slate-200"
+               >
+                  Cancel
+               </Text>
+               <ScrollView className="flex-1" contentContainerClassName="p-3">
+                  <Text variant={'largeTitle'} className="text-center">
+                     Review & Confirm
+                  </Text>
+                  <View className="h-[1px] w-2/3 bg-slate-400 self-center my-2" />
+
+                  <Text className="my-2 text-xl">
+                     {format(selectedDate, 'E, PP')} at {selectedTimeSlot?.time}
+                  </Text>
+                  <Text variant={'title2'}>
+                     {barber.profile?.barbershopName}
+                  </Text>
+
+                  <Text className="text-slate-400 font-roboto-bold text-lg dark:text-slate-300">
+                     {barber.name}
+                  </Text>
+
+                  <Text className="text-slate-500 dark:text-slate-300">
+                     {barber.profile?.address}
+                  </Text>
+                  <View className="p-2 bg-card shadow-sm rounded-md my-2">
+                     {selectedServices.map((s, index) => (
+                        <Text
+                           className="font-roboto-bold text-muted dark:text-white"
+                           key={s.id}
+                        >
+                           {s.name} {s.quantity > 1 ? `x ${s.quantity}` : ''}{' '}
+                           {index !== selectedServices.length - 1 && ','}
+                        </Text>
+                     ))}
+                  </View>
+                  <View className="flex-row items-center gap-1 p-2">
+                     <Text>Duration:</Text>
+                     <Text>
+                        {getAppointmentDuration(selectedServices)} mins
+                     </Text>
+                     <Feather
+                        name="clock"
+                        size={22}
+                        color={isDarkColorScheme ? '#ffffff' : '#212121'}
+                     />
+                  </View>
+
+                  <View className="flex-row p-2 justify-between">
+                     <Text variant={'title1'}>Total</Text>
+                     <AnimatedNumber
+                        textStyle={{
+                           color: isDarkColorScheme ? '#ffffff' : '#212121',
+                           fontSize: 26,
+                           fontFamily: 'Roboto-Bold'
+                        }}
+                        value={getAppointmentPrice(selectedServices)}
+                     />
+                  </View>
+                  <Text className="text-muted text-center mt-3">
+                     Payment will be make in cash after service complition.
+                  </Text>
+               </ScrollView>
+               <View className="w-2/3 self-center">
+                  <Button
+                     title="Confirm & Book"
+                     onPress={handleSchuduleAppointment}
+                  />
+               </View>
             </View>
          </Sheet>
       </View>

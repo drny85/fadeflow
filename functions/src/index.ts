@@ -34,8 +34,10 @@ import {
    handleAsyncPaymentFailed,
    handleAsyncPaymentSucceeded,
    handleCheckoutSessionCompleted,
+   handleCustomerDeletion,
    handlePaymentIntentFailed,
    handlePaymentIntentSucceeded,
+   handleStripeCustomerUpdate,
    handleSubscriptionCreated,
    handleSubscriptionDeleted,
    handleSubscriptionUpdated
@@ -492,6 +494,29 @@ exports.handleStripeWebhook = onRequest(
             await handleAsyncPaymentFailed(
                event.data.object as Stripe.Checkout.Session
             )
+            break
+
+         case 'customer.updated':
+            const customerUpdated = event.data.object as Stripe.Customer
+            console.log('Customer Updated:', customerUpdated)
+
+            await handleStripeCustomerUpdate(
+               customerUpdated.email as string,
+               customerUpdated.id
+            )
+            break
+         case 'customer.created':
+            const customerCreated = event.data.object as Stripe.Customer
+            console.log('Customer created:', customerCreated)
+            await handleStripeCustomerUpdate(
+               customerCreated.email as string,
+               customerCreated.id
+            )
+            break
+
+         case 'customer.deleted':
+            const customerDeleted = event.data.object as Stripe.Customer
+            await handleCustomerDeletion(customerDeleted.email as string)
             break
          default:
             console.log(`Unhandled event type ${event.type}`)

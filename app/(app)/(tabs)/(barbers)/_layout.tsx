@@ -8,7 +8,7 @@ import { StackScreenWithSearchBar } from '~/constants/layout'
 import { useColorScheme } from '~/lib/useColorScheme'
 
 const _layout = () => {
-   const { colors, colorScheme } = useColorScheme()
+   const { colors, colorScheme, isDarkColorScheme } = useColorScheme()
    return (
       <Stack>
          <Stack.Screen
@@ -17,7 +17,11 @@ const _layout = () => {
                title: 'Barbers',
                headerLeft: () => (
                   <TouchableOpacity onPress={() => router.push('/barbers-map')}>
-                     <Feather name="map" size={24} color={colors.accent} />
+                     <Feather
+                        name="map"
+                        size={24}
+                        color={isDarkColorScheme ? '#ffffff' : colors.accent}
+                     />
                   </TouchableOpacity>
                ),
                headerRight: () => <FilterComponent />,

@@ -11,13 +11,9 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
 
 const INSET = SIZES.width * 0.1 - 10
-const DELTA = {
-   longitudeDelta: 0.005,
-   latitudeDelta: 0.005
-}
 
 const BarbersMap = () => {
-   const { colors } = useColorScheme()
+   const { colors, isDarkColorScheme } = useColorScheme()
    const { loading, location } = useLocation()
    const { barbers } = useBarbersStore()
 
@@ -77,15 +73,27 @@ const BarbersMap = () => {
             }}
          >
             <TouchableOpacity onPress={() => router.back()}>
-               <Feather style={{ padding: 10 }} name="chevron-left" size={28} />
+               <Feather
+                  style={{ padding: 10 }}
+                  name="chevron-left"
+                  size={28}
+                  color={isDarkColorScheme ? '#ffffff' : colors.accent}
+               />
             </TouchableOpacity>
             <TouchableOpacity onPress={centerMap}>
-               <Feather name="map-pin" style={{ padding: 10 }} size={26} />
+               <Feather
+                  name="map-pin"
+                  style={{ padding: 10 }}
+                  size={26}
+                  color={isDarkColorScheme ? '#ffffff' : colors.accent}
+               />
             </TouchableOpacity>
          </View>
 
          <Map
             ref={mapRef}
+            showsTraffic={false}
+            showsUserLocation
             initialRegion={{
                latitude: location?.coords.latitude,
                longitude: location?.coords.longitude,

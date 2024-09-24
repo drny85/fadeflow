@@ -10,6 +10,7 @@ import AnimatedNumber from '~/components/AnimatedNumber'
 import AppointmentCard from '~/components/Appointment/AppointmentCard'
 import { Button } from '~/components/Button'
 import { Text } from '~/components/nativewindui/Text'
+import PaymentLinkSubscribeButton from '~/components/PaymentLinkSubscribeButton'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -185,6 +186,9 @@ const BarberHome = () => {
                            textStyle={{ paddingHorizontal: 12 }}
                            onPress={() => router.push('/subscription')}
                         />
+                        <View className="mt-3">
+                           <PaymentLinkSubscribeButton />
+                        </View>
                      </View>
                   </View>
                )}

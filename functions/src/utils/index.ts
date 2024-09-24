@@ -1,6 +1,7 @@
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 
 import { stripe, Stripe } from './stripe'
+import { getAuth } from 'firebase-admin/auth'
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
    const customerId = subscription.customer as string
@@ -85,7 +86,39 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
 
    console.error(`Payment failed for payment intent: ${paymentIntentId}`)
 }
-
+export async function handleStripeCustomerUpdate(
+   email: string,
+   customerId: string
+) {
+   try {
+      if (!email) return
+      const found = await getAuth().getUserByEmail(email)
+      if (found) {
+         await getFirestore()
+            .collection('stripe_customers')
+            .doc(found.uid)
+            .set({
+               customer_id: customerId
+            })
+      }
+   } catch (error) {
+      console.log(error)
+   }
+}
+export async function handleCustomerDeletion(email: string) {
+   try {
+      if (!email) return
+      const found = await getAuth().getUserByEmail(email)
+      if (found) {
+         await getFirestore()
+            .collection('stripe_customers')
+            .doc(found.uid)
+            .delete()
+      }
+   } catch (error) {
+      console.log(error)
+   }
+}
 // Function to handle checkout session completed
 async function handleCheckoutSessionCompleted(
    session: Stripe.Checkout.Session

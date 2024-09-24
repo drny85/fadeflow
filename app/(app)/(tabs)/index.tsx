@@ -71,11 +71,14 @@ const Home = () => {
                      {favoriteBarber && barber && distance ? (
                         <View>
                            <View className="flex-row items-center justify-between">
-                              <Text variant="title3" className="text-slate-700">
+                              <Text
+                                 variant="title3"
+                                 className="text-slate-700 dark:text-slate-300"
+                              >
                                  {barber.profile?.barbershopName}
                               </Text>
                               {distance && (
-                                 <Text className="text-slate-700 font-roboto-bold">
+                                 <Text className="text-slate-700 font-roboto-bold dark:text-slate-300">
                                     {distance.toFixed(1)} miles
                                  </Text>
                               )}

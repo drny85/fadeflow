@@ -25,7 +25,7 @@ type BarberFiltered = Barber & {
 
 const FilterComponent = () => {
    const { loading, location } = useLocation()
-   const { colors } = useColorScheme()
+   const { colors, isDarkColorScheme } = useColorScheme()
    const { reviews } = useReviews()
    const snapPoints = useMemo(() => ['75%'], [])
    const bottomSheetRef = useSheetRef()
@@ -88,7 +88,7 @@ const FilterComponent = () => {
                <MaterialIcons
                   name={isFiltered ? 'filter-alt' : 'filter-alt-off'}
                   size={26}
-                  color={colors.accent}
+                  color={isDarkColorScheme ? '#ffffff' : colors.accent}
                />
             </TouchableOpacity>
          </View>

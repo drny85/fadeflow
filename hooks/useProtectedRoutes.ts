@@ -27,8 +27,8 @@ export function useProtectedRoute() {
    const updateProfileIsIncomplete = useCallback(async () => {
       if (user && user.isBarber && user.profile) {
          const isIncomplete = checkObjectValues(user.profile, ['apt', 'bio'])
-         console.log('Is complete =>', isIncomplete)
 
+         console.log(profileCompleted, 'PROFILE COMPLETED')
          if (isIncomplete) return
 
          updateUser({ ...user, profileCompleted: false })
@@ -68,7 +68,7 @@ export function useProtectedRoute() {
          console.log('0')
          router.replace('/subscription')
       } else if (user && inBarberGroup && user.isBarber && !profileCompleted) {
-         console.log('1')
+         console.log('1-----')
          router.push('/profile-complition')
       } else if (user && inAuthGroup && user.isBarber && profileCompleted) {
          console.log('2')
