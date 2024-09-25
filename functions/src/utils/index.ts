@@ -2,6 +2,7 @@ import { getAuth } from 'firebase-admin/auth'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 
 import { stripe, Stripe } from './stripe'
+import { sendPushNotification } from './common'
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
    const customerId = subscription.customer as string
@@ -13,9 +14,9 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       customerId,
       subscriptionId,
       status,
-      createdAt: FieldValue.serverTimestamp()
+      createdAt: subscription.created
    })
-   await updateUSerSubscription(status, userId)
+   await updateUserSubscription(status, userId)
 
    console.log(`Subscription created for customer ${customerId}`)
 }
@@ -30,9 +31,27 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       status,
       updatedAt: FieldValue.serverTimestamp()
    })
-   await updateUSerSubscription(status, userId)
+   await updateUserSubscription(status, userId)
+   if (status !== 'active') {
+      await getFirestore()
+         .collection('users')
+         .doc(userId)
+         .get()
+         .then(async (doc) => {
+            const user = doc.data()
+            if (user?.pushToken) {
+               await sendPushNotification(
+                  doc.id,
+                  'subscription',
+                  user.pushToken,
+                  'Subscription Update',
+                  `Your subscription status has changed to ${status}.`
+               )
+            }
+         })
 
-   console.log(`Subscription updated: ${subscriptionId}, status: ${status}`)
+      console.log(`Subscription updated: ${subscriptionId}, status: ${status}`)
+   }
 }
 
 // Function to handle subscription deletion
@@ -41,7 +60,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
    const userId = subscription.metadata.userId
 
    await getFirestore().collection('subscriptions').doc(userId).delete()
-   await updateUSerSubscription('canceled', userId)
+   await updateUserSubscription('canceled', userId)
 
    console.log(`Subscription deleted: ${subscriptionId}`)
 }
@@ -135,7 +154,7 @@ async function handleCheckoutSessionCompleted(
       .get()
    const sub = session.subscription as string
    const { status } = await stripe.subscriptions.retrieve(sub)
-   await updateUSerSubscription(status, user.docs[0].id)
+   await updateUserSubscription(status, user.docs[0].id)
 
    console.log(
       `Checkout session completed: ${sessionId}, customer: ${customerId}`
@@ -154,7 +173,7 @@ async function handleAsyncPaymentSucceeded(session: Stripe.Checkout.Session) {
       .get()
    const sub = session.subscription as string
    const { status } = await stripe.subscriptions.retrieve(sub)
-   await updateUSerSubscription(status, user.docs[0].id)
+   await updateUserSubscription(status, user.docs[0].id)
 
    console.log(`Async payment succeeded for checkout session: ${sessionId}`)
 }
@@ -172,12 +191,12 @@ async function handleAsyncPaymentFailed(session: Stripe.Checkout.Session) {
       .get()
    const sub = session.subscription as string
    const { status } = await stripe.subscriptions.retrieve(sub)
-   await updateUSerSubscription(status, user.docs[0].id)
+   await updateUserSubscription(status, user.docs[0].id)
 
    console.error(`Async payment failed for checkout session: ${sessionId}`)
 }
 
-async function updateUSerSubscription(
+async function updateUserSubscription(
    status: Stripe.Subscription.Status,
    userId: string
 ) {

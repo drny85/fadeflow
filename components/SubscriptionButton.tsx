@@ -16,11 +16,13 @@ import { toastAlert } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { PaymentIntentResponse } from '~/shared/types'
+import { usePortalLink } from '~/hooks/usePortalLink'
 
 const SubscriptionButton = () => {
    const { initPaymentSheet, presentPaymentSheet, handleURLCallback } =
       useStripe()
    const { isDarkColorScheme, colors } = useColorScheme()
+   const { loading: loadingPortal, getCustomerPortal } = usePortalLink()
    const confettiRef = useRef<ConfettiComponentRef>(null)
    useUser()
    const { user } = useAuth()
@@ -76,6 +78,9 @@ const SubscriptionButton = () => {
             })
          }
          const response = result as PaymentIntentResponse
+         if (success && result === 'renew') {
+            await getCustomerPortal()
+         }
          if (!response) {
             setLoading(false)
             return toastAlert({
@@ -93,19 +98,19 @@ const SubscriptionButton = () => {
                merchantCountryCode: 'US'
             },
             primaryButtonLabel: 'Subscribe',
-            defaultBillingDetails: {
-               name: user.name,
-               email: user.email,
+            // defaultBillingDetails: {
+            //    name: user.name,
+            //    email: user.email,
 
-               address: {
-                  city: user.profile?.city,
-                  country: user.profile?.country,
-                  line1: user.profile?.address,
-                  postalCode: user.profile?.zip!,
-                  state: user.profile?.state
-               },
-               phone: user.profile?.phone
-            },
+            //    address: {
+            //       city: user.profile?.city,
+            //       country: user.profile?.country,
+            //       line1: user.profile?.address,
+            //       postalCode: user.profile?.zip!,
+            //       state: user.profile?.state
+            //    },
+            //    phone: user.profile?.phone
+            // },
 
             appearance: {
                primaryButton: {

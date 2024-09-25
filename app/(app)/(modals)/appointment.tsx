@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { updateAppointmentInDatabase } from '~/actions/appointments'
 import { Button } from '~/components/Button'
 import CommunicationButtons from '~/components/CommunicationButtons'
+import { Container } from '~/components/Container'
 import MapHeader from '~/components/MapHeader'
 import { Text } from '~/components/nativewindui/Text'
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -49,7 +50,21 @@ const AppointmentDetails = () => {
          console.log('Error updating appointment', error)
       }
    }
-   if (!appointment || !barber) return null
+
+   if (!barber)
+      return (
+         <Container>
+            <View className="flex-1 justify-center items-center gap-4">
+               <Text>Barber not found</Text>
+               <Button
+                  title="Go Back"
+                  textStyle={{ paddingHorizontal: 12 }}
+                  onPress={() => router.back()}
+               />
+            </View>
+         </Container>
+      )
+
    return (
       <View style={{ flex: 1 }}>
          <MapHeader shouldGoBack barberInfo={barber} />

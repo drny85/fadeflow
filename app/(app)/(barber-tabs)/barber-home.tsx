@@ -150,7 +150,7 @@ const BarberHome = () => {
                )}
                {!loading && services.length === 0 && (
                   <View className="mt-5 w-full items-center justify-center gap-2 p-1">
-                     <Text className="text-center text-xl text-muted">
+                     <Text className="text-center text-xl text-muted dark:text-slate-300">
                         No services available
                      </Text>
                      <Button
@@ -186,9 +186,6 @@ const BarberHome = () => {
                            textStyle={{ paddingHorizontal: 12 }}
                            onPress={() => router.push('/subscription')}
                         />
-                        <View className="mt-3">
-                           <PaymentLinkSubscribeButton />
-                        </View>
                      </View>
                   </View>
                )}

@@ -1,4 +1,4 @@
-import { Feather, MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons'
 import Slider from '@react-native-community/slider'
 import React, { useMemo, useState } from 'react'
 import {
@@ -9,13 +9,12 @@ import {
    View
 } from 'react-native'
 
-import { Sheet, useSheetRef } from './nativewindui/Sheet'
-import { Text } from './nativewindui/Text'
+import { Sheet, useSheetRef } from '../nativewindui/Sheet'
+import { Text } from '../nativewindui/Text'
 
 import { useLocation } from '~/hooks/useLocation'
 import { useReviews } from '~/hooks/useReviews'
 import { useColorScheme } from '~/lib/useColorScheme'
-import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
 import { Barber } from '~/shared/types'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'

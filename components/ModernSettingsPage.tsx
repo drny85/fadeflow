@@ -11,7 +11,7 @@ import Constants from 'expo-constants'
 import { ImageBackground } from 'expo-image'
 import * as Linking from 'expo-linking'
 import { router } from 'expo-router'
-import * as WebBrowser from 'expo-web-browser'
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import {
    Alert,
@@ -31,7 +31,7 @@ import { Toggle } from './nativewindui/Toggle'
 
 import { updateUser } from '~/actions/users'
 import { SIZES } from '~/constants'
-import { deleteUserFunction, getPortalUrl } from '~/firebase-collections'
+import { deleteUserFunction } from '~/firebase-collections'
 import { usePhoto } from '~/hooks/usePhoto'
 import { useUser } from '~/hooks/useUser'
 import { toastMessage } from '~/lib/toast'
@@ -39,7 +39,9 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { Schedule } from '~/shared/types'
 import { formatPhone } from '~/utils/formatPhone'
-WebBrowser.warmUpAsync()
+
+import { ActivityIndicator } from './nativewindui/ActivityIndicator'
+import { usePortalLink } from '~/hooks/usePortalLink'
 
 const MINUTES_INTERVAL = [15, 30, 45]
 const IMAGE_HEIGHT = 100
@@ -47,6 +49,7 @@ const IMAGE_HEIGHT = 100
 export default function ModernSettingsPage() {
    useUser()
    const { user, logOut } = useAuth()
+   const { loading, getCustomerPortal } = usePortalLink()
    const [view, setView] = useState<
       'schedule' | 'services' | 'user-update' | undefined
    >(undefined)
@@ -294,18 +297,7 @@ export default function ModernSettingsPage() {
                   disabled={
                      user?.isBarber && user.subscriptionStatus === 'incomplete'
                   }
-                  onPress={async () => {
-                     const res = await getPortalUrl()
-                     WebBrowser.dismissBrowser()
-                     console.log(res.data)
-                     if (res.data.success && res.data.result) {
-                        WebBrowser.openBrowserAsync(res.data.result, {
-                           presentationStyle:
-                              WebBrowser.WebBrowserPresentationStyle.FORM_SHEET
-                        }).then((r) => console.log(r))
-                        //setPortalUrl(res.data.result);
-                     }
-                  }}
+                  onPress={getCustomerPortal}
                >
                   <View style={[styles.row, { backgroundColor: colors.card }]}>
                      <View
@@ -317,16 +309,20 @@ export default function ModernSettingsPage() {
                      <Text style={styles.rowLabel}>Subscription</Text>
 
                      <View style={styles.rowSpacer} />
-                     <View className="flex-row items-center gap-2">
-                        <Text className="font-semibold capitalize">
-                           {user?.isBarber && user.subscriptionStatus}
-                        </Text>
-                        <Feather
-                           color="#C6C6C6"
-                           name="chevron-right"
-                           size={20}
-                        />
-                     </View>
+                     {loading ? (
+                        <ActivityIndicator />
+                     ) : (
+                        <View className="flex-row items-center gap-2">
+                           <Text className="font-semibold capitalize">
+                              {user?.isBarber && user.subscriptionStatus}
+                           </Text>
+                           <Feather
+                              color="#C6C6C6"
+                              name="chevron-right"
+                              size={20}
+                           />
+                        </View>
+                     )}
                   </View>
                </TouchableOpacity>
                <View style={[styles.row, { backgroundColor: colors.card }]}>

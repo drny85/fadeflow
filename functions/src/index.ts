@@ -173,15 +173,13 @@ exports.createSubscrition = onCall<CreateSubscriptionRequest, any>(
          ) {
             return { success: false, result: 'Already subscribed' }
          }
-
-         // Fetch or create a customer in Stripe
-         // let customer;
-         // const customers = await stripe.customers.list({ email });
-         // if (customers.data.length > 0) {
-         //    customer = customers.data[0];
-         // } else {
-         //    customer = await stripe.customers.create({ email, metadata: { userId: auth.uid } });
-         // }
+         if (
+            existingSubs.data.length > 0 &&
+            (existingSubs.data[0].status === 'incomplete' ||
+               existingSubs.data[0].status === 'canceled')
+         ) {
+            return { success: true, result: 'renew' }
+         }
 
          // Create the subscription
          const subscription = await stripe.subscriptions.create({

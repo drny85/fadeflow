@@ -11,6 +11,11 @@ type AppointmentStoreParams = {
    setAppointments: (appointments: Appointment[]) => void
    addNewAppointment: (appointment: Appointment) => Promise<boolean>
    getAppointment: (appointmetId: string) => Appointment
+   filtered: boolean
+   filteredAppointments: Appointment[]
+   setFilteredAppointments: (filteredAppointments: Appointment[]) => void
+   setFiltered: (filtered: boolean) => void
+
    updateAppointmentsById: (
       appointmentId: string,
       appointment: Appointment
@@ -19,6 +24,13 @@ type AppointmentStoreParams = {
 export const useAppointmentStore = create<AppointmentStoreParams>(
    (set, get) => ({
       appointments: [],
+      filtered: false,
+
+      setFiltered: (filtered: boolean) => set({ filtered }),
+      filteredAppointments: [],
+      setFilteredAppointments: (filteredAppointments: Appointment[]) =>
+         set({ filteredAppointments }),
+
       updateAppointmentsById: async (
          appointmentId: string,
          appointment: Appointment

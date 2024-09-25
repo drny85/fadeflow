@@ -23,13 +23,15 @@ type Props = {
    onPressBack: () => void
    showBookingButton?: boolean
    showTopControl?: boolean
+   showFavoriteButton?: boolean
 }
 
 const BarberImageHeader = ({
    barber,
    onPressBack,
    showBookingButton,
-   showTopControl = true
+   showTopControl = true,
+   showFavoriteButton = true
 }: Props) => {
    const { top } = useSafeAreaInsets()
    useUser()
@@ -127,19 +129,21 @@ const BarberImageHeader = ({
                         {barber.name}
                      </Text>
 
-                     <TouchableOpacity onPress={toggleFavorite}>
-                        <FontAwesome
-                           name={
-                              !user?.isBarber &&
-                              user?.favoriteBarber &&
-                              user.favoriteBarber === barber.id
-                                 ? 'heart'
-                                 : 'heart-o'
-                           }
-                           color="red"
-                           size={26}
-                        />
-                     </TouchableOpacity>
+                     {showFavoriteButton && (
+                        <TouchableOpacity onPress={toggleFavorite}>
+                           <FontAwesome
+                              name={
+                                 !user?.isBarber &&
+                                 user?.favoriteBarber &&
+                                 user.favoriteBarber === barber.id
+                                    ? 'heart'
+                                    : 'heart-o'
+                              }
+                              color="red"
+                              size={26}
+                           />
+                        </TouchableOpacity>
+                     )}
                   </View>
                   {showBookingButton && (
                      <TouchableOpacity

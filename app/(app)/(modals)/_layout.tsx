@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import { TouchableOpacity } from 'react-native'
 
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -17,6 +17,16 @@ const ModalLayout = () => {
             name="quick-booking"
             options={({ navigation }) => ({
                title: 'Barbers',
+               headerRight: () => (
+                  <TouchableOpacity>
+                     <Feather
+                        name="map"
+                        size={26}
+                        color={isDarkColorScheme ? 'white' : 'black'}
+                        onPress={() => router.push('/barbers-map')}
+                     />
+                  </TouchableOpacity>
+               ),
                headerLeft: () => (
                   <TouchableOpacity>
                      <Feather

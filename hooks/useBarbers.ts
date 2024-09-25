@@ -13,7 +13,8 @@ export const useBarbers = () => {
          usersCollection,
          where('isActive', '==', true),
          where('isBarber', '==', true),
-         where('profileCompleted', '==', true)
+         where('profileCompleted', '==', true),
+         where('subscriptionStatus', 'in', ['active', 'trialing'])
       )
       setLoading(true)
       return onSnapshot(barberQuery, (snapshot) => {

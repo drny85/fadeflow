@@ -90,6 +90,7 @@ export type AppointmentStatus =
    | 'confirmed'
    | 'cancelled'
    | 'completed'
+   | 'no-show'
 
 export type Appointment = {
    id?: string
@@ -172,6 +173,7 @@ export type NOTIFICATION_TYPE =
    | 'new-appointment'
    | 'appointment-updates'
    | 'reminder'
+   | 'subscription'
 
 export type NotificationData = {
    id: string

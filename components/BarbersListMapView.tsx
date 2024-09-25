@@ -83,7 +83,7 @@ const BarbersListMapView = ({ index, barbers, mapRef }: Props) => {
             paddingRight: Platform.OS === 'android' ? INSET : 0,
             gap: 8,
             height: CARD_HEIGHT,
-            //width: CARD_WIDTH,
+            // width: CARD_WIDTH,
             backgroundColor: colors.background
          }}
          pagingEnabled
@@ -104,7 +104,7 @@ const BarbersListMapView = ({ index, barbers, mapRef }: Props) => {
             { useNativeDriver: true }
          )}
          snapToAlignment="center"
-         snapToInterval={CARD_WIDTH + 20}
+         snapToInterval={CARD_WIDTH + 30}
          decelerationRate="fast"
          bounces={false}
          initialScrollIndex={0}
@@ -114,10 +114,9 @@ const BarbersListMapView = ({ index, barbers, mapRef }: Props) => {
          keyExtractor={(item, index) => index.toString() + item.id}
          renderItem={({ item, index }) => (
             <TouchableOpacity
-               style={{ width: CARD_WIDTH }}
+               style={{ width: CARD_WIDTH + 30 }}
                onPress={() => {
                   console.log('index', index)
-
                   mapRef.current?.animateToRegion(
                      {
                         latitude: item.profile?.coords?.lat!,
@@ -130,6 +129,7 @@ const BarbersListMapView = ({ index, barbers, mapRef }: Props) => {
             >
                <BarberImageHeader
                   barber={item}
+                  showFavoriteButton={false}
                   onPressBack={() => {}}
                   showBookingButton
                   showTopControl={false}

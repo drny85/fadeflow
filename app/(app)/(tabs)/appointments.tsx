@@ -2,7 +2,7 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { FlashList } from '@shopify/flash-list'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 
 import AppointmentCard from '~/components/Appointment/AppointmentCard'
 import { Button } from '~/components/Button'
@@ -22,21 +22,28 @@ const VALUES = ['Upcoming', 'Past']
 type ParamsProps = {
    confetti?: string
 }
-const AppointmentPage = () => {
+const AppointmentsPage = () => {
    const { user } = useAuth()
    const { confetti } = useLocalSearchParams<ParamsProps>()
    const { colors, isDarkColorScheme } = useColorScheme()
    const [selectedIndex, setSelectedIndex] = useState(0)
+   const {
+      filtered,
+      filteredAppointments,
+      setFiltered,
+      setFilteredAppointments
+   } = useAppointmentStore()
+
    const appointments = useAppointmentStore((s) =>
       s.appointments.filter(
          (appointment) => appointment.customer.id === user?.id
       )
    )
-
    const confettiRef = useRef<ConfettiComponentRef>(null)
+   const d = filtered ? filteredAppointments : appointments
    const data = useMemo(
-      () => appointments.sort((a, b) => (a.date < b.date ? 1 : -1)),
-      [appointments]
+      () => d.sort((a, b) => (a.date < b.date ? 1 : -1)),
+      [filtered]
    )
 
    const pastAppointmens = data
@@ -77,6 +84,18 @@ const AppointmentPage = () => {
       )
    return (
       <View className="flex-1">
+         {filtered && (
+            <TouchableOpacity
+               onPress={() => {
+                  setFiltered(false)
+                  setFilteredAppointments([])
+               }}
+            >
+               <Text className="text-center text-sm my-1 text-blue-600">
+                  Clear Filters
+               </Text>
+            </TouchableOpacity>
+         )}
          <SegmentedControl
             values={VALUES}
             fontStyle={{
@@ -143,4 +162,4 @@ const AppointmentPage = () => {
    )
 }
 
-export default AppointmentPage
+export default AppointmentsPage

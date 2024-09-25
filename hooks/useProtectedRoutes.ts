@@ -7,16 +7,18 @@ import { useUser } from './useUser'
 import { updateUser } from '~/actions/users'
 import { useAuth } from '~/providers/AuthContext'
 import { checkObjectValues } from '~/utils/checkObjectValues'
+const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS as string
 
 export function useProtectedRoute() {
    const segments = useSegments()
+
    const router = useRouter()
    useUser()
    const [mounted, setMounted] = useState(false)
    const { loading, user } = useAuth()
    const daysRemaining = useMemo(() => {
-      return user?.isBarber && user?.subscriptionStatus === 'incomplete'
-         ? differenceInDays(addDays(user?.createdAt!, 14), new Date())
+      return user?.isBarber && user?.subscriptionStatus === 'trialing'
+         ? differenceInDays(addDays(user?.createdAt!, +DAYS), new Date())
          : 0
    }, [user])
 
