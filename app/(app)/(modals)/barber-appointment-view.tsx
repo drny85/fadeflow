@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons'
+import { Icon } from '@roninoss/icons'
 import {
    addMinutes,
    format,
@@ -8,6 +9,7 @@ import {
 } from 'date-fns'
 import { BlurView } from 'expo-blur'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
+import { useCallback } from 'react'
 import {
    Alert,
    ScrollView,
@@ -22,6 +24,7 @@ import { Button } from '~/components/Button'
 import CommunicationButtons from '~/components/CommunicationButtons'
 import { Text } from '~/components/nativewindui/Text'
 import { toastAlert, toastMessage } from '~/lib/toast'
+import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
@@ -33,7 +36,7 @@ type ParamsProps = {
 }
 const BarberAppointmentView = () => {
    const { user } = useAuth()
-
+   const { isDarkColorScheme } = useColorScheme()
    const { bottom, top } = useSafeAreaInsets()
    const { appointmentId } = useLocalSearchParams<ParamsProps>()
    const { getAppointment } = useAppointmentStore()
@@ -51,6 +54,44 @@ const BarberAppointmentView = () => {
          console.log('Error updating appointment', error)
       }
    }
+
+   const markAsNoShow = useCallback(() => {
+      if (!isPast(appointment.date)) {
+         return toastAlert({
+            title: 'Cannot mark as no show',
+            message: 'You can only mark appointments as no show in the past',
+            preset: 'custom',
+            duration: 3,
+
+            iconName: 'hand.raised.slash'
+         })
+      }
+      Alert.alert(
+         'Mark as No Show',
+         'Are you sure you want to mark this appointment as no show?',
+         [
+            {
+               text: 'Cancel',
+               style: 'cancel'
+            },
+            {
+               text: 'Yes',
+               onPress: async () => {
+                  try {
+                     if (!appointment) return
+                     await updateAppointmentInDatabase({
+                        ...appointment,
+                        status: 'no-show',
+                        changesMadeBy: 'barber'
+                     })
+                  } catch (error) {
+                     console.log('Error updating appointment', error)
+                  }
+               }
+            }
+         ]
+      )
+   }, [])
    if (!appointment) return null
 
    if (!user?.isBarber) return <Redirect href="/(app)/(tabs)" />
@@ -211,26 +252,41 @@ const BarberAppointmentView = () => {
          {appointment.status === 'confirmed' && (
             <View
                style={{ paddingBottom: bottom }}
-               className="w-1/2 self-center"
+               className="flex-row items-center justify-between mx-3 gap-3"
             >
-               <Button
-                  title="Mark Complete"
-                  onPress={() => {
-                     if (!isSameDay(appointment.date, new Date())) {
-                        return toastAlert({
-                           title: 'Appointment is not for today',
-                           message:
-                              'Please do not mark the appointment as complete',
-                           preset: 'error'
+               <TouchableOpacity
+                  onPress={markAsNoShow}
+                  className="flex-row gap-2 items-center bg-card shadow-sm rounded-full px-3 p-2"
+               >
+                  <Icon
+                     name="clock-remove-outline"
+                     size={24}
+                     color={isDarkColorScheme ? '#ffffff' : '#212121'}
+                  />
+                  <Text className="text-center text-lg text-muted dark:text-slate-400">
+                     No Show
+                  </Text>
+               </TouchableOpacity>
+               <View className="flex-1">
+                  <Button
+                     title="Mark Complete"
+                     onPress={() => {
+                        if (!isSameDay(appointment.date, new Date())) {
+                           return toastAlert({
+                              title: 'Appointment is not for today',
+                              message:
+                                 'Please do not mark the appointment as complete',
+                              preset: 'error'
+                           })
+                        }
+                        updateAppointmentInDatabase({
+                           ...appointment,
+                           status: 'completed',
+                           changesMadeBy: 'barber'
                         })
-                     }
-                     updateAppointmentInDatabase({
-                        ...appointment,
-                        status: 'completed',
-                        changesMadeBy: 'barber'
-                     })
-                  }}
-               />
+                     }}
+                  />
+               </View>
             </View>
          )}
       </View>

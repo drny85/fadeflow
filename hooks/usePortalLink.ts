@@ -19,7 +19,7 @@ export const usePortalLink = () => {
             //setPortalUrl(res.data.result);
          }
       } catch (error) {
-         console.log(error)
+         console.log('Error opening customer portal', error)
       } finally {
          setLoading(false)
       }

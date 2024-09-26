@@ -1,12 +1,11 @@
 import { Feather, FontAwesome } from '@expo/vector-icons'
 import { BottomSheetTextInput, TouchableOpacity } from '@gorhom/bottom-sheet'
-import { isPast, isSameDay, format } from 'date-fns'
+import { format, isPast, isSameDay } from 'date-fns'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useCallback, useEffect, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Separator } from 'zeego/dropdown-menu'
 
 import { updateAppointmentInDatabase } from '~/actions/appointments'
 import { updateUser } from '~/actions/users'
@@ -390,7 +389,13 @@ const BookingPage = () => {
                      opacity:
                         !barber.isAvailable || services.length === 0 ? 0.5 : 1
                   }}
-                  onPress={() => bottomSheetModalRefConfirm.current?.present()}
+                  onPress={() => {
+                     if (!selectedTimeSlot) {
+                        bottomSheetModalRef.current?.present()
+                        return
+                     }
+                     bottomSheetModalRefConfirm.current?.present()
+                  }}
                />
             </View>
          </View>

@@ -153,16 +153,18 @@ const BarberHome = () => {
                      <Text className="text-center text-xl text-muted dark:text-slate-300">
                         No services available
                      </Text>
-                     <Button
-                        textStyle={{ paddingHorizontal: 20 }}
-                        title="Add Service"
-                        onPress={() => {
-                           router.push({
-                              pathname: '/(barber-tabs)/gallery',
-                              params: { show: 'true' }
-                           })
-                        }}
-                     />
+                     <View className="animate-bounce">
+                        <Button
+                           textStyle={{ paddingHorizontal: 20 }}
+                           title="Add Service"
+                           onPress={() => {
+                              router.push({
+                                 pathname: '/(barber-tabs)/gallery',
+                                 params: { show: 'true' }
+                              })
+                           }}
+                        />
+                     </View>
                   </View>
                )}
             </View>

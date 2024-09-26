@@ -24,6 +24,7 @@ type DayProps = {
    isSelected: boolean
    onPress: (day: Date) => void
    hasAppointments?: boolean
+   ignorePast?: boolean
 }
 
 const Day: React.FC<DayProps> = ({
@@ -32,14 +33,15 @@ const Day: React.FC<DayProps> = ({
    isSelected,
    isOff,
    onPress,
-   hasAppointments
+   hasAppointments,
+   ignorePast = false
 }) => {
    const { setSelectedTimeSlot, setIndex } = useAppointmentFlowStore()
    const { user } = useAuth()
 
    return (
       <TouchableOpacity
-         disabled={isPast || isOff}
+         disabled={(isPast || isOff) && !ignorePast}
          onPress={() => {
             onPress(date)
             setSelectedTimeSlot(null)
@@ -73,9 +75,14 @@ const Day: React.FC<DayProps> = ({
 type Props = {
    schedule: Schedule
    onPress?: (date: Date) => void
+   ignorePast?: boolean
 }
 
-const WeekSelector: React.FC<Props> = ({ schedule, onPress }) => {
+const WeekSelector: React.FC<Props> = ({
+   schedule,
+   onPress,
+   ignorePast = false
+}) => {
    const today = new Date()
    const [currentDate, setCurrentDate] = useState<Date>(new Date())
    const [weekDates, setWeekDates] = useState<Date[]>([])
@@ -185,6 +192,7 @@ const WeekSelector: React.FC<Props> = ({ schedule, onPress }) => {
                      key={index}
                      hasAppointments={hasAppointments}
                      date={date}
+                     ignorePast={ignorePast}
                      isOff={dayOff}
                      isPast={
                         date < new Date() &&

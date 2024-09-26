@@ -49,7 +49,7 @@ export function useProtectedRoute() {
       const inAuthGroup = segments[1] === '(auth)'
       const inBarberGroup = segments[1] === '(barber-tabs)'
       const inUserGroup = segments[1] === '(tabs)'
-      console.log(daysRemaining, 'DAYS REMAINING', segments[1])
+
       updateProfileIsIncomplete()
 
       // Redirect non-signed-in users trying to access protected routes
@@ -64,7 +64,7 @@ export function useProtectedRoute() {
          user &&
          inBarberGroup &&
          user.isBarber &&
-         user.subscriptionStatus === 'incomplete' &&
+         user.subscriptionStatus === 'trialing' &&
          daysRemaining <= 0
       ) {
          console.log('0')

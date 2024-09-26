@@ -44,15 +44,16 @@ const BarberTermsOfUse: React.FC = () => {
             <Text style={styles.text}>
                Payments for services rendered will be processed through our
                platform. A service fee may be deducted from each transaction.
-               You agree to the fee structure outlined by [App Name].
+               You agree to the fee structure outlined by{' '}
+               {Constants.expoConfig?.name}.
             </Text>
 
             <Text style={styles.sectionTitle}>5. Prohibited Conduct</Text>
             <Text style={styles.text}>
                You agree not to engage in any unlawful, fraudulent, or harmful
                activities. Any behavior that violates our policies or harms the
-               reputation of [App Name] or its users will result in account
-               termination.
+               reputation of {Constants.expoConfig?.name} or its users will
+               result in account termination.
             </Text>
 
             <Text style={styles.sectionTitle}>6. Account Termination</Text>

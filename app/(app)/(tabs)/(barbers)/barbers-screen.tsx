@@ -5,13 +5,21 @@ import Animated, { SlideInLeft, SlideInRight } from 'react-native-reanimated'
 import BarberImageHeader from '~/components/BarberImageHeader'
 import BarbersSkelenton from '~/components/Skeletons/BarbersSkeleton'
 import { Text } from '~/components/nativewindui/Text'
+import { useLocation } from '~/hooks/useLocation'
 import { useNavigationSearch } from '~/hooks/useNavigationSeach'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
+import { Barber } from '~/shared/types'
+import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
+
+type BarberWithDistance = Barber & {
+   distance: number | null
+}
 
 const BarbersPage = () => {
-   const { barbers, loading } = useBarbersStore()
+   const { location, loading: locationLoading } = useLocation()
+   const { barbers: data, loading } = useBarbersStore()
    const { isDarkColorScheme, colors } = useColorScheme()
 
    const search = useNavigationSearch({
@@ -20,6 +28,21 @@ const BarbersPage = () => {
          tintColor: isDarkColorScheme ? '#dedede' : colors.accent
       }
    })
+   const barbers: BarberWithDistance[] = useMemo(() => {
+      if (!location) return data.map((b) => ({ ...b, distance: null }))
+      return data
+         .map((b) => {
+            const distance = getDistanceFromLatLonInMeters(
+               {
+                  lat: location.coords.latitude,
+                  lng: location.coords.longitude
+               },
+               { lat: b.profile?.coords?.lat!, lng: b.profile?.coords?.lng! }
+            )
+            return { ...b, distance }
+         })
+         .sort((a, b) => a.distance! - b.distance!)
+   }, [data, location])
 
    const searchData = useMemo(() => {
       if (!search) return barbers
@@ -30,7 +53,7 @@ const BarbersPage = () => {
 
    useStatusBarColor('dark')
 
-   if (loading) return <BarbersSkelenton />
+   if (loading || locationLoading) return <BarbersSkelenton />
    return (
       <ScrollView
          contentInsetAdjustmentBehavior="automatic"
@@ -57,6 +80,13 @@ const BarbersPage = () => {
                      showBookingButton
                      onPressBack={() => {}}
                   />
+                  {item.distance && (
+                     <View className="p-1 absolute top-3 right-2 z-20">
+                        <Text className="text-white font-bold">
+                           {item.distance.toFixed(1)} m
+                        </Text>
+                     </View>
+                  )}
                </Animated.View>
                // <BarberCard barber={item} index={index} isOwner={false} />
             )}

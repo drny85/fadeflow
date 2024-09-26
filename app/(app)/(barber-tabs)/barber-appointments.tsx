@@ -1,9 +1,9 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { FlashList } from '@shopify/flash-list'
-import { isSameDay } from 'date-fns'
+import { isSameDay, isPast } from 'date-fns'
 import { router } from 'expo-router'
 import React, { useMemo, useState } from 'react'
-import { Alert, StatusBar, View } from 'react-native'
+import { Alert, View } from 'react-native'
 
 import { updateAppointmentInDatabase } from '~/actions/appointments'
 import AppointmentCard from '~/components/Appointment/AppointmentCard'
@@ -100,6 +100,7 @@ const BarberAppointments = () => {
          {selectedIndex === 1 && (
             <View className="m-1 min-h-36 rounded-md bg-card shadow-sm">
                <WeekSelector
+                  ignorePast={true}
                   schedule={
                      (user?.isBarber && user.schedule) || DEFAULT_SCHEDULE
                   }
@@ -167,11 +168,10 @@ const ActionButtons = ({ appointment }: { appointment: Appointment }) => {
          // handle confirm
       }
       if (appointment.status === 'confirmed') {
-         if (!isSameDay(appointment.date, new Date())) {
+         if (!isPast(appointment.date)) {
             toastAlert({
-               title: 'Appointmet Not Today',
-               message:
-                  'You can only complete appointments scheduled for today.',
+               title: 'Error',
+               message: 'You can only complete past appointments .',
                preset: 'error'
             })
             return

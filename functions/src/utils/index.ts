@@ -1,8 +1,8 @@
 import { getAuth } from 'firebase-admin/auth'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 
-import { stripe, Stripe } from './stripe'
 import { sendPushNotification } from './common'
+import Stripe from 'stripe'
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
    const customerId = subscription.customer as string
@@ -140,8 +140,10 @@ export async function handleCustomerDeletion(email: string) {
 }
 // Function to handle checkout session completed
 async function handleCheckoutSessionCompleted(
+   stripe: Stripe,
    session: Stripe.Checkout.Session
 ) {
+   if (!session) return
    const sessionId = session.id
    const customerId = session.customer as string
 
@@ -162,7 +164,11 @@ async function handleCheckoutSessionCompleted(
 }
 
 // Function to handle async payment succeeded for checkout session
-async function handleAsyncPaymentSucceeded(session: Stripe.Checkout.Session) {
+async function handleAsyncPaymentSucceeded(
+   stripe: Stripe,
+   session: Stripe.Checkout.Session
+) {
+   if (!session) return
    const sessionId = session.id
    const customer = session.customer_details
    const email = customer?.email
@@ -179,7 +185,10 @@ async function handleAsyncPaymentSucceeded(session: Stripe.Checkout.Session) {
 }
 
 // Function to handle async payment failed for checkout session
-async function handleAsyncPaymentFailed(session: Stripe.Checkout.Session) {
+async function handleAsyncPaymentFailed(
+   stripe: Stripe,
+   session: Stripe.Checkout.Session
+) {
    const sessionId = session.id
 
    const customer = session.customer_details

@@ -80,6 +80,7 @@ const SubscriptionButton = () => {
          const response = result as PaymentIntentResponse
          if (success && result === 'renew') {
             await getCustomerPortal()
+            return
          }
          if (!response) {
             setLoading(false)

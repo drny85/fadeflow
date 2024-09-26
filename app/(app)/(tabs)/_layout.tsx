@@ -5,10 +5,11 @@ import { useBarbers } from '~/hooks/useBarbers'
 import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
 import FilterAppointments from '~/components/Filters/FilterAppointments'
+import { useAuth } from '~/providers/AuthContext'
 
 export default function TabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme()
-
+   const { user } = useAuth()
    useNotifications()
    useBarbers()
 
@@ -72,10 +73,22 @@ export default function TabLayout() {
             name="profile"
             options={{
                headerShown: false,
+               title: 'Profile',
 
-               tabBarIcon: ({ color }) => (
-                  <TabBarIcon name="user-circle" color={color} />
-               )
+               tabBarIcon: ({ color, size }) =>
+                  user && user.image ? (
+                     <Image
+                        source={{ uri: user.image }}
+                        style={{
+                           resizeMode: 'cover',
+                           height: size + 4,
+                           width: size + 4,
+                           borderRadius: (size + 4) / 2
+                        }}
+                     />
+                  ) : (
+                     <TabBarIcon name="user-circle" color={color} />
+                  )
             }}
          />
       </Tabs>

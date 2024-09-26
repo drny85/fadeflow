@@ -21,13 +21,13 @@ import * as dotenv from 'dotenv'
 import { getApp, getApps, initializeApp } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
-import * as functions from 'firebase-functions'
+import * as functions from 'firebase-functions/v1'
 import * as logger from 'firebase-functions/logger'
 import {
    onDocumentCreated,
    onDocumentUpdated
 } from 'firebase-functions/v2/firestore'
-import { onCall, onRequest } from 'firebase-functions/v2/https'
+import { HttpsError, onCall, onRequest } from 'firebase-functions/v2/https'
 import Stripe from 'stripe'
 
 import {
@@ -43,7 +43,7 @@ import {
    handleSubscriptionUpdated
 } from './utils'
 import { sendPushNotification } from './utils/common'
-import { stripe } from './utils/stripe'
+import { defineSecret } from 'firebase-functions/params'
 dotenv.config()
 
 getApps().length === 0 ? initializeApp() : getApp()
@@ -54,6 +54,15 @@ getApps().length === 0 ? initializeApp() : getApp()
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+
+const stripeTestKey = defineSecret('STRIPE_SK')
+const stripeLiveKey = defineSecret('STRIPE_LIVE_SK')
+exports.getConfig = onCall(
+   { secrets: [stripeTestKey, stripeLiveKey] },
+   async ({ auth }) => {
+      console.log(stripeTestKey.value(), stripeLiveKey.value())
+   }
+)
 exports.notifyOnAppointmentCreation = onDocumentCreated(
    '/appointments/{appointmentId}',
    async (event) => {
@@ -79,31 +88,40 @@ exports.notifyOnAppointmentCreation = onDocumentCreated(
       }
    }
 )
-exports.onCreateUSer = functions.auth.user().onCreate(async (user) => {
-   try {
-      const data = user.toJSON() as AppUser
-      const customer = await stripe.customers.create({
-         email: data.email,
-         metadata: { userId: user.uid }
-      })
+// exports.onCreateUSer = functions.auth.user().onCreate(async (user) => {
+//    try {
+//       const data = user.toJSON() as AppUser
+//       const customer = await stripe.customers.create({
+//          email: data.email,
+//          metadata: { userId: user.uid }
+//       })
 
-      return getFirestore()
-         .collection('stripe_customers')
-         .doc(user.uid)
-         .set({ customer_id: customer.id })
-   } catch (error) {
-      const err = error as Error
-      console.log(err.message)
-      throw new functions.https.HttpsError(
-         'aborted',
-         `error while creating stripe customer: ${err.message}`
-      )
-   }
-})
+//       return getFirestore()
+//          .collection('stripe_customers')
+//          .doc(user.uid)
+//          .set({ customer_id: customer.id })
+//    } catch (error) {
+//       const err = error as Error
+//       console.log(err.message)
+//       throw new functions.https.HttpsError(
+//          'aborted',
+//          `error while creating stripe customer: ${err.message}`
+//       )
+//    }
+// })
 exports.getSubscriptionStatus = onCall(
+   { secrets: [stripeTestKey, stripeLiveKey] },
+
    async ({ data, auth }): Promise<SubscriptionStatusResponse> => {
       if (!auth) return { isSubscribed: false }
+
       const userId = auth?.uid
+      const stripeKey = stripeTestKey.value()
+      if (!stripeKey) return { isSubscribed: false }
+      const stripe = new Stripe(stripeTestKey.value(), {
+         apiVersion: '2024-06-20',
+         typescript: true
+      })
       const userData = await getFirestore()
          .collection('stripe_customers')
          .doc(userId)
@@ -135,9 +153,19 @@ exports.getSubscriptionStatus = onCall(
 )
 
 exports.createSubscrition = onCall<CreateSubscriptionRequest, any>(
+   {
+      secrets: [stripeTestKey, stripeLiveKey]
+   },
    async ({ data, auth }): Promise<CreateSubscriptionResponse | any> => {
       if (!auth) return { success: false, result: 'no authorized' }
       try {
+         const stripeKey = stripeTestKey.value()
+         if (!stripeKey) return { success: false, result: 'no stripe key' }
+         const stripe = new Stripe(stripeKey, {
+            apiVersion: '2024-06-20',
+            typescript: true
+         })
+
          const { email } = data
 
          if (!email) {
@@ -403,9 +431,16 @@ const checkIfThereIsAnUpcomingAppointmentWithTheNextHour = () => {
 }
 
 exports.getPortalUrl = onCall(
+   { secrets: [stripeLiveKey, stripeTestKey] },
    async ({ data, auth }): Promise<CreateSubscriptionResponse> => {
       try {
          if (!auth) return { success: false, result: 'No authorized' }
+         const stripeKey = stripeTestKey.value()
+         if (!stripeKey) return { success: false, result: 'no stripe key' }
+         const stripe = new Stripe(stripeKey, {
+            apiVersion: '2024-06-20',
+            typescript: true
+         })
          const customer = await getFirestore()
             .collection('stripe_customers')
             .doc(auth.uid)
@@ -427,7 +462,8 @@ exports.getPortalUrl = onCall(
 exports.handleStripeWebhook = onRequest(
    {
       maxInstances: 10,
-      memory: '1GiB' // adjust based on your scaling needs
+      memory: '1GiB',
+      secrets: [stripeLiveKey, stripeTestKey] // adjust based on your scaling needs
    },
    async (
       req: functions.https.Request,
@@ -437,6 +473,14 @@ exports.handleStripeWebhook = onRequest(
       const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string
 
       let event: Stripe.Event
+      const stripeKey = stripeTestKey.value()
+      if (stripeKey.length === 0)
+         throw new HttpsError('aborted', 'Stripe secret missing')
+
+      const stripe = new Stripe(stripeKey, {
+         apiVersion: '2024-06-20',
+         typescript: true
+      })
 
       try {
          // Verify that the request is coming from Stripe
@@ -481,16 +525,19 @@ exports.handleStripeWebhook = onRequest(
 
          case 'checkout.session.completed':
             await handleCheckoutSessionCompleted(
+               stripe,
                event.data.object as Stripe.Checkout.Session
             )
             break
          case 'checkout.session.async_payment_succeeded':
             await handleAsyncPaymentSucceeded(
+               stripe,
                event.data.object as Stripe.Checkout.Session
             )
             break
          case 'checkout.session.async_payment_failed':
             await handleAsyncPaymentFailed(
+               stripe,
                event.data.object as Stripe.Checkout.Session
             )
             break
