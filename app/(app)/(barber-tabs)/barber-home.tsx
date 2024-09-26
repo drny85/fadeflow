@@ -254,7 +254,7 @@ const BarberHome = () => {
                         {todayAppoinments.length}
                      </Text>
                      <ProgressBar
-                        value={donePercentage > 0 ? donePercentage : 0.0001}
+                        value={donePercentage > 0 ? donePercentage : 0.0}
                      />
                   </View>
                )}
@@ -307,7 +307,7 @@ const BarberHome = () => {
                      Waiting to cash out ({confirmedAppointments.length})
                   </Text>
                   <FlatList
-                     data={waitinfForConfirmation.sort((a, b) =>
+                     data={confirmedAppointments.sort((a, b) =>
                         a.date > b.date ? 1 : -1
                      )}
                      horizontal

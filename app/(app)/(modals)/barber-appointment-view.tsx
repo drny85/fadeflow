@@ -1,12 +1,6 @@
 import { Feather } from '@expo/vector-icons'
 import { Icon } from '@roninoss/icons'
-import {
-   addMinutes,
-   format,
-   formatDistanceToNow,
-   isPast,
-   isSameDay
-} from 'date-fns'
+import { addMinutes, format, formatDistanceToNow, isPast } from 'date-fns'
 import { BlurView } from 'expo-blur'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { useCallback } from 'react'
@@ -54,6 +48,24 @@ const BarberAppointmentView = () => {
          console.log('Error updating appointment', error)
       }
    }
+
+   const markAsCompleted = useCallback(async () => {
+      if (!appointment) return
+
+      if (!isPast(appointment.date)) {
+         return toastAlert({
+            title: 'Error, not the time',
+            message: 'Please do not mark the appointment as complete',
+            preset: 'error'
+         })
+      }
+
+      updateAppointmentInDatabase({
+         ...appointment,
+         status: 'completed',
+         changesMadeBy: 'barber'
+      })
+   }, [appointment])
 
    const markAsNoShow = useCallback(() => {
       if (!isPast(appointment.date)) {
@@ -268,24 +280,7 @@ const BarberAppointmentView = () => {
                   </Text>
                </TouchableOpacity>
                <View className="flex-1">
-                  <Button
-                     title="Mark Complete"
-                     onPress={() => {
-                        if (!isSameDay(appointment.date, new Date())) {
-                           return toastAlert({
-                              title: 'Appointment is not for today',
-                              message:
-                                 'Please do not mark the appointment as complete',
-                              preset: 'error'
-                           })
-                        }
-                        updateAppointmentInDatabase({
-                           ...appointment,
-                           status: 'completed',
-                           changesMadeBy: 'barber'
-                        })
-                     }}
-                  />
+                  <Button title="Mark Complete" onPress={markAsCompleted} />
                </View>
             </View>
          )}

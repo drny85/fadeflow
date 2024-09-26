@@ -42,7 +42,8 @@ const ProgressBar = ({ value, height = 20 }: Props) => {
             style={{
                fontSize: height * 0.8,
                fontWeight: '700',
-               textAlign: 'center'
+               textAlign: 'center',
+               color: '#fff'
             }}
          >
             {value}%

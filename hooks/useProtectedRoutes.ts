@@ -30,10 +30,10 @@ export function useProtectedRoute() {
       if (user && user.isBarber && user.profile) {
          const isIncomplete = checkObjectValues(user.profile, ['apt', 'bio'])
 
-         console.log(profileCompleted, 'PROFILE COMPLETED')
          if (isIncomplete) return
 
          updateUser({ ...user, profileCompleted: false })
+         console.log('updated user profile to false')
          // Update the user's profile as incomplete
          // You can use a database or storage service to store this information
       }
