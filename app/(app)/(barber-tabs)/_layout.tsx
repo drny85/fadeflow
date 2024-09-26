@@ -7,6 +7,7 @@ import { useAppointments } from '~/hooks/useAppointments'
 import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
+import { Icon } from '@roninoss/icons'
 
 export default function BarberTabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme()
@@ -19,6 +20,7 @@ export default function BarberTabLayout() {
       <Tabs
          screenOptions={{
             headerShown: false,
+            tabBarShowLabel: false,
             tabBarActiveTintColor: isDarkColorScheme
                ? colors.grey2
                : colors.grey,
@@ -50,12 +52,8 @@ export default function BarberTabLayout() {
             options={{
                title: 'Appointments',
                headerShown: false,
-               tabBarIcon: ({ color }) => (
-                  <Image
-                     source={require('~/assets/images/appointment.png')}
-                     tintColor={color}
-                     className="-mb-1 h-8 w-8"
-                  />
+               tabBarIcon: ({ color, size }) => (
+                  <Icon name="calendar-clock" size={size + 10} color={color} />
                )
             }}
          />
@@ -75,8 +73,8 @@ export default function BarberTabLayout() {
             options={{
                title: 'Earnings',
                //headerShown: false,
-               tabBarIcon: ({ color }) => (
-                  <TabBarIcon name="dollar" color={color} />
+               tabBarIcon: ({ color, size }) => (
+                  <Icon name="chart-pie" size={size + 10} color={color} />
                )
             }}
          />

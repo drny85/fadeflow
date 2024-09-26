@@ -140,7 +140,7 @@ const EarningComponent: React.FC<EarningComponentProps> = ({
       item: { label: string; value: number }
    }) => (
       <View style={styles.detailItem}>
-         <Text style={styles.detailLabel}>{item.label}</Text>
+         <Text className="font-roboto-bold">{item.label}</Text>
          <Text style={styles.detailValue}>${item.value.toFixed(2)}</Text>
       </View>
    )
@@ -191,7 +191,9 @@ const EarningComponent: React.FC<EarningComponentProps> = ({
             <FlatList
                data={detailsData[selectedSegment]}
                ListEmptyComponent={
-                  <Text className="text-center text-muted">No Data</Text>
+                  <Text className="text-center text-muted dark:text-slate-400">
+                     No Data
+                  </Text>
                }
                renderItem={renderDetailItem}
                keyExtractor={(item) => item.label}
@@ -212,10 +214,7 @@ const styles = StyleSheet.create({
       borderBottomWidth: 1,
       borderBottomColor: '#ccc'
    },
-   detailLabel: {
-      fontSize: 16,
-      color: '#333'
-   },
+
    detailValue: {
       fontSize: 16,
       fontWeight: 'bold',

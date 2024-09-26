@@ -502,7 +502,7 @@ const BookingPage = () => {
                         value={getAppointmentPrice(selectedServices)}
                      />
                   </View>
-                  <Text className="text-muted text-center mt-3">
+                  <Text className="text-muted text-center mt-3 dark:text-slate-400">
                      Payment will be make in cash after service complition.
                   </Text>
                </ScrollView>

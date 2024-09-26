@@ -1,5 +1,12 @@
 import { Feather } from '@expo/vector-icons'
-import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns'
+import {
+   addDays,
+   addMinutes,
+   differenceInDays,
+   format,
+   isPast,
+   isToday
+} from 'date-fns'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { useMemo } from 'react'
@@ -9,7 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AnimatedNumber from '~/components/AnimatedNumber'
 import AppointmentCard from '~/components/Appointment/AppointmentCard'
 import { Button } from '~/components/Button'
-import PaymentLinkSubscribeButton from '~/components/PaymentLinkSubscribeButton'
+import ProgressBar from '~/components/ProgressBar'
 import { Text } from '~/components/nativewindui/Text'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
@@ -43,8 +50,30 @@ const BarberHome = () => {
    )[0]
 
    const waitinfForConfirmation = appointmentsData.filter(
-      (a) => a.status === 'pending' && !isPast(a.date)
+      (a) => a.status === 'pending' && !isPast(addMinutes(a.date, 30))
    )
+   const todayAppoinments = useMemo(() => {
+      return data
+         .filter((appointment) => {
+            return (
+               appointment.status !== 'cancelled' && isToday(appointment.date)
+            )
+         })
+         .sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+         )
+   }, [data])
+   const completedAppointments = todayAppoinments.filter(
+      (appointment) => appointment.status === 'completed'
+   )
+   const confirmedAppointments = todayAppoinments.filter(
+      (appointment) =>
+         appointment.status === 'confirmed' &&
+         isPast(addMinutes(appointment.date, 30))
+   )
+
+   const donePercentage =
+      (completedAppointments.length / todayAppoinments.length) * 100
 
    const allAppointments = useMemo(() => {
       return data
@@ -79,7 +108,7 @@ const BarberHome = () => {
             <View
                style={{
                   paddingTop: top,
-                  height: '50%',
+                  height: '45%',
                   shadowOffset: { height: 3, width: 0 },
                   shadowColor: colors.grey,
                   shadowOpacity: 0.5,
@@ -121,27 +150,27 @@ const BarberHome = () => {
                </Text>
                {services.length > 0 && (
                   <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
-                     <Text className="text-white" variant="title2">
-                        Estimated Earnings
+                     <Text className="text-white" variant="title3">
+                        Today's Estimated
                      </Text>
                      <AnimatedNumber
-                        textStyle={{ fontSize: 40, color: 'white' }}
+                        textStyle={{ fontSize: 32, color: 'white' }}
                         value={allAppointments}
                      />
                      <View className="w-full flex-row justify-evenly">
+                        <View className="items-center justify-center">
+                           <Text className="text-slate-300">Pending</Text>
+                           <AnimatedNumber
+                              value={allAppointments - confirmedTotal}
+                              textStyle={{ color: 'white' }}
+                           />
+                        </View>
                         <View className="items-center justify-center">
                            <Text className="text-muted text-slate-300">
                               Earned
                            </Text>
                            <AnimatedNumber
                               value={confirmedTotal}
-                              textStyle={{ color: 'white' }}
-                           />
-                        </View>
-                        <View className="items-center justify-center">
-                           <Text className="text-slate-300">Pending</Text>
-                           <AnimatedNumber
-                              value={allAppointments - confirmedTotal}
                               textStyle={{ color: 'white' }}
                            />
                         </View>
@@ -218,6 +247,18 @@ const BarberHome = () => {
                      </View>
                   )}
                </View>
+               {todayAppoinments.length > 0 && (
+                  <View className="w-full p-2">
+                     <Text className="text-center">
+                        Completed {completedAppointments.length} out of{' '}
+                        {todayAppoinments.length}
+                     </Text>
+                     <ProgressBar
+                        value={donePercentage > 0 ? donePercentage : 0.0001}
+                     />
+                  </View>
+               )}
+
                <View className="rounded-md bg-card p-2 shadow-sm">
                   <Text variant="title3">
                      Waiting for confirmation ({waitinfForConfirmation.length})
@@ -232,6 +273,49 @@ const BarberHome = () => {
                         <View className="p-2">
                            <Text className="text-muted dark:text-slate-300">
                               No appointments
+                           </Text>
+                        </View>
+                     }
+                     renderItem={({ item }) => {
+                        return (
+                           <TouchableOpacity
+                              onPress={() =>
+                                 router.push({
+                                    pathname: '/barber-appointment-view',
+                                    params: {
+                                       appointmentId: item.id
+                                    }
+                                 })
+                              }
+                              className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
+                           >
+                              <Text className="font-semibold">
+                                 {format(item.date, 'eee')} (
+                                 <Text className="text-sm text-muted dark:text-slate-400">
+                                    {' '}
+                                    {format(item.date, 'dd')})
+                                 </Text>
+                              </Text>
+                              <Text>{item.startTime}</Text>
+                           </TouchableOpacity>
+                        )
+                     }}
+                  />
+               </View>
+               <View className="rounded-md bg-card p-2 shadow-sm">
+                  <Text variant="title3">
+                     Waiting to cash out ({confirmedAppointments.length})
+                  </Text>
+                  <FlatList
+                     data={waitinfForConfirmation.sort((a, b) =>
+                        a.date > b.date ? 1 : -1
+                     )}
+                     horizontal
+                     showsHorizontalScrollIndicator={false}
+                     ListEmptyComponent={
+                        <View className="p-2">
+                           <Text className="text-muted dark:text-slate-300">
+                              No data
                            </Text>
                         </View>
                      }
