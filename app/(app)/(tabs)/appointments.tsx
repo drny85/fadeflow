@@ -4,13 +4,13 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 
-import AppointmentCard from '~/components/Appointment/AppointmentCard'
 import { Button } from '~/components/Button'
 import ConfettiComponent, {
    ConfettiComponentRef
 } from '~/components/ConfettiComponent'
 import { Container } from '~/components/Container'
 import { Text } from '~/components/nativewindui/Text'
+import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
@@ -119,42 +119,47 @@ const AppointmentsPage = () => {
                setSelectedIndex(event.nativeEvent.selectedSegmentIndex)
             }}
          />
-
-         <FlashList
-            data={selectedIndex === 0 ? upcomingAppointments : pastAppointmens}
-            estimatedItemSize={102}
-            showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => (
-               <View className="h-[1px] w-full bg-accent  opacity-30" />
-            )}
-            ListEmptyComponent={
-               <View className="mx-3 gap-10">
-                  <Text className=" mt-10 text-center text-xl text-muted">
-                     No Appointments Scheduled
-                  </Text>
-                  {selectedIndex === 1 && (
-                     <View className="w-1/2 self-center">
-                        <Button
-                           title="Book Appointment"
-                           onPress={() => router.push('/barbers-screen')}
-                        />
-                     </View>
-                  )}
-               </View>
-            }
-            contentContainerClassName="p-2"
-            renderItem={({ item }) => (
-               <AppointmentCard
-                  appointmentId={item.id!}
-                  onPress={() =>
-                     router.push({
-                        pathname: '/appointment',
-                        params: { appointmentId: item.id }
-                     })
-                  }
-               />
-            )}
-         />
+         <View className="flex-1 p-3">
+            <FlashList
+               data={
+                  selectedIndex === 0 ? upcomingAppointments : pastAppointmens
+               }
+               estimatedItemSize={102}
+               showsVerticalScrollIndicator={false}
+               ItemSeparatorComponent={() => (
+                  <View className="h-[1px] w-full bg-accent  opacity-30" />
+               )}
+               ListEmptyComponent={
+                  <View className="mx-3 gap-10">
+                     <Text className=" mt-10 text-center text-xl text-muted">
+                        No Appointments Scheduled
+                     </Text>
+                     {selectedIndex === 1 && (
+                        <View className="w-1/2 self-center">
+                           <Button
+                              title="Book Appointment"
+                              onPress={() => router.push('/barbers-screen')}
+                           />
+                        </View>
+                     )}
+                  </View>
+               }
+               contentContainerClassName="p-2"
+               renderItem={({ item, index }) => (
+                  <SwipleableAppoimentListItem
+                     onPress={() => {
+                        router.push({
+                           pathname: '/appointment',
+                           params: { appointmentId: item.id }
+                        })
+                     }}
+                     index={index}
+                     item={item}
+                     showDate
+                  />
+               )}
+            />
+         </View>
          <ConfettiComponent
             ref={confettiRef} // <reference path="" />
          />

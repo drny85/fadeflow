@@ -10,6 +10,7 @@ import { Appointment, AppointmentStatus } from '~/shared/types'
 import { Text } from '../nativewindui/Text'
 import { Button } from '../Button'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
+import { Icon } from '@roninoss/icons'
 
 const CIRCLE_SIZE = 24
 
@@ -63,15 +64,21 @@ const AnimatedCheckbox = ({ isSelected }: { isSelected: boolean }) => {
                   width: CIRCLE_SIZE - 4,
                   height: CIRCLE_SIZE - 4,
                   borderRadius: (CIRCLE_SIZE - 4) / 2,
-                  borderColor: '#000',
-
-                  backgroundColor: isSelected
-                     ? colors.primary
-                     : colors.background
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#ffffff'
                },
                animatedStyle
             ]}
-         />
+         >
+            {isSelected && (
+               <Icon
+                  name="check-circle"
+                  size={CIRCLE_SIZE}
+                  color={colors.accent}
+               />
+            )}
+         </Animated.View>
       </Animated.View>
    )
 }

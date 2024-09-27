@@ -1,5 +1,5 @@
 import { Redirect, Tabs } from 'expo-router'
-import { Image } from 'react-native'
+import { Image, Platform } from 'react-native'
 
 import { TabBarIcon } from '../../../components/TabBarIcon'
 
@@ -8,6 +8,7 @@ import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { Icon } from '@roninoss/icons'
+import { SymbolView } from 'expo-symbols'
 
 export default function BarberTabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme()
@@ -22,11 +23,9 @@ export default function BarberTabLayout() {
             headerShown: false,
             tabBarShowLabel: false,
             tabBarActiveTintColor: isDarkColorScheme
-               ? colors.grey2
-               : colors.grey,
-            tabBarInactiveTintColor: isDarkColorScheme
-               ? '#ffffff'
+               ? colors.primary
                : colors.accent,
+            tabBarInactiveTintColor: isDarkColorScheme ? '#ffffff' : colors.a,
             tabBarStyle: { backgroundColor: colors.background },
             headerStyle: {
                backgroundColor: colors.background
@@ -63,9 +62,16 @@ export default function BarberTabLayout() {
             options={{
                title: 'My Stuffs',
                headerShown: false,
-               tabBarIcon: ({ color }) => (
-                  <TabBarIcon name="stack-overflow" color={color} />
-               )
+               tabBarIcon: ({ color, size }) =>
+                  Platform.OS === 'ios' ? (
+                     <SymbolView
+                        name="rectangle.on.rectangle.badge.gearshape"
+                        size={size + 8}
+                        tintColor={color}
+                     />
+                  ) : (
+                     <TabBarIcon name="stack-overflow" color={color} />
+                  )
             }}
          />
          <Tabs.Screen

@@ -63,7 +63,7 @@ const SwipeableComponent: React.FC<Props> = ({
                         </Text>
                      </View>
                   ) : (
-                     <Text>Back</Text>
+                     <Text className="text-red-500 font-roboto-bold">Back</Text>
                   )}
                </TouchableOpacity>
             </Animated.View>
@@ -81,7 +81,7 @@ const SwipeableComponent: React.FC<Props> = ({
                   }}
                >
                   <View className="flex-row gap-2 items-center">
-                     <Text className="font-roboto-bold">
+                     <Text className="font-roboto-bold text-slate-900 dark:text-slate-100">
                         {status === 'pending'
                            ? 'Confirm'
                            : status === 'confirmed'

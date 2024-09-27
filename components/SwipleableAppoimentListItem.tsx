@@ -7,20 +7,23 @@ import { router } from 'expo-router'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 import { Text } from './nativewindui/Text'
 import { handleAppointmentUpdates } from '~/actions/appointments'
+import { format } from 'date-fns'
 
 type Props = {
    item: Appointment
    index: number
+   onPress: () => void
+   disabled?: boolean
+   showDate?: boolean
 }
 
-const SwipleableAppoimentListItem = ({ item, index }: Props) => {
-   const statusColor =
-      item.status === 'cancelled'
-         ? 'border-l-red-500'
-         : item.status === 'pending'
-           ? 'border-l-orange-400'
-           : 'border-l-green-500'
-
+const SwipleableAppoimentListItem = ({
+   item,
+   index,
+   onPress,
+   showDate = false,
+   disabled = false
+}: Props) => {
    const handleCancelBack = async (): Promise<boolean> => {
       try {
          if (item.status === 'pending') {
@@ -51,9 +54,23 @@ const SwipleableAppoimentListItem = ({ item, index }: Props) => {
       }
    }
 
+   const statusColor =
+      item.status === 'cancelled'
+         ? 'border-l-red-500'
+         : item.status === 'pending'
+           ? 'border-l-orange-400'
+           : 'border-l-green-500'
+
    return (
-      <Animated.View entering={SlideInLeft.delay(index * 200)}>
-         <Text className="font-roboto-bold ml-2">{item.startTime}</Text>
+      <Animated.View
+         entering={SlideInLeft.delay(index * 200)}
+         style={{ marginVertical: 4 }}
+      >
+         <Text className="font-roboto-bold ml-2">
+            {showDate
+               ? `${format(item.date, 'EE PP')} at ${item.startTime}`
+               : item.startTime}
+         </Text>
          <SwipeableComponent
             disable={item.status === 'cancelled'}
             status={item.status}
@@ -63,12 +80,8 @@ const SwipleableAppoimentListItem = ({ item, index }: Props) => {
             }}
          >
             <TouchableOpacity
-               onPress={() =>
-                  router.push({
-                     pathname: '/barber-appointment-view',
-                     params: { appointmentId: item.id }
-                  })
-               }
+               disabled={disabled}
+               onPress={onPress}
                className={`bg-card mb-1 p-2 rounded-md border-l-4 flex-row justify-between items-center ${statusColor}`}
             >
                <View className="bg-card p-2 rounded-md gap-1">
