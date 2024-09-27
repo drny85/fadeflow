@@ -1,9 +1,27 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { FlashList } from '@shopify/flash-list'
-import { isSameDay, isPast } from 'date-fns'
+import {
+   isSameDay,
+   isPast,
+   parseISO,
+   format,
+   getHours,
+   isAfter,
+   startOfDay,
+   endOfDay,
+   eachHourOfInterval
+} from 'date-fns'
 import { router } from 'expo-router'
 import React, { useMemo, useState } from 'react'
-import { Alert, View } from 'react-native'
+import {
+   Alert,
+   FlatList,
+   ScrollView,
+   StyleSheet,
+   TouchableOpacity,
+   View
+} from 'react-native'
+import Animated, { FadeInLeft, SlideInLeft } from 'react-native-reanimated'
 
 import { updateAppointmentInDatabase } from '~/actions/appointments'
 import AppointmentCard from '~/components/Appointment/AppointmentCard'
@@ -19,108 +37,50 @@ import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { Appointment } from '~/shared/types'
 import { COLORS } from '~/theme/colors'
+import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 
-const VALUES = ['Today', 'Calendar', 'Upcoming']
+const VALUES = ['Today', 'Calendar']
 
 const BarberAppointments = () => {
-   const { colors, isDarkColorScheme } = useColorScheme()
+   const { user } = useAuth()
+   const [showNoData, setShowData] = useState(true)
+   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
    const appointments = useAppointmentStore((s) =>
       s.appointments.sort((a, b) =>
          new Date(a.date) > new Date(b.date) ? 1 : -1
       )
    )
-   const [day, setDate] = useState(new Date())
-   const { user } = useAuth()
+
    const [selectedIndex, setSelectedIndex] = useState(0)
 
-   const appointmentsByDate = useMemo(() => {
-      return appointments.filter((appointment) =>
-         isSameDay(appointment.date, day)
-      )
-   }, [appointments, day])
-
-   const todayAppoinments = useMemo(() => {
-      return appointments.filter((appointment) =>
-         isSameDay(appointment.date, new Date())
-      )
-   }, [appointments])
-
-   const upcomingAppointments = useMemo(() => {
-      return appointments.filter(
-         (appointment) =>
-            appointment.status !== 'cancelled' &&
-            new Date(appointment.date) > new Date()
-      )
-   }, [appointments])
-
    const data = useMemo(() => {
-      if (selectedIndex === 0) {
-         return todayAppoinments
-      }
-      if (selectedIndex === 1) {
-         return appointmentsByDate
-      }
-      if (selectedIndex === 2) {
-         return upcomingAppointments
-      }
-   }, [
-      selectedIndex,
-      appointmentsByDate,
-      todayAppoinments,
-      upcomingAppointments
-   ])
+      return appointments.filter((appointment) =>
+         isSameDay(appointment.date, selectedDate)
+      )
+   }, [appointments, selectedDate])
 
    useStatusBarColor('dark')
    return (
       <Container>
-         <SegmentedControl
-            values={VALUES}
-            fontStyle={{
-               fontSize: 16,
-               color: isDarkColorScheme ? 'white' : 'black'
-            }}
-            tintColor={colors.accent}
-            activeFontStyle={{
-               color: 'white',
-               fontWeight: '700',
-               fontSize: 18
-            }}
-            style={{
-               backgroundColor: colors.background,
-               height: 40,
-               width: '80%',
-               alignSelf: 'center',
-               marginBottom: 10
-            }}
-            selectedIndex={selectedIndex}
-            onChange={(event) => {
-               setSelectedIndex(event.nativeEvent.selectedSegmentIndex)
-            }}
-         />
-         {selectedIndex === 1 && (
-            <View className="m-1 min-h-36 rounded-md bg-card shadow-sm">
-               <WeekSelector
-                  ignorePast={true}
-                  schedule={
-                     (user?.isBarber && user.schedule) || DEFAULT_SCHEDULE
-                  }
-                  onPress={(day) => {
-                     setDate(day)
-                  }}
-               />
-            </View>
-         )}
-         <View className="mx-2 flex-1">
+         <Text variant={'largeTitle'} className="text-center mb-2">
+            Appointments
+         </Text>
+
+         <View className="m-1 min-h-36 rounded-md bg-card shadow-sm">
+            <WeekSelector
+               ignorePast={true}
+               onChange={() => {
+                  setShowData(false)
+               }}
+               schedule={(user?.isBarber && user.schedule) || DEFAULT_SCHEDULE}
+               onPress={(day) => {
+                  setShowData(true)
+                  setSelectedDate(day)
+               }}
+            />
+         </View>
+         <View className="flex-1 p-2">
             <FlashList
-               ListHeaderComponent={
-                  data && data.length > 0 ? (
-                     <View>
-                        <Text className="px-4 py-2 text-center font-semibold text-muted dark:text-white">
-                           {data.length} Appointments
-                        </Text>
-                     </View>
-                  ) : null
-               }
                data={data}
                ListEmptyComponent={
                   <View className="mt-10 flex-1 items-center justify-center">
@@ -129,25 +89,73 @@ const BarberAppointments = () => {
                      </Text>
                   </View>
                }
-               contentContainerClassName="p-1"
+               estimatedItemSize={125}
+               key={showNoData ? 1 : 2}
                showsVerticalScrollIndicator={false}
-               estimatedItemSize={120}
-               renderItem={({ item }) => (
-                  <AppointmentCard
-                     appointmentId={item.id!}
-                     onPress={() => {
-                        router.push({
-                           pathname: '/barber-appointment-view',
-                           params: { appointmentId: item.id }
-                        })
-                     }}
-                     actionsButton={
-                        item.status !== 'completed' && (
-                           <ActionButtons appointment={item} />
-                        )
-                     }
-                  />
-               )}
+               renderItem={({ item, index }) => {
+                  if (!showNoData)
+                     return (
+                        <View className="mt-10 flex-1 items-center justify-center">
+                           <Text className="text-center font-semibold text-muted dark:text-slate-300">
+                              Select a Date
+                           </Text>
+                        </View>
+                     )
+                  const statusColor =
+                     item.status === 'cancelled'
+                        ? 'border-l-red-500'
+                        : item.status === 'pending'
+                          ? 'border-l-orange-400'
+                          : 'border-l-green-500'
+                  return (
+                     <Animated.View entering={SlideInLeft.delay(index * 200)}>
+                        <Text className="font-roboto-bold ml-2">
+                           {item.startTime}
+                        </Text>
+                        <TouchableOpacity
+                           onPress={() =>
+                              router.push({
+                                 pathname: '/barber-appointment-view',
+                                 params: { appointmentId: item.id }
+                              })
+                           }
+                           className={`bg-card mb-1 p-2 rounded-md border-l-4 flex-row justify-between items-center ${statusColor}`}
+                        >
+                           <View className="bg-card p-2 rounded-md gap-1">
+                              <View className="flex-row items-center gap-2">
+                                 <Text className="font-raleway">
+                                    {item.customer.name}
+                                 </Text>
+                                 <View className="bg-slate-400 h-1 w-1 rounded-full" />
+                                 <Text className="text-sm text-muted dark:text-slate-400">
+                                    {getAppointmentDuration(item.services)} mins
+                                 </Text>
+                              </View>
+                              <View>
+                                 {item.services.map((s, index) => (
+                                    <Text
+                                       className="font-raleway-bold text-sm text-muted dark:text-white"
+                                       key={s.id}
+                                    >
+                                       {s.name}{' '}
+                                       {s.quantity > 1 ? `x ${s.quantity}` : ''}{' '}
+                                       {index !== item.services.length - 1 &&
+                                          ','}
+                                    </Text>
+                                 ))}
+                              </View>
+                           </View>
+                           <View
+                              className={`${item.status === 'confirmed' ? 'bg-green-400' : item.status === 'pending' ? 'bg-orange-400' : item.status === 'cancelled' ? 'bg-primary' : 'bg-gray-400'} w-1/4 rounded-2xl p-1 px-2`}
+                           >
+                              <Text className="text-center text-sm font-semibold capitalize text-white">
+                                 {item.status}
+                              </Text>
+                           </View>
+                        </TouchableOpacity>
+                     </Animated.View>
+                  )
+               }}
             />
          </View>
       </Container>
@@ -285,3 +293,35 @@ const ActionButtons = ({ appointment }: { appointment: Appointment }) => {
       </View>
    )
 }
+
+const styles = StyleSheet.create({
+   container: {
+      flex: 1,
+      backgroundColor: '#000'
+   },
+   dateSelector: {
+      paddingVertical: 10
+   },
+   schedule: {
+      paddingHorizontal: 20
+   },
+   hourBlock: {
+      borderBottomColor: '#666',
+      borderBottomWidth: 1,
+      paddingTop: 10
+   },
+   hourText: {
+      color: '#fff',
+      fontSize: 16,
+      fontWeight: 'bold'
+   },
+   appointment: {
+      backgroundColor: '#333',
+      padding: 10,
+      marginVertical: 5
+   },
+   appointmentText: {
+      color: '#fff',
+      fontSize: 14
+   }
+})

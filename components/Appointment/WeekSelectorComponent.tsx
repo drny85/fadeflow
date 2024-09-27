@@ -76,12 +76,14 @@ type Props = {
    schedule: Schedule
    onPress?: (date: Date) => void
    ignorePast?: boolean
+   onChange?: () => void
 }
 
 const WeekSelector: React.FC<Props> = ({
    schedule,
    onPress,
-   ignorePast = false
+   ignorePast = false,
+   onChange
 }) => {
    const today = new Date()
    const [currentDate, setCurrentDate] = useState<Date>(new Date())
@@ -109,6 +111,7 @@ const WeekSelector: React.FC<Props> = ({
       const nextWeek = new Date(currentDate)
       nextWeek.setDate(currentDate.getDate() + 7)
       setCurrentDate(nextWeek)
+      onChange && onChange()
    }
 
    const findAnyAppointmentByDate = (date: Date): boolean => {
@@ -133,6 +136,7 @@ const WeekSelector: React.FC<Props> = ({
    const handlePreviousWeek = () => {
       const prevWeek = new Date(currentDate)
       prevWeek.setDate(currentDate.getDate() - 7)
+      onChange && onChange()
 
       // Check if any day in the previous week is not in the past
       const isAnyDayInFuture = getWeekDates(prevWeek).some((date) => {

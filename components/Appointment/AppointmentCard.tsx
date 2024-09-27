@@ -53,7 +53,6 @@ const AppointmentCard = ({ appointmentId, onPress, actionsButton }: Props) => {
                   {user?.isBarber ? item.customer.name : item.barber.name}
                </Text>
                <View>
-                  {/* <Text className="py-1 font-semibold text-muted">{names.join(', ')}</Text> */}
                   {item.services.map((s, index) => (
                      <Text
                         className="font-raleway-bold text-muted dark:text-white"
