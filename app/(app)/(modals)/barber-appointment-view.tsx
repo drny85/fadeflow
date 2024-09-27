@@ -13,7 +13,10 @@ import {
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { updateAppointmentInDatabase } from '~/actions/appointments'
+import {
+   handleAppointmentUpdates,
+   updateAppointmentInDatabase
+} from '~/actions/appointments'
 import { Button } from '~/components/Button'
 import CommunicationButtons from '~/components/CommunicationButtons'
 import { Text } from '~/components/nativewindui/Text'
@@ -48,24 +51,6 @@ const BarberAppointmentView = () => {
          console.log('Error updating appointment', error)
       }
    }
-
-   const markAsCompleted = useCallback(async () => {
-      if (!appointment) return
-
-      if (!isPast(appointment.date)) {
-         return toastAlert({
-            title: 'Error, not the time',
-            message: 'Please do not mark the appointment as complete',
-            preset: 'error'
-         })
-      }
-
-      updateAppointmentInDatabase({
-         ...appointment,
-         status: 'completed',
-         changesMadeBy: 'barber'
-      })
-   }, [appointment])
 
    const markAsNoShow = useCallback(() => {
       if (!isPast(appointment.date)) {
@@ -280,7 +265,10 @@ const BarberAppointmentView = () => {
                   </Text>
                </TouchableOpacity>
                <View className="flex-1">
-                  <Button title="Mark Complete" onPress={markAsCompleted} />
+                  <Button
+                     title="Mark Complete"
+                     onPress={() => handleAppointmentUpdates(appointment)}
+                  />
                </View>
             </View>
          )}

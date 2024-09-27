@@ -79,7 +79,7 @@ const AnimatedCheckbox = ({ isSelected }: { isSelected: boolean }) => {
 const AppointmentFilter = ({ appointments, onPress }: Props) => {
    const [selectedStatuses, setSelectedStatuses] = useState<
       AppointmentStatus[]
-   >([])
+   >(['cancelled', 'completed', 'confirmed', 'no-show', 'pending'])
    const { setFiltered, setFilteredAppointments } = useAppointmentStore()
 
    const toggleStatus = (status: AppointmentStatus) => {

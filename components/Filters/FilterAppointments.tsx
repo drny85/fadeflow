@@ -13,7 +13,7 @@ import FilterItems from './FilterItems'
 const FilterAppointments = () => {
    const { user } = useAuth()
    const { appointments } = useAppointmentStore()
-   const { colors, isDarkColorScheme } = useColorScheme()
+   const { isDarkColorScheme } = useColorScheme()
 
    const snapPoints = useMemo(() => ['70%'], [])
    const bottomSheetRef = useSheetRef()
