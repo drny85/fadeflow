@@ -49,6 +49,7 @@ export function useProtectedRoute() {
       const inAuthGroup = segments[1] === '(auth)'
       const inBarberGroup = segments[1] === '(barber-tabs)'
       const inUserGroup = segments[1] === '(tabs)'
+      console.log(daysRemaining)
 
       updateProfileIsIncomplete()
 
@@ -64,11 +65,13 @@ export function useProtectedRoute() {
          user &&
          inBarberGroup &&
          user.isBarber &&
-         user.subscriptionStatus === 'trialing' &&
+         (user.subscriptionStatus === 'trialing' ||
+            user.subscriptionStatus === 'incomplete' ||
+            user.subscriptionStatus === 'incomplete_expired') &&
          daysRemaining <= 0
       ) {
          console.log('0')
-         router.replace('/subscription')
+         router.push('/subscription')
       } else if (user && inBarberGroup && user.isBarber && !profileCompleted) {
          console.log('1-----')
          router.push('/profile-complition')

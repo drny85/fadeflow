@@ -21,8 +21,9 @@ import * as dotenv from 'dotenv'
 import { getApp, getApps, initializeApp } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
-import * as functions from 'firebase-functions/v1'
 import * as logger from 'firebase-functions/logger'
+import { defineSecret } from 'firebase-functions/params'
+import * as functions from 'firebase-functions/v1'
 import {
    onDocumentCreated,
    onDocumentUpdated
@@ -43,7 +44,7 @@ import {
    handleSubscriptionUpdated
 } from './utils'
 import { sendPushNotification } from './utils/common'
-import { defineSecret } from 'firebase-functions/params'
+
 dotenv.config()
 
 getApps().length === 0 ? initializeApp() : getApp()

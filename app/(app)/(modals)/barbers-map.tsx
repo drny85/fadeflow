@@ -6,6 +6,7 @@ import { FlatList, TouchableOpacity, View } from 'react-native'
 import Map, { Marker, MarkerPressEvent } from 'react-native-maps'
 
 import BarbersListMapView from '~/components/BarbersListMapView'
+import BarbersMapSkelenton from '~/components/Skeletons/BarberMapsSkeleton'
 import { SIZES } from '~/constants'
 import { useLocation } from '~/hooks/useLocation'
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -59,7 +60,7 @@ const BarbersMap = () => {
       return () => clearTimeout(timeout)
    }, [barbers.length])
 
-   if (loading || !location) return null
+   if (loading || !location) return <BarbersMapSkelenton />
    return (
       <View className="flex-1">
          <View

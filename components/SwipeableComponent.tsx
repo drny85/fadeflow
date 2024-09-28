@@ -9,6 +9,7 @@ import {
    View
 } from 'react-native'
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler'
+
 import { AppointmentStatus } from '~/shared/types'
 
 const SCREEN_WIDTH = Dimensions.get('window').width

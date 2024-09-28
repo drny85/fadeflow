@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react'
-import { getPortalUrl } from '~/firebase-collections'
 import * as WebBrowser from 'expo-web-browser'
+import { useCallback, useState } from 'react'
+
+import { getPortalUrl } from '~/firebase-collections'
 
 WebBrowser.warmUpAsync()
 export const usePortalLink = () => {

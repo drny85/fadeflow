@@ -11,12 +11,12 @@ import ConfettiComponent, { ConfettiComponentRef } from './ConfettiComponent'
 import { ActivityIndicator } from './nativewindui/ActivityIndicator'
 
 import { createSubscrition } from '~/firebase-collections'
+import { usePortalLink } from '~/hooks/usePortalLink'
 import { useUser } from '~/hooks/useUser'
 import { toastAlert } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { PaymentIntentResponse } from '~/shared/types'
-import { usePortalLink } from '~/hooks/usePortalLink'
 
 const SubscriptionButton = () => {
    const { initPaymentSheet, presentPaymentSheet, handleURLCallback } =

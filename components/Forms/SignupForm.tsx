@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Icon } from '@roninoss/icons'
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -10,10 +11,9 @@ import TextInput from '../TextInput'
 import { Text } from '../nativewindui/Text'
 
 import { DEFAULT_SCHEDULE } from '~/constants'
+import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { AppUser } from '~/shared/types'
-import { Icon } from '@roninoss/icons'
-import { useColorScheme } from '~/lib/useColorScheme'
 
 const signupSchema = z
    .object({

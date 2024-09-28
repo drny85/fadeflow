@@ -1,10 +1,12 @@
 import { Tabs } from 'expo-router'
 import { Image, TouchableOpacity } from 'react-native'
+
 import { TabBarIcon } from '../../../components/TabBarIcon'
+
+import FilterAppointments from '~/components/Filters/FilterAppointments'
 import { useBarbers } from '~/hooks/useBarbers'
 import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
-import FilterAppointments from '~/components/Filters/FilterAppointments'
 import { useAuth } from '~/providers/AuthContext'
 
 export default function TabLayout() {

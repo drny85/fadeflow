@@ -9,8 +9,8 @@ import ConfettiComponent, {
    ConfettiComponentRef
 } from '~/components/ConfettiComponent'
 import { Container } from '~/components/Container'
-import { Text } from '~/components/nativewindui/Text'
 import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
+import { Text } from '~/components/nativewindui/Text'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'

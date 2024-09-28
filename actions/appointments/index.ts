@@ -1,8 +1,9 @@
+import { isPast } from 'date-fns'
 import { addDoc, doc, updateDoc } from 'firebase/firestore'
+
 import { appointmentsCollection } from '~/firebase-collections'
 import { toastAlert, toastMessage } from '~/lib/toast'
 import { Appointment } from '~/shared/types'
-import { isPast } from 'date-fns'
 
 export const addNewAppointmentToDatabase = async (
    appointment: Appointment

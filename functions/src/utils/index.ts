@@ -1,8 +1,8 @@
 import { getAuth } from 'firebase-admin/auth'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import Stripe from 'stripe'
 
 import { sendPushNotification } from './common'
-import Stripe from 'stripe'
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
    const customerId = subscription.customer as string

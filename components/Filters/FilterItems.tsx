@@ -1,3 +1,4 @@
+import { Icon } from '@roninoss/icons'
 import React, { useState } from 'react'
 import { View, TouchableOpacity } from 'react-native' // assuming the type is in a separate file
 import Animated, {
@@ -5,12 +6,13 @@ import Animated, {
    useAnimatedStyle,
    withSpring
 } from 'react-native-reanimated'
-import { useColorScheme } from '~/lib/useColorScheme'
-import { Appointment, AppointmentStatus } from '~/shared/types'
-import { Text } from '../nativewindui/Text'
+
 import { Button } from '../Button'
+import { Text } from '../nativewindui/Text'
+
+import { useColorScheme } from '~/lib/useColorScheme'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
-import { Icon } from '@roninoss/icons'
+import { Appointment, AppointmentStatus } from '~/shared/types'
 
 const CIRCLE_SIZE = 24
 

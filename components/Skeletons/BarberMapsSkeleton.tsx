@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { SIZES } from '~/constants'
 import { useColorScheme } from '~/lib/useColorScheme'
 
-export default function HomeSkelenton() {
+export default function BarbersMapSkelenton() {
    const { colors, colorScheme } = useColorScheme()
 
    return (
@@ -16,40 +16,36 @@ export default function HomeSkelenton() {
          style={[styles.container, { backgroundColor: colors.background }]}
          animate={{ backgroundColor: colors.card }}
       >
-         <View style={{ flex: 0.4 }}>
+         <View style={{ flex: 0.7 }}>
             <Skeleton
                colorMode={colorScheme}
                width="100%"
-               height={SIZES.height * 0.35}
+               height={SIZES.height * 0.7}
             />
          </View>
 
-         <Spacer height={20} />
-         <View style={{ gap: 10, flex: 0.6 }}>
-            {[...Array(3)].map((_, index) => (
-               <View key={index}>
-                  <Skeleton
-                     colorMode={colorScheme}
-                     width="100%"
-                     height={SIZES.height * 0.15}
-                     radius={10}
-                  />
-                  <View
-                     style={{
-                        alignSelf: 'center',
-                        position: 'absolute',
-                        bottom: 16
-                     }}
-                  >
-                     <Skeleton
-                        colorMode={colorScheme}
-                        height={42}
-                        width={SIZES.width / 3}
-                        radius={35}
-                     />
-                  </View>
-               </View>
-            ))}
+         <Spacer height={10} />
+         <View
+            style={{ gap: 2, flex: 0.25, flexDirection: 'row', width: '100%' }}
+         >
+            <Skeleton
+               colorMode={colorScheme}
+               width="80%"
+               height={SIZES.height * 0.25}
+               radius={10}
+            />
+            <Skeleton
+               colorMode={colorScheme}
+               width="100%"
+               height={SIZES.height * 0.25}
+               radius={10}
+            />
+            <Skeleton
+               colorMode={colorScheme}
+               width="80%"
+               height={SIZES.height * 0.25}
+               radius={10}
+            />
          </View>
          {/* <Spacer height={20} />
          <View style={{ gap: 12 }}>

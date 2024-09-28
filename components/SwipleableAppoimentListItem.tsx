@@ -1,13 +1,15 @@
-import { View, TouchableOpacity, Alert } from 'react-native'
-import React from 'react'
-import { Appointment } from '~/shared/types'
-import Animated, { SlideInLeft } from 'react-native-reanimated'
-import SwipeableComponent from './SwipeableComponent'
-import { router } from 'expo-router'
-import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
-import { Text } from './nativewindui/Text'
-import { handleAppointmentUpdates } from '~/actions/appointments'
 import { format } from 'date-fns'
+import { router } from 'expo-router'
+import React from 'react'
+import { View, TouchableOpacity, Alert } from 'react-native'
+import Animated, { SlideInLeft } from 'react-native-reanimated'
+
+import SwipeableComponent from './SwipeableComponent'
+import { Text } from './nativewindui/Text'
+
+import { handleAppointmentUpdates } from '~/actions/appointments'
+import { Appointment } from '~/shared/types'
+import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 
 type Props = {
    item: Appointment

@@ -9,9 +9,9 @@ import { TouchableOpacity, View } from 'react-native'
 
 import WeekSelector from '~/components/Appointment/WeekSelectorComponent'
 import { Container } from '~/components/Container'
+import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
 import { Text } from '~/components/nativewindui/Text'
-import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { DEFAULT_SCHEDULE, SIZES } from '~/constants'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -51,7 +51,7 @@ const BarberAppointments = () => {
                   color={isDarkColorScheme ? '#ffffff' : colors.accent}
                />
             </TouchableOpacity>
-            <Text variant={'title1'} className="text-center mb-2">
+            <Text variant="title1" className="text-center mb-2">
                Appointments
             </Text>
             <MotiView
@@ -79,7 +79,7 @@ const BarberAppointments = () => {
 
          <View className="m-1 min-h-36 rounded-md bg-card shadow-sm">
             <WeekSelector
-               ignorePast={true}
+               ignorePast
                onChange={() => {
                   setShowData(false)
                }}
@@ -137,7 +137,7 @@ const BarberAppointments = () => {
                         color={isDarkColorScheme ? '#ffffff' : colors.accent}
                      />
                   </TouchableOpacity>
-                  <Text variant={'title1'} className="text-center mb-2">
+                  <Text variant="title1" className="text-center mb-2">
                      New Appointments
                   </Text>
                   <Text />
@@ -163,7 +163,7 @@ const BarberAppointments = () => {
                               })
                            }}
                            showDate
-                           disabled={true}
+                           disabled
                            index={index}
                            item={item}
                         />

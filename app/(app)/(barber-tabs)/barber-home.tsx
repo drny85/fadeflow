@@ -26,11 +26,13 @@ import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter'
 import { shareBarberLink } from '~/utils/shareBarberLink'
 
+const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
+
 const BarberHome = () => {
    const { user } = useAuth()
    const { colors } = useColorScheme()
    const daysRemaining = differenceInDays(
-      addDays(user?.createdAt!, 14),
+      addDays(user?.createdAt!, +DAYS),
       new Date()
    )
    const { top } = useSafeAreaInsets()
@@ -203,7 +205,9 @@ const BarberHome = () => {
                user.subscriptionStatus !== 'active' && (
                   <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
                      <Text className="mb-2 text-center font-roboto-bold text-xl">
-                        Your account is 14 days Free-trial
+                        {daysRemaining > 0
+                           ? ' Your account is 14 days Free-trial'
+                           : 'Your Free-Trial Expired'}
                      </Text>
                      <Text className="text-center text-sm text-muted">
                         created at: {format(user.createdAt, 'PPpp')}

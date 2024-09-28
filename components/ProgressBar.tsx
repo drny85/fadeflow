@@ -6,8 +6,9 @@ import Animated, {
    withTiming
 } from 'react-native-reanimated'
 
-import { useColorScheme } from '~/lib/useColorScheme'
 import { Text } from './nativewindui/Text'
+
+import { useColorScheme } from '~/lib/useColorScheme'
 
 type Props = {
    value: number

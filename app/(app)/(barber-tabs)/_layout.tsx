@@ -1,4 +1,6 @@
+import { Icon } from '@roninoss/icons'
 import { Redirect, Tabs } from 'expo-router'
+import { SymbolView } from 'expo-symbols'
 import { Image, Platform } from 'react-native'
 
 import { TabBarIcon } from '../../../components/TabBarIcon'
@@ -7,8 +9,6 @@ import { useAppointments } from '~/hooks/useAppointments'
 import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
-import { Icon } from '@roninoss/icons'
-import { SymbolView } from 'expo-symbols'
 
 export default function BarberTabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme()

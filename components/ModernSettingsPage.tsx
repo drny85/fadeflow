@@ -11,7 +11,6 @@ import Constants from 'expo-constants'
 import { ImageBackground } from 'expo-image'
 import * as Linking from 'expo-linking'
 import { router } from 'expo-router'
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import {
    Alert,
@@ -24,6 +23,7 @@ import {
 
 import ScheduleEditor from './CurrentSchedule'
 import ParallaxScrollView from './ParallaxScrollView'
+import { ActivityIndicator } from './nativewindui/ActivityIndicator'
 import { Sheet, useSheetRef } from './nativewindui/Sheet'
 import { Text } from './nativewindui/Text'
 import { ThemeToggle } from './nativewindui/ThemeToggle'
@@ -33,15 +33,13 @@ import { updateUser } from '~/actions/users'
 import { SIZES } from '~/constants'
 import { deleteUserFunction } from '~/firebase-collections'
 import { usePhoto } from '~/hooks/usePhoto'
+import { usePortalLink } from '~/hooks/usePortalLink'
 import { useUser } from '~/hooks/useUser'
 import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { Schedule } from '~/shared/types'
 import { formatPhone } from '~/utils/formatPhone'
-
-import { ActivityIndicator } from './nativewindui/ActivityIndicator'
-import { usePortalLink } from '~/hooks/usePortalLink'
 
 const MINUTES_INTERVAL = [15, 30, 45]
 const IMAGE_HEIGHT = 100

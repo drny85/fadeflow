@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Icon } from '@roninoss/icons'
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -11,10 +12,9 @@ import ForgotPassword from './ForgotPassword'
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
 
+import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { FIREBASE_ERRORS } from '~/utils/firebaseErrorMessages'
-import { Icon } from '@roninoss/icons'
-import { useColorScheme } from '~/lib/useColorScheme'
 
 const loginSchema = z.object({
    email: z.string().email(),

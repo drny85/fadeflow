@@ -1,14 +1,14 @@
+import { Image } from 'expo-image'
 import React, { useMemo } from 'react'
 import { Button, StyleSheet, TouchableOpacity, View } from 'react-native'
 
+import FilterItems from './FilterItems'
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
 
-import { Image } from 'expo-image'
 import { useColorScheme } from '~/lib/useColorScheme'
-import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAuth } from '~/providers/AuthContext'
-import FilterItems from './FilterItems'
+import { useAppointmentStore } from '~/providers/useAppointmentStore'
 
 const FilterAppointments = () => {
    const { user } = useAuth()
