@@ -1,4 +1,4 @@
-import { getDocs } from 'firebase/firestore'
+import { onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 
 import { reviewsCollection } from '~/firebase-collections'
@@ -8,23 +8,16 @@ export const useReviews = () => {
    const [reviews, setReviews] = useState<Review[]>([])
    const [loading, setLoading] = useState(false)
 
-   const getReviews = async () => {
-      try {
+   useEffect(() => {
+      return onSnapshot(reviewsCollection, (snapshot) => {
          setLoading(true)
-         const response = await getDocs(reviewsCollection)
-         const data = response.docs.map((doc) => ({
+         const data = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data()
          }))
          setReviews(data as Review[])
-      } catch (error) {
-         console.log(error)
-      } finally {
          setLoading(false)
-      }
-   }
-   useEffect(() => {
-      getReviews()
+      })
    }, [])
 
    return {

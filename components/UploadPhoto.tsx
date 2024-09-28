@@ -117,7 +117,7 @@ const UploadPhoto: React.FC = () => {
       <View>
          <TouchableOpacity
             onPress={pickAndUploadImage}
-            className="h-16 w-16 items-center justify-center rounded-full bg-accent shadow-sm"
+            className="h-16 w-16 items-center justify-center rounded-full bg-primary shadow-sm"
          >
             <FontAwesome name="plus" color="#ffffff" size={32} />
          </TouchableOpacity>

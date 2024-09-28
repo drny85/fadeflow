@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native'
 
 import { ICON_IMAGES } from '~/constants'
+import { useColorScheme } from '~/lib/useColorScheme'
 import { IconNames } from '~/shared/types'
 
 // Define the type for IconImageType
@@ -22,6 +23,7 @@ const IconImages: React.FC<IconImagesProps> = ({
 }) => {
    const [selectedIcon, setSelectedIcon] = useState<IconNames | null>(selected)
    const [index, setIndex] = useState(0)
+   const { colors } = useColorScheme()
    const ref = useRef<FlatList>(null)
    const handleSelectIcon = (iconKey: IconNames) => {
       setSelectedIcon(iconKey)
@@ -63,10 +65,18 @@ const IconImages: React.FC<IconImagesProps> = ({
                   }}
                   style={[
                      styles.iconContainer,
-                     selectedIcon === iconKey && styles.selectedIcon
+                     selectedIcon === iconKey && {
+                        backgroundColor: colors.primary
+                     }
                   ]}
                >
-                  <Image source={icons[iconKey]} style={styles.icon} />
+                  <Image
+                     source={icons[iconKey]}
+                     style={styles.icon}
+                     tintColor={
+                        selectedIcon === iconKey ? '#ffffff' : undefined
+                     }
+                  />
                </TouchableOpacity>
             )
          }}
@@ -85,9 +95,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       backgroundColor: '#f0f0f0'
    },
-   selectedIcon: {
-      backgroundColor: '#c0c0c0'
-   },
+
    icon: {
       width: 50,
       height: 50,

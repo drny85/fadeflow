@@ -21,7 +21,7 @@ import { COLORS } from '~/theme/colors'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
 
 const Home = () => {
-   const { user } = useAuth()
+   const { user, loading: loadingUser } = useAuth()
    const { location, loading } = useLocation()
    const favoriteBarber =
       !user?.isBarber && user?.favoriteBarber ? user?.favoriteBarber : undefined
@@ -51,7 +51,7 @@ const Home = () => {
       .sort((a, b) => (a.date > b.date ? 1 : -1))
 
    useStatusBarColor('light')
-   if (loading) return <HomeSkelenton />
+   if (loading || loadingUser) return <HomeSkelenton />
    return (
       <View className="flex-1">
          <ParallaxScrollView

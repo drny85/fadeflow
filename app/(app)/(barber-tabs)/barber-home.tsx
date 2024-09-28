@@ -14,9 +14,9 @@ import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import AnimatedNumber from '~/components/AnimatedNumber'
-import AppointmentCard from '~/components/Appointment/AppointmentCard'
 import { Button } from '~/components/Button'
 import ProgressBar from '~/components/ProgressBar'
+import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { Text } from '~/components/nativewindui/Text'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
@@ -24,6 +24,7 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter'
+import { convertMinutesToHours } from '~/utils/convertMinutesIntoHours'
 import { shareBarberLink } from '~/utils/shareBarberLink'
 
 const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
@@ -65,6 +66,14 @@ const BarberHome = () => {
             (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
          )
    }, [data])
+
+   const totalHours = todayAppoinments.reduce((total, appointment) => {
+      const serviceDuration = appointment.services.reduce(
+         (duration, service) => duration + service.duration,
+         0
+      )
+      return total + serviceDuration
+   }, 0)
    const completedAppointments = todayAppoinments.filter(
       (appointment) => appointment.status === 'completed'
    )
@@ -140,12 +149,14 @@ const BarberHome = () => {
                   <Text className="font-raleway text-2xl text-white">
                      Hi {user?.name?.split(' ')[0]}
                   </Text>
-                  <TouchableOpacity
-                     onPress={() => shareBarberLink(user?.id!)}
-                     className="h-10 w-10 items-center justify-center rounded-full bg-slate-200 p-1"
-                  >
-                     <Feather name="share" size={26} color={colors.accent} />
-                  </TouchableOpacity>
+                  {user && (
+                     <TouchableOpacity
+                        onPress={() => shareBarberLink(user?.id!)}
+                        className="h-10 w-10 items-center justify-center rounded-full bg-slate-200 p-1"
+                     >
+                        <Feather name="share" size={26} color={colors.accent} />
+                     </TouchableOpacity>
+                  )}
                </View>
                <Text className="mt-2 text-center text-white">
                   {new Date().toDateString()}
@@ -177,6 +188,9 @@ const BarberHome = () => {
                            />
                         </View>
                      </View>
+                     <Text className="text-white font-roboto-bold">
+                        Total Hrs: {convertMinutesToHours(totalHours)}
+                     </Text>
                   </View>
                )}
                {!loading && services.length === 0 && (
@@ -206,7 +220,7 @@ const BarberHome = () => {
                   <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
                      <Text className="mb-2 text-center font-roboto-bold text-xl">
                         {daysRemaining > 0
-                           ? ' Your account is 14 days Free-trial'
+                           ? `Your account is on ${DAYS} days Free-trial`
                            : 'Your Free-Trial Expired'}
                      </Text>
                      <Text className="text-center text-sm text-muted">
@@ -232,8 +246,22 @@ const BarberHome = () => {
                <View className="bg-card p-2">
                   <Text variant="title3">My Next Appointment</Text>
                   {myNextAppointment ? (
-                     <AppointmentCard
-                        appointmentId={myNextAppointment.id!}
+                     // <AppointmentCard
+                     //    appointmentId={myNextAppointment.id!}
+                     //    onPress={() => {
+                     //       router.push({
+                     //          pathname: '/barber-appointment-view',
+                     //          params: {
+                     //             appointmentId: myNextAppointment.id
+                     //          }
+                     //       })
+                     //    }}
+                     // />
+                     <SwipleableAppoimentListItem
+                        index={0}
+                        showDate
+                        item={myNextAppointment}
+                        dateTextStyle={{ color: 'grey' }}
                         onPress={() => {
                            router.push({
                               pathname: '/barber-appointment-view',

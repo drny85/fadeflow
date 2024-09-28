@@ -38,16 +38,16 @@ const Stepper: React.FC<StepperProps> = ({
       <View className="flex-row items-center gap-2">
          <TouchableOpacity
             onPress={decrement}
-            className="h-12 w-12 items-center justify-center rounded-full bg-card  shadow-sm"
+            className="h-12 w-12 items-center justify-center rounded-full bg-primary  shadow-sm"
          >
-            <Text className="text-2xl font-bold">-</Text>
+            <Text className="text-2xl font-bold text-white">-</Text>
          </TouchableOpacity>
-         <Text className="text-lg font-semibold">{value}</Text>
+         <Text className="text-lg font-semibold dark:text-white">{value}</Text>
          <TouchableOpacity
             onPress={increment}
-            className="h-12 w-12 items-center justify-center rounded-full bg-card  shadow-sm"
+            className="h-12 w-12 items-center justify-center rounded-full bg-primary  shadow-sm"
          >
-            <Text className="text-2xl font-bold">+</Text>
+            <Text className="text-2xl font-bold text-white">+</Text>
          </TouchableOpacity>
       </View>
    )

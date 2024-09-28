@@ -10,6 +10,7 @@ import {
    Appointment,
    AppUser,
    Barber,
+   BroadcastMessage,
    CreateSubscriptionRequest,
    CreateSubscriptionResponse,
    Response,
@@ -44,6 +45,7 @@ import {
    handleSubscriptionUpdated
 } from './utils'
 import { sendPushNotification } from './utils/common'
+import { sendNotificationToAllUsers } from './utils/sendNotificationToAllUsers'
 
 dotenv.config()
 
@@ -570,6 +572,32 @@ exports.handleStripeWebhook = onRequest(
       }
 
       return res.status(200).json({ received: true })
+   }
+)
+
+exports.sendBroadcastMessage = onDocumentCreated(
+   'broadcasts/{broadcastId}',
+   async (event) => {
+      const broadcast = event.data?.data() as BroadcastMessage
+
+      try {
+         const users = await getFirestore()
+            .collection('users')
+            .where('id', 'in', broadcast.users)
+            .get()
+         const tokens = users.docs
+            .map((doc) => doc.data().pushToken)
+            .filter((token) => token !== undefined) as string[]
+         if (tokens.length === 0) return
+         await sendNotificationToAllUsers(
+            broadcast.title,
+            broadcast.message,
+            { id: event.params.broadcastId, notificationType: 'broadcast' },
+            tokens
+         )
+      } catch (error) {
+         logger.error(error)
+      }
    }
 )
 

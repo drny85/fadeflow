@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons'
 import { Icon } from '@roninoss/icons'
 import { FlashList } from '@shopify/flash-list'
 import { isSameDay } from 'date-fns'
@@ -43,9 +44,9 @@ const BarberAppointments = () => {
    return (
       <Container>
          <View className="flex-row items-center justify-between mx-4">
-            <TouchableOpacity>
-               <Icon
-                  name="check-decagram-outline"
+            <TouchableOpacity onPress={() => router.push('/(modals)/clients')}>
+               <Feather
+                  name="users"
                   size={28}
                   color={isDarkColorScheme ? '#ffffff' : colors.accent}
                />

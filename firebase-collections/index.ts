@@ -9,6 +9,7 @@ import { app, db } from '~/firebase'
 import {
    Appointment,
    AppUser,
+   BroadcastMessage,
    CreateSubscriptionRequest,
    CreateSubscriptionResponse,
    Response,
@@ -40,6 +41,9 @@ export const deleteUserFunction = httpsCallable<object, Response>(
    functions,
    'deleteUser'
 )
+
+export const broadcastCollection =
+   createCollection<BroadcastMessage>('broadcasts')
 export const usersCollection = createCollection<AppUser>('users')
 export const stripeCustomers = createCollection<{ customer_id: string }>(
    'stripe_customers'

@@ -348,7 +348,7 @@ export default function ModernSettingsPage() {
                         <Feather
                            name="minus-circle"
                            size={24}
-                           color={colors.accent}
+                           color={colors.primary}
                         />
                      </TouchableOpacity>
                      <Text className="font-semibold text-muted dark:text-white">
@@ -368,7 +368,7 @@ export default function ModernSettingsPage() {
                         <Feather
                            name="plus-circle"
                            size={24}
-                           color={colors.accent}
+                           color={colors.primary}
                         />
                      </TouchableOpacity>
                   </View>

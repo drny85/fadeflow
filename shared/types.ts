@@ -151,6 +151,11 @@ export type LunchBreak = {
    start: string
    end: string
 }
+export type BroadcastMessage = {
+   title: string
+   message: string
+   users: string[]
+}
 
 export type ScheduleDay = {
    isOff: boolean
@@ -174,6 +179,7 @@ export type NOTIFICATION_TYPE =
    | 'appointment-updates'
    | 'reminder'
    | 'subscription'
+   | 'broadcast'
 
 export type NotificationData = {
    id: string

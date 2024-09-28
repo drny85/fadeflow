@@ -47,7 +47,9 @@ const ReviewCard: React.FC<Review> = ({
             </View>
          </View>
          <View className="mb-2 flex-row gap-1">{renderStars(rating)}</View>
-         {reviewTitle && <Text>{`“${reviewTitle}”`}</Text>}
+         {reviewTitle && (
+            <Text>{`${reviewTitle === 'No title' ? '' : reviewTitle}`}</Text>
+         )}
          {reviewText && (
             <Text className="mb-2 text-sm dark:text-white">{reviewText}</Text>
          )}

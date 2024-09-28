@@ -1,6 +1,6 @@
-import { format } from 'date-fns'
+import { format, isToday } from 'date-fns'
 import React from 'react'
-import { Alert, TouchableOpacity, View } from 'react-native'
+import { Alert, TextStyle, TouchableOpacity, View } from 'react-native'
 import Animated, { SlideInLeft } from 'react-native-reanimated'
 
 import SwipeableComponent from './SwipeableComponent'
@@ -17,6 +17,7 @@ type Props = {
    onPress: () => void
    disabled?: boolean
    showDate?: boolean
+   dateTextStyle?: TextStyle
 }
 
 const SwipleableAppoimentListItem = ({
@@ -24,7 +25,8 @@ const SwipleableAppoimentListItem = ({
    index,
    onPress,
    showDate = false,
-   disabled = false
+   disabled = false,
+   dateTextStyle
 }: Props) => {
    const { user } = useAuth()
    const handleCancelBack = async (): Promise<boolean> => {
@@ -69,9 +71,9 @@ const SwipleableAppoimentListItem = ({
          entering={SlideInLeft.delay(index * 200)}
          style={{ marginVertical: 4 }}
       >
-         <Text className="font-roboto-bold ml-2">
+         <Text style={dateTextStyle} className="font-roboto-bold ml-2">
             {showDate
-               ? `${format(item.date, 'EE PP')} at ${item.startTime}`
+               ? `${isToday(item.date) ? 'Today' : format(item.date, 'PP')} at ${item.startTime}`
                : item.startTime}
          </Text>
          <SwipeableComponent

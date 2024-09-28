@@ -64,7 +64,9 @@ const SwipeableComponent: React.FC<Props> = ({
                         </Text>
                      </View>
                   ) : (
-                     <Text className="text-red-500 font-roboto-bold">Back</Text>
+                     <Text className="text-red-500 font-roboto-bold">
+                        Close
+                     </Text>
                   )}
                </TouchableOpacity>
             </Animated.View>

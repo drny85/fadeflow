@@ -251,7 +251,7 @@ const GalleryReviews = () => {
                      </View>
                      <TouchableOpacity
                         onPress={() => bottomSheetRef.current?.present()}
-                        className="absolute bottom-4 right-4 h-16 w-16 items-center justify-center rounded-full bg-accent shadow-sm"
+                        className="absolute bottom-4 right-4 h-16 w-16 items-center justify-center rounded-full bg-primary shadow-sm"
                      >
                         <FontAwesome name="plus" color="#ffffff" size={32} />
                      </TouchableOpacity>
@@ -299,7 +299,11 @@ const GalleryReviews = () => {
                            bottomSheetRef.current?.close()
                         }}
                      >
-                        <Feather name="chevron-left" size={26} />
+                        <Feather
+                           name="chevron-left"
+                           size={26}
+                           color={isDarkColorScheme ? '#ffffff' : colors.accent}
+                        />
                         <Text className="text-center text-lg">
                            Edit Service
                         </Text>
@@ -309,7 +313,7 @@ const GalleryReviews = () => {
                      <BottomSheetTextInput
                         style={{
                            backgroundColor: colors.card,
-                           color: 'grey',
+                           color: isDarkColorScheme ? '#ffffff' : '#212121',
                            borderRadius: 10,
                            padding: 10,
                            marginTop: 10,
@@ -333,7 +337,7 @@ const GalleryReviews = () => {
                      <BottomSheetTextInput
                         style={{
                            backgroundColor: colors.card,
-                           color: 'grey',
+                           color: isDarkColorScheme ? '#ffffff' : '#212121',
                            borderRadius: 10,
                            padding: 10,
                            marginTop: 10,
@@ -355,7 +359,7 @@ const GalleryReviews = () => {
                         //setServiceToEdit({ ...serviceToEdit!, description: text })
                      />
                      <View className="flex-row items-center justify-between ">
-                        <Text className="text-xl font-semibold text-muted">
+                        <Text className="text-xl font-semibold text-muted dark:text-slate-200">
                            Service Duration:
                         </Text>
                         <Stepper
@@ -369,7 +373,7 @@ const GalleryReviews = () => {
                         />
                      </View>
                      <View className="flex-row items-center justify-between">
-                        <Text className="text-xl font-semibold text-muted">
+                        <Text className="text-xl font-semibold text-muted dark:text-slate-200">
                            Service Price:
                         </Text>
                         <Stepper
@@ -383,8 +387,8 @@ const GalleryReviews = () => {
                         />
                      </View>
                      <View>
-                        <Text className="text-xl font-semibold text-muted">
-                           Service Icon:
+                        <Text className="text-xl font-semibold text-muted dark:text-slate-200">
+                           Select a Service Icon:
                         </Text>
                         <IconImages
                            selected={icon}
