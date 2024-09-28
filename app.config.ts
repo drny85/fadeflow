@@ -24,12 +24,6 @@ const config: ExpoConfig = {
          }
       ],
       [
-         'expo-dev-launcher',
-         {
-            launchMode: 'most-recent'
-         }
-      ],
-      [
          'expo-image-picker',
          {
             photosPermission:
@@ -39,7 +33,7 @@ const config: ExpoConfig = {
       [
          '@stripe/stripe-react-native',
          {
-            merchantIdentifier: '',
+            merchantIdentifier: process.env.EXPO_PUBLIC_MERCHANT_ID,
             enableGooglePay: true
          }
       ],
@@ -60,7 +54,6 @@ const config: ExpoConfig = {
    userInterfaceStyle: 'automatic',
    splash: {
       image: './assets/splash.png',
-      resizeMode: 'cover',
       backgroundColor: '#1D3557'
    },
    assetBundlePatterns: ['**/*'],

@@ -32,6 +32,7 @@ import { formatPhone } from '~/utils/formatPhone'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 import { getAppointmentPrice } from '~/utils/getAppointmentPrice'
 import { getBookingDate } from '~/utils/getBookingDate'
+import * as Haptics from 'expo-haptics'
 
 type ParamProps = {
    barberId: string
@@ -74,6 +75,7 @@ const BookingPage = () => {
 
    const handleSchuduleAppointment = async () => {
       if (selectedServices.length === 0) {
+         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
          toastAlert({
             title: 'Service Required',
             message: 'You must select a service to book an appointment',
@@ -100,6 +102,7 @@ const BookingPage = () => {
       }
 
       if (alreadyHaveAnAppointmentToday && !appointmentId) {
+         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
          toastAlert({
             title: 'Appointment Conflict',
             message: `You already have an appointment on ${format(selectedDate, 'PP')}\nPlease just update that appointmet or cancel and book another one`,
@@ -325,6 +328,9 @@ const BookingPage = () => {
                <AppointmentDatePicker
                   onPress={() => {
                      if (selectedServices.length === 0) {
+                        Haptics.notificationAsync(
+                           Haptics.NotificationFeedbackType.Error
+                        )
                         toastAlert({
                            title: 'Service Required',
                            message:
