@@ -22,7 +22,7 @@ const SubscriptionButton = () => {
    const { initPaymentSheet, presentPaymentSheet, handleURLCallback } =
       useStripe()
    const { isDarkColorScheme, colors } = useColorScheme()
-   const { loading: loadingPortal, getCustomerPortal } = usePortalLink()
+   const { getCustomerPortal } = usePortalLink()
    const confettiRef = useRef<ConfettiComponentRef>(null)
    useUser()
    const { user } = useAuth()

@@ -191,12 +191,9 @@ const MODAL_OPTIONS = {
 } as const
 
 const useSchemeListener = () => {
-   const { setColorScheme } = useColorScheme()
    useEffect(() => {
       const listener = Appearance.addChangeListener(({ colorScheme }) => {
          Appearance.setColorScheme(colorScheme)
-
-         //setColorScheme(colorScheme)
       })
       return () => {
          listener.remove()

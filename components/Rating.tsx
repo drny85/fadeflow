@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons'
-import React, { useState } from 'react'
+import { FC } from 'react'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
 
 type RatingProps = {
@@ -7,7 +7,7 @@ type RatingProps = {
    onChange: (value: number) => void
 }
 
-const Rating: React.FC<RatingProps> = ({ value, onChange }) => {
+const Rating: FC<RatingProps> = ({ value, onChange }) => {
    const handlePress = (rating: number) => {
       onChange(rating)
    }

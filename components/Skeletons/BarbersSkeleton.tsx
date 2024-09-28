@@ -38,22 +38,9 @@ export default function BarbersSkelenton() {
                />
             ))}
          </View>
-         {/* <Spacer height={20} />
-         <View style={{ gap: 12 }}>
-            {[...Array(3)].map((_, index) => (
-               <Skeleton
-                  key={index}
-                  colorMode={colorScheme}
-                  width={'100%'}
-                  height={SIZES.height * 0.2}
-               />
-            ))}
-         </View> */}
       </MotiView>
    )
 }
-
-const Spacer = ({ height = 16 }) => <View style={{ height }} />
 
 const styles = StyleSheet.create({
    container: {

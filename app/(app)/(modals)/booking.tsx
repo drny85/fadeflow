@@ -102,8 +102,7 @@ const BookingPage = () => {
       if (alreadyHaveAnAppointmentToday && !appointmentId) {
          toastAlert({
             title: 'Appointment Conflict',
-            message:
-               'You already have an appointment today\nPlease just update that appointmet or cancel and book another one',
+            message: `You already have an appointment on ${format(selectedDate, 'PP')}\nPlease just update that appointmet or cancel and book another one`,
             preset: 'custom',
             duration: 5,
             iconName: 'hand.raised.slash'

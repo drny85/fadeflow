@@ -19,7 +19,7 @@ type Props = {
    onConfirm: () => Promise<boolean>
    onCancel: () => Promise<boolean>
    status: AppointmentStatus
-   disable?: boolean
+   disabled?: boolean
 }
 const OPEN_SIZE = SCREEN_WIDTH * 0.6
 const SwipeableComponent: React.FC<Props> = ({
@@ -27,7 +27,7 @@ const SwipeableComponent: React.FC<Props> = ({
    onConfirm,
    onCancel,
    status,
-   disable
+   disabled
 }) => {
    const ref = useRef<Swipeable>(null)
 
@@ -99,7 +99,7 @@ const SwipeableComponent: React.FC<Props> = ({
 
    return (
       <GestureHandlerRootView style={styles.container}>
-         {disable ? (
+         {disabled ? (
             <View>{children}</View>
          ) : (
             <Swipeable
@@ -107,7 +107,7 @@ const SwipeableComponent: React.FC<Props> = ({
                friction={2}
                rightThreshold={40}
                overshootRight={false}
-               renderRightActions={disable ? undefined : renderRightActions}
+               renderRightActions={disabled ? undefined : renderRightActions}
             >
                {children}
             </Swipeable>
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
    },
    rightAction: {
       width: OPEN_SIZE / 2,
-
       justifyContent: 'center',
       alignItems: 'flex-end',
       padding: 20

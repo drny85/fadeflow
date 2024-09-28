@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { FlatList, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Map, { Marker, MarkerPressEvent } from 'react-native-maps'
 
 import BarbersListMapView from '~/components/BarbersListMapView'
@@ -68,17 +68,18 @@ const BarbersMap = () => {
                position: 'absolute',
                flexDirection: 'row',
                justifyContent: 'space-between',
-
-               top: SIZES.statusBarHeight - 20,
+               top: SIZES.statusBarHeight - 28,
                width: '100%',
-               zIndex: 200
+               zIndex: 200,
+               marginTop: 10,
+               paddingHorizontal: 10
             }}
          >
             <TouchableOpacity onPress={() => router.back()}>
                <Feather
                   style={{ padding: 10 }}
                   name="chevron-left"
-                  size={28}
+                  size={30}
                   color={isDarkColorScheme ? '#ffffff' : colors.accent}
                />
             </TouchableOpacity>
@@ -86,7 +87,7 @@ const BarbersMap = () => {
                <Feather
                   name="map-pin"
                   style={{ padding: 10 }}
-                  size={26}
+                  size={30}
                   color={isDarkColorScheme ? '#ffffff' : colors.accent}
                />
             </TouchableOpacity>

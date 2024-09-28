@@ -68,6 +68,7 @@ export const useNotifications = () => {
 
    const registerForPushNotificationsAsync = async () => {
       try {
+         if (user?.pushToken) return
          if (Device.isDevice) {
             console.log('Registering for push notifications')
             const { status: existingStatus } =

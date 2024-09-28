@@ -647,7 +647,8 @@ export default function ModernSettingsPage() {
                                                 resetForm()
                                              } catch (error) {
                                                 console.log(
-                                                   'Error updating info'
+                                                   'Error updating info',
+                                                   error
                                                 )
                                              }
                                           }

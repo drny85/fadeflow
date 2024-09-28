@@ -426,7 +426,8 @@ export default function CustomerModernSettingsPage() {
                                                 resetForm()
                                              } catch (error) {
                                                 console.log(
-                                                   'Error updating info'
+                                                   'Error updating info',
+                                                   error
                                                 )
                                              }
                                           }

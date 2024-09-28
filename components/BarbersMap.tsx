@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Map, { Marker } from 'react-native-maps'
 
 import BarbersListMapView from './BarbersListMapView'
@@ -19,7 +19,6 @@ const BarbersMap = () => {
    const snapPoints = useMemo(() => ['100%'], [])
    const { barbers } = useBarbersStore()
    const bottomSheetRef = useSheetRef()
-   const flatListRef = useRef<FlatList>(null)
 
    const mapRef = useRef<Map>(null)
    const centerMap = () => {

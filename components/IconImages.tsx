@@ -1,11 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {
-   FlatList,
-   Image,
-   StyleSheet,
-   Text,
-   TouchableOpacity
-} from 'react-native'
+import { FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native'
 
 import { ICON_IMAGES } from '~/constants'
 import { IconNames } from '~/shared/types'

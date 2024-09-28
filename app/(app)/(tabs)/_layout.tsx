@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router'
-import { Image, TouchableOpacity } from 'react-native'
+import { Image } from 'react-native'
 
 import { TabBarIcon } from '../../../components/TabBarIcon'
 

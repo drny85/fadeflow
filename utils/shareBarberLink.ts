@@ -18,7 +18,7 @@ export const shareBarberLink = async (barberId: string) => {
       const share = await Share.share(
          {
             title: 'Share URL',
-            message: `Check out ${barber.name} at ${barber.profile?.barbershopName}. I am using their services and i think you might too.\n${websiteUrl}`
+            message: `Check out ${barber.name} at ${barber.profile?.barbershopName}. I am using their services and I think you might too.\n${websiteUrl}`
             //url: url,
          },
          {

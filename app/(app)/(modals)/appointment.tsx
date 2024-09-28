@@ -98,30 +98,30 @@ const AppointmentDetails = () => {
                      onPress={() =>
                         router.push({
                            pathname: '/barber',
-                           params: { barberId: appointment.barber.id }
+                           params: { barberId: barber.id }
                         })
                      }
                   >
                      <Image
                         source={
-                           appointment.barber.image
-                              ? { uri: appointment.barber.image }
+                           barber.image
+                              ? { uri: barber.image }
                               : require('~/assets/images/banner.png')
                         }
                         className="h-20 w-20 rounded-full object-cover"
                      />
                   </Pressable>
-                  <View>
-                     <Text variant="heading">{appointment.barber.name}</Text>
+                  <View className="flex-grow">
+                     <Text variant="heading">{barber.name}</Text>
                      <Text className="text-muted dark:text-white">
-                        1420 Clay Ave
+                        {barber.profile?.address.split(',')[0]}
                      </Text>
                      <Text className="text-muted dark:text-white">
-                        {appointment.barber.phone}
+                        {barber.phone}
                      </Text>
                   </View>
 
-                  <CommunicationButtons phone={appointment.barber.phone} />
+                  <CommunicationButtons phone={barber.phone} />
                </View>
             </View>
             <View className="m-2 gap-1 rounded-lg bg-card p-4 shadow-sm">

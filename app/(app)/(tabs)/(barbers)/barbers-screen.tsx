@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { FlatList, ScrollView, View } from 'react-native'
-import Animated, { SlideInLeft, SlideInRight } from 'react-native-reanimated'
+import Animated, { SlideInLeft } from 'react-native-reanimated'
 
 import BarberImageHeader from '~/components/BarberImageHeader'
 import BarbersSkelenton from '~/components/Skeletons/BarbersSkeleton'

@@ -13,7 +13,6 @@ import TextInput from '~/components/TextInput'
 import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
-import { getCoordinatesFromProfile } from '~/utils/getCoordinates'
 
 const GOOGLE_KEY = process.env.EXPO_PUBLIC_GOOGLE_KEY as string
 

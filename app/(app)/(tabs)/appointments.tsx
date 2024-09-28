@@ -147,6 +147,7 @@ const AppointmentsPage = () => {
                contentContainerClassName="p-2"
                renderItem={({ item, index }) => (
                   <SwipleableAppoimentListItem
+                     disabled
                      onPress={() => {
                         router.push({
                            pathname: '/appointment',

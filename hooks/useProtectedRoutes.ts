@@ -49,7 +49,6 @@ export function useProtectedRoute() {
       const inAuthGroup = segments[1] === '(auth)'
       const inBarberGroup = segments[1] === '(barber-tabs)'
       const inUserGroup = segments[1] === '(tabs)'
-      console.log(daysRemaining)
 
       updateProfileIsIncomplete()
 
@@ -59,7 +58,7 @@ export function useProtectedRoute() {
          console.log('00')
          router.replace('/(tabs)')
       } else if (user && user.isBarber && inUserGroup) {
-         console.log('01')
+         console.log(`01 => redirected from ${segments[1]}`)
          router.replace('/(barber-tabs)')
       } else if (
          user &&

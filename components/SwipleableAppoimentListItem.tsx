@@ -1,13 +1,13 @@
 import { format } from 'date-fns'
-import { router } from 'expo-router'
 import React from 'react'
-import { View, TouchableOpacity, Alert } from 'react-native'
+import { Alert, TouchableOpacity, View } from 'react-native'
 import Animated, { SlideInLeft } from 'react-native-reanimated'
 
 import SwipeableComponent from './SwipeableComponent'
 import { Text } from './nativewindui/Text'
 
 import { handleAppointmentUpdates } from '~/actions/appointments'
+import { useAuth } from '~/providers/AuthContext'
 import { Appointment } from '~/shared/types'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 
@@ -26,6 +26,7 @@ const SwipleableAppoimentListItem = ({
    showDate = false,
    disabled = false
 }: Props) => {
+   const { user } = useAuth()
    const handleCancelBack = async (): Promise<boolean> => {
       try {
          if (item.status === 'pending') {
@@ -74,7 +75,7 @@ const SwipleableAppoimentListItem = ({
                : item.startTime}
          </Text>
          <SwipeableComponent
-            disable={item.status === 'cancelled'}
+            disabled={item.status === 'cancelled' || disabled}
             status={item.status}
             onCancel={handleCancelBack}
             onConfirm={async () => {
@@ -82,13 +83,16 @@ const SwipleableAppoimentListItem = ({
             }}
          >
             <TouchableOpacity
-               disabled={disabled}
                onPress={onPress}
                className={`bg-card mb-1 p-2 rounded-md border-l-4 flex-row justify-between items-center ${statusColor}`}
             >
                <View className="bg-card p-2 rounded-md gap-1">
                   <View className="flex-row items-center gap-2">
-                     <Text className="font-raleway">{item.customer.name}</Text>
+                     <Text className="font-raleway">
+                        {user && user.isBarber
+                           ? item.customer.name
+                           : item.barber.name}
+                     </Text>
                      <View className="bg-slate-400 h-1 w-1 rounded-full" />
                      <Text className="text-sm text-muted dark:text-slate-400">
                         {getAppointmentDuration(item.services)} mins

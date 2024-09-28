@@ -35,15 +35,6 @@ const DayScheduleRow: React.FC<DayScheduleRowProps> = ({
       }
    }
 
-   const parseTime12Hour = (time: string): [number, number] => {
-      const [timePart, period] = time.split(' ')
-      let [hours, minutes] = timePart.split(':').map(Number)
-
-      if (period === 'PM' && hours < 12) hours += 12
-      if (period === 'AM' && hours === 12) hours = 0
-
-      return [hours, minutes]
-   }
    const parseTime12HourA = (time: string): string => {
       const [timePart, period] = time.split(' ')
       let [hours, minutes] = timePart.split(':').map(Number)

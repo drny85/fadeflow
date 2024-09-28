@@ -49,8 +49,6 @@ export default function ReviewSkelenton() {
    )
 }
 
-const Spacer = ({ height = 16 }) => <View style={{ height }} />
-
 const styles = StyleSheet.create({
    container: {
       flex: 1,

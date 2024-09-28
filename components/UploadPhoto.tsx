@@ -5,20 +5,18 @@ import React, { useState } from 'react'
 import { Alert, TouchableOpacity, View } from 'react-native'
 import { useSharedValue, withTiming } from 'react-native-reanimated'
 
-import { Button } from './Button'
 import ProgressBar from './ProgressBar'
 
 import { updateUser } from '~/actions/users'
 import { MAXIMUM_IMAGES_UPLOAD } from '~/constants'
 import { storage } from '~/firebase'
 import { toastMessage } from '~/lib/toast'
-import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 
 const UploadPhoto: React.FC = () => {
    const { user } = useAuth()
    const progress = useSharedValue(0)
-   const { colors } = useColorScheme()
+
    const [uploading, setUploading] = useState(false)
 
    const pickAndUploadImage = async () => {
@@ -135,7 +133,7 @@ const UploadPhoto: React.FC = () => {
             }}
             disabled={uploading}
          /> */}
-         {uploading && progress && <ProgressBar progress={progress} />}
+         {uploading && progress && <ProgressBar value={progress.value} />}
       </View>
    )
 }

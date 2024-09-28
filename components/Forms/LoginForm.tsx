@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
          const { user } = await signIn(data.email, data.password)
          if (user) {
             if (params && params.returnUrl) {
-               router.dismiss()
+               router.canDismiss() && router.dismiss()
                router.replace(params.returnUrl as any)
             }
          }

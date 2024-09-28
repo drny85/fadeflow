@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import React, { useMemo } from 'react'
-import { Button, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 
 import FilterItems from './FilterItems'
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
@@ -54,15 +54,5 @@ const FilterAppointments = () => {
       </View>
    )
 }
-
-const styles = StyleSheet.create({
-   filterRow: {
-      marginBottom: 20
-   },
-   slider: {
-      width: '100%',
-      height: 40
-   }
-})
 
 export default FilterAppointments

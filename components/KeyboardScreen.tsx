@@ -1,9 +1,8 @@
 import {
    Keyboard,
    TouchableWithoutFeedback,
-   ViewStyle,
-   ScrollView,
-   View
+   View,
+   ViewStyle
 } from 'react-native'
 import { useKeyboardHandler } from 'react-native-keyboard-controller'
 import Animated, {

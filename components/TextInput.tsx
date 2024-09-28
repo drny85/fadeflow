@@ -1,11 +1,10 @@
-import { Icon } from '@roninoss/icons'
 import React from 'react'
 import { Controller } from 'react-hook-form'
 import {
    TextInput as RNTextInput,
-   View,
    StyleSheet,
    TextInputProps,
+   View,
    ViewStyle
 } from 'react-native'
 
