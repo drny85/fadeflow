@@ -33,6 +33,7 @@ const GalleryReviews = () => {
    const { user } = useAuth()
 
    const { services, loading } = useServices(user?.id!)
+
    const [icon, setIcon] = useState<IconNames | null>(null)
    const [edit, setEdit] = useState(false)
    const [serviceToEdit, setServiceToEdit] = useState<Service | null>(null)
@@ -366,9 +367,9 @@ const GalleryReviews = () => {
                            step={5}
                            minValue={10}
                            maxValue={100}
-                           initialValue={serviceToEdit?.price}
+                           initialValue={serviceToEdit?.duration}
                            onValueChange={(value) =>
-                              handleValueChange(value, 'price')
+                              handleValueChange(value, 'duration')
                            }
                         />
                      </View>
@@ -380,9 +381,9 @@ const GalleryReviews = () => {
                            step={5}
                            minValue={10}
                            maxValue={80}
-                           initialValue={serviceToEdit?.duration}
+                           initialValue={serviceToEdit?.price}
                            onValueChange={(value) =>
-                              handleValueChange(value, 'duration')
+                              handleValueChange(value, 'price')
                            }
                         />
                      </View>
@@ -399,8 +400,11 @@ const GalleryReviews = () => {
                      <Button
                         title={edit ? 'Update Service' : 'Add Service'}
                         onPress={() => {
+                           if (!serviceToEdit) return
                            const serv: Service = {
                               ...serviceToEdit!,
+                              price: serviceToEdit?.price,
+                              duration: serviceToEdit?.duration,
                               quantity: 1,
                               icon: icon || 'haircut',
                               description: descriptionRef.current.value || ''

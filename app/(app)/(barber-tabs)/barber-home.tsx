@@ -193,6 +193,7 @@ const BarberHome = () => {
                      </Text>
                   </View>
                )}
+
                {!loading && services.length === 0 && (
                   <View className="mt-5 w-full items-center justify-center gap-2 p-1">
                      <Text className="text-center text-xl text-muted dark:text-slate-300">
@@ -215,9 +216,20 @@ const BarberHome = () => {
             </View>
             <ScrollView
                className="flex-1"
-               contentContainerClassName="gap-2"
+               contentContainerStyle={{ marginBottom: 16, gap: 16 }}
                showsVerticalScrollIndicator={false}
             >
+               {todayAppoinments.length > 0 && (
+                  <View className="w-full p-2">
+                     <Text className="text-center">
+                        Completed {completedAppointments.length} out of{' '}
+                        {todayAppoinments.length}
+                     </Text>
+                     <ProgressBar
+                        value={donePercentage > 0 ? donePercentage : 0.0}
+                     />
+                  </View>
+               )}
                {user?.isBarber &&
                   user.isActive &&
                   user.subscriptionStatus !== 'active' && (
@@ -272,17 +284,6 @@ const BarberHome = () => {
                      <View className="bg-card p-2">
                         <Text variant="title3">My Next Appointment</Text>
                         {myNextAppointment ? (
-                           // <AppointmentCard
-                           //    appointmentId={myNextAppointment.id!}
-                           //    onPress={() => {
-                           //       router.push({
-                           //          pathname: '/barber-appointment-view',
-                           //          params: {
-                           //             appointmentId: myNextAppointment.id
-                           //          }
-                           //       })
-                           //    }}
-                           // />
                            <SwipleableAppoimentListItem
                               index={0}
                               showDate
@@ -305,19 +306,8 @@ const BarberHome = () => {
                            </View>
                         )}
                      </View>
-                     {todayAppoinments.length > 0 && (
-                        <View className="w-full p-2">
-                           <Text className="text-center">
-                              Completed {completedAppointments.length} out of{' '}
-                              {todayAppoinments.length}
-                           </Text>
-                           <ProgressBar
-                              value={donePercentage > 0 ? donePercentage : 0.0}
-                           />
-                        </View>
-                     )}
 
-                     <View className="rounded-md bg-card p-2 shadow-sm">
+                     <View className="rounded-md bg-card p-2 shadow-sm mb-3">
                         <Text variant="title3">
                            Waiting for confirmation (
                            {waitinfForConfirmation.length})
@@ -361,49 +351,53 @@ const BarberHome = () => {
                            }}
                         />
                      </View>
-                     <View className="rounded-md bg-card p-2 shadow-sm">
-                        <Text variant="title3">
-                           Waiting to cash out ({confirmedAppointments.length})
-                        </Text>
-                        <FlatList
-                           data={confirmedAppointments.sort((a, b) =>
-                              a.date > b.date ? 1 : -1
-                           )}
-                           horizontal
-                           showsHorizontalScrollIndicator={false}
-                           ListEmptyComponent={
-                              <View className="p-2">
-                                 <Text className="text-muted dark:text-slate-300">
-                                    No data
-                                 </Text>
-                              </View>
-                           }
-                           renderItem={({ item }) => {
-                              return (
-                                 <TouchableOpacity
-                                    onPress={() =>
-                                       router.push({
-                                          pathname: '/barber-appointment-view',
-                                          params: {
-                                             appointmentId: item.id
-                                          }
-                                       })
-                                    }
-                                    className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
-                                 >
-                                    <Text className="font-semibold">
-                                       {format(item.date, 'eee')} (
-                                       <Text className="text-sm text-muted dark:text-slate-400">
-                                          {' '}
-                                          {format(item.date, 'dd')})
-                                       </Text>
+                     {confirmedAppointments.length > 0 && (
+                        <View className="rounded-md bg-card p-2 shadow-sm">
+                           <Text variant="title3">
+                              Waiting to cash out (
+                              {confirmedAppointments.length})
+                           </Text>
+                           <FlatList
+                              data={confirmedAppointments.sort((a, b) =>
+                                 a.date > b.date ? 1 : -1
+                              )}
+                              horizontal
+                              contentContainerClassName="mb-3"
+                              ListEmptyComponent={
+                                 <View className="p-2">
+                                    <Text className="text-muted dark:text-slate-300">
+                                       No data
                                     </Text>
-                                    <Text>{item.startTime}</Text>
-                                 </TouchableOpacity>
-                              )
-                           }}
-                        />
-                     </View>
+                                 </View>
+                              }
+                              renderItem={({ item }) => {
+                                 return (
+                                    <TouchableOpacity
+                                       onPress={() =>
+                                          router.push({
+                                             pathname:
+                                                '/barber-appointment-view',
+                                             params: {
+                                                appointmentId: item.id
+                                             }
+                                          })
+                                       }
+                                       className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
+                                    >
+                                       <Text className="font-semibold">
+                                          {format(item.date, 'eee')} (
+                                          <Text className="text-sm text-muted dark:text-slate-400">
+                                             {' '}
+                                             {format(item.date, 'dd')})
+                                          </Text>
+                                       </Text>
+                                       <Text>{item.startTime}</Text>
+                                    </TouchableOpacity>
+                                 )
+                              }}
+                           />
+                        </View>
+                     )}
                   </>
                )}
             </ScrollView>
