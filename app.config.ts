@@ -2,11 +2,11 @@ import { ExpoConfig } from 'expo/config'
 const config: ExpoConfig = {
    name: 'FadeFlow',
    slug: 'fadeflow',
-   version: '1.0.0',
+   version: '1.0.1',
    scheme: 'fadeflow',
    web: {
       bundler: 'metro',
-      output: 'static',
+      output: 'server',
       favicon: './assets/favicon.png'
    },
    plugins: [
@@ -61,15 +61,16 @@ const config: ExpoConfig = {
    splash: {
       image: './assets/splash.png',
       resizeMode: 'cover',
-      backgroundColor: '#773344'
+      backgroundColor: '#1D3557'
    },
    assetBundlePatterns: ['**/*'],
-
+   platforms: ['ios', 'android'],
    ios: {
       supportsTablet: false,
       bundleIdentifier: 'net.robertdev.fadeflow',
-      buildNumber: '1.0.0',
+      buildNumber: '1.0.1',
       infoPlist: {
+         EXUpdatesEnabled: true,
          LSApplicationQueriesSchemes: ['tel'],
          NSLocationWhenInUseUsageDescription:
             'Allow $(PRODUCT_NAME) to use your location to show the distance to your favorite barber-shop.',

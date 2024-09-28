@@ -13,6 +13,8 @@ import { Text } from '../nativewindui/Text'
 
 import { useAuth } from '~/providers/AuthContext'
 import { FIREBASE_ERRORS } from '~/utils/firebaseErrorMessages'
+import { Icon } from '@roninoss/icons'
+import { useColorScheme } from '~/lib/useColorScheme'
 
 const loginSchema = z.object({
    email: z.string().email(),
@@ -23,6 +25,7 @@ type LoginFormData = z.infer<typeof loginSchema>
 
 const LoginForm: React.FC = () => {
    const bottomSheetRef = useSheetRef()
+   const { isDarkColorScheme, colors } = useColorScheme()
    const [showPassword, setShowPassword] = useState(false)
    const [showForgotPassword, setShowForgotPassword] = useState(false)
    const { control, handleSubmit } = useForm<LoginFormData>({
@@ -73,15 +76,16 @@ const LoginForm: React.FC = () => {
                textContentType="oneTimeCode"
                placeholder="Enter your password"
                secureTextEntry={!showPassword}
+               RightIcon={
+                  <TouchableOpacity onPress={() => setShowPassword((p) => !p)}>
+                     <Icon
+                        name={showPassword ? 'eye' : 'eye-off'}
+                        size={20}
+                        color={isDarkColorScheme ? '#ffffff' : colors.grey}
+                     />
+                  </TouchableOpacity>
+               }
             />
-            <TouchableOpacity
-               className="mb-3"
-               onPress={() => setShowPassword((prev) => !prev)}
-            >
-               <Text className="@ self-end text-muted dark:text-slate-300">
-                  {showPassword ? 'hide password' : 'show password'}
-               </Text>
-            </TouchableOpacity>
          </View>
          <Button title="Login" onPress={handleSubmit(onSubmit)} />
          <TouchableOpacity

@@ -33,10 +33,16 @@ export default function TabLayout() {
             options={{
                headerShown: false,
                title: 'Home',
-               tabBarIcon: ({ color }) => (
+               tabBarIcon: ({ color, focused }) => (
                   <Image
                      source={require('~/assets/images/barbershop.png')}
-                     tintColor={color}
+                     tintColor={
+                        focused
+                           ? colors.primary
+                           : isDarkColorScheme
+                             ? '#ffffff'
+                             : colors.accent
+                     }
                      className="-mb-1 h-8 w-8"
                   />
                )
@@ -49,8 +55,17 @@ export default function TabLayout() {
                title: 'Barbers',
                headerShown: false,
 
-               tabBarIcon: ({ color }) => (
-                  <TabBarIcon name="scissors" color={color} />
+               tabBarIcon: ({ focused }) => (
+                  <TabBarIcon
+                     name="scissors"
+                     color={
+                        focused
+                           ? colors.primary
+                           : isDarkColorScheme
+                             ? '#ffffff'
+                             : colors.accent
+                     }
+                  />
                )
             }}
          />
@@ -60,10 +75,16 @@ export default function TabLayout() {
                title: 'Appointments',
                headerRight: () => <FilterAppointments />,
 
-               tabBarIcon: ({ color }) => (
+               tabBarIcon: ({ focused }) => (
                   <Image
                      source={require('~/assets/images/appointment.png')}
-                     tintColor={color}
+                     tintColor={
+                        focused
+                           ? colors.primary
+                           : isDarkColorScheme
+                             ? '#ffffff'
+                             : colors.accent
+                     }
                      className="-mb-1 h-8 w-8"
                   />
                )
@@ -75,7 +96,7 @@ export default function TabLayout() {
                headerShown: false,
                title: 'Profile',
 
-               tabBarIcon: ({ color, size }) =>
+               tabBarIcon: ({ focused, size }) =>
                   user && user.image ? (
                      <Image
                         source={{ uri: user.image }}
@@ -87,7 +108,16 @@ export default function TabLayout() {
                         }}
                      />
                   ) : (
-                     <TabBarIcon name="user-circle" color={color} />
+                     <TabBarIcon
+                        name="user-circle"
+                        color={
+                           focused
+                              ? colors.primary
+                              : isDarkColorScheme
+                                ? '#ffffff'
+                                : colors.accent
+                        }
+                     />
                   )
             }}
          />

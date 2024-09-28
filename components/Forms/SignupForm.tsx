@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { router, useLocalSearchParams } from 'expo-router'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, ScrollView } from 'react-native'
+import { Button, ScrollView, TouchableOpacity } from 'react-native'
 import * as z from 'zod'
 
 import CheckBox from '../CheckBox'
@@ -12,6 +12,8 @@ import { Text } from '../nativewindui/Text'
 import { DEFAULT_SCHEDULE } from '~/constants'
 import { useAuth } from '~/providers/AuthContext'
 import { AppUser } from '~/shared/types'
+import { Icon } from '@roninoss/icons'
+import { useColorScheme } from '~/lib/useColorScheme'
 
 const signupSchema = z
    .object({
@@ -54,6 +56,8 @@ type SignupFormProps = {
 }
 const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
    const { signUp, createUser } = useAuth()
+   const { isDarkColorScheme, colors } = useColorScheme()
+   const [show, setShow] = useState(false)
    const params = useLocalSearchParams()
 
    const { control, handleSubmit } = useForm<SignupFormData>({
@@ -162,7 +166,16 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             textContentType="oneTimeCode"
             label="Password"
             placeholder="Enter your password"
-            secureTextEntry
+            secureTextEntry={show}
+            RightIcon={
+               <TouchableOpacity onPress={() => setShow((p) => !p)}>
+                  <Icon
+                     name={show ? 'eye' : 'eye-off'}
+                     size={20}
+                     color={isDarkColorScheme ? '#ffffff' : colors.grey}
+                  />
+               </TouchableOpacity>
+            }
          />
          <TextInput
             name="confirmPassword"
@@ -170,7 +183,16 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             textContentType="oneTimeCode"
             label="Confirm Password"
             placeholder="Confirm your password"
-            secureTextEntry
+            secureTextEntry={show}
+            RightIcon={
+               <TouchableOpacity onPress={() => setShow((p) => !p)}>
+                  <Icon
+                     name={show ? 'eye' : 'eye-off'}
+                     size={20}
+                     color={isDarkColorScheme ? '#ffffff' : colors.grey}
+                  />
+               </TouchableOpacity>
+            }
          />
          <CheckBox
             name="isBarber"

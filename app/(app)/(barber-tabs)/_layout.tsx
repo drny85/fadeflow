@@ -23,9 +23,11 @@ export default function BarberTabLayout() {
             headerShown: false,
             tabBarShowLabel: false,
             tabBarActiveTintColor: isDarkColorScheme
-               ? colors.primary
+               ? colors.accent
+               : colors.primary,
+            tabBarInactiveTintColor: isDarkColorScheme
+               ? '#ffffff'
                : colors.accent,
-            tabBarInactiveTintColor: isDarkColorScheme ? '#ffffff' : colors.a,
             tabBarStyle: { backgroundColor: colors.background },
             headerStyle: {
                backgroundColor: colors.background
@@ -37,10 +39,16 @@ export default function BarberTabLayout() {
             options={{
                headerShown: false,
                title: 'Home',
-               tabBarIcon: ({ color }) => (
+               tabBarIcon: ({ color, focused }) => (
                   <Image
                      source={require('~/assets/images/barbershop.png')}
-                     tintColor={color}
+                     tintColor={
+                        focused
+                           ? colors.primary
+                           : isDarkColorScheme
+                             ? '#ffffff'
+                             : colors.accent
+                     }
                      className="-mb-1 h-8 w-8"
                   />
                )
@@ -51,8 +59,18 @@ export default function BarberTabLayout() {
             options={{
                title: 'Appointments',
                headerShown: false,
-               tabBarIcon: ({ color, size }) => (
-                  <Icon name="calendar-clock" size={size + 10} color={color} />
+               tabBarIcon: ({ size, focused }) => (
+                  <Icon
+                     name="calendar-clock"
+                     size={size + 10}
+                     color={
+                        focused
+                           ? colors.primary
+                           : isDarkColorScheme
+                             ? '#ffffff'
+                             : colors.accent
+                     }
+                  />
                )
             }}
          />
@@ -62,15 +80,30 @@ export default function BarberTabLayout() {
             options={{
                title: 'My Stuffs',
                headerShown: false,
-               tabBarIcon: ({ color, size }) =>
+               tabBarIcon: ({ size, focused }) =>
                   Platform.OS === 'ios' ? (
                      <SymbolView
                         name="rectangle.on.rectangle.badge.gearshape"
                         size={size + 8}
-                        tintColor={color}
+                        tintColor={
+                           focused
+                              ? colors.primary
+                              : isDarkColorScheme
+                                ? '#ffffff'
+                                : colors.accent
+                        }
                      />
                   ) : (
-                     <TabBarIcon name="stack-overflow" color={color} />
+                     <TabBarIcon
+                        name="stack-overflow"
+                        color={
+                           focused
+                              ? colors.primary
+                              : isDarkColorScheme
+                                ? '#ffffff'
+                                : colors.accent
+                        }
+                     />
                   )
             }}
          />
@@ -79,8 +112,18 @@ export default function BarberTabLayout() {
             options={{
                title: 'Earnings',
                //headerShown: false,
-               tabBarIcon: ({ color, size }) => (
-                  <Icon name="chart-pie" size={size + 10} color={color} />
+               tabBarIcon: ({ size, focused }) => (
+                  <Icon
+                     name="chart-pie"
+                     size={size + 10}
+                     color={
+                        focused
+                           ? colors.primary
+                           : isDarkColorScheme
+                             ? '#ffffff'
+                             : colors.accent
+                     }
+                  />
                )
             }}
          />
@@ -90,10 +133,24 @@ export default function BarberTabLayout() {
             options={{
                title: 'Profile',
                headerShown: false,
-
-               tabBarIcon: ({ color }) => (
-                  <TabBarIcon name="user-circle" color={color} />
-               )
+               tabBarIcon: ({ focused }) =>
+                  user && user.isBarber && user.image ? (
+                     <Image
+                        source={{ uri: user.image }}
+                        className="h-8 w-8 rounded-full"
+                     />
+                  ) : (
+                     <TabBarIcon
+                        name="user-circle"
+                        color={
+                           focused
+                              ? colors.primary
+                              : isDarkColorScheme
+                                ? '#ffffff'
+                                : colors.accent
+                        }
+                     />
+                  )
             }}
          />
       </Tabs>

@@ -1,3 +1,4 @@
+import { Icon } from '@roninoss/icons'
 import React from 'react'
 import { Controller } from 'react-hook-form'
 import {
@@ -21,6 +22,7 @@ type TextInputParams = TextInputProps & {
    capitalize?: boolean
    rules?: any
    containerStyle?: ViewStyle
+   RightIcon?: React.ReactNode
 }
 
 const TextInput: React.FC<TextInputParams> = ({
@@ -31,6 +33,7 @@ const TextInput: React.FC<TextInputParams> = ({
    secureTextEntry,
    containerStyle,
    rules,
+   RightIcon,
    ...others
 }) => {
    const { isDarkColorScheme } = useColorScheme()
@@ -45,36 +48,43 @@ const TextInput: React.FC<TextInputParams> = ({
                field: { onChange, onBlur, value },
                fieldState: { error, invalid, isDirty, isTouched }
             }) => (
-               <>
-                  <RNTextInput
-                     style={[
-                        styles.input,
-                        {
-                           color: isDarkColorScheme ? '#ffffff' : '#212121'
-                        },
-                        error && styles.errorInput,
-                        !invalid && isDirty && isTouched && styles.valid
-                     ]}
-                     onBlur={onBlur}
-                     onChangeText={
-                        name === 'email'
-                           ? (text) => onChange(text.toLowerCase())
-                           : name === 'phone'
-                             ? (text) => onChange(formatPhone(text))
-                             : name === 'state'
-                               ? (text) => onChange(text.toUpperCase())
-                               : onChange
-                     }
-                     value={value}
-                     placeholderTextColor="grey"
-                     placeholder={placeholder}
-                     secureTextEntry={secureTextEntry}
-                     {...others}
-                  />
-                  {error && (
-                     <Text style={styles.errorText}>{error.message}</Text>
+               <View className="">
+                  <>
+                     <RNTextInput
+                        style={[
+                           styles.input,
+                           {
+                              color: isDarkColorScheme ? '#ffffff' : '#212121'
+                           },
+                           error && styles.errorInput,
+                           !invalid && isDirty && isTouched && styles.valid
+                        ]}
+                        onBlur={onBlur}
+                        onChangeText={
+                           name === 'email'
+                              ? (text) => onChange(text.toLowerCase())
+                              : name === 'phone'
+                                ? (text) => onChange(formatPhone(text))
+                                : name === 'state'
+                                  ? (text) => onChange(text.toUpperCase())
+                                  : onChange
+                        }
+                        value={value}
+                        placeholderTextColor="grey"
+                        placeholder={placeholder}
+                        secureTextEntry={secureTextEntry}
+                        {...others}
+                     />
+                     {error && (
+                        <Text style={styles.errorText}>{error.message}</Text>
+                     )}
+                  </>
+                  {RightIcon && (
+                     <View className="z-20 absolute right-2  top-3">
+                        {RightIcon}
+                     </View>
                   )}
-               </>
+               </View>
             )}
          />
       </View>
@@ -96,7 +106,8 @@ const styles = StyleSheet.create({
       fontSize: 16,
       borderWidth: 1,
       borderRadius: 10,
-      paddingHorizontal: 10
+      paddingHorizontal: 10,
+      width: '100%'
    },
    valid: {
       borderColor: 'green'

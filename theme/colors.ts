@@ -16,7 +16,7 @@ const IOS_SYSTEM_COLORS = {
       card: 'rgb(255, 255, 255)',
       destructive: 'rgb(255, 56, 43)',
       primary: '#B87333',
-      accent: '##1D3557'
+      accent: '#1D3557'
    },
    dark: {
       grey6: 'rgb(21, 21, 24)',
@@ -65,7 +65,7 @@ const ANDROID_COLORS = {
       root: 'rgb(0, 0, 0)',
       card: '#2b2d42',
       destructive: 'rgb(147, 0, 10)',
-      primary: '##B87333',
+      primary: '#B87333',
       accent: '#1D3557'
    }
 } as const
