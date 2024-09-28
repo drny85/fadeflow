@@ -41,4 +41,3 @@ const PaymentLinkSubscribeButton = () => {
 }
 
 export default PaymentLinkSubscribeButton
-0

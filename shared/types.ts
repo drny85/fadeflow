@@ -155,6 +155,8 @@ export type BroadcastMessage = {
    title: string
    message: string
    users: string[]
+   barberId: string
+   createdAt?: string
 }
 
 export type ScheduleDay = {

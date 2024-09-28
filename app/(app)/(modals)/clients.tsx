@@ -3,11 +3,12 @@ import { FlashList } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 import React, { useMemo, useState } from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+
 import AnimatedNumber from '~/components/AnimatedNumber'
 import CommunicationButtons from '~/components/CommunicationButtons'
+import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
 import { Text } from '~/components/nativewindui/Text'
-import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { SIZES } from '~/constants'
 import { useNavigationSearch } from '~/hooks/useNavigationSeach'
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -117,7 +118,7 @@ const Clients = () => {
                         color={isDarkColorScheme ? '#ffffff' : colors.primary}
                      />
                   </TouchableOpacity>
-                  <Text variant={'title2'}>Appointments</Text>
+                  <Text variant="title2">Appointments</Text>
                   <Text className="mr-3" />
                </View>
                <FlashList
@@ -151,7 +152,7 @@ const Clients = () => {
                            index={index}
                            item={item}
                            showDate
-                           disabled={true}
+                           disabled
                            onPress={() => {}}
                         />
                      )

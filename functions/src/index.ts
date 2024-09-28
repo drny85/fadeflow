@@ -581,6 +581,12 @@ exports.sendBroadcastMessage = onDocumentCreated(
       const broadcast = event.data?.data() as BroadcastMessage
 
       try {
+         const barber = await getFirestore()
+            .collection('users')
+            .doc(broadcast.barberId)
+            .get()
+         if (!barber.exists) return
+         const { name } = barber.data() as Barber
          const users = await getFirestore()
             .collection('users')
             .where('id', 'in', broadcast.users)
@@ -590,8 +596,8 @@ exports.sendBroadcastMessage = onDocumentCreated(
             .filter((token) => token !== undefined) as string[]
          if (tokens.length === 0) return
          await sendNotificationToAllUsers(
-            broadcast.title,
-            broadcast.message,
+            `Message from ${name}`,
+            `${broadcast.title}\n${broadcast.message}`,
             { id: event.params.broadcastId, notificationType: 'broadcast' },
             tokens
          )

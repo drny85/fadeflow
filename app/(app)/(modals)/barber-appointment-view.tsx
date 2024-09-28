@@ -118,7 +118,7 @@ const BarberAppointmentView = () => {
                <View className="flex-row items-center justify-between gap-4 ">
                   <Text
                      variant="title2"
-                     className=" text-slate-500  dark:text-white"
+                     className=" text-slate-900  dark:text-white"
                   >
                      {appointment.customer.name}
                   </Text>

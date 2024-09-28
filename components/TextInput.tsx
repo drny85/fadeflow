@@ -22,6 +22,7 @@ type TextInputParams = TextInputProps & {
    rules?: any
    containerStyle?: ViewStyle
    RightIcon?: React.ReactNode
+   inputStyle?: ViewStyle
 }
 
 const TextInput: React.FC<TextInputParams> = ({
@@ -33,6 +34,7 @@ const TextInput: React.FC<TextInputParams> = ({
    containerStyle,
    rules,
    RightIcon,
+   inputStyle,
    ...others
 }) => {
    const { isDarkColorScheme } = useColorScheme()
@@ -56,7 +58,8 @@ const TextInput: React.FC<TextInputParams> = ({
                               color: isDarkColorScheme ? '#ffffff' : '#212121'
                            },
                            error && styles.errorInput,
-                           !invalid && isDirty && isTouched && styles.valid
+                           !invalid && isDirty && isTouched && styles.valid,
+                           inputStyle
                         ]}
                         onBlur={onBlur}
                         onChangeText={
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
       fontFamily: 'Raleway-Bold'
    },
    input: {
-      height: 50,
+      minHeight: 50,
       borderColor: '#ccc',
       fontSize: 16,
       borderWidth: 1,

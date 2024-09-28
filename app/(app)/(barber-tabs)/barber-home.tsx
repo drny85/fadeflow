@@ -260,7 +260,7 @@ const BarberHome = () => {
                         No services available
                      </Text>
                      <View className="p-2">
-                        <Text variant={'footnote'} className="text-lg">
+                        <Text variant="footnote" className="text-lg">
                            Please add services to get started. You wont be able
                            to receive appointments if you dont have at least a
                            service listed.
@@ -282,7 +282,7 @@ const BarberHome = () => {
                {services.length > 0 && (
                   <>
                      <View className="bg-card p-2">
-                        <Text variant="title3">My Next Appointment</Text>
+                        <Text variant="title3">Next Appointment</Text>
                         {myNextAppointment ? (
                            <SwipleableAppoimentListItem
                               index={0}
@@ -320,8 +320,8 @@ const BarberHome = () => {
                            showsHorizontalScrollIndicator={false}
                            ListEmptyComponent={
                               <View className="p-2">
-                                 <Text className="text-muted dark:text-slate-300">
-                                    No appointments
+                                 <Text className="text-muted capitalize dark:text-slate-300">
+                                    All appointments have been confirmed
                                  </Text>
                               </View>
                            }

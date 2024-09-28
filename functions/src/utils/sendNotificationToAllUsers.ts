@@ -1,5 +1,5 @@
-import { Expo } from 'expo-server-sdk'
 import { NotificationData } from '@shared/types'
+import { Expo } from 'expo-server-sdk'
 
 // Initialize the Expo SDK client
 const expo = new Expo()
@@ -35,9 +35,9 @@ export const sendNotificationToAllUsers = async (
       messages.push({
          to: token,
          sound: 'default',
-         title: title,
+         title,
          body: message,
-         data: data
+         data
       })
    }
 

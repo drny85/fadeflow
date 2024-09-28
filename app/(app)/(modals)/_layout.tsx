@@ -2,9 +2,9 @@ import { Feather } from '@expo/vector-icons'
 import { Icon } from '@roninoss/icons'
 import { router, Stack } from 'expo-router'
 import { TouchableOpacity } from 'react-native'
+
 import BroadcastMessageScreen from '~/components/BroadcastMessageScreen'
 import { StackScreenWithSearchBar } from '~/constants/layout'
-
 import { useColorScheme } from '~/lib/useColorScheme'
 
 const ModalLayout = () => {
