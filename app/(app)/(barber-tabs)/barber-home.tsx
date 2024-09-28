@@ -213,170 +213,199 @@ const BarberHome = () => {
                   </View>
                )}
             </View>
-
-            {user?.isBarber &&
-               user.isActive &&
-               user.subscriptionStatus !== 'active' && (
-                  <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
-                     <Text className="mb-2 text-center font-roboto-bold text-xl">
-                        {daysRemaining > 0
-                           ? `Your account is on ${DAYS} days Free-trial`
-                           : 'Your Free-Trial Expired'}
-                     </Text>
-                     <Text className="text-center text-sm text-muted">
-                        created at: {format(user.createdAt, 'PPpp')}
-                     </Text>
-                     <Text className="text-center">
-                        Remainging Days {daysRemaining}
-                     </Text>
-                     <View className="self-center">
-                        <Button
-                           title="Subscribe Now"
-                           textStyle={{ paddingHorizontal: 12 }}
-                           onPress={() => router.push('/subscription')}
-                        />
-                     </View>
-                  </View>
-               )}
             <ScrollView
                className="flex-1"
                contentContainerClassName="gap-2"
                showsVerticalScrollIndicator={false}
             >
-               <View className="bg-card p-2">
-                  <Text variant="title3">My Next Appointment</Text>
-                  {myNextAppointment ? (
-                     // <AppointmentCard
-                     //    appointmentId={myNextAppointment.id!}
-                     //    onPress={() => {
-                     //       router.push({
-                     //          pathname: '/barber-appointment-view',
-                     //          params: {
-                     //             appointmentId: myNextAppointment.id
-                     //          }
-                     //       })
-                     //    }}
-                     // />
-                     <SwipleableAppoimentListItem
-                        index={0}
-                        showDate
-                        item={myNextAppointment}
-                        dateTextStyle={{ color: 'grey' }}
+               {user?.isBarber &&
+                  user.isActive &&
+                  user.subscriptionStatus !== 'active' && (
+                     <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
+                        <Text className="mb-2 text-center font-roboto-bold text-xl">
+                           {daysRemaining > 0
+                              ? `Your account is on ${DAYS} days Free-trial`
+                              : 'Your Free-Trial Expired'}
+                        </Text>
+                        <Text className="text-center text-sm text-muted">
+                           created at: {format(user.createdAt, 'PPpp')}
+                        </Text>
+                        <Text className="text-center">
+                           Remainging Days {daysRemaining}
+                        </Text>
+                        <View className="self-center">
+                           <Button
+                              title="Subscribe Now"
+                              textStyle={{ paddingHorizontal: 12 }}
+                              onPress={() => router.push('/subscription')}
+                           />
+                        </View>
+                     </View>
+                  )}
+               {services.length === 0 && (
+                  <View className="mt-5 w-full items-center justify-center gap-2 p-1">
+                     <Text className="text-center text-2xl text-muted dark:text-slate-300 mb-3">
+                        No services available
+                     </Text>
+                     <View className="p-2">
+                        <Text variant={'footnote'} className="text-lg">
+                           Please add services to get started. You wont be able
+                           to receive appointments if you dont have at least a
+                           service listed.
+                        </Text>
+                     </View>
+
+                     <Button
+                        textStyle={{ paddingHorizontal: 20 }}
+                        title="Add Service"
                         onPress={() => {
                            router.push({
-                              pathname: '/barber-appointment-view',
-                              params: {
-                                 appointmentId: myNextAppointment.id
-                              }
+                              pathname: '/(barber-tabs)/gallery',
+                              params: { show: 'true' }
                            })
                         }}
                      />
-                  ) : (
-                     <View className="p-2">
-                        <Text className="text-muted dark:text-slate-300">
-                           No Appointments Scheduled
-                        </Text>
-                     </View>
-                  )}
-               </View>
-               {todayAppoinments.length > 0 && (
-                  <View className="w-full p-2">
-                     <Text className="text-center">
-                        Completed {completedAppointments.length} out of{' '}
-                        {todayAppoinments.length}
-                     </Text>
-                     <ProgressBar
-                        value={donePercentage > 0 ? donePercentage : 0.0}
-                     />
                   </View>
                )}
+               {services.length > 0 && (
+                  <>
+                     <View className="bg-card p-2">
+                        <Text variant="title3">My Next Appointment</Text>
+                        {myNextAppointment ? (
+                           // <AppointmentCard
+                           //    appointmentId={myNextAppointment.id!}
+                           //    onPress={() => {
+                           //       router.push({
+                           //          pathname: '/barber-appointment-view',
+                           //          params: {
+                           //             appointmentId: myNextAppointment.id
+                           //          }
+                           //       })
+                           //    }}
+                           // />
+                           <SwipleableAppoimentListItem
+                              index={0}
+                              showDate
+                              item={myNextAppointment}
+                              dateTextStyle={{ color: 'grey' }}
+                              onPress={() => {
+                                 router.push({
+                                    pathname: '/barber-appointment-view',
+                                    params: {
+                                       appointmentId: myNextAppointment.id
+                                    }
+                                 })
+                              }}
+                           />
+                        ) : (
+                           <View className="p-2">
+                              <Text className="text-muted dark:text-slate-300">
+                                 No Appointments Scheduled
+                              </Text>
+                           </View>
+                        )}
+                     </View>
+                     {todayAppoinments.length > 0 && (
+                        <View className="w-full p-2">
+                           <Text className="text-center">
+                              Completed {completedAppointments.length} out of{' '}
+                              {todayAppoinments.length}
+                           </Text>
+                           <ProgressBar
+                              value={donePercentage > 0 ? donePercentage : 0.0}
+                           />
+                        </View>
+                     )}
 
-               <View className="rounded-md bg-card p-2 shadow-sm">
-                  <Text variant="title3">
-                     Waiting for confirmation ({waitinfForConfirmation.length})
-                  </Text>
-                  <FlatList
-                     data={waitinfForConfirmation.sort((a, b) =>
-                        a.date > b.date ? 1 : -1
-                     )}
-                     horizontal
-                     showsHorizontalScrollIndicator={false}
-                     ListEmptyComponent={
-                        <View className="p-2">
-                           <Text className="text-muted dark:text-slate-300">
-                              No appointments
-                           </Text>
-                        </View>
-                     }
-                     renderItem={({ item }) => {
-                        return (
-                           <TouchableOpacity
-                              onPress={() =>
-                                 router.push({
-                                    pathname: '/barber-appointment-view',
-                                    params: {
-                                       appointmentId: item.id
-                                    }
-                                 })
-                              }
-                              className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
-                           >
-                              <Text className="font-semibold">
-                                 {format(item.date, 'eee')} (
-                                 <Text className="text-sm text-muted dark:text-slate-400">
-                                    {' '}
-                                    {format(item.date, 'dd')})
+                     <View className="rounded-md bg-card p-2 shadow-sm">
+                        <Text variant="title3">
+                           Waiting for confirmation (
+                           {waitinfForConfirmation.length})
+                        </Text>
+                        <FlatList
+                           data={waitinfForConfirmation.sort((a, b) =>
+                              a.date > b.date ? 1 : -1
+                           )}
+                           horizontal
+                           showsHorizontalScrollIndicator={false}
+                           ListEmptyComponent={
+                              <View className="p-2">
+                                 <Text className="text-muted dark:text-slate-300">
+                                    No appointments
                                  </Text>
-                              </Text>
-                              <Text>{item.startTime}</Text>
-                           </TouchableOpacity>
-                        )
-                     }}
-                  />
-               </View>
-               <View className="rounded-md bg-card p-2 shadow-sm">
-                  <Text variant="title3">
-                     Waiting to cash out ({confirmedAppointments.length})
-                  </Text>
-                  <FlatList
-                     data={confirmedAppointments.sort((a, b) =>
-                        a.date > b.date ? 1 : -1
-                     )}
-                     horizontal
-                     showsHorizontalScrollIndicator={false}
-                     ListEmptyComponent={
-                        <View className="p-2">
-                           <Text className="text-muted dark:text-slate-300">
-                              No data
-                           </Text>
-                        </View>
-                     }
-                     renderItem={({ item }) => {
-                        return (
-                           <TouchableOpacity
-                              onPress={() =>
-                                 router.push({
-                                    pathname: '/barber-appointment-view',
-                                    params: {
-                                       appointmentId: item.id
+                              </View>
+                           }
+                           renderItem={({ item }) => {
+                              return (
+                                 <TouchableOpacity
+                                    onPress={() =>
+                                       router.push({
+                                          pathname: '/barber-appointment-view',
+                                          params: {
+                                             appointmentId: item.id
+                                          }
+                                       })
                                     }
-                                 })
-                              }
-                              className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
-                           >
-                              <Text className="font-semibold">
-                                 {format(item.date, 'eee')} (
-                                 <Text className="text-sm text-muted dark:text-slate-400">
-                                    {' '}
-                                    {format(item.date, 'dd')})
+                                    className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
+                                 >
+                                    <Text className="font-semibold">
+                                       {format(item.date, 'eee')} (
+                                       <Text className="text-sm text-muted dark:text-slate-400">
+                                          {' '}
+                                          {format(item.date, 'dd')})
+                                       </Text>
+                                    </Text>
+                                    <Text>{item.startTime}</Text>
+                                 </TouchableOpacity>
+                              )
+                           }}
+                        />
+                     </View>
+                     <View className="rounded-md bg-card p-2 shadow-sm">
+                        <Text variant="title3">
+                           Waiting to cash out ({confirmedAppointments.length})
+                        </Text>
+                        <FlatList
+                           data={confirmedAppointments.sort((a, b) =>
+                              a.date > b.date ? 1 : -1
+                           )}
+                           horizontal
+                           showsHorizontalScrollIndicator={false}
+                           ListEmptyComponent={
+                              <View className="p-2">
+                                 <Text className="text-muted dark:text-slate-300">
+                                    No data
                                  </Text>
-                              </Text>
-                              <Text>{item.startTime}</Text>
-                           </TouchableOpacity>
-                        )
-                     }}
-                  />
-               </View>
+                              </View>
+                           }
+                           renderItem={({ item }) => {
+                              return (
+                                 <TouchableOpacity
+                                    onPress={() =>
+                                       router.push({
+                                          pathname: '/barber-appointment-view',
+                                          params: {
+                                             appointmentId: item.id
+                                          }
+                                       })
+                                    }
+                                    className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
+                                 >
+                                    <Text className="font-semibold">
+                                       {format(item.date, 'eee')} (
+                                       <Text className="text-sm text-muted dark:text-slate-400">
+                                          {' '}
+                                          {format(item.date, 'dd')})
+                                       </Text>
+                                    </Text>
+                                    <Text>{item.startTime}</Text>
+                                 </TouchableOpacity>
+                              )
+                           }}
+                        />
+                     </View>
+                  </>
+               )}
             </ScrollView>
          </View>
       </View>

@@ -10,6 +10,7 @@ export function groupAppointmentsByCustomer(appointments: Appointment[]) {
          if (!acc[id]) {
             // If customer doesn't exist in the map, add them with an empty appointments array
             acc[id] = {
+               id,
                name,
                phone,
                image,
@@ -25,6 +26,7 @@ export function groupAppointmentsByCustomer(appointments: Appointment[]) {
       {} as Record<
          string,
          {
+            id: string
             name: string
             phone: string
             image: string | null
