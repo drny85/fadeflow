@@ -11,7 +11,7 @@ import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { auth } from '~/firebase'
 import { usersCollection } from '~/firebase-collections'
 import { toastAlert } from '~/lib/toast'
-import { AppUser } from '~/shared/types'
+import { AppUser, Barber } from '~/shared/types'
 import { FIREBASE_ERRORS } from '~/utils/firebaseErrorMessages'
 
 type AuthContextType = {
@@ -26,6 +26,7 @@ type AuthContextType = {
    logOut: () => Promise<void>
    loading: boolean
    setUser: (user: AppUser | null) => void
+   checkIfUserAlreadyExist: (userId: string, user: AppUser) => Promise<boolean>
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -46,12 +47,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
                const userDoc = doc(usersCollection, uid)
                const data = await getDoc(userDoc)
 
-               const user = {
+               const userData = {
                   id: data.id,
-                  ...data.data(),
-                  isBarber: data.data()?.isBarber
-               } as AppUser
-               setUser({ ...user })
+                  ...data.data()
+               }
+               console.log('USER', user)
+               setUser({ ...userData } as AppUser)
             } else {
                setUser(null)
             }
@@ -98,6 +99,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }
    }
 
+   const checkIfUserAlreadyExist = async (
+      userId: string,
+      user: AppUser
+   ): Promise<boolean> => {
+      try {
+         const userRef = doc(usersCollection, userId)
+         const userData = await getDoc(userRef)
+         if (userData.exists()) {
+            return true
+         } else {
+            await createUser(user)
+            return true
+         }
+      } catch (error) {
+         console.log(error)
+         return false
+      }
+   }
+
    const authContextValue: AuthContextType = {
       user,
       signIn,
@@ -105,7 +125,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       logOut,
       createUser,
       loading,
-      setUser
+      setUser,
+      checkIfUserAlreadyExist
    }
 
    return (

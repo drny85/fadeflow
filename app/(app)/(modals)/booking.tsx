@@ -90,9 +90,12 @@ const BookingPage = () => {
          return
       }
       if (!user) {
+         console.log(barberId, appointmentId)
          router.push({
             pathname: '/(auth)/login',
-            params: { returnUrl: `/booking?barberId=${barberId}` }
+            params: {
+               returnUrl: `/booking?barberId=${barberId}`
+            }
          })
          return
       }
@@ -317,7 +320,9 @@ const BookingPage = () => {
                setSelectedDate(new Date())
                setServices([])
                setSelectedTimeSlot(null)
-               router.back()
+               router.canGoBack()
+                  ? router.back()
+                  : router.replace('/(barbers)/barbers-screen')
             }}
          />
          <ScrollView showsVerticalScrollIndicator={false} className="my-2">

@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import LoginForm from '~/components/Forms/LoginForm'
 import SignupForm from '~/components/Forms/SignupForm'
+import SignInComponent from '~/components/Forms/SocialMediaLogin'
 import KeyboardScreen from '~/components/KeyboardScreen'
 import Loading from '~/components/Loading'
 import { Text } from '~/components/nativewindui/Text'
@@ -30,6 +31,7 @@ const LoginScreen = () => {
          <Text className="text-center" variant="title1">
             Welcome
          </Text>
+
          <View style={styles.authSwitch}>
             <TouchableOpacity
                onPress={() => setIsSignUp(false)}
@@ -76,6 +78,12 @@ const LoginScreen = () => {
          ) : (
             <LoginForm />
          )}
+         <View className="flex-row items-center gap-3 justify-center">
+            <View className="h-[1px] bg-slate-300 w-1/3" />
+            <Text className="text-center">or</Text>
+            <View className="h-[1px] bg-slate-300 w-1/3" />
+         </View>
+         <SignInComponent isBarber={isBarber !== undefined} />
       </KeyboardScreen>
    )
 }

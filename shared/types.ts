@@ -1,14 +1,14 @@
 import Stripe from 'stripe'
 
 export type Barber = {
-   id: string // Unique identifier for the barber
+   // Unique identifier for the barber
+   id: string
    name: string // Barber's name
    email: string
    phone: string
    image: string | null // URL of the barber's profile image
    isAvailable: boolean // Optional rating for the barber
    isActive: boolean
-   isOwner?: boolean
    bio?: string
    gallery: Photo[]
    pushToken: string | null
@@ -72,7 +72,6 @@ export type AppUser = {
    name?: string
    phone?: string
    gallery?: Photo[]
-   isOwner?: boolean
    image: string | null
    pushToken: string | null
    isBarber?: boolean
