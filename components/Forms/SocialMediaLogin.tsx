@@ -29,9 +29,7 @@ const SignInComponent: React.FC<Props> = ({ isBarber }) => {
    const { checkIfUserAlreadyExist } = useAuth()
    const params = useLocalSearchParams()
    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-      clientId:
-         '684619283478-as75l839r8m8m2d942oqgu57m98mrldg.apps.googleusercontent.com',
-
+      clientId: WEB,
       iosClientId: IOS,
       androidClientId: ANDROID,
       scopes: ['openid', 'profile', 'email'],

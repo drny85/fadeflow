@@ -232,7 +232,7 @@ const GalleryReviews = () => {
             />
             <View className="flex-1">
                {selectedIndex === 0 && (
-                  <Fragment>
+                  <View>
                      <View className="flex-1 bg-background p-2">
                         {services.length > 0 && (
                            <ServicePicker
@@ -255,7 +255,7 @@ const GalleryReviews = () => {
                      >
                         <FontAwesome name="plus" color="#ffffff" size={32} />
                      </TouchableOpacity>
-                  </Fragment>
+                  </View>
                )}
                {selectedIndex === 1 && (
                   <View className="flex-1">

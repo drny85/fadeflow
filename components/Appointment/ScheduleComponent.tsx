@@ -18,11 +18,11 @@ import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
 
 import { updateUser } from '~/actions/users'
+import { SIZES } from '~/constants'
 import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { Days, Schedule } from '~/shared/types'
-import { SIZES } from '~/constants'
 
 const days: Record<Days, string> = {
    Sun: 'Sunday',

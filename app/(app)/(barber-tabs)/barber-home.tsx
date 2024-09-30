@@ -262,7 +262,7 @@ const BarberHome = () => {
                   </View>
                )}
                {services.length > 0 && (
-                  <Fragment>
+                  <View>
                      <View className="bg-card p-2">
                         <Text variant="title3">Next Appointment</Text>
                         {myNextAppointment ? (
@@ -380,7 +380,7 @@ const BarberHome = () => {
                            />
                         </View>
                      )}
-                  </Fragment>
+                  </View>
                )}
             </ScrollView>
          </View>
