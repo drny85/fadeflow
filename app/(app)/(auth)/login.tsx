@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
@@ -34,7 +34,11 @@ const LoginScreen = () => {
 
          <View style={styles.authSwitch}>
             <TouchableOpacity
-               onPress={() => setIsSignUp(false)}
+               onPress={() => {
+                  setIsSignUp(false)
+
+                  router.setParams({ isBarber: undefined })
+               }}
                style={
                   !isSignUp
                      ? {
@@ -53,7 +57,9 @@ const LoginScreen = () => {
                </Text>
             </TouchableOpacity>
             <TouchableOpacity
-               onPress={() => setIsSignUp(true)}
+               onPress={() => {
+                  setIsSignUp(true)
+               }}
                style={
                   isSignUp
                      ? {
@@ -76,14 +82,16 @@ const LoginScreen = () => {
          {isSignUp ? (
             <SignupForm isBarber={isBarber !== undefined} />
          ) : (
-            <LoginForm />
+            <View>
+               <LoginForm />
+               <View className="flex-row items-center gap-3 justify-center">
+                  <View className="h-[1px] bg-slate-300 w-1/3" />
+                  <Text className="text-center">or</Text>
+                  <View className="h-[1px] bg-slate-300 w-1/3" />
+               </View>
+               <SignInComponent isBarber={isBarber !== undefined} />
+            </View>
          )}
-         <View className="flex-row items-center gap-3 justify-center">
-            <View className="h-[1px] bg-slate-300 w-1/3" />
-            <Text className="text-center">or</Text>
-            <View className="h-[1px] bg-slate-300 w-1/3" />
-         </View>
-         <SignInComponent isBarber={isBarber !== undefined} />
       </KeyboardScreen>
    )
 }

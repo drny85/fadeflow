@@ -75,6 +75,7 @@ export type AppUser = {
    image: string | null
    pushToken: string | null
    isBarber?: boolean
+   provider: 'google' | 'apple' | 'email'
    createdAt: string
 } & (
    | {
@@ -157,6 +158,13 @@ export type BroadcastMessage = {
    barberId: string
    createdAt?: string
 }
+export type NotificationMessage = {
+   to: string
+   title: string
+   body: string
+   data: NotificationData
+   notififationType: NOTIFICATION_TYPE
+}
 
 export type ScheduleDay = {
    isOff: boolean
@@ -165,9 +173,7 @@ export type ScheduleDay = {
    endTime: string
 }
 
-export type Schedule = {
-   [key in Days]: ScheduleDay
-}
+export type Schedule = Record<Days, ScheduleDay>
 
 export type WeekDay = { date: Date; label: string; isPast: boolean }
 export type TimeSlot = {

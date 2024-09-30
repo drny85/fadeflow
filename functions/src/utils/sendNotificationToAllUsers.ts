@@ -18,7 +18,7 @@ export const sendNotificationToAllUsers = async (
    data: NotificationData,
    users: string[]
 ): Promise<void> => {
-   // An array to store the push notification messages
+   // An array to store the push notification messagesMode
    const messages: MessageBodyData[] = []
    if (users.length === 0) return
    // Example notification data (you can customize this)

@@ -6,6 +6,7 @@ import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 import { addNewReview } from '~/actions/reviews'
+import ScheduleView from '~/components/Appointment/ScheduleView'
 import TimeSlotPickerComponent from '~/components/Appointment/TimeSlotsPicker'
 import BarberImageHeader from '~/components/BarberImageHeader'
 import { Button } from '~/components/Button'
@@ -24,7 +25,14 @@ import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import { dayOrder, Days, Review, ScheduleDay } from '~/shared/types'
+import {
+   Barber,
+   dayOrder,
+   Days,
+   Review,
+   Schedule,
+   ScheduleDay
+} from '~/shared/types'
 
 type ParamsProps = {
    barberId: string
@@ -167,27 +175,7 @@ const BarberDetails = () => {
                      </View>
                   )}
                </View>
-               <View className="rounded-lg bg-card shadow-sm">
-                  <View className="p-2">
-                     <Text className="mb-2" variant="title3">
-                        Schedule
-                     </Text>
-                     {Object.entries(barber.schedule)
-                        .sort(
-                           (a, b) =>
-                              dayOrder.indexOf(a[0] as Days) -
-                              dayOrder.indexOf(b[0] as Days)
-                        )
-                        .map(([day, hours]) => {
-                           if ((hours as ScheduleDay).isOff) return null
-                           const d = day as Days
-                           const slot = hours as ScheduleDay
-                           return (
-                              <ScheduleDayCard key={d} day={d} slot={slot} />
-                           )
-                        })}
-                  </View>
-               </View>
+               <ScheduleView schedule={barber.schedule} />
                <View className="h-6" />
             </ScrollView>
          )}

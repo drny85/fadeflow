@@ -51,27 +51,6 @@ export default function TabLayout() {
             }}
          />
          <Tabs.Screen
-            name="(barbers)"
-            options={{
-               unmountOnBlur: true,
-               title: 'Barbers',
-               headerShown: false,
-
-               tabBarIcon: ({ focused }) => (
-                  <TabBarIcon
-                     name="scissors"
-                     color={
-                        focused
-                           ? colors.primary
-                           : isDarkColorScheme
-                             ? '#ffffff'
-                             : colors.accent
-                     }
-                  />
-               )
-            }}
-         />
-         <Tabs.Screen
             name="appointments"
             options={{
                title: 'Appointments',
@@ -92,6 +71,28 @@ export default function TabLayout() {
                )
             }}
          />
+         <Tabs.Screen
+            name="(barbers)"
+            options={{
+               unmountOnBlur: true,
+               title: 'Barbers',
+               headerShown: false,
+
+               tabBarIcon: ({ focused }) => (
+                  <TabBarIcon
+                     name="scissors"
+                     color={
+                        focused
+                           ? colors.primary
+                           : isDarkColorScheme
+                             ? '#ffffff'
+                             : colors.accent
+                     }
+                  />
+               )
+            }}
+         />
+
          <Tabs.Screen
             name="profile"
             options={{

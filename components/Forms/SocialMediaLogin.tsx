@@ -8,14 +8,13 @@ import {
 import React from 'react'
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 
-import { AntDesign } from '@expo/vector-icons'
+import { Image } from 'expo-image'
+import { router, useLocalSearchParams } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 import { DEFAULT_SCHEDULE } from '~/constants'
 import { auth } from '~/firebase'
 import { useAuth } from '~/providers/AuthContext'
 import { AppUser } from '~/shared/types'
-import { router, useLocalSearchParams } from 'expo-router'
-import { Image } from 'expo-image'
 WebBrowser.maybeCompleteAuthSession()
 
 const ANDROID = process.env.EXPO_PUBLIC_WEB_CLIENT_ID
@@ -27,7 +26,6 @@ type Props = {
 }
 
 const SignInComponent: React.FC<Props> = ({ isBarber }) => {
-   console.log('IS_BARBER', isBarber)
    const { checkIfUserAlreadyExist } = useAuth()
    const params = useLocalSearchParams()
    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
@@ -65,6 +63,7 @@ const SignInComponent: React.FC<Props> = ({ isBarber }) => {
                      minutesInterval: 15,
                      isAvailable: true,
                      bio: '',
+                     provider: 'google',
                      phone: phoneNumber || '',
                      subscriptionStatus: 'trialing',
                      schedule: DEFAULT_SCHEDULE,
@@ -77,6 +76,7 @@ const SignInComponent: React.FC<Props> = ({ isBarber }) => {
                      id: uid,
                      name: displayName || '',
                      phone: phoneNumber || '',
+                     provider: 'google',
                      email: email || '',
                      image: photoURL || null,
                      isBarber: false,
@@ -96,7 +96,7 @@ const SignInComponent: React.FC<Props> = ({ isBarber }) => {
                }
             })
             .catch((error) => {
-               console.error('Error with Google login:', error)
+               console.log('Error with Google login:', error)
             })
       }
    }, [response])
@@ -104,30 +104,89 @@ const SignInComponent: React.FC<Props> = ({ isBarber }) => {
    // Apple Sign In handler
    const signInWithApple = async () => {
       try {
+         const csrf = Math.random().toString(36).substring(2, 15)
+         const nonce = Math.random().toString(36).substring(2, 10)
+
          const appleCredential = await AppleAuthentication.signInAsync({
+            state: csrf,
             requestedScopes: [
                AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
                AppleAuthentication.AppleAuthenticationScope.EMAIL
             ]
          })
 
-         const { identityToken } = appleCredential
+         const { identityToken, fullName } = appleCredential
          const provider = new OAuthProvider('apple.com')
+
          const credential = provider.credential({
             idToken: identityToken!,
-            rawNonce: 'nonce'
+            rawNonce: nonce
          })
 
          signInWithCredential(auth, credential)
-            .then((userCredential) => {
+            .then(({ user }) => {
+               if (!user) return
+               console.log('Apple credential:', JSON.stringify(user, null, 2))
                // Successfully signed in with Apple
-               console.log('User logged in:', userCredential.user)
+
+               const name = fullName?.givenName || ''
+               const phone = user.phoneNumber || ''
+               const email = user.email || ''
+               const photoURL = user.photoURL || null
+               const uid = user.uid
+               let newUser: AppUser
+               if (isBarber) {
+                  newUser = {
+                     id: uid,
+                     name,
+                     email,
+                     image: photoURL,
+                     isBarber: true,
+                     isActive: true,
+                     provider: 'apple',
+                     pushToken: null,
+                     gallery: [],
+                     minutesInterval: 15,
+                     isAvailable: true,
+                     bio: '',
+                     phone,
+                     subscriptionStatus: 'trialing',
+                     schedule: DEFAULT_SCHEDULE,
+                     profileCompleted: false,
+                     profile: null,
+                     createdAt: new Date().toISOString()
+                  }
+               } else {
+                  newUser = {
+                     id: uid,
+                     provider: 'apple',
+                     name,
+                     phone,
+                     email,
+                     image: photoURL,
+                     isBarber: false,
+                     favoriteBarber: null,
+                     pushToken: null,
+                     createdAt: new Date().toISOString()
+                  }
+               }
+               // const newUser: AppUser = {
+               //    id: uid,
+               //    name: name,
+               //    email: email,
+               //    image: photoURL,
+               //    isBarber: false,
+               //    favoriteBarber: null,
+               //    pushToken: null,
+               //    createdAt: new Date().toISOString()
+               // }
+               checkIfUserAlreadyExist(uid, newUser)
             })
             .catch((error) => {
-               console.error('Error with Apple login:', error)
+               console.log('Error with Apple login:', error)
             })
       } catch (error) {
-         console.error('Error with Apple login:', error)
+         console.log('Error with Apple login:', error)
       }
    }
 

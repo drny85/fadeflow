@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>684619283478-1nics09kv29e94aecnt70pcnhrrjgofj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.684619283478-1nics09kv29e94aecnt70pcnhrrjgofj</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>684619283478-un7r9jclpge0vm3e7ordgi2jfjtiiit8.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDI7NotOUAan5AasEuiN_dJIfBqwxfDUxo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>684619283478</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>net.robertdev.fadeflow</string>
+	<key>PROJECT_ID</key>
+	<string>fadeflow-7d31b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fadeflow-7d31b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:684619283478:ios:c0ad797773db7fc7f30937</string>
+</dict>
+</plist>

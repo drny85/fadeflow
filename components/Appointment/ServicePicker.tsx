@@ -82,7 +82,7 @@ const ServicePicker = ({ services, isBarber, onPressServiceEdit }: Props) => {
                                     <Feather
                                        name="minus-circle"
                                        size={22}
-                                       color={colors.accent}
+                                       color={colors.primary}
                                     />
                                  </TouchableOpacity>
                                  <Text className="font-semibold text-muted dark:text-white">
@@ -94,7 +94,7 @@ const ServicePicker = ({ services, isBarber, onPressServiceEdit }: Props) => {
                                     <Feather
                                        name="plus-circle"
                                        size={22}
-                                       color={colors.accent}
+                                       color={colors.primary}
                                     />
                                  </TouchableOpacity>
                               </View>

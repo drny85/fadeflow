@@ -25,6 +25,7 @@ export function useProtectedRoute() {
    const profileCompleted = useMemo(() => {
       return user && user?.isBarber && user?.profileCompleted
    }, [user])
+   console.log('COMPLETED', profileCompleted)
 
    const updateProfileIsIncomplete = useCallback(async () => {
       if (user && user.isBarber && user.profile) {
@@ -49,6 +50,7 @@ export function useProtectedRoute() {
       const inAuthGroup = segments[1] === '(auth)'
       const inBarberGroup = segments[1] === '(barber-tabs)'
       const inUserGroup = segments[1] === '(tabs)'
+      console.log('SEGMENTS', segments[1])
 
       updateProfileIsIncomplete()
 
@@ -57,7 +59,7 @@ export function useProtectedRoute() {
          // Redirect signed-in non-barber users away from the sign-in page
          console.log('00')
          router.replace('/(tabs)')
-      } else if (user && user.isBarber && inUserGroup) {
+      } else if (user && user.isBarber && inUserGroup && profileCompleted) {
          console.log(`01 => redirected from ${segments[1]}`)
          router.replace('/(barber-tabs)')
       } else if (
@@ -83,6 +85,10 @@ export function useProtectedRoute() {
       } else if (user && inUserGroup && user.isBarber && profileCompleted) {
          console.log('BARBER TABS 2')
          router.replace('/(barber-tabs)')
+
+         //router.replace('/(barber-tabs)')
+      } else {
+         console.log('no match')
       }
    }, [user, segments, mounted, daysRemaining, profileCompleted])
 

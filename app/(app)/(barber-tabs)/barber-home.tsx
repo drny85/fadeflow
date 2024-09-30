@@ -9,7 +9,7 @@ import {
 } from 'date-fns'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
-import { useMemo } from 'react'
+import { useMemo, Fragment } from 'react'
 import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -193,26 +193,6 @@ const BarberHome = () => {
                      </Text>
                   </View>
                )}
-
-               {!loading && services.length === 0 && (
-                  <View className="mt-5 w-full items-center justify-center gap-2 p-1">
-                     <Text className="text-center text-xl text-muted dark:text-slate-300">
-                        No services available
-                     </Text>
-                     <View className="animate-bounce">
-                        <Button
-                           textStyle={{ paddingHorizontal: 20 }}
-                           title="Add Service"
-                           onPress={() => {
-                              router.push({
-                                 pathname: '/(barber-tabs)/gallery',
-                                 params: { show: 'true' }
-                              })
-                           }}
-                        />
-                     </View>
-                  </View>
-               )}
             </View>
             <ScrollView
                className="flex-1"
@@ -267,20 +247,22 @@ const BarberHome = () => {
                         </Text>
                      </View>
 
-                     <Button
-                        textStyle={{ paddingHorizontal: 20 }}
-                        title="Add Service"
-                        onPress={() => {
-                           router.push({
-                              pathname: '/(barber-tabs)/gallery',
-                              params: { show: 'true' }
-                           })
-                        }}
-                     />
+                     <View className="animate-bounce">
+                        <Button
+                           textStyle={{ paddingHorizontal: 20 }}
+                           title="Add Service"
+                           onPress={() => {
+                              router.push({
+                                 pathname: '/(barber-tabs)/gallery',
+                                 params: { show: 'true' }
+                              })
+                           }}
+                        />
+                     </View>
                   </View>
                )}
                {services.length > 0 && (
-                  <>
+                  <Fragment>
                      <View className="bg-card p-2">
                         <Text variant="title3">Next Appointment</Text>
                         {myNextAppointment ? (
@@ -398,7 +380,7 @@ const BarberHome = () => {
                            />
                         </View>
                      )}
-                  </>
+                  </Fragment>
                )}
             </ScrollView>
          </View>

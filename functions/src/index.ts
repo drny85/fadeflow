@@ -46,6 +46,7 @@ import {
 } from './utils'
 import { sendPushNotification } from './utils/common'
 import { sendNotificationToAllUsers } from './utils/sendNotificationToAllUsers'
+import { notificationReminder } from './utils/notificationReminder'
 
 dotenv.config()
 
@@ -384,54 +385,11 @@ exports.sendAppointmentReminder = functions.pubsub
    .onRun(async (context) => {
       try {
          logger.log('Reminder started', format(context.timestamp, 'PPpp'))
-         checkIfThereIsAnUpcomingAppointmentWithTheNextHour()
+         await notificationReminder()
       } catch (error) {
          logger.error(error)
       }
    })
-
-const checkIfThereIsAnUpcomingAppointmentWithTheNextHour = () => {
-   const now = new Date()
-   const nextHour = new Date(now.getTime() + 60 * 60 * 1000)
-
-   logger.log('Next hour', format(nextHour, 'PPpp'))
-   const appointments = getFirestore()
-      .collection('appointments')
-      .where('reminderSent', '==', false)
-      .where('date', '>=', nextHour)
-      .where('date', '<', nextHour)
-
-   appointments
-      .get()
-      .then((querySnapshot) => {
-         querySnapshot.forEach((doc) => {
-            const appointment = doc.data() as Appointment
-
-            if (appointment.status === 'confirmed') {
-               const usersDoc = getFirestore()
-                  .collection('users')
-                  .doc(appointment.customer.id!)
-               usersDoc.get().then(async (userSnapshot) => {
-                  const user = userSnapshot.data() as AppUser
-                  if (user.pushToken) {
-                     await sendPushNotification(
-                        doc.id,
-                        'reminder',
-                        user.pushToken,
-                        'Upcoming Appointment',
-                        `You have an upcoming appointment with ${appointment.barber.name.split(' ')[0]} at ${appointment.startTime}.`
-                     )
-                     doc.ref.update({ reminderSent: true })
-                     logger.log('Reminder sent')
-                  }
-               })
-            }
-         })
-      })
-      .catch((error) => {
-         logger.error(error)
-      })
-}
 
 exports.getPortalUrl = onCall(
    { secrets: [stripeLiveKey, stripeTestKey] },

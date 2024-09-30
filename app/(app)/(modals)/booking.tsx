@@ -415,7 +415,7 @@ const BookingPage = () => {
                   Phone Number is required
                </Text>
                <BottomSheetTextInput
-                  className={`m-2 border-b-[1px] border-slate-300 bg-card p-2 font-roboto text-lg ${phone?.length === 14 ? 'border-green-600' : 'border-slate-300'}`}
+                  className={`m-2 border-b-[1px] border-slate-300 bg-card p-2 text-black dark:text-slate-100 font-roboto text-lg ${phone?.length === 14 ? 'border-green-600' : 'border-slate-300'}`}
                   placeholder="(646) 555-4444"
                   keyboardType="numeric"
                   value={phone}

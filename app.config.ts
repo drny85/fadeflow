@@ -12,6 +12,7 @@ const config: ExpoConfig = {
    plugins: [
       'expo-router',
       'expo-font',
+      'expo-apple-authentication',
       [
          'expo-build-properties',
          {
@@ -60,6 +61,7 @@ const config: ExpoConfig = {
    platforms: ['ios', 'android'],
    ios: {
       supportsTablet: false,
+      usesAppleSignIn: true,
       bundleIdentifier: 'net.robertdev.fadeflow',
       buildNumber: '1.0.2',
       infoPlist: {
@@ -73,6 +75,7 @@ const config: ExpoConfig = {
       config: {
          googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_API_IOS
       },
+      googleServicesFile: './GoogleService-Info.plist',
       associatedDomains: ['applinks:fadeflow.vercel.app']
    },
    android: {

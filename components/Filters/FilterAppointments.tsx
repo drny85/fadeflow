@@ -12,7 +12,9 @@ import { useAppointmentStore } from '~/providers/useAppointmentStore'
 
 const FilterAppointments = () => {
    const { user } = useAuth()
-   const { appointments } = useAppointmentStore()
+   const appointments = useAppointmentStore((data) =>
+      data.appointments.filter((a) => a.customer.id === user?.id)
+   )
    const { isDarkColorScheme } = useColorScheme()
 
    const snapPoints = useMemo(() => ['70%'], [])

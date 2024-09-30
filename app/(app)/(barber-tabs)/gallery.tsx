@@ -3,11 +3,12 @@ import { BottomSheetTextInput, TouchableOpacity } from '@gorhom/bottom-sheet'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { StatusBar } from 'expo-status-bar'
 import { deleteObject, ref } from 'firebase/storage'
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Alert, View } from 'react-native'
 
 import { addNewService, updateService } from '~/actions/services'
 import { updateUser } from '~/actions/users'
+import ScheduleComponent from '~/components/Appointment/ScheduleComponent'
 import ServicePicker from '~/components/Appointment/ServicePicker'
 import { Button } from '~/components/Button'
 import { Container } from '~/components/Container'
@@ -27,13 +28,11 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { IconNames, Photo, Service } from '~/shared/types'
 
-const VALUES = ['Services', 'Photos', 'Reviews']
+const VALUES = ['Services', 'Photos', 'Reviews', 'Schedule']
 
 const GalleryReviews = () => {
    const { user } = useAuth()
-
    const { services, loading } = useServices(user?.id!)
-
    const [icon, setIcon] = useState<IconNames | null>(null)
    const [edit, setEdit] = useState(false)
    const [serviceToEdit, setServiceToEdit] = useState<Service | null>(null)
@@ -198,7 +197,7 @@ const GalleryReviews = () => {
 
    useStatusBarColor('dark')
 
-   if (loading) return null
+   if (loading || !user?.isBarber) return null
 
    return (
       <Container>
@@ -222,7 +221,7 @@ const GalleryReviews = () => {
                style={{
                   backgroundColor: colors.card,
                   height: 40,
-                  width: '80%',
+                  width: '96%',
                   alignSelf: 'center',
                   marginBottom: 10
                }}
@@ -233,7 +232,7 @@ const GalleryReviews = () => {
             />
             <View className="flex-1">
                {selectedIndex === 0 && (
-                  <>
+                  <Fragment>
                      <View className="flex-1 bg-background p-2">
                         {services.length > 0 && (
                            <ServicePicker
@@ -256,7 +255,7 @@ const GalleryReviews = () => {
                      >
                         <FontAwesome name="plus" color="#ffffff" size={32} />
                      </TouchableOpacity>
-                  </>
+                  </Fragment>
                )}
                {selectedIndex === 1 && (
                   <View className="flex-1">
@@ -275,6 +274,9 @@ const GalleryReviews = () => {
                   <View className="flex-1 bg-background p-2">
                      <ReviewsList barberId={user?.id!} />
                   </View>
+               )}
+               {selectedIndex === 3 && (
+                  <ScheduleComponent defaultSchedule={user.schedule} />
                )}
             </View>
             <Sheet
