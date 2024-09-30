@@ -45,8 +45,8 @@ import {
    handleSubscriptionUpdated
 } from './utils'
 import { sendPushNotification } from './utils/common'
-import { sendNotificationToAllUsers } from './utils/sendNotificationToAllUsers'
 import { notificationReminder } from './utils/notificationReminder'
+import { sendNotificationToAllUsers } from './utils/sendNotificationToAllUsers'
 
 dotenv.config()
 

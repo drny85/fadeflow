@@ -104,7 +104,7 @@ const Home = () => {
             }
          >
             <View className=" gap-2 rounded-lg bg-card p-2 shadow-sm">
-               <Text variant="title2">My Upcoming Appointment</Text>
+               <Text variant="title2">Upcoming Appointment</Text>
                {appointment.length > 0 ? (
                   <AppointmentCard
                      appointmentId={appointment[0].id!}

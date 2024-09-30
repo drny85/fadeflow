@@ -1,5 +1,8 @@
 import * as AppleAuthentication from 'expo-apple-authentication'
 import * as Google from 'expo-auth-session/providers/google'
+import { Image } from 'expo-image'
+import { router, useLocalSearchParams } from 'expo-router'
+import * as WebBrowser from 'expo-web-browser'
 import {
    GoogleAuthProvider,
    OAuthProvider,
@@ -8,9 +11,6 @@ import {
 import React from 'react'
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
 
-import { Image } from 'expo-image'
-import { router, useLocalSearchParams } from 'expo-router'
-import * as WebBrowser from 'expo-web-browser'
 import { DEFAULT_SCHEDULE } from '~/constants'
 import { auth } from '~/firebase'
 import { useAuth } from '~/providers/AuthContext'

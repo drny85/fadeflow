@@ -1,14 +1,14 @@
 import { View } from 'react-native'
 
-import { Text } from '../nativewindui/Text'
-import { dayOrder, Days, Schedule, ScheduleDay } from '~/shared/types'
 import ScheduleDayCard from '../ScheduleDayCard'
+import { Text } from '../nativewindui/Text'
+
+import { dayOrder, Days, Schedule, ScheduleDay } from '~/shared/types'
 
 type Props = {
    schedule: Schedule
 }
 const ScheduleView = ({ schedule }: Props) => {
-   console.log(JSON.stringify(schedule, null, 2))
    return (
       <View className="rounded-lg bg-card shadow-sm">
          <View className="p-2">

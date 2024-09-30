@@ -1,21 +1,28 @@
-import React, { useState } from 'react'
-import {
-   View,
-   TouchableOpacity,
-   StyleSheet,
-   ScrollView,
-   Switch,
-   Platform,
-   Alert
-} from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { addHours, format, parse, startOfDay } from 'date-fns'
+import React, { useEffect, useState } from 'react'
+import {
+   Alert,
+   Platform,
+   ScrollView,
+   StyleSheet,
+   Switch,
+   TouchableOpacity,
+   View
+} from 'react-native'
 import Animated, { SlideInLeft, SlideOutRight } from 'react-native-reanimated'
-import { Text } from '../nativewindui/Text'
-import { Days, Schedule } from '~/shared/types'
-import { Sheet, useSheetRef } from '../nativewindui/Sheet'
+
+import { Button } from '../Button'
 import ScheduleView from './ScheduleView'
+import { Sheet, useSheetRef } from '../nativewindui/Sheet'
+import { Text } from '../nativewindui/Text'
+
+import { updateUser } from '~/actions/users'
+import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { useAuth } from '~/providers/AuthContext'
+import { Days, Schedule } from '~/shared/types'
+import { SIZES } from '~/constants'
 
 const days: Record<Days, string> = {
    Sun: 'Sunday',
@@ -77,25 +84,23 @@ type Props = {
 }
 
 export default function ScheduleComponent({ defaultSchedule }: Props) {
-   const [selectedDay, setSelectedDay] = useState<Days>('Sun')
-   const { colors, isDarkColorScheme } = useColorScheme()
+   const { user } = useAuth()
    const bottomSheetRef = useSheetRef()
+   const [selectedDay, setSelectedDay] = useState<Days>('Sun')
+   const [invalidDays, setInvalidDays] = useState<Days[]>([])
+   const [editing, setEditing] = useState(false)
+   const [pickerValue, setPickerValue] = useState<Date | null>(null)
    const [schedule, setSchedule] = useState<Schedule>(
       defaultSchedule || initialSchedule
    )
+   const { colors } = useColorScheme()
+
    const [showPicker, setShowPicker] = useState<{
       field: string | null
       mode: 'time'
    }>({ field: null, mode: 'time' })
-   const [pickerValue, setPickerValue] = useState<Date | null>(null)
 
    // Function to validate lunch break time
-   const isLunchBreakValid = (startTime: string, endTime: string) => {
-      if (!startTime || !endTime) return true
-      const parsedStartTime = parse(startTime, 'hh:mm a', new Date())
-      const parsedEndTime = parse(endTime, 'hh:mm a', new Date())
-      return parsedStartTime <= parsedEndTime
-   }
 
    // Handle input changes for startTime, endTime, and lunchBreak
    const handleTimeChange = (
@@ -123,7 +128,27 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                [day]: { ...prev[day], [field]: formattedTime }
             }))
          }
+         setPickerValue(selectedDate)
       }
+      setEditing(true)
+   }
+
+   const openPicker = (field: string) => {
+      let existingTime = ''
+      if (field.startsWith('lunch')) {
+         const lunchField = field.split('.')[1]
+         //@ts-ignore
+         existingTime = schedule[selectedDay].lunchBreak[lunchField]
+      } else {
+         //@ts-ignore
+         existingTime = schedule[selectedDay][field]
+      }
+
+      const defaultValue = existingTime
+         ? parse(existingTime, 'hh:mm a', new Date())
+         : new Date()
+      setPickerValue(defaultValue)
+      setShowPicker({ field, mode: 'time' })
    }
 
    // Toggle for isOff
@@ -132,17 +157,41 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
          ...prev,
          [day]: { ...prev[day], isOff: !prev[day].isOff }
       }))
+      setEditing(true)
    }
+
+   useEffect(() => {
+      const values: Days[] = []
+      Object.keys(schedule).forEach((day) => {
+         const currentDay = schedule[day as Days]
+         const d = day as Days
+         const start = new Date(
+            `1970-01-01T${parseTime12HourA(currentDay.startTime)}`
+         )
+         const end = new Date(
+            `1970-01-01T${parseTime12HourA(currentDay.endTime)}`
+         )
+         const lunchStart = new Date(
+            `1970-01-01T${parseTime12HourA(currentDay.lunchBreak.start)}`
+         )
+         const lunchEnd = new Date(
+            `1970-01-01T${parseTime12HourA(currentDay.lunchBreak.end)}`
+         )
+         const validLunch = lunchEnd > lunchStart
+         const validHours = end > start
+
+         const valid = validHours && validLunch
+
+         if (!valid) {
+            values.push(d)
+         }
+         setInvalidDays(values)
+      })
+   }, [schedule])
 
    return (
       <View style={styles.container}>
-         {/* Day Selector */}
-         <ScrollView
-            horizontal
-            scrollEnabled={false}
-            showsHorizontalScrollIndicator={false}
-            style={styles.daySelector}
-         >
+         <View style={styles.daySelector}>
             {daysOfWeek.map((day) => (
                <TouchableOpacity
                   key={day}
@@ -150,7 +199,9 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                   style={[
                      {
                         ...styles.dayButton,
-                        backgroundColor: colors.card
+                        backgroundColor: colors.card,
+                        borderWidth: invalidDays.includes(day) ? 1 : undefined,
+                        borderColor: 'red'
                      },
                      selectedDay === day && { backgroundColor: colors.primary }
                   ]}
@@ -160,23 +211,22 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                   </Text>
                </TouchableOpacity>
             ))}
-         </ScrollView>
-         <View className="self-center mb-2">
-            <TouchableOpacity
-               className="px-4 py-1 bg-primary rounded-md shadow-md"
-               onPress={() => bottomSheetRef.current?.present()}
-            >
-               <Text variant={'title3'} className="text-white">
-                  View Schedule
-               </Text>
-            </TouchableOpacity>
          </View>
 
          {/* Schedule Editor */}
          <Animated.View
             entering={SlideInLeft}
             exiting={SlideOutRight}
-            style={styles.scheduleContainer}
+            style={[
+               styles.scheduleContainer,
+               {
+                  backgroundColor: colors.card,
+                  borderWidth: invalidDays.includes(selectedDay)
+                     ? 2
+                     : undefined,
+                  borderColor: 'red'
+               }
+            ]}
          >
             <Text style={styles.dayTitle}>{days[selectedDay]}</Text>
 
@@ -187,9 +237,11 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                   value={schedule[selectedDay].isOff}
                   onValueChange={() => handleToggleIsOff(selectedDay)}
                   thumbColor={
-                     schedule[selectedDay].isOff ? '#f44336' : '#3D5AFE'
+                     schedule[selectedDay].isOff
+                        ? colors.accent
+                        : colors.primary
                   }
-                  trackColor={{ false: '#767577', true: '#ff7961' }}
+                  trackColor={{ false: '#767577', true: colors.primary }}
                />
             </View>
 
@@ -201,12 +253,13 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                      <View className="flex-1">
                         <Text>Start Time</Text>
                         <TouchableOpacity
-                           onPress={() =>
+                           onPress={() => {
+                              openPicker('startTime')
                               setShowPicker({
                                  field: 'startTime',
                                  mode: 'time'
                               })
-                           }
+                           }}
                            style={styles.input}
                         >
                            <Text>
@@ -220,9 +273,10 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                      <View className="flex-1">
                         <Text>End Time</Text>
                         <TouchableOpacity
-                           onPress={() =>
+                           onPress={() => {
+                              openPicker('endTime')
                               setShowPicker({ field: 'endTime', mode: 'time' })
-                           }
+                           }}
                            style={styles.input}
                         >
                            <Text>
@@ -240,12 +294,13 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                         <View className="flex-1">
                            <Text>Start Time</Text>
                            <TouchableOpacity
-                              onPress={() =>
+                              onPress={() => {
+                                 openPicker('lunch.start')
                                  setShowPicker({
                                     field: 'lunch.start',
                                     mode: 'time'
                                  })
-                              }
+                              }}
                               style={styles.input}
                            >
                               <Text>
@@ -257,12 +312,13 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                         <View className="flex-1">
                            <Text>End Time</Text>
                            <TouchableOpacity
-                              onPress={() =>
+                              onPress={() => {
+                                 openPicker('lunch.end')
                                  setShowPicker({
                                     field: 'lunch.end',
                                     mode: 'time'
                                  })
-                              }
+                              }}
                               style={styles.input}
                            >
                               <Text>
@@ -276,6 +332,29 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                </>
             ) : (
                <Text style={styles.offText}>This day is marked as off.</Text>
+            )}
+
+            {editing && (
+               <View className="mt-3">
+                  <Button
+                     title={
+                        invalidDays.length === 0 ? 'Review Schedule' : 'Update'
+                     }
+                     onPress={async () => {
+                        if (invalidDays.length > 0) {
+                           Alert.alert(
+                              'Invalid Schedule',
+                              `Please check the schedule and try again.\nCheck for\n ${invalidDays.map((v) => `${v}\n`)}`
+                           )
+                           return
+                        }
+
+                        console.log('UPDATE')
+                        if (!user || !user.isBarber) return
+                        bottomSheetRef.current?.present()
+                     }}
+                  />
+               </View>
             )}
          </Animated.View>
 
@@ -293,7 +372,13 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                <DateTimePicker
                   value={pickerValue || addHours(startOfDay(new Date()), 8)}
                   mode="time"
+                  style={{
+                     backgroundColor: colors.primary,
+                     borderRadius: 10,
+                     overflow: 'hidden'
+                  }}
                   minuteInterval={15}
+                  textColor="white"
                   maximumDate={addHours(startOfDay(new Date()), 23)}
                   display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                   is24Hour={false} // Ensures the picker is in 12-hour format
@@ -308,15 +393,33 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
             </View>
          )}
          <Sheet snapPoints={['80%']} ref={bottomSheetRef}>
-            <TouchableOpacity className="self-end p-2 mr-2">
+            <TouchableOpacity
+               className="self-end p-2 mr-2"
+               onPress={() => bottomSheetRef.current?.close()}
+            >
                <Text className="text-red-600 font-roboto-bold">Close</Text>
             </TouchableOpacity>
             <View className="items-center h-1/2">
-               <Text variant={'largeTitle'}>Schedule View</Text>
-               <Text variant={'subhead'} className="my-2">
+               <Text variant="largeTitle">Schedule View</Text>
+               <Text variant="subhead" className="my-2">
                   This is the client's view
                </Text>
                <ScheduleView schedule={schedule} />
+               <View className="mt-4 self-center w-1/2">
+                  <Button
+                     title="Save"
+                     onPress={async () => {
+                        if (!user || !user.isBarber) return
+                        await updateUser({ ...user, schedule })
+                        toastMessage({
+                           title: 'Success',
+                           message: 'Schedule updated',
+                           duration: 2
+                        })
+                        bottomSheetRef.current?.close()
+                     }}
+                  />
+               </View>
             </View>
          </Sheet>
       </View>
@@ -328,16 +431,22 @@ const styles = StyleSheet.create({
       flex: 1,
       padding: 10
    },
+
    daySelector: {
-      flexDirection: 'row',
+      flexDirection: 'row', // Layout in a row
+      justifyContent: 'space-around', // Ensure equal spacing around buttons
       marginBottom: 20,
-      maxHeight: 80
+      minHeight: 76
    },
+
    dayButton: {
-      paddingHorizontal: 10,
-      paddingVertical: 10,
-      marginHorizontal: 5,
-      borderRadius: 5
+      flex: 1, // Make sure each button takes equal width
+      alignItems: 'center', // Center the text inside the button
+      paddingVertical: 10, // Vertical padding for buttons
+      marginHorizontal: 5, // Small space between buttons
+      borderRadius: 5,
+
+      minWidth: 40 // Ensures each button has a reasonable minimum size
    },
    activeDay: {
       backgroundColor: '#3D5AFE'
@@ -349,7 +458,6 @@ const styles = StyleSheet.create({
    },
    scheduleContainer: {
       padding: 20,
-
       borderRadius: 10,
       shadowColor: '#000',
       shadowOpacity: 0.1,
@@ -394,3 +502,13 @@ const styles = StyleSheet.create({
       color: '#ff6347'
    }
 })
+
+const parseTime12HourA = (time: string): string => {
+   const [timePart, period] = time.split(' ')
+   let [hours, minutes] = timePart.split(':').map(Number)
+
+   if (period === 'PM' && hours < 12) hours += 12
+   if (period === 'AM' && hours === 12) hours = 0
+
+   return `${hours}:${minutes.toString() === '0' ? '00' : minutes}`
+}

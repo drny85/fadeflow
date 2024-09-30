@@ -1,6 +1,7 @@
 import { Feather, FontAwesome } from '@expo/vector-icons'
 import { BottomSheetTextInput, TouchableOpacity } from '@gorhom/bottom-sheet'
 import { format, isPast, isSameDay } from 'date-fns'
+import * as Haptics from 'expo-haptics'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useCallback, useEffect, useState } from 'react'
@@ -32,7 +33,6 @@ import { formatPhone } from '~/utils/formatPhone'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 import { getAppointmentPrice } from '~/utils/getAppointmentPrice'
 import { getBookingDate } from '~/utils/getBookingDate'
-import * as Haptics from 'expo-haptics'
 
 type ParamProps = {
    barberId: string

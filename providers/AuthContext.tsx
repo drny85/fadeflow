@@ -11,7 +11,7 @@ import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { auth } from '~/firebase'
 import { usersCollection } from '~/firebase-collections'
 import { toastAlert } from '~/lib/toast'
-import { AppUser, Barber } from '~/shared/types'
+import { AppUser } from '~/shared/types'
 import { FIREBASE_ERRORS } from '~/utils/firebaseErrorMessages'
 
 type AuthContextType = {

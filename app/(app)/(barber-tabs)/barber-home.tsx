@@ -111,7 +111,7 @@ const BarberHome = () => {
    )
    useStatusBarColor('light')
 
-   if (!appointmentsData) return
+   if (!appointmentsData || loading) return
 
    return (
       <View className="flex-1 bg-background">

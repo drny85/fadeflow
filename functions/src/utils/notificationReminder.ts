@@ -1,9 +1,8 @@
 // functions/index.js
 
 import { Appointment, AppUser } from '@shared/types'
-import { getFirestore, Timestamp } from 'firebase-admin/firestore'
-
 import { Expo } from 'expo-server-sdk'
+import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 
 // Initialize Firebase Admin
 
@@ -42,7 +41,7 @@ export const notificationReminder = async (): Promise<any> => {
          return null
       }
 
-      let messages: any[] = []
+      const messages: any[] = []
 
       snapshot.forEach((doc) => {
          const appointment = doc.data() as Appointment
@@ -89,12 +88,12 @@ export const notificationReminder = async (): Promise<any> => {
       const validMessages = resolvedMessages.filter((msg) => msg !== null)
 
       // Chunk messages to respect Expo's rate limits
-      let chunks = expo.chunkPushNotifications(validMessages)
-      let tickets = []
+      const chunks = expo.chunkPushNotifications(validMessages)
+      const tickets = []
 
-      for (let chunk of chunks) {
+      for (const chunk of chunks) {
          try {
-            let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+            const ticketChunk = await expo.sendPushNotificationsAsync(chunk)
             console.log(ticketChunk)
             tickets.push(...ticketChunk)
          } catch (error) {

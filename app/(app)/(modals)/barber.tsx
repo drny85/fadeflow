@@ -14,7 +14,6 @@ import PhotoGallery from '~/components/Gallery'
 import Loading from '~/components/Loading'
 import Rating from '~/components/Rating'
 import ReviewsList from '~/components/ReviewsLIst'
-import ScheduleDayCard from '~/components/ScheduleDayCard'
 import TopServices from '~/components/TopServices'
 import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
 import { Text } from '~/components/nativewindui/Text'
@@ -25,14 +24,7 @@ import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import {
-   Barber,
-   dayOrder,
-   Days,
-   Review,
-   Schedule,
-   ScheduleDay
-} from '~/shared/types'
+import { Review } from '~/shared/types'
 
 type ParamsProps = {
    barberId: string

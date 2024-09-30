@@ -35,15 +35,14 @@ const AppointmentsPage = () => {
    } = useAppointmentStore()
 
    const appointments = useAppointmentStore((s) =>
-      s.appointments.filter(
-         (appointment) => appointment.customer.id === user?.id
-      )
+      s.appointments.filter((app) => app.customer.id === user?.id)
    )
+
    const confettiRef = useRef<ConfettiComponentRef>(null)
    const d = filtered ? filteredAppointments : appointments
    const data = useMemo(
       () => d.sort((a, b) => (a.date < b.date ? 1 : -1)),
-      [filtered]
+      [appointments, filtered]
    )
 
    const pastAppointmens = data

@@ -11,7 +11,7 @@ import Constants from 'expo-constants'
 import { ImageBackground } from 'expo-image'
 import * as Linking from 'expo-linking'
 import { router } from 'expo-router'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
    Alert,
    Button,
@@ -21,7 +21,6 @@ import {
    View
 } from 'react-native'
 
-import ScheduleEditor from './CurrentSchedule'
 import ParallaxScrollView from './ParallaxScrollView'
 import { ActivityIndicator } from './nativewindui/ActivityIndicator'
 import { Sheet, useSheetRef } from './nativewindui/Sheet'
@@ -35,10 +34,8 @@ import { deleteUserFunction } from '~/firebase-collections'
 import { usePhoto } from '~/hooks/usePhoto'
 import { usePortalLink } from '~/hooks/usePortalLink'
 import { useUser } from '~/hooks/useUser'
-import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
-import { Schedule } from '~/shared/types'
 import { formatPhone } from '~/utils/formatPhone'
 
 const MINUTES_INTERVAL = [15, 30, 45]
@@ -60,29 +57,6 @@ export default function ModernSettingsPage() {
    const snapoints = useMemo(() => ['100%'], [])
    const [name, setName] = useState('')
    const [phone, setPhone] = useState('')
-
-   const handleScheduleChanges = useCallback(
-      async (newSchedule: Schedule) => {
-         try {
-            if (!user || !user.isBarber) return
-
-            const updatedUser = await updateUser({
-               ...user,
-               schedule: newSchedule
-            })
-            if (updatedUser) {
-               toastMessage({
-                  title: 'Success',
-                  message: 'Schedule updated'
-               })
-               bottomSheetRef.current?.close()
-            }
-         } catch (error) {
-            console.log(error)
-         }
-      },
-      [user]
-   )
 
    const handleSignOut = () => {
       Alert.alert('Signing Out', 'Are you sure you want to sign out?', [
@@ -376,25 +350,6 @@ export default function ModernSettingsPage() {
 
                <TouchableOpacity
                   onPress={() => {
-                     // handle onPress
-                     setView('schedule')
-                     bottomSheetRef.current?.present()
-                  }}
-                  style={[styles.row, { backgroundColor: colors.card }]}
-               >
-                  <View
-                     style={[styles.rowIcon, { backgroundColor: '#8e8d91' }]}
-                  >
-                     <Feather color="#fff" name="calendar" size={20} />
-                  </View>
-
-                  <Text style={styles.rowLabel}>View / Edit Schedule</Text>
-
-                  <View style={styles.rowSpacer} />
-               </TouchableOpacity>
-
-               <TouchableOpacity
-                  onPress={() => {
                      // // handle onPress
                      // setView('user-update');
                      // bottomSheetRef.current?.present();
@@ -552,15 +507,6 @@ export default function ModernSettingsPage() {
             topInset={SIZES.statusBarHeight}
          >
             <View className="mb-2 flex-1">
-               {view === 'schedule' && user?.isBarber && (
-                  <ScheduleEditor
-                     schedule={user.schedule}
-                     onPressSave={handleScheduleChanges}
-                     onCancel={() => bottomSheetRef.current?.close()}
-                  />
-                  // <ScheduleComponent />
-               )}
-
                {view === 'user-update' && (
                   <View className="px-2">
                      <View>
