@@ -298,7 +298,7 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                <View className="mt-3">
                   <Button
                      title={
-                        invalidDays.length === 0 ? 'Review Schedule' : 'Update'
+                        invalidDays.length === 0 ? 'Review & Save' : 'Update'
                      }
                      onPress={async () => {
                         if (invalidDays.length > 0) {

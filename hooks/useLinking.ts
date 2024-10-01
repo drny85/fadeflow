@@ -1,9 +1,11 @@
 import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
+import { useAuth } from '~/providers/AuthContext'
 
 export const useLinking = () => {
    const router = useRouter()
+   const { user } = useAuth()
 
    useEffect(() => {
       const handleDeepLink = async (event: { url: string }) => {
@@ -13,6 +15,13 @@ export const useLinking = () => {
             //if (!initialUrl) return;
             const data = Linking.parse(event.url)
             console.log('URL', event.url)
+            if (
+               data &&
+               data.queryParams?.barberId &&
+               user?.id === data.queryParams.barberId
+            ) {
+               return router.replace('/(barber-tabs)')
+            }
             // Handle deep link data
             console.log('deepLinks Data', JSON.stringify(data, null, 2))
             if (data.hostname === 'barber' && data.queryParams?.barberId) {

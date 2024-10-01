@@ -15,10 +15,13 @@ export const shareBarberLink = async (barberId: string) => {
 
       const websiteUrl = `${SITE_URL}/barbers?linking=${url}`
       console.log(websiteUrl)
+      const message = !barber
+         ? `Here is the link to my profile, start booking your appointment today.\n${websiteUrl}`
+         : `Check out ${barber.name} at ${barber.profile?.barbershopName}. I am using their services and I think you might too.\n${websiteUrl}`
       const share = await Share.share(
          {
             title: 'Share URL',
-            message: `Check out ${barber.name} at ${barber.profile?.barbershopName}. I am using their services and I think you might too.\n${websiteUrl}`
+            message
             //url: url,
          },
          {

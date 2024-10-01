@@ -4,11 +4,9 @@ import { useUpdates } from 'expo-updates'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 
-import { useLinking } from '~/hooks/useLinking'
 import { AuthProvider } from '~/providers/AuthContext'
 
 export default function Root() {
-   useLinking()
    useUpdates()
 
    // useDevRoutes();

@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font'
 import { router, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Appearance, TouchableOpacity } from 'react-native'
 
 import Loading from '~/components/Loading'
@@ -14,6 +14,7 @@ import { ThemeToggle } from '~/components/nativewindui/ThemeToggle'
 import { Fonts } from '~/constants/Fonts'
 import '~/global.css'
 import { useAppointments } from '~/hooks/useAppointments'
+import { useLinking } from '~/hooks/useLinking'
 import { useProtectedRoute } from '~/hooks/useProtectedRoutes'
 import { useUser } from '~/hooks/useUser'
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme'
@@ -27,12 +28,14 @@ export {
 
 export default function RootLayout() {
    useInitialAndroidBarSync()
-   const [loaded, error] = useFonts(Fonts)
-   const { colorScheme, isDarkColorScheme, colors } = useColorScheme()
+   useLinking()
    useSchemeListener()
    useUser()
-   const { loading } = useAuth()
    useAppointments()
+   const [loaded, error] = useFonts(Fonts)
+   const { colorScheme, isDarkColorScheme, colors } = useColorScheme()
+   const { loading } = useAuth()
+
    const { mounted } = useProtectedRoute()
 
    useEffect(() => {
@@ -49,7 +52,7 @@ export default function RootLayout() {
    // if (user && user.isBarber) return <Redirect href={'/(app)/(barber-tabs)'} />;
 
    return (
-      <>
+      <Fragment>
          <StatusBar
             key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
             style={isDarkColorScheme ? 'light' : 'dark'}
@@ -169,7 +172,7 @@ export default function RootLayout() {
          </ActionSheetProvider>
 
          {/* </ExampleProvider> */}
-      </>
+      </Fragment>
    )
 }
 

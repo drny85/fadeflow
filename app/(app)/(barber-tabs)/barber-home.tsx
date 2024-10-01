@@ -53,7 +53,7 @@ const BarberHome = () => {
    )[0]
 
    const waitinfForConfirmation = appointmentsData.filter(
-      (a) => a.status === 'pending' && !isPast(addMinutes(a.date, 30))
+      (a) => a.status === 'pending'
    )
    const todayAppoinments = useMemo(() => {
       return data
@@ -74,13 +74,11 @@ const BarberHome = () => {
       )
       return total + serviceDuration
    }, 0)
-   const completedAppointments = todayAppoinments.filter(
+   const completedAppointments = appointmentsData.filter(
       (appointment) => appointment.status === 'completed'
    )
    const confirmedAppointments = todayAppoinments.filter(
-      (appointment) =>
-         appointment.status === 'confirmed' &&
-         isPast(addMinutes(appointment.date, 30))
+      (appointment) => appointment.status === 'confirmed'
    )
 
    const donePercentage =
@@ -191,9 +189,11 @@ const BarberHome = () => {
                               />
                            </View>
                         </View>
-                        <Text className="text-white font-roboto-bold">
-                           Total Hrs: {convertMinutesToHours(totalHours)}
-                        </Text>
+                        {totalHours > 0 && (
+                           <Text className="text-white font-roboto-bold">
+                              Total Hrs: {convertMinutesToHours(totalHours)}
+                           </Text>
+                        )}
                      </View>
                   )}
             </View>

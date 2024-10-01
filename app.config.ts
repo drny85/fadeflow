@@ -2,7 +2,7 @@ import { ExpoConfig } from 'expo/config'
 const config: ExpoConfig = {
    name: 'FadeFlow',
    slug: 'fadeflow',
-   version: '1.0.3',
+   version: '1.0.0',
    scheme: 'fadeflow',
    web: {
       bundler: 'metro',
@@ -63,7 +63,6 @@ const config: ExpoConfig = {
       supportsTablet: false,
       usesAppleSignIn: true,
       bundleIdentifier: 'net.robertdev.fadeflow',
-      buildNumber: '1.0.3',
       infoPlist: {
          LSApplicationQueriesSchemes: ['tel'],
          NSLocationWhenInUseUsageDescription:
