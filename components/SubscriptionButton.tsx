@@ -70,6 +70,7 @@ const SubscriptionButton = () => {
          const { data } = await createSubscrition({ email: user.email })
 
          const { result, success } = data
+         console.log('result', data)
          if (!success) {
             return toastAlert({
                title: 'Error',

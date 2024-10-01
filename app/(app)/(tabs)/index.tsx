@@ -130,7 +130,7 @@ const Home = () => {
                )}
             </View>
             <View className="gap-2 rounded-l bg-card p-2 shadow-sm">
-               <Text variant="title2">My Barber</Text>
+               <Text variant="title2">My Barbers</Text>
                {!user?.isBarber && user?.favoriteBarber && barber ? (
                   <BarberCard barber={barber} index={0} isOwner={false} />
                ) : (

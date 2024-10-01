@@ -23,9 +23,10 @@ export function useProtectedRoute() {
    }, [user])
 
    const profileCompleted = useMemo(() => {
-      return user && user?.isBarber && user?.profileCompleted
+      if (!user) return false
+      if (!user?.isBarber) return false
+      return user?.profileCompleted
    }, [user])
-   console.log('COMPLETED', profileCompleted)
 
    const updateProfileIsIncomplete = useCallback(async () => {
       if (user && user.isBarber && user.profile) {
@@ -51,28 +52,17 @@ export function useProtectedRoute() {
       const inBarberGroup = segments[1] === '(barber-tabs)'
       const inUserGroup = segments[1] === '(tabs)'
       console.log('SEGMENTS', segments[1])
+      console.log('COMPLETED', profileCompleted)
 
       updateProfileIsIncomplete()
 
-      // Redirect non-signed-in users trying to access protected routes
-      if (user && inAuthGroup && !user.isBarber) {
+      if (inAuthGroup && user && !user.isBarber) {
          // Redirect signed-in non-barber users away from the sign-in page
          console.log('00')
          router.replace('/(tabs)')
       } else if (user && user.isBarber && inUserGroup && profileCompleted) {
          console.log(`01 => redirected from ${segments[1]}`)
          router.replace('/(barber-tabs)')
-      } else if (
-         user &&
-         inBarberGroup &&
-         user.isBarber &&
-         (user.subscriptionStatus === 'trialing' ||
-            user.subscriptionStatus === 'incomplete' ||
-            user.subscriptionStatus === 'incomplete_expired') &&
-         daysRemaining <= 0
-      ) {
-         console.log('0')
-         router.push('/subscription')
       } else if (user && inBarberGroup && user.isBarber && !profileCompleted) {
          console.log('1-----')
          router.push('/profile-complition')
@@ -90,7 +80,7 @@ export function useProtectedRoute() {
       } else {
          console.log('no match')
       }
-   }, [user, segments, mounted, daysRemaining, profileCompleted])
+   }, [user, segments, daysRemaining, profileCompleted])
 
    return { mounted }
 }

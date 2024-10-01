@@ -232,7 +232,7 @@ const GalleryReviews = () => {
             />
             <View className="flex-1">
                {selectedIndex === 0 && (
-                  <View>
+                  <View className="flex-1">
                      <View className="flex-1 bg-background p-2">
                         {services.length > 0 && (
                            <ServicePicker

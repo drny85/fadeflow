@@ -1,7 +1,7 @@
 import Constants from 'expo-constants'
 import { Dimensions } from 'react-native'
 
-import { IconImageType, Schedule } from '~/shared/types'
+import { Days, IconImageType, Schedule } from '~/shared/types'
 
 const { width, height } = Dimensions.get('screen')
 
@@ -14,6 +14,15 @@ export const SIZES = {
 export const SITE_URL = 'https://fadeflow.vercel.app'
 
 export const MAXIMUM_IMAGES_UPLOAD = 10
+export const days: Record<Days, string> = {
+   Sun: 'Sunday',
+   Mon: 'Monday',
+   Tue: 'Tuesday',
+   Wed: 'Wednesday',
+   Thu: 'Thursday',
+   Fri: 'Friday',
+   Sat: 'Saturday'
+}
 
 export const COORDS = {
    latitude: 40.83728,

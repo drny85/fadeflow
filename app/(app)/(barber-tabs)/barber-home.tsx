@@ -9,7 +9,7 @@ import {
 } from 'date-fns'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
-import { useMemo, Fragment } from 'react'
+import { useMemo } from 'react'
 import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -161,38 +161,41 @@ const BarberHome = () => {
                <Text className="mt-2 text-center text-white">
                   {new Date().toDateString()}
                </Text>
-               {services.length > 0 && (
-                  <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
-                     <Text className="text-white" variant="title3">
-                        Today's Estimated
-                     </Text>
-                     <AnimatedNumber
-                        textStyle={{ fontSize: 32, color: 'white' }}
-                        value={allAppointments}
-                     />
-                     <View className="w-full flex-row justify-evenly">
-                        <View className="items-center justify-center">
-                           <Text className="text-slate-300">Pending</Text>
-                           <AnimatedNumber
-                              value={allAppointments - confirmedTotal}
-                              textStyle={{ color: 'white' }}
-                           />
+               {services.length > 0 &&
+                  user?.isBarber &&
+                  (user.subscriptionStatus === 'active' ||
+                     user.subscriptionStatus === 'trialing') && (
+                     <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
+                        <Text className="text-white" variant="title3">
+                           Today's Estimated
+                        </Text>
+                        <AnimatedNumber
+                           textStyle={{ fontSize: 32, color: 'white' }}
+                           value={allAppointments}
+                        />
+                        <View className="w-full flex-row justify-evenly">
+                           <View className="items-center justify-center">
+                              <Text className="text-slate-300">Pending</Text>
+                              <AnimatedNumber
+                                 value={allAppointments - confirmedTotal}
+                                 textStyle={{ color: 'white' }}
+                              />
+                           </View>
+                           <View className="items-center justify-center">
+                              <Text className="text-muted text-slate-300">
+                                 Earned
+                              </Text>
+                              <AnimatedNumber
+                                 value={confirmedTotal}
+                                 textStyle={{ color: 'white' }}
+                              />
+                           </View>
                         </View>
-                        <View className="items-center justify-center">
-                           <Text className="text-muted text-slate-300">
-                              Earned
-                           </Text>
-                           <AnimatedNumber
-                              value={confirmedTotal}
-                              textStyle={{ color: 'white' }}
-                           />
-                        </View>
+                        <Text className="text-white font-roboto-bold">
+                           Total Hrs: {convertMinutesToHours(totalHours)}
+                        </Text>
                      </View>
-                     <Text className="text-white font-roboto-bold">
-                        Total Hrs: {convertMinutesToHours(totalHours)}
-                     </Text>
-                  </View>
-               )}
+                  )}
             </View>
             <ScrollView
                className="flex-1"
@@ -212,7 +215,7 @@ const BarberHome = () => {
                )}
                {user?.isBarber &&
                   user.isActive &&
-                  user.subscriptionStatus !== 'active' && (
+                  user.subscriptionStatus === 'trialing' && (
                      <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
                         <Text className="mb-2 text-center font-roboto-bold text-xl">
                            {daysRemaining > 0
@@ -226,6 +229,23 @@ const BarberHome = () => {
                            Remainging Days {daysRemaining}
                         </Text>
                         <View className="self-center">
+                           <Button
+                              title="Subscribe Now"
+                              textStyle={{ paddingHorizontal: 12 }}
+                              onPress={() => router.push('/subscription')}
+                           />
+                        </View>
+                     </View>
+                  )}
+               {user?.isBarber &&
+                  user.isActive &&
+                  user.subscriptionStatus !== 'trialing' &&
+                  user.subscriptionStatus !== 'active' && (
+                     <View className="gap-2 rounded-md bg-card p-2 py-3">
+                        <Text className="mb-2 text-center font-roboto-bold">
+                           You must subscribe in order to get appointments
+                        </Text>
+                        <View className="self-center animate-pulse">
                            <Button
                               title="Subscribe Now"
                               textStyle={{ paddingHorizontal: 12 }}

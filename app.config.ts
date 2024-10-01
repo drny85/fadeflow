@@ -2,7 +2,7 @@ import { ExpoConfig } from 'expo/config'
 const config: ExpoConfig = {
    name: 'FadeFlow',
    slug: 'fadeflow',
-   version: '1.0.2',
+   version: '1.0.3',
    scheme: 'fadeflow',
    web: {
       bundler: 'metro',
@@ -63,9 +63,8 @@ const config: ExpoConfig = {
       supportsTablet: false,
       usesAppleSignIn: true,
       bundleIdentifier: 'net.robertdev.fadeflow',
-      buildNumber: '1.0.2',
+      buildNumber: '1.0.3',
       infoPlist: {
-         EXUpdatesEnabled: true,
          LSApplicationQueriesSchemes: ['tel'],
          NSLocationWhenInUseUsageDescription:
             'Allow $(PRODUCT_NAME) to use your location to show the distance to your favorite barber-shop.',
@@ -107,7 +106,10 @@ const config: ExpoConfig = {
       }
    },
    updates: {
-      url: 'https://u.expo.dev/cb7be3e3-9d35-412f-ad3b-064c09c29bfa'
+      url: 'https://u.expo.dev/cb7be3e3-9d35-412f-ad3b-064c09c29bfa',
+      enabled: true,
+      checkAutomatically: 'ON_LOAD',
+      fallbackToCacheTimeout: 0
    },
    extra: {
       eas: {
@@ -121,7 +123,8 @@ const config: ExpoConfig = {
    runtimeVersion: {
       policy: 'appVersion'
    },
-   owner: 'drny85'
+   owner: 'drny85',
+   jsEngine: 'hermes'
 }
 
 export default config

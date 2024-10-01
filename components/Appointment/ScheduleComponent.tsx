@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import {
    Alert,
    Platform,
-   ScrollView,
    StyleSheet,
    Switch,
    TouchableOpacity,
@@ -13,85 +12,38 @@ import {
 import Animated, { SlideInLeft, SlideOutRight } from 'react-native-reanimated'
 
 import { Button } from '../Button'
-import ScheduleView from './ScheduleView'
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
+import ScheduleView from './ScheduleView'
 
 import { updateUser } from '~/actions/users'
-import { SIZES } from '~/constants'
 import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
-import { Days, Schedule } from '~/shared/types'
+import { dayOrder, Days, Schedule } from '~/shared/types'
+import { days, DEFAULT_SCHEDULE } from '~/constants'
 
-const days: Record<Days, string> = {
-   Sun: 'Sunday',
-   Mon: 'Monday',
-   Tue: 'Tuesday',
-   Wed: 'Wednesday',
-   Thu: 'Thursday',
-   Fri: 'Friday',
-   Sat: 'Saturday'
-}
-
-const initialSchedule: Schedule = {
-   Sun: {
-      isOff: true,
-      lunchBreak: { start: '', end: '' },
-      startTime: '',
-      endTime: ''
-   },
-   Mon: {
-      isOff: false,
-      lunchBreak: { start: '12:00 PM', end: '01:00 PM' },
-      startTime: '09:00 AM',
-      endTime: '05:00 PM'
-   },
-   Tue: {
-      isOff: false,
-      lunchBreak: { start: '12:00 PM', end: '01:00 PM' },
-      startTime: '09:00 AM',
-      endTime: '05:00 PM'
-   },
-   Wed: {
-      isOff: false,
-      lunchBreak: { start: '12:00 PM', end: '01:00 PM' },
-      startTime: '09:00 AM',
-      endTime: '05:00 PM'
-   },
-   Thu: {
-      isOff: false,
-      lunchBreak: { start: '12:00 PM', end: '01:00 PM' },
-      startTime: '09:00 AM',
-      endTime: '05:00 PM'
-   },
-   Fri: {
-      isOff: false,
-      lunchBreak: { start: '12:00 PM', end: '01:00 PM' },
-      startTime: '09:00 AM',
-      endTime: '05:00 PM'
-   },
-   Sat: {
-      isOff: true,
-      lunchBreak: { start: '', end: '' },
-      startTime: '',
-      endTime: ''
-   }
-}
-const daysOfWeek: Days[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 type Props = {
    defaultSchedule: Schedule
+}
+
+const title: Record<string, string> = {
+   startTime: 'Start Time',
+   endTime: 'End Time',
+   'lunch.start': 'Lunch Start',
+   'lunch.end': 'Lunch End'
 }
 
 export default function ScheduleComponent({ defaultSchedule }: Props) {
    const { user } = useAuth()
    const bottomSheetRef = useSheetRef()
+   const bottomSheetRef2 = useSheetRef()
    const [selectedDay, setSelectedDay] = useState<Days>('Sun')
    const [invalidDays, setInvalidDays] = useState<Days[]>([])
    const [editing, setEditing] = useState(false)
    const [pickerValue, setPickerValue] = useState<Date | null>(null)
    const [schedule, setSchedule] = useState<Schedule>(
-      defaultSchedule || initialSchedule
+      defaultSchedule || DEFAULT_SCHEDULE
    )
    const { colors } = useColorScheme()
 
@@ -189,10 +141,18 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
       })
    }, [schedule])
 
+   useEffect(() => {
+      if (showPicker.field) {
+         bottomSheetRef2.current?.present()
+      } else {
+         bottomSheetRef2.current?.close()
+      }
+   }, [showPicker.field])
+
    return (
       <View style={styles.container}>
          <View style={styles.daySelector}>
-            {daysOfWeek.map((day) => (
+            {dayOrder.map((day) => (
                <TouchableOpacity
                   key={day}
                   onPress={() => setSelectedDay(day)}
@@ -349,7 +309,6 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                            return
                         }
 
-                        console.log('UPDATE')
                         if (!user || !user.isBarber) return
                         bottomSheetRef.current?.present()
                      }}
@@ -359,16 +318,29 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
          </Animated.View>
 
          {/* DateTimePicker Modal */}
-         {showPicker.field && (
-            <View>
-               <TouchableOpacity
-                  onPress={() => setShowPicker({ field: null, mode: 'time' })}
-                  className="self-end p-2"
-               >
-                  <Text className="text-end text-blue-600 font-roboto-bold">
-                     Done
+         {/* {showPicker.field && (
+           
+         )} */}
+         <Sheet snapPoints={['40%']} ref={bottomSheetRef2}>
+            <View className="flex-1">
+               <View className="flex-row items-center justify-between">
+                  <Text />
+                  <Text className="text-center font-raleway-bold">
+                     Select {days[selectedDay]}'{' '}
+                     {title[showPicker.field as string]}
                   </Text>
-               </TouchableOpacity>
+                  <TouchableOpacity
+                     onPress={() =>
+                        setShowPicker({ field: null, mode: 'time' })
+                     }
+                     className="self-end p-2"
+                  >
+                     <Text className="text-end text-blue-600 font-roboto-bold mr-2">
+                        Done
+                     </Text>
+                  </TouchableOpacity>
+               </View>
+
                <DateTimePicker
                   value={pickerValue || addHours(startOfDay(new Date()), 8)}
                   mode="time"
@@ -391,7 +363,8 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                   }
                />
             </View>
-         )}
+         </Sheet>
+
          <Sheet snapPoints={['80%']} ref={bottomSheetRef}>
             <TouchableOpacity
                className="self-end p-2 mr-2"
@@ -416,6 +389,7 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                            message: 'Schedule updated',
                            duration: 2
                         })
+                        setEditing(false)
                         bottomSheetRef.current?.close()
                      }}
                   />

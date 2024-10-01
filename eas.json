@@ -1,7 +1,6 @@
 {
    "cli": {
-      "version": ">= 10.1.1",
-      "appVersionSource": "local"
+      "version": ">= 10.1.1"
    },
    "build": {
       "development": {
@@ -26,6 +25,9 @@
          },
          "ios": {
             "image": "latest"
+         },
+         "env": {
+            "GOOGLE_SERVICES_FILE": "./GoogleService-Info.plist"
          }
       }
    },
