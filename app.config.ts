@@ -2,7 +2,7 @@ import { ExpoConfig } from 'expo/config'
 const config: ExpoConfig = {
    name: 'FadeFlow',
    slug: 'fadeflow',
-   version: '1.0.0',
+   version: '1.0.5',
    scheme: 'fadeflow',
    web: {
       bundler: 'metro',
@@ -22,6 +22,12 @@ const config: ExpoConfig = {
             android: {
                newArchEnabled: false
             }
+         }
+      ],
+      [
+         'expo-dev-launcher',
+         {
+            launchMode: 'most-recent'
          }
       ],
       [
@@ -55,13 +61,15 @@ const config: ExpoConfig = {
    userInterfaceStyle: 'automatic',
    splash: {
       image: './assets/splash.png',
-      backgroundColor: '#1D3557'
+      backgroundColor: '#1D3557',
+      resizeMode: 'contain'
    },
    assetBundlePatterns: ['**/*'],
    platforms: ['ios', 'android'],
    ios: {
       supportsTablet: false,
       usesAppleSignIn: true,
+      buildNumber: '1.0.0',
       bundleIdentifier: 'net.robertdev.fadeflow',
       infoPlist: {
          LSApplicationQueriesSchemes: ['tel'],

@@ -20,7 +20,9 @@ import { useUser } from '~/hooks/useUser'
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { NAV_THEME } from '~/theme'
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync().catch((e) => {
+   console.log('errors from splashscreen', e)
+})
 export {
    // Catch any errors thrown by the Layout component.
    ErrorBoundary
@@ -40,7 +42,9 @@ export default function RootLayout() {
 
    useEffect(() => {
       if (loaded && !error && mounted) {
-         SplashScreen.hideAsync()
+         SplashScreen.hideAsync().catch((e) => {
+            console.log('errors from splashscreen hide', e)
+         })
       }
    }, [loaded, error, mounted])
 

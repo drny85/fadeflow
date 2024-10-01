@@ -1,7 +1,7 @@
 {
    "cli": {
       "version": ">= 12.0.0",
-      "appVersionSource": "remote"
+      "appVersionSource": "local"
    },
    "build": {
       "development": {
@@ -27,7 +27,7 @@
          "ios": {
             "image": "latest"
          },
-         "autoIncrement": true,
+
          "env": {
             "GOOGLE_SERVICES_FILE": "./GoogleService-Info.plist"
          }

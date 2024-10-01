@@ -11,6 +11,7 @@ export const useBarber = (barberId?: string) => {
       if (!barberId) return
       const docRef = doc(usersCollection, barberId)
       setLoading(true)
+      console.log('FETCHING BARBERS')
       return onSnapshot(docRef, (snap) => {
          console.log(snap.exists())
 

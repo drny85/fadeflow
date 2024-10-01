@@ -15,6 +15,7 @@ export const useAppointments = () => {
          user && user.isBarber
             ? query(appointmentsCollection, where('barber.id', '==', user.id))
             : appointmentsCollection
+      console.log('FETCHING APPOINTMENTS')
       return onSnapshot(appointmentsQuery, (snapshot) => {
          setLoading(true)
          const appointments = snapshot.docs.map((doc) => ({

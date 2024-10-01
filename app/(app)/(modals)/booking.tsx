@@ -404,7 +404,8 @@ const BookingPage = () => {
                         bottomSheetModalRef.current?.present()
                         return
                      }
-                     bottomSheetModalRefConfirm.current?.present()
+                     if (bottomSheetModalRefConfirm.current)
+                        bottomSheetModalRefConfirm.current?.present()
                   }}
                />
             </View>
