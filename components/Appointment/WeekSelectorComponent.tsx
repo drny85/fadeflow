@@ -16,6 +16,7 @@ import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Days, Schedule } from '~/shared/types'
+import { initialBlockedDates } from '~/constants'
 
 type DayProps = {
    date: Date
@@ -86,6 +87,7 @@ const WeekSelector: React.FC<Props> = ({
    onChange
 }) => {
    const today = new Date()
+   const markedDates = initialBlockedDates
    const [currentDate, setCurrentDate] = useState<Date>(new Date())
    const [weekDates, setWeekDates] = useState<Date[]>([])
    const { selectedDate, setSelectedDate } = useAppointmentFlowStore()
@@ -191,13 +193,36 @@ const WeekSelector: React.FC<Props> = ({
                const dayOff = (schedule[day] as { isOff: boolean }).isOff
                const hasAppointments = findAnyAppointmentByDate(date)
 
+               const blocked =
+                  initialBlockedDates.findIndex(
+                     (d) =>
+                        d.date === date.toISOString().split('T')[0] && !d.allDay
+                  ) !== -1
+               const allDay =
+                  initialBlockedDates.findIndex(
+                     (d) =>
+                        d.allDay && d.date === date.toISOString().split('T')[0]
+                  ) !== -1
+
+               console.log(
+                  JSON.stringify(
+                     initialBlockedDates
+                        .filter((s) => !s.allDay)
+                        .map((d) => ({
+                           h: format(d.startTime, 'hh:mm a'),
+                           e: format(d.endTime, 'hh:mm a')
+                        })),
+                     null,
+                     2
+                  )
+               )
                return (
                   <Day
                      key={index}
                      hasAppointments={hasAppointments}
                      date={date}
                      ignorePast={ignorePast}
-                     isOff={dayOff}
+                     isOff={dayOff || blocked || allDay}
                      isPast={
                         date < new Date() &&
                         format(date, 'yyyy-MM-dd') !==

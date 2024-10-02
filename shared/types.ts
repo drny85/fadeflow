@@ -133,7 +133,7 @@ export type Service = {
 }
 export type BlockTimeParams = {
    allDay: boolean
-   date: Date
+   date: string
 } & ({ allDay: true } | { allDay: false; startTime: Date; endTime: Date })
 
 export type Days = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat'
@@ -146,6 +146,18 @@ export const dayOrder: Days[] = [
    'Fri',
    'Sat'
 ]
+
+type Marked = {
+   selected?: boolean
+   marked: boolean
+   selectedColor?: string
+   markedColor?: string
+   dotColor?: string
+}
+
+export type MarkedDate = {
+   [date: string]: Marked
+}
 
 export type DayAvailability = {
    date: string // e.g., '2024-08-06'

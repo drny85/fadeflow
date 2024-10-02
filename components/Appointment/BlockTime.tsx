@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { CalendarList } from 'react-native-calendars'
-import { addHours, format, startOfDay } from 'date-fns'
+import { Calendar } from 'react-native-calendars'
+import { addHours, format, isSameDay, startOfDay } from 'date-fns'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Container } from '../Container'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { Text } from '../nativewindui/Text'
-import { BlockTimeParams } from '~/shared/types'
+import { BlockTimeParams, MarkedDate } from '~/shared/types'
 import { Toggle } from '../nativewindui/Toggle'
 
 type Props = {
@@ -17,6 +17,7 @@ type Props = {
 
 const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
    const { colors, isDarkColorScheme } = useColorScheme()
+   const [editing, setEditing] = useState(false)
    const [selectedDate, setSelectedDate] = useState<string>(
       format(new Date(), 'yyyy-MM-dd')
    )
@@ -28,8 +29,6 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
    )
    const [allDay, setAllDay] = useState(false)
 
-   const [showStartTimePicker, setShowStartTimePicker] = useState(false)
-   const [showEndTimePicker, setShowEndTimePicker] = useState(false)
    // State to store block times
    const [blockTimes, setBlockTimes] =
       useState<BlockTimeParams[]>(initialBlockTimes)
@@ -39,12 +38,10 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
    }
 
    const onStartTimeChange = (event: any, selectedTime?: Date) => {
-      setShowStartTimePicker(false)
       if (selectedTime) setStartTime(selectedTime)
    }
 
    const onEndTimeChange = (event: any, selectedTime?: Date) => {
-      setShowEndTimePicker(false)
       if (selectedTime) setEndTime(selectedTime)
    }
 
@@ -57,12 +54,12 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
       if (allDay) {
          newBlockTime = {
             allDay: true,
-            date: new Date(selectedDate)
+            date: selectedDate
          }
       } else {
          newBlockTime = {
             allDay: false,
-            date: new Date(selectedDate),
+            date: selectedDate,
             startTime,
             endTime
          }
@@ -75,11 +72,22 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
       // Call the callback to return the updated array
       onBlockTimeChange(updatedBlockTimes)
    }
+   const markedDates = useMemo(() => {
+      const marked: MarkedDate = {}
+      blockTimes.forEach((blockTime) => {
+         marked[blockTime.date] = {
+            //selected: true
+            marked: true,
+            markedColor: colors.accent
+         }
+      })
+      return marked
+   }, [blockTimes])
 
    useEffect(() => {
-      const blockTimeForDate = blockTimes.find(
-         (blockTime) => format(blockTime.date, 'yyyy-MM-dd') === selectedDate
-      )
+      const blockTimeForDate = blockTimes.find((blockTime) => {
+         return isSameDay(new Date(blockTime.date), new Date(selectedDate))
+      })
 
       if (blockTimeForDate) {
          setAllDay(blockTimeForDate.allDay)
@@ -87,26 +95,31 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
             setStartTime(blockTimeForDate.startTime)
             setEndTime(blockTimeForDate.endTime)
          }
+         setEditing(true)
       } else {
          // Reset to default if no block time for selected date
          setAllDay(false)
-         setStartTime(new Date())
-         setEndTime(new Date())
+         setStartTime(addHours(startOfDay(new Date()), 8))
+         setEndTime(addHours(startOfDay(new Date()), 23))
+         setEditing(false)
       }
    }, [selectedDate, blockTimes])
+
+   console.log(JSON.stringify(selectedDate, null, 2))
 
    return (
       <Container>
          <ScrollView style={styles.container}>
-            <Text variant={'title1'} className="text-center">
+            <Text variant={'title1'} className="text-center mb-2">
                BLOCK TIME-FRAME
             </Text>
 
             {/* Swipeable Calendar for selecting the week */}
-            <CalendarList
-               style={{ borderRadius: 20 }}
+
+            <Calendar
+               style={{ borderRadius: 18 }}
                current={selectedDate}
-               onDayPress={(day) => onDateSelect(day.dateString)}
+               onDayPress={(day: any) => onDateSelect(day.dateString)}
                pastScrollRange={12}
                futureScrollRange={12}
                horizontal
@@ -127,9 +140,9 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                markedDates={{
                   [selectedDate]: {
                      selected: true,
-                     marked: true,
-                     dotColor: colors.primary
-                  }
+                     selectedColor: colors.primary
+                  },
+                  ...markedDates
                }}
                firstDay={0} // Set Monday as the first day of the week (optional)
             />
@@ -147,42 +160,45 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
 
             {/* Time Picker */}
             {!allDay && (
-               <>
-                  <TouchableOpacity
-                     onPress={() => setShowStartTimePicker(true)}
-                     style={[
-                        styles.timeButton,
-                        { backgroundColor: colors.accent }
-                     ]}
-                  >
-                     <Text className="text-white font-roboto-bold">
-                        Start Time: {format(startTime, 'p')}
-                     </Text>
-                  </TouchableOpacity>
-                  {showStartTimePicker && (
-                     <DateTimePicker
-                        value={startTime}
-                        mode="time"
-                        minuteInterval={15}
-                        is24Hour={false}
-                        display="default"
-                        onChange={onStartTimeChange}
-                     />
-                  )}
+               <View className="flex-row items-center gap-2 justify-between">
+                  <View>
+                     <TouchableOpacity
+                        style={[
+                           styles.timeButton,
+                           {
+                              backgroundColor: colors.card,
+                              flexDirection: 'row',
+                              alignItems: 'center'
+                           }
+                        ]}
+                     >
+                        <Text className="font-roboto-bold">Start:</Text>
+                        <View className="flex-grow">
+                           <DateTimePicker
+                              value={startTime}
+                              mode="time"
+                              textColor="#ffffff"
+                              minuteInterval={15}
+                              is24Hour={false}
+                              display="default"
+                              onChange={onStartTimeChange}
+                           />
+                        </View>
+                     </TouchableOpacity>
+                  </View>
 
                   <TouchableOpacity
-                     onPress={() => setShowEndTimePicker(true)}
                      style={[
                         styles.timeButton,
-                        { backgroundColor: colors.accent }
+                        {
+                           backgroundColor: colors.card,
+                           flexDirection: 'row',
+                           alignItems: 'center'
+                        }
                      ]}
                   >
-                     <Text className="text-white font-roboto-bold">
-                        End Time: {format(endTime, 'p')}
-                     </Text>
-                  </TouchableOpacity>
-                  {showEndTimePicker && (
-                     <View className="self-start">
+                     <Text className="font-roboto-bold">End:</Text>
+                     <View className="w-18">
                         <DateTimePicker
                            value={endTime}
                            mode="time"
@@ -192,8 +208,8 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                            onChange={onEndTimeChange}
                         />
                      </View>
-                  )}
-               </>
+                  </TouchableOpacity>
+               </View>
             )}
 
             {/* Block Button */}
@@ -201,7 +217,9 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                onPress={handleBlockTime}
                style={[styles.blockButton, { backgroundColor: colors.primary }]}
             >
-               <Text style={styles.blockButtonText}>BLOCK</Text>
+               <Text style={styles.blockButtonText}>
+                  {!editing ? 'BLOCK' : 'UPDATE'}
+               </Text>
             </TouchableOpacity>
          </ScrollView>
       </Container>

@@ -1,7 +1,7 @@
 import Constants from 'expo-constants'
 import { Dimensions } from 'react-native'
 
-import { Days, IconImageType, Schedule } from '~/shared/types'
+import { BlockTimeParams, Days, IconImageType, Schedule } from '~/shared/types'
 
 const { width, height } = Dimensions.get('screen')
 
@@ -28,6 +28,18 @@ export const COORDS = {
    latitude: 40.83728,
    longitude: -73.90757
 }
+export const initialBlockedDates: BlockTimeParams[] = [
+   {
+      allDay: true,
+      date: '2024-10-22'
+   },
+   {
+      allDay: false,
+      date: '2024-10-14',
+      startTime: new Date('2024-10-01T12:00:00.000Z'),
+      endTime: new Date('2024-10-02T03:00:00.000Z')
+   }
+]
 
 export const DEFAULT_SCHEDULE: Schedule = {
    Sun: {

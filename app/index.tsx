@@ -1,10 +1,10 @@
-import { View, Text, Animated } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { StyleSheet } from 'nativewind'
 import Constants from 'expo-constants'
+import { StyleSheet } from 'nativewind'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Animated } from 'react-native'
 
+import { router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-const image = require('~/assets/images/banner.png')
 
 const Index = () => {
    const [isAppReady, setAppReady] = useState(false)
@@ -61,7 +61,7 @@ const Index = () => {
                   }
                ]
             }}
-            source={image}
+            source={require('~/assets/images/banner.png')}
             onLoadEnd={onImageLoaded}
             fadeDuration={0}
          />
