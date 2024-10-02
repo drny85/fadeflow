@@ -131,6 +131,10 @@ export type Service = {
    quantity: number
    icon: IconNames
 }
+export type BlockTimeParams = {
+   allDay: boolean
+   date: Date
+} & ({ allDay: true } | { allDay: false; startTime: Date; endTime: Date })
 
 export type Days = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat'
 export const dayOrder: Days[] = [
