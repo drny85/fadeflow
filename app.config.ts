@@ -72,7 +72,7 @@ const config: ExpoConfig = {
       buildNumber: '1.0.0',
       bundleIdentifier: 'net.robertdev.fadeflow',
       infoPlist: {
-         LSApplicationQueriesSchemes: ['tel'],
+         LSApplicationQueriesSchemes: ['tel', 'mailto'],
          NSLocationWhenInUseUsageDescription:
             'Allow $(PRODUCT_NAME) to use your location to show the distance to your favorite barber-shop.',
          NSLocationAlwaysAndWhenInUseUsageDescription:

@@ -406,7 +406,22 @@ export default function ModernSettingsPage() {
                <TouchableOpacity
                   onPress={() => {
                      // handle onPress
-                     Alert.alert('Upcoming feature')
+                     Linking.canOpenURL(
+                        `mailto:${process.env.EXPO_PUBLIC_CONTACT_EMAIL}`
+                     )
+                        .then((supported) => {
+                           if (supported) {
+                              Linking.openURL(
+                                 `mailto:${process.env.EXPO_PUBLIC_CONTACT_EMAIL}`
+                              )
+                           } else {
+                              console.log(
+                                 "Don't know how to open URI: " +
+                                    process.env.EXPO_PUBLIC_CONTACT_EMAIL
+                              )
+                           }
+                        })
+                        .catch((err) => console.error('An error occurred', err))
                   }}
                   style={[styles.row, { backgroundColor: colors.card }]}
                >

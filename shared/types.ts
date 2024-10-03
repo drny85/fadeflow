@@ -16,6 +16,7 @@ export type Barber = {
    schedule: Schedule
    profileCompleted: boolean
    profile: BarberProfile | null
+   blockedTimes?: BlockTimeParams[]
    subscriptionStatus: Stripe.Subscription.Status // Optional biography or description of the barber
 }
 export type Photo = {
@@ -134,7 +135,7 @@ export type Service = {
 export type BlockTimeParams = {
    allDay: boolean
    date: string
-} & ({ allDay: true } | { allDay: false; startTime: Date; endTime: Date })
+} & ({ allDay: true } | { allDay: false; start: string; end: string })
 
 export type Days = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat'
 export const dayOrder: Days[] = [
@@ -153,6 +154,11 @@ type Marked = {
    selectedColor?: string
    markedColor?: string
    dotColor?: string
+}
+export type BlockTime = {
+   date: string
+   start: string
+   end: string
 }
 
 export type MarkedDate = {

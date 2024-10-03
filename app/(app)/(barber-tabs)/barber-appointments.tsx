@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons'
+import { Feather, MaterialIcons } from '@expo/vector-icons'
 import { Icon } from '@roninoss/icons'
 import { FlashList } from '@shopify/flash-list'
 import { isSameDay } from 'date-fns'
@@ -54,27 +54,36 @@ const BarberAppointments = () => {
             <Text variant="title1" className="text-center mb-2">
                Appointments
             </Text>
-            <MotiView
-               transition={{
-                  loop: pendingAppointments.length > 0,
-                  duration: 400,
-                  delay: 400,
-                  type: 'timing'
-               }}
-               animate={{
-                  scale: pendingAppointments.length > 0 ? [1.2, 1, 1.2] : 1
-               }}
-            >
-               <TouchableOpacity
-                  onPress={() => bottomSheetRef.current?.present()}
-               >
-                  <Icon
-                     name="calendar-alert"
+            <View className="flex-row items-center gap-4">
+               <TouchableOpacity onPress={() => router.push('/block-times')}>
+                  <MaterialIcons
+                     name="block"
                      size={28}
-                     color={isDarkColorScheme ? '#ffffff' : colors.accent}
+                     color={colors.primary}
                   />
                </TouchableOpacity>
-            </MotiView>
+               <MotiView
+                  transition={{
+                     loop: pendingAppointments.length > 0,
+                     duration: 400,
+                     delay: 400,
+                     type: 'timing'
+                  }}
+                  animate={{
+                     scale: pendingAppointments.length > 0 ? [1.2, 1, 1.2] : 1
+                  }}
+               >
+                  <TouchableOpacity
+                     onPress={() => bottomSheetRef.current?.present()}
+                  >
+                     <Icon
+                        name="calendar-alert"
+                        size={28}
+                        color={isDarkColorScheme ? '#ffffff' : colors.accent}
+                     />
+                  </TouchableOpacity>
+               </MotiView>
+            </View>
          </View>
 
          <View className="m-1 min-h-36 rounded-md bg-card shadow-sm">

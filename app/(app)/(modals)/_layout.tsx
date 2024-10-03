@@ -15,6 +15,7 @@ const ModalLayout = () => {
          <Stack.Screen name="barber" options={{ headerShown: false }} />
          <Stack.Screen name="booking" options={{ headerShown: false }} />
          <Stack.Screen name="appointment" options={{ headerShown: false }} />
+         <Stack.Screen name="block-times" options={{ headerShown: false }} />
          <Stack.Screen
             name="clients"
             options={{

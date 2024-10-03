@@ -82,7 +82,9 @@ const BarberHome = () => {
    )
 
    const donePercentage =
-      (completedAppointments.length / todayAppoinments.length) * 100
+      (completedAppointments.filter((a) => isToday(a.date)).length /
+         todayAppoinments.length) *
+      100
 
    const allAppointments = useMemo(() => {
       return data
@@ -205,8 +207,12 @@ const BarberHome = () => {
                {todayAppoinments.length > 0 && (
                   <View className="w-full p-2">
                      <Text className="text-center">
-                        Completed {completedAppointments.length} out of{' '}
-                        {todayAppoinments.length}
+                        Completed{' '}
+                        {
+                           completedAppointments.filter((a) => isToday(a.date))
+                              .length
+                        }{' '}
+                        out of {todayAppoinments.length}
                      </Text>
                      <ProgressBar
                         value={donePercentage > 0 ? donePercentage : 0.0}

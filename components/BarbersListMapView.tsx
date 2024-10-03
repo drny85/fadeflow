@@ -63,7 +63,6 @@ const BarbersListMapView = ({ index, barbers, mapRef }: Props) => {
    })
 
    useEffect(() => {
-      console.log('index', index)
       flatListRef.current?.scrollToIndex({
          index,
          animated: true,

@@ -1,11 +1,10 @@
-type LunchBreak = {
+import { format } from 'date-fns'
+import { LunchBreak, TimeSlot } from '~/shared/types'
+
+type BlockTime = {
+   date: string
    start: string
    end: string
-}
-
-type TimeSlot = {
-   time: string
-   isBooked: boolean
 }
 
 export const generateAvailableTimeSlots = (
@@ -15,10 +14,12 @@ export const generateAvailableTimeSlots = (
    bookedSlots: string[],
    currentDate: Date,
    lunchBreak: LunchBreak,
-   duration: number
+   duration: number,
+   blockedTime?: BlockTime // Added blocked time
 ): TimeSlot[] => {
    const slots: TimeSlot[] = []
    const now = new Date()
+
    const isToday = currentDate.toDateString() === now.toDateString()
 
    // Parse startTime and endTime into 24-hour format
@@ -78,6 +79,19 @@ export const generateAvailableTimeSlots = (
          ? parseTime12Hour(bookedSlots[currentSlotIndex])
          : null
 
+   // Parse blocked time if provided
+   let blockStartHours: number | null = null
+   let blockEndHours: number | null = null
+   let blockStartMinutes: number | null = null
+   let blockEndMinutes: number | null = null
+
+   if (blockedTime && format(currentDate, 'yyyy-MM-dd') === blockedTime.date) {
+      blockStartHours = parseTime12Hour(blockedTime.start)[0]
+      blockStartMinutes = parseTime12Hour(blockedTime.start)[1]
+      blockEndHours = parseTime12Hour(blockedTime.end)[0]
+      blockEndMinutes = parseTime12Hour(blockedTime.end)[1]
+   }
+
    while (
       (startHours < latestSlotHours ||
          (startHours === latestSlotHours &&
@@ -115,7 +129,6 @@ export const generateAvailableTimeSlots = (
                incrementMinutes
             )
 
-            // Check if the current slot overlaps with a booked slot
             if (
                startHours * 60 + startMinutes >=
                   bookedHours * 60 + bookedMinutes &&
@@ -136,17 +149,25 @@ export const generateAvailableTimeSlots = (
             }
          }
 
-         // Only push available slots that are not during lunch or booked
-         if (
-            !isDuringLunchBreak &&
-            !isBookedSlot &&
-            !bookedSlots.includes(timeSlot)
-         ) {
+         const isBlockedTime =
+            blockedTime &&
+            blockStartHours !== null &&
+            blockEndHours !== null &&
+            blockStartMinutes !== null &&
+            blockEndMinutes !== null &&
+            (startHours < blockEndHours ||
+               (startHours === blockEndHours &&
+                  startMinutes < blockEndMinutes)) &&
+            (startHours > blockStartHours ||
+               (startHours === blockStartHours &&
+                  startMinutes >= blockStartMinutes))
+
+         // Only add slot if it's not during lunch break, not booked, and not blocked
+         if (!isDuringLunchBreak && !isBookedSlot && !isBlockedTime) {
             slots.push({ time: timeSlot, isBooked: false })
          }
       }
 
-      // Increment time for the next slot
       startMinutes += incrementMinutes
       if (startMinutes >= 60) {
          startMinutes %= 60

@@ -1,14 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import {
+   View,
+   TouchableOpacity,
+   StyleSheet,
+   Dimensions,
+   Alert
+} from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Calendar } from 'react-native-calendars'
-import { addHours, format, isSameDay, startOfDay } from 'date-fns'
+import { addHours, addMonths, format, isSameDay, startOfDay } from 'date-fns'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Container } from '../Container'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { Text } from '../nativewindui/Text'
 import { BlockTimeParams, MarkedDate } from '~/shared/types'
 import { Toggle } from '../nativewindui/Toggle'
+import { Ionicons } from '@expo/vector-icons'
+import { router } from 'expo-router'
 
 type Props = {
    initialBlockTimes: BlockTimeParams[] // array of BlockTime
@@ -21,11 +29,11 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
    const [selectedDate, setSelectedDate] = useState<string>(
       format(new Date(), 'yyyy-MM-dd')
    )
-   const [startTime, setStartTime] = useState<Date>(
-      addHours(startOfDay(new Date()), 8)
+   const [startTime, setStartTime] = useState<string>(
+      new Date(addHours(startOfDay(new Date()), 9)).toISOString()
    )
-   const [endTime, setEndTime] = useState<Date>(
-      addHours(startOfDay(new Date()), 23)
+   const [endTime, setEndTime] = useState<string>(
+      new Date(addHours(startOfDay(new Date()), 9)).toISOString()
    )
    const [allDay, setAllDay] = useState(false)
 
@@ -38,15 +46,15 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
    }
 
    const onStartTimeChange = (event: any, selectedTime?: Date) => {
-      if (selectedTime) setStartTime(selectedTime)
+      if (selectedTime) setStartTime(selectedTime.toISOString())
    }
 
    const onEndTimeChange = (event: any, selectedTime?: Date) => {
-      if (selectedTime) setEndTime(selectedTime)
+      if (selectedTime) setEndTime(selectedTime.toISOString())
    }
 
    const handleBlockTime = () => {
-      if (!allDay && startTime >= endTime) {
+      if (!allDay && startTime > endTime) {
          alert('End time must be greater than start time.')
          return
       }
@@ -60,17 +68,42 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
          newBlockTime = {
             allDay: false,
             date: selectedDate,
-            startTime,
-            endTime
+            start: startTime,
+            end: endTime
          }
       }
       // Add the new block time to the array
+      if (editing) {
+         const updatedBlockTimes = blockTimes.map((blockTime) => {
+            if (blockTime.date === selectedDate) {
+               return newBlockTime
+            }
+            return blockTime
+         })
+         setBlockTimes(updatedBlockTimes)
+         onBlockTimeChange(updatedBlockTimes)
+         return
+      }
       const updatedBlockTimes = [...blockTimes, newBlockTime]
+      console.log(JSON.stringify(updatedBlockTimes, null, 2))
 
-      setBlockTimes(updatedBlockTimes)
+      Alert.alert(
+         'Blocking Date',
+         `You have blocked ${allDay ? selectedDate : `${selectedDate} from ${format(new Date(startTime), 'hh:mm a')} to ${format(new Date(endTime), 'hh:mm a')}`}`,
+         [
+            {
+               text: 'Block',
+               style: 'destructive',
+               onPress: () => {
+                  setBlockTimes(updatedBlockTimes)
+                  onBlockTimeChange(updatedBlockTimes)
+               }
+            },
+            { text: 'Cancel', style: 'cancel' }
+         ]
+      )
 
       // Call the callback to return the updated array
-      onBlockTimeChange(updatedBlockTimes)
    }
    const markedDates = useMemo(() => {
       const marked: MarkedDate = {}
@@ -92,45 +125,59 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
       if (blockTimeForDate) {
          setAllDay(blockTimeForDate.allDay)
          if (!blockTimeForDate.allDay) {
-            setStartTime(blockTimeForDate.startTime)
-            setEndTime(blockTimeForDate.endTime)
+            setStartTime(blockTimeForDate.start)
+            setEndTime(blockTimeForDate.end)
          }
          setEditing(true)
       } else {
          // Reset to default if no block time for selected date
          setAllDay(false)
-         setStartTime(addHours(startOfDay(new Date()), 8))
-         setEndTime(addHours(startOfDay(new Date()), 23))
+         setStartTime(
+            new Date(addHours(startOfDay(new Date()), 9)).toISOString()
+         )
+         setEndTime(new Date(addHours(startOfDay(new Date()), 9)).toISOString())
          setEditing(false)
       }
    }, [selectedDate, blockTimes])
 
-   console.log(JSON.stringify(selectedDate, null, 2))
-
    return (
       <Container>
          <ScrollView style={styles.container}>
-            <Text variant={'title1'} className="text-center mb-2">
-               BLOCK TIME-FRAME
-            </Text>
+            <View className="flex-row items-center justify-between mb-2 w-full">
+               <TouchableOpacity className="p-2" onPress={router.back}>
+                  <Ionicons
+                     name="chevron-back"
+                     size={28}
+                     color={colors.primary}
+                  />
+               </TouchableOpacity>
+               <Text variant={'title1'}>BLOCK TIME-FRAME</Text>
+               <Text />
+            </View>
 
             {/* Swipeable Calendar for selecting the week */}
 
             <Calendar
                style={{ borderRadius: 18 }}
                current={selectedDate}
-               onDayPress={(day: any) => onDateSelect(day.dateString)}
+               onDayPress={(day: any) => {
+                  onDateSelect(day.dateString)
+               }}
                pastScrollRange={12}
                futureScrollRange={12}
+               maxDate={
+                  new Date(addMonths(new Date(), 2)).toISOString().split('T')[0]
+               }
+               minDate={new Date().toISOString().split('T')[0]}
                horizontal
                pagingEnabled
-               calendarWidth={Dimensions.get('window').width}
+               enableSwipeMonths={true}
                theme={{
                   backgroundColor: colors.card,
                   calendarBackground: colors.background,
                   dayTextColor: isDarkColorScheme ? '#ffffff' : '#212121',
                   selectedDayBackgroundColor: colors.primary,
-                  selectedDayTextColor: '#fff',
+                  selectedDayTextColor: '#fffddd',
                   textDisabledColor: '#555',
                   monthTextColor: isDarkColorScheme ? '#ffffff' : '#212121',
                   textMonthFontWeight: 'bold',
@@ -175,7 +222,7 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                         <Text className="font-roboto-bold">Start:</Text>
                         <View className="flex-grow">
                            <DateTimePicker
-                              value={startTime}
+                              value={new Date(startTime)}
                               mode="time"
                               textColor="#ffffff"
                               minuteInterval={15}
@@ -200,7 +247,7 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                      <Text className="font-roboto-bold">End:</Text>
                      <View className="w-18">
                         <DateTimePicker
-                           value={endTime}
+                           value={new Date(endTime)}
                            mode="time"
                            minuteInterval={15}
                            is24Hour={false}

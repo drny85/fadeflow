@@ -15,8 +15,8 @@ import { Text } from '../nativewindui/Text'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
-import { Days, Schedule } from '~/shared/types'
-import { initialBlockedDates } from '~/constants'
+import { BlockTimeParams, Days, Schedule } from '~/shared/types'
+import { useColorScheme } from '~/lib/useColorScheme'
 
 type DayProps = {
    date: Date
@@ -48,12 +48,12 @@ const Day: React.FC<DayProps> = ({
             setSelectedTimeSlot(null)
             setIndex(0)
          }}
-         className={`my-1 items-center rounded-lg ${isSelected ? 'bg-accent' : isOff ? 'bg-grey border-2 border-dashed border-slate-400' : 'bg-card'}`}
+         className={`my-1 items-center rounded-lg ${isSelected ? 'bg-primary' : isOff ? 'bg-grey border-2 border-dashed border-slate-400' : 'bg-card'}`}
       >
          <Animated.View
             entering={SlideInRight}
             key={date.toISOString()}
-            style={[styles.dayContainer, {}]}
+            style={[styles.dayContainer]}
          >
             <Text
                className={`${isSelected ? 'font-raleway-bold text-white' : 'font-raleway'} ${isPast ? 'opacity-35' : ''} `}
@@ -78,19 +78,22 @@ type Props = {
    onPress?: (date: Date) => void
    ignorePast?: boolean
    onChange?: () => void
+   blockedDays?: BlockTimeParams[]
 }
 
 const WeekSelector: React.FC<Props> = ({
    schedule,
    onPress,
    ignorePast = false,
-   onChange
+   onChange,
+   blockedDays = []
 }) => {
    const today = new Date()
-   const markedDates = initialBlockedDates
+   const { colors } = useColorScheme()
    const [currentDate, setCurrentDate] = useState<Date>(new Date())
    const [weekDates, setWeekDates] = useState<Date[]>([])
-   const { selectedDate, setSelectedDate } = useAppointmentFlowStore()
+   const { selectedDate, setSelectedDate, setSelectedTimeSlot } =
+      useAppointmentFlowStore()
    const { appointments } = useAppointmentStore()
 
    const handleTitlePress = () => {
@@ -113,6 +116,7 @@ const WeekSelector: React.FC<Props> = ({
       const nextWeek = new Date(currentDate)
       nextWeek.setDate(currentDate.getDate() + 7)
       setCurrentDate(nextWeek)
+      setSelectedTimeSlot(null)
       onChange && onChange()
    }
 
@@ -136,6 +140,7 @@ const WeekSelector: React.FC<Props> = ({
    //   }
    // };
    const handlePreviousWeek = () => {
+      setSelectedTimeSlot(null)
       const prevWeek = new Date(currentDate)
       prevWeek.setDate(currentDate.getDate() - 7)
       onChange && onChange()
@@ -165,7 +170,7 @@ const WeekSelector: React.FC<Props> = ({
                onPress={handlePreviousWeek}
                style={styles.arrowButton}
             >
-               <Feather name="chevron-left" size={28} color="grey" />
+               <Feather name="chevron-left" size={28} color={colors.primary} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleTitlePress}>
                <Text className="font-roboto-bold text-lg">
@@ -177,7 +182,7 @@ const WeekSelector: React.FC<Props> = ({
                onPress={handleNextWeek}
                style={styles.arrowButton}
             >
-               <Feather name="chevron-right" size={28} color="grey" />
+               <Feather name="chevron-right" size={28} color={colors.primary} />
             </TouchableOpacity>
          </View>
 
@@ -193,36 +198,24 @@ const WeekSelector: React.FC<Props> = ({
                const dayOff = (schedule[day] as { isOff: boolean }).isOff
                const hasAppointments = findAnyAppointmentByDate(date)
 
-               const blocked =
-                  initialBlockedDates.findIndex(
-                     (d) =>
-                        d.date === date.toISOString().split('T')[0] && !d.allDay
-                  ) !== -1
+               // const blocked =
+               //    blockedDays.findIndex(
+               //       (d) =>
+               //          d.date === date.toISOString().split('T')[0] && !d.allDay
+               //    ) !== -1
                const allDay =
-                  initialBlockedDates.findIndex(
+                  blockedDays.findIndex(
                      (d) =>
                         d.allDay && d.date === date.toISOString().split('T')[0]
                   ) !== -1
 
-               console.log(
-                  JSON.stringify(
-                     initialBlockedDates
-                        .filter((s) => !s.allDay)
-                        .map((d) => ({
-                           h: format(d.startTime, 'hh:mm a'),
-                           e: format(d.endTime, 'hh:mm a')
-                        })),
-                     null,
-                     2
-                  )
-               )
                return (
                   <Day
                      key={index}
                      hasAppointments={hasAppointments}
                      date={date}
                      ignorePast={ignorePast}
-                     isOff={dayOff || blocked || allDay}
+                     isOff={dayOff || allDay}
                      isPast={
                         date < new Date() &&
                         format(date, 'yyyy-MM-dd') !==

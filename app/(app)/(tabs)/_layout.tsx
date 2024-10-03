@@ -74,7 +74,6 @@ export default function TabLayout() {
          <Tabs.Screen
             name="(barbers)"
             options={{
-               unmountOnBlur: true,
                title: 'Barbers',
                headerShown: false,
 

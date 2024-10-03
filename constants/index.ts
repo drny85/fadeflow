@@ -36,8 +36,8 @@ export const initialBlockedDates: BlockTimeParams[] = [
    {
       allDay: false,
       date: '2024-10-14',
-      startTime: new Date('2024-10-01T12:00:00.000Z'),
-      endTime: new Date('2024-10-02T03:00:00.000Z')
+      start: new Date('2024-10-01T17:00:00.000Z'),
+      end: new Date('2024-10-02T21:00:00.000Z')
    }
 ]
 

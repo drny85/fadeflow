@@ -1,7 +1,7 @@
 // TimeSlotPicker.tsx
 import { addDays, format, isSameDay } from 'date-fns'
 import { router, useSegments } from 'expo-router'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { FlatList, ListRenderItem, TouchableOpacity, View } from 'react-native'
 
 import { Button } from '../Button'
@@ -59,6 +59,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
    const isGreater = incrementMinutes > duration
 
    const lunckBreak = (barber?.schedule[shortDay]).lunchBreak
+
    const bookedSlots = appointments
       .filter((app) => app.status !== 'cancelled')
       .filter((a) => a.barber.id === barber?.id)
@@ -78,7 +79,21 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       isGreater ? duration : incrementMinutes
    )
    //if (!duration) return;
-   console.log(unaivailableTimeSlots)
+
+   const blocked = useMemo(() => {
+      if (!barber.blockedTimes || barber.blockedTimes.length === 0)
+         return undefined
+      return barber.blockedTimes
+         .filter((i) => !i.allDay)
+         .map((d) => ({
+            ...d,
+            start: format(d.start, 'hh:mm a'),
+            end: format(d.end, 'hh:mm a')
+         }))
+         .find((d) => d.date === format(day, 'yyyy-MM-dd'))
+   }, [barber.blockedTimes, day])
+
+   console.log(blocked)
 
    const timeSlots = isDayOff
       ? []
@@ -91,7 +106,8 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
              unaivailableTimeSlots,
              day,
              lunckBreak,
-             duration
+             duration,
+             blocked
           )
 
    const handlePress = (item: TimeSlot, index: number) => {
@@ -116,7 +132,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
                   ? handleSecondPress(item, index)
                   : handlePress(item, index)
             }
-            className={`mx-1 rounded-full px-3 ${item.isBooked ? 'border-2 border-dashed border-slate-200' : ''}  ${selectedTimeSlot?.time === item.time ? 'bg-accent' : changeColor ? 'bg-background' : 'bg-background'}`}
+            className={`mx-1 rounded-full px-3 ${item.isBooked ? 'border-2 border-dashed border-slate-200' : ''}  ${selectedTimeSlot?.time === item.time ? 'bg-primary' : changeColor ? 'bg-background' : 'bg-background'}`}
          >
             <View className=" items-center justify-center">
                <Text
@@ -134,10 +150,19 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       ref.current?.scrollToIndex({
          index,
          viewOffset: _spacing,
-         viewPosition: 0,
+         viewPosition: 0.5,
          animated: true
       })
    }, [index, timeSlots.length])
+   useEffect(() => {
+      if (selectedTimeSlot || !selectedDate || timeSlots.length === 0) return
+      ref.current?.scrollToIndex({
+         index: 0,
+         viewOffset: _spacing,
+         viewPosition: 0,
+         animated: true
+      })
+   }, [selectedTimeSlot, selectedDate, timeSlots.length])
 
    if (isDayOff)
       return (
