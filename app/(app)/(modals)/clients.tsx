@@ -29,6 +29,8 @@ const Clients = () => {
       }
    })
 
+   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('')
+
    const { appointments } = useAppointmentStore()
 
    const customers = groupAppointmentsByCustomer(appointments)
@@ -38,11 +40,11 @@ const Clients = () => {
          customer.name.toLowerCase().includes(search.toLowerCase())
       )
    }, [customers])
+
    const totalSpentByCustomer = (appointments: Appointment[]) =>
-      appointments.reduce(
-         (acc, curr) => acc + getAppointmentPrice(curr.services),
-         0
-      )
+      appointments
+         .filter((a) => a.customer.id === selectedCustomerId)
+         .reduce((acc, curr) => acc + getAppointmentPrice(curr.services), 0)
 
    return (
       <ScrollView
@@ -69,6 +71,7 @@ const Clients = () => {
                      className="p-2 flex-row justify-between"
                      onPress={() => {
                         setCustomersAppointments(item.appointments)
+                        setSelectedCustomerId(item.id!)
                         bottomSheetRef.current?.present()
                      }}
                   >

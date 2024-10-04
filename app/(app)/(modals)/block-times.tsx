@@ -1,3 +1,4 @@
+import { router } from 'expo-router'
 import React from 'react'
 import { updateUser } from '~/actions/users'
 import BlockTime from '~/components/Appointment/BlockTime'
@@ -25,6 +26,7 @@ const BlockTimes = () => {
                title: 'Success',
                message: 'Blocked times updated successfully'
             })
+            router.back()
          }
       } catch (error) {
          console.log('Error on adding blockedTimes', error)

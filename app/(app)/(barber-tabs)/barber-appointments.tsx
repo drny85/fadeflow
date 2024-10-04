@@ -1,13 +1,14 @@
 import { Feather, MaterialIcons } from '@expo/vector-icons'
 import { Icon } from '@roninoss/icons'
 import { FlashList } from '@shopify/flash-list'
-import { isSameDay } from 'date-fns'
+import { format, isSameDay } from 'date-fns'
 import { router } from 'expo-router'
 import { MotiView } from 'moti'
 import React, { useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 
 import WeekSelector from '~/components/Appointment/WeekSelectorComponent'
+import { Button } from '~/components/Button'
 import { Container } from '~/components/Container'
 import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
@@ -21,6 +22,7 @@ import { useAppointmentStore } from '~/providers/useAppointmentStore'
 const BarberAppointments = () => {
    const { user } = useAuth()
    const { colors, isDarkColorScheme } = useColorScheme()
+   const blockedDates = user?.isBarber && user.blockedTimes
    const bottomSheetRef = useSheetRef()
    const [showNoData, setShowData] = useState(true)
    const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -29,6 +31,7 @@ const BarberAppointments = () => {
          new Date(a.date) > new Date(b.date) ? 1 : -1
       )
    )
+   console.log(JSON.stringify(blockedDates, null, 2))
 
    const pendingAppointments = useMemo(() => {
       return appointments.filter((a) => a.status === 'pending')
@@ -107,6 +110,33 @@ const BarberAppointments = () => {
                      <Text className="text-center font-semibold text-muted dark:text-slate-300">
                         No Appointments Scheduled
                      </Text>
+                     {blockedDates &&
+                        blockedDates.length > 0 &&
+                        blockedDates
+                           .filter(
+                              (d) =>
+                                 d.allDay &&
+                                 d.date ===
+                                    new Date(selectedDate)
+                                       .toISOString()
+                                       .split('T')[0]
+                           )
+                           .map((day) => (
+                              <View key={day.date} className="gap-4">
+                                 <Text className="text-2xl font-roboto mt-3 uppercase">
+                                    This day is blocked
+                                 </Text>
+                                 <Button
+                                    title="Unlock it"
+                                    onPress={() => {
+                                       router.push({
+                                          pathname: '/block-times',
+                                          params: { date: day.date }
+                                       })
+                                    }}
+                                 />
+                              </View>
+                           ))}
                   </View>
                }
                estimatedItemSize={125}

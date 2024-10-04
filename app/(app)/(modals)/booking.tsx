@@ -115,6 +115,24 @@ const BookingPage = () => {
          })
          return
       }
+      //CHECK IF SELECTED DATE HAS BEEN BLOCKED BY BARBER
+      if (barber && barber?.blockedTimes && barber.blockedTimes.length > 0) {
+         const found = barber.blockedTimes.findIndex(
+            (t) =>
+               t.allDay && t.date === selectedDate.toISOString().split('T')[0]
+         )
+
+         if (found !== -1) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+            return toastMessage({
+               title: 'Blocked Date',
+               message: `${format(selectedDate, 'PP')} is not available`,
+               preset: 'custom',
+               duration: 3,
+               iconName: 'nosign.app.fill'
+            })
+         }
+      }
 
       if (appointmentId) {
          const app = getAppointment(appointmentId)

@@ -148,12 +148,14 @@ export const dayOrder: Days[] = [
    'Sat'
 ]
 
-type Marked = {
+type MarkedDates = {
    selected?: boolean
-   marked: boolean
+   marked?: boolean
    selectedColor?: string
    markedColor?: string
    dotColor?: string
+   disabled?: boolean
+   disableTouchEvent?: boolean
 }
 export type BlockTime = {
    date: string
@@ -162,7 +164,7 @@ export type BlockTime = {
 }
 
 export type MarkedDate = {
-   [date: string]: Marked
+   [date: string]: MarkedDates
 }
 
 export type DayAvailability = {

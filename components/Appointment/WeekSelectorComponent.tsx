@@ -67,7 +67,7 @@ const Day: React.FC<DayProps> = ({
             </Text>
          </Animated.View>
          {hasAppointments && user?.isBarber && (
-            <View className="mb-1 h-2 w-2 items-center justify-center rounded-full bg-primary" />
+            <View className="mb-1 h-2 w-2 items-center justify-center rounded-full bg-accent" />
          )}
       </TouchableOpacity>
    )
@@ -124,7 +124,8 @@ const WeekSelector: React.FC<Props> = ({
       return appointments.some(
          (appointment) =>
             isSameDay(appointment.date, date) &&
-            appointment.status !== 'completed'
+            appointment.status !== 'completed' &&
+            appointment.status !== 'cancelled'
       )
    }
 

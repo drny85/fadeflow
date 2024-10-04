@@ -1,14 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import {
-   View,
-   TouchableOpacity,
-   StyleSheet,
-   Dimensions,
-   Alert
-} from 'react-native'
+import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Calendar } from 'react-native-calendars'
-import { addHours, addMonths, format, isSameDay, startOfDay } from 'date-fns'
+import { addHours, addMonths, format, isPast, startOfDay } from 'date-fns'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Container } from '../Container'
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -16,15 +10,23 @@ import { Text } from '../nativewindui/Text'
 import { BlockTimeParams, MarkedDate } from '~/shared/types'
 import { Toggle } from '../nativewindui/Toggle'
 import { Ionicons } from '@expo/vector-icons'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
+import { useAppointmentStore } from '~/providers/useAppointmentStore'
 
 type Props = {
    initialBlockTimes: BlockTimeParams[] // array of BlockTime
    onBlockTimeChange: (updatedBlockTimes: BlockTimeParams[]) => void // callback to return updated BlockTimes
 }
+type Params = {
+   date?: string
+}
 
 const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
+   const { date } = useLocalSearchParams<Params>()
    const { colors, isDarkColorScheme } = useColorScheme()
+   const appointments = useAppointmentStore((s) =>
+      s.appointments.filter((a) => a.status === 'confirmed' && !isPast(a.date))
+   )
    const [editing, setEditing] = useState(false)
    const [selectedDate, setSelectedDate] = useState<string>(
       format(new Date(), 'yyyy-MM-dd')
@@ -85,7 +87,6 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
          return
       }
       const updatedBlockTimes = [...blockTimes, newBlockTime]
-      console.log(JSON.stringify(updatedBlockTimes, null, 2))
 
       Alert.alert(
          'Blocking Date',
@@ -107,19 +108,32 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
    }
    const markedDates = useMemo(() => {
       const marked: MarkedDate = {}
+      const markedDatesFromAppointments = appointments.reduce(
+         (acc, appointment) => {
+            acc[appointment.date.split('T')[0]] = {
+               selected: true,
+               disabled: true,
+               selectedColor: 'red',
+               disableTouchEvent: true
+            }
+            return acc
+         },
+         {} as MarkedDate
+      )
       blockTimes.forEach((blockTime) => {
+         console.log(blockTime)
          marked[blockTime.date] = {
-            //selected: true
-            marked: true,
-            markedColor: colors.accent
+            selected: !blockTime.allDay && blockTime.start !== blockTime.end,
+            selectedColor: blockTime.allDay ? colors.accent : colors.grey3
+            // markedColor: colors.accent
          }
       })
-      return marked
-   }, [blockTimes])
+      return { ...marked, ...markedDatesFromAppointments }
+   }, [blockTimes, appointments])
 
    useEffect(() => {
       const blockTimeForDate = blockTimes.find((blockTime) => {
-         return isSameDay(new Date(blockTime.date), new Date(selectedDate))
+         return blockTime.date === selectedDate
       })
 
       if (blockTimeForDate) {
@@ -140,11 +154,21 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
       }
    }, [selectedDate, blockTimes])
 
+   useEffect(() => {
+      if (date) setSelectedDate(date)
+   }, [date])
+
    return (
       <Container>
          <ScrollView style={styles.container}>
             <View className="flex-row items-center justify-between mb-2 w-full">
-               <TouchableOpacity className="p-2" onPress={router.back}>
+               <TouchableOpacity
+                  className="p-2"
+                  onPress={() => {
+                     setSelectedDate(format(new Date(), 'yyyy-MM-dd'))
+                     router.back()
+                  }}
+               >
                   <Ionicons
                      name="chevron-back"
                      size={28}
@@ -193,6 +217,23 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                }}
                firstDay={0} // Set Monday as the first day of the week (optional)
             />
+            <Text className="text-center text-muted dark:text-slate-400 mt-2">
+               Legend
+            </Text>
+            <View className="p-2 shadow-sm bg-card rounded-md flex-row items-center justify-evenly">
+               <View className="flex-row items-center gap-1">
+                  <View className="h-6 w-6 rounded-full bg-primary" />
+                  <Text className="text-sm">Selected</Text>
+               </View>
+               <View className="flex-row items-center gap-1">
+                  <View className="h-6 w-6 rounded-full bg-red-500" />
+                  <Text className="text-sm">Blocked</Text>
+               </View>
+               <View className="flex-row items-center gap-1">
+                  <View className="h-6 w-6 rounded-full bg-gray-300" />
+                  <Text className="text-sm">Times Blocked</Text>
+               </View>
+            </View>
 
             {/* Time Block */}
             <Text className="mt-2" style={styles.label}>
@@ -256,6 +297,12 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                         />
                      </View>
                   </TouchableOpacity>
+               </View>
+            )}
+            {date && (
+               <View className="flex-row items-center justify-center gap-2">
+                  <Text style={styles.rowText}>Date</Text>
+                  <Text>{date}</Text>
                </View>
             )}
 
