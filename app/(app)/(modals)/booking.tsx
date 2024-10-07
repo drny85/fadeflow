@@ -26,7 +26,7 @@ import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import { Appointment } from '~/shared/types'
+import { Appointment, Days } from '~/shared/types'
 import { appointmentsConflict } from '~/utils/appointmentsConflict'
 import { objectsAreDifferent } from '~/utils/compareTwoObjects'
 import { formatPhone } from '~/utils/formatPhone'
@@ -41,6 +41,7 @@ type ParamProps = {
 
 const BookingPage = () => {
    useUser()
+   const { bottom } = useSafeAreaInsets()
    const { barberId, appointmentId } = useLocalSearchParams<ParamProps>()
    const { loading, services } = useServices(barberId)
    const { colors, isDarkColorScheme } = useColorScheme()
@@ -63,7 +64,7 @@ const BookingPage = () => {
    } = useAppointmentFlowStore()
    const { addNewAppointment, getAppointment, appointments } =
       useAppointmentStore()
-   const { bottom } = useSafeAreaInsets()
+
    const alreadyHaveAnAppointmentToday =
       appointments.findIndex(
          (appointment) =>
@@ -133,6 +134,20 @@ const BookingPage = () => {
             })
          }
       }
+      if (barber?.schedule) {
+         const shortDay = format(selectedDate, 'E') as Days
+         const isDayOff = (barber?.schedule[shortDay]).isOff
+
+         if (isDayOff) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+            return toastMessage({
+               title: 'Day Off',
+               message: `${format(selectedDate, 'PP')} is not available`,
+               preset: 'error',
+               duration: 3
+            })
+         }
+      }
 
       if (appointmentId) {
          const app = getAppointment(appointmentId)
@@ -151,22 +166,6 @@ const BookingPage = () => {
             router.back()
             return
          }
-
-         // const thereIsConflict = appointmentsConflict(
-         //    appointments,
-         //    updatedAppointment.date,
-         //    getAppointmentDuration(updatedAppointment.services)
-         // );
-
-         // if (thereIsConflict) {
-         //    return toastAlert({
-         //       title: 'Appointment Conflict',
-         //       message: 'Please consider changing the time or services',
-         //       preset: 'custom',
-         //       duration: 3,
-         //       iconName: 'hand.raised.slash',
-         //    });
-         // }
 
          const isStillAvailable =
             await checkIfApppointmentIsStillAvailable(updatedAppointment)
@@ -224,6 +223,21 @@ const BookingPage = () => {
             changesMadeBy: 'customer'
          }
 
+         if (barber?.schedule) {
+            const shortDay = format(selectedDate, 'E') as Days
+            const isDayOff = (barber?.schedule[shortDay]).isOff
+            console.log('IsOFF', isDayOff)
+            if (isDayOff) {
+               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+               return toastMessage({
+                  title: 'Day Off',
+                  message: `${format(selectedDate, 'PP')} is not available`,
+                  preset: 'error',
+                  duration: 3
+               })
+            }
+         }
+
          const thereIsConflict = appointmentsConflict(
             appointments,
             appointment.date,
@@ -233,7 +247,7 @@ const BookingPage = () => {
 
          if (thereIsConflict) {
             return toastAlert({
-               title: 'Appointment Conflict',
+               title: 'Appointment  Conflict',
                message: 'Please consider changing the time or services',
                preset: 'custom',
                duration: 3,
@@ -395,11 +409,6 @@ const BookingPage = () => {
                shadowColor: colors.grey
             }}
          >
-            {/* {selectedDate && selectedTimeSlot && (
-          <Text className="py-2 text-center text-sm font-semibold text-muted">
-            {format(getBookingDate(selectedDate, selectedTimeSlot?.time), 'PPP p')}
-          </Text>
-        )} */}
             <View className="my-3 flex-row items-start gap-2 self-center">
                <FontAwesome name="money" size={24} color="grey" />
                <Text className="text-center text-muted dark:text-white">
@@ -418,6 +427,15 @@ const BookingPage = () => {
                         !barber.isAvailable || services.length === 0 ? 0.5 : 1
                   }}
                   onPress={() => {
+                     if (selectedServices.length === 0) {
+                        return toastMessage({
+                           title: 'Service Required',
+                           message: 'Please pick a service',
+                           preset: 'custom',
+                           duration: 3,
+                           iconName: 'hand.raised.slash'
+                        })
+                     }
                      if (!selectedTimeSlot) {
                         bottomSheetModalRef.current?.present()
                         return
@@ -467,14 +485,24 @@ const BookingPage = () => {
                </TouchableOpacity>
                <DateTimeAppointmentPicker
                   barber={barber}
-                  onPress={() => bottomSheetModalRef.current?.close()}
+                  onPress={() => {
+                     bottomSheetModalRef.current?.close()
+                     if (!selectedTimeSlot) {
+                        bottomSheetModalRef.current?.present()
+                        return
+                     }
+                     if (bottomSheetModalRefConfirm.current)
+                        bottomSheetModalRefConfirm.current?.present()
+                  }}
                />
             </View>
          </Sheet>
          <Sheet snapPoints={['85%']} ref={bottomSheetModalRefConfirm}>
             <View className="flex-1 bg-card pb-8">
                <Text
-                  onPress={() => bottomSheetModalRefConfirm.current?.close()}
+                  onPress={() => {
+                     bottomSheetModalRefConfirm.current?.close()
+                  }}
                   className="text-right mr-2 p-2 text-slate-600 dark:text-slate-200"
                >
                   Cancel

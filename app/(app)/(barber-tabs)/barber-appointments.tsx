@@ -31,7 +31,6 @@ const BarberAppointments = () => {
          new Date(a.date) > new Date(b.date) ? 1 : -1
       )
    )
-   console.log(JSON.stringify(blockedDates, null, 2))
 
    const pendingAppointments = useMemo(() => {
       return appointments.filter((a) => a.status === 'pending')
@@ -142,6 +141,50 @@ const BarberAppointments = () => {
                estimatedItemSize={125}
                key={showNoData ? 1 : 2}
                showsVerticalScrollIndicator={false}
+               ListFooterComponent={
+                  blockedDates &&
+                  selectedDate &&
+                  blockedDates.filter(
+                     (d) =>
+                        !d.allDay &&
+                        d.date === format(selectedDate, 'yyyy-MM-dd')
+                  ).length > 0 ? (
+                     <View className="p-3 items-center justify-center mt-3 shadow-sm bg-card rounded-md">
+                        <Text>Hours Blocked</Text>
+                        {blockedDates
+                           .filter(
+                              (i) =>
+                                 !i.allDay &&
+                                 i.date === format(selectedDate, 'yyyy-MM-dd')
+                           )
+                           .map((day) => (
+                              <View
+                                 key={day.date}
+                                 className="gap-2 items-center justify-center"
+                              >
+                                 <Text>
+                                    {/* @ts-ignore */}
+                                    {format(day.start, 'hh:mm a')} to{' '}
+                                    {/* @ts-ignore */}
+                                    {format(day.end, 'hh:mm a')}
+                                 </Text>
+                                 <TouchableOpacity
+                                    onPress={() =>
+                                       router.push({
+                                          pathname: '/block-times',
+                                          params: { date: day.date }
+                                       })
+                                    }
+                                 >
+                                    <Text className="text-blue-500 font-bold">
+                                       Edit
+                                    </Text>
+                                 </TouchableOpacity>
+                              </View>
+                           ))}
+                     </View>
+                  ) : undefined
+               }
                renderItem={({ item, index }) => {
                   if (!showNoData) return null
 

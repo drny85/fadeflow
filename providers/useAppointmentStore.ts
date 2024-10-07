@@ -4,7 +4,7 @@ import {
    addNewAppointmentToDatabase,
    updateAppointmentInDatabase
 } from '~/actions/appointments'
-import { Appointment } from '~/shared/types'
+import { Appointment, AppointmentStatus } from '~/shared/types'
 
 type AppointmentStoreParams = {
    appointments: Appointment[]
@@ -15,7 +15,10 @@ type AppointmentStoreParams = {
    filteredAppointments: Appointment[]
    setFilteredAppointments: (filteredAppointments: Appointment[]) => void
    setFiltered: (filtered: boolean) => void
+   selectedStatuses: AppointmentStatus[]
+   setSelectedStatuses: (statuses: AppointmentStatus[]) => void
 
+   //setSelectedStatus:(status:AppointmentStatus)=>void
    updateAppointmentsById: (
       appointmentId: string,
       appointment: Appointment
@@ -25,6 +28,10 @@ export const useAppointmentStore = create<AppointmentStoreParams>(
    (set, get) => ({
       appointments: [],
       filtered: false,
+      selectedStatuses: [],
+
+      setSelectedStatuses: (statuses: AppointmentStatus[]) =>
+         set({ selectedStatuses: statuses }),
 
       setFiltered: (filtered: boolean) => set({ filtered }),
       filteredAppointments: [],

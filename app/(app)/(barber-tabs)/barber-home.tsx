@@ -30,6 +30,7 @@ import { shareBarberLink } from '~/utils/shareBarberLink'
 const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
 
 const BarberHome = () => {
+   console.log(format(new Date('2024-10-07T20:16:00.000Z'), 'PPpp'))
    const { user } = useAuth()
    const { colors } = useColorScheme()
    const daysRemaining = differenceInDays(
@@ -359,14 +360,14 @@ const BarberHome = () => {
                            }}
                         />
                      </View>
-                     {confirmedAppointments.length > 0 && (
+                     {completedAppointments.length > 0 && (
                         <View className="rounded-md bg-card p-2 shadow-sm">
                            <Text variant="title3">
                               Waiting to cash out (
-                              {confirmedAppointments.length})
+                              {completedAppointments.length})
                            </Text>
                            <FlatList
-                              data={confirmedAppointments.sort((a, b) =>
+                              data={completedAppointments.sort((a, b) =>
                                  a.date > b.date ? 1 : -1
                               )}
                               horizontal

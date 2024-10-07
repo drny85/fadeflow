@@ -113,7 +113,7 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
             acc[appointment.date.split('T')[0]] = {
                selected: true,
                disabled: true,
-               selectedColor: 'red',
+               selectedColor: colors.destructive,
                disableTouchEvent: true
             }
             return acc
@@ -226,8 +226,8 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                   <Text className="text-sm">Selected</Text>
                </View>
                <View className="flex-row items-center gap-1">
-                  <View className="h-6 w-6 rounded-full bg-red-500" />
-                  <Text className="text-sm">Blocked</Text>
+                  <View className="h-6 w-6 rounded-full bg-destructive" />
+                  <Text className="text-sm">Booking</Text>
                </View>
                <View className="flex-row items-center gap-1">
                   <View className="h-6 w-6 rounded-full bg-gray-300" />

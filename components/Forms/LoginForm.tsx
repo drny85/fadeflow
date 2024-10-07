@@ -62,7 +62,6 @@ const LoginForm: React.FC = () => {
          <TextInput
             name="email"
             control={control}
-            autoFocus
             label="Email Address"
             keyboardType="email-address"
             autoComplete="off"

@@ -48,7 +48,7 @@ const Day: React.FC<DayProps> = ({
             setSelectedTimeSlot(null)
             setIndex(0)
          }}
-         className={`my-1 items-center rounded-lg ${isSelected ? 'bg-primary' : isOff ? 'bg-grey border-2 border-dashed border-slate-400' : 'bg-card'}`}
+         className={`my-1 items-center rounded-lg ${isSelected ? 'bg-primary' : isOff && !user?.isBarber ? 'bg-grey border-2 border-dashed border-slate-400' : isOff && user?.isBarber && ignorePast ? 'border-2 border-destructive border-dashed' : 'bg-card'}`}
       >
          <Animated.View
             entering={SlideInRight}
@@ -196,7 +196,7 @@ const WeekSelector: React.FC<Props> = ({
          >
             {weekDates.map((date, index) => {
                const day = format(date, 'E') as Days
-               const dayOff = (schedule[day] as { isOff: boolean }).isOff
+
                const hasAppointments = findAnyAppointmentByDate(date)
 
                // const blocked =
@@ -209,14 +209,15 @@ const WeekSelector: React.FC<Props> = ({
                      (d) =>
                         d.allDay && d.date === date.toISOString().split('T')[0]
                   ) !== -1
-
+               const dayOff =
+                  (schedule[day] as { isOff: boolean }).isOff || allDay
                return (
                   <Day
                      key={index}
                      hasAppointments={hasAppointments}
                      date={date}
                      ignorePast={ignorePast}
-                     isOff={dayOff || allDay}
+                     isOff={dayOff}
                      isPast={
                         date < new Date() &&
                         format(date, 'yyyy-MM-dd') !==

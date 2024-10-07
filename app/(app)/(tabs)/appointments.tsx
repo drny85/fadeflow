@@ -31,6 +31,7 @@ const AppointmentsPage = () => {
       filtered,
       filteredAppointments,
       setFiltered,
+      setSelectedStatuses,
       setFilteredAppointments
    } = useAppointmentStore()
 
@@ -88,6 +89,7 @@ const AppointmentsPage = () => {
                onPress={() => {
                   setFiltered(false)
                   setFilteredAppointments([])
+                  setSelectedStatuses([])
                }}
             >
                <Text className="text-center text-sm my-1 text-blue-600">

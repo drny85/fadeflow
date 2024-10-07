@@ -3,7 +3,7 @@
 import { Appointment, AppUser } from '@shared/types'
 import { Expo } from 'expo-server-sdk'
 import { getFirestore, Timestamp } from 'firebase-admin/firestore'
-
+import moment from 'moment-timezone'
 // Initialize Firebase Admin
 
 // Initialize Expo SDK
@@ -12,26 +12,27 @@ const expo = new Expo()
 // Function to calculate time window
 const getTimeWindow = () => {
    const now = Timestamp.now()
-   const twoHoursLater = Timestamp.fromDate(
-      new Date(now.toDate().getTime() + 2 * 60 * 60 * 1000)
-   )
-   const fiveMinutesAfter = Timestamp.fromDate(
-      new Date(twoHoursLater.toDate().getTime() + 5 * 60 * 1000)
-   )
-   return { start: twoHoursLater, end: fiveMinutesAfter }
+   const toNewYorkTime = moment(now.toDate()).tz('America/New_York')
+   const twoHours = toNewYorkTime.clone().add(2, 'hours')
+
+   const fiveMinutesAfter = twoHours.clone().add(5, 'minutes')
+   return { start: twoHours.toISOString(), end: fiveMinutesAfter.toISOString() }
 }
 
 export const notificationReminder = async (): Promise<any> => {
    try {
       const { start, end } = getTimeWindow()
+      const startDate = moment(start).tz('America/New_York').toISOString()
+      const endDate = moment(end).tz('America/New_York').toISOString()
+      console.log('BETWEEN', startDate, endDate)
 
       const db = getFirestore()
       const appointmentsRef = db.collection('appointments')
 
       // Query appointments where appointmentTime is between start and end and reminder not sent
       const snapshot = await appointmentsRef
-         .where('date', '>=', start)
-         .where('date', '<=', end)
+         .where('date', '>=', startDate)
+         .where('date', '<=', endDate)
          .where('status', '==', 'confirmed')
          .where('reminderSent', '==', false)
          .get()

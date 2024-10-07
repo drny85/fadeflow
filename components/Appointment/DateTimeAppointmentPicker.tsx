@@ -58,7 +58,7 @@ const DateTimeAppointmentPicker = ({ onPress, barber }: Props) => {
          <View className="mx-4">
             <Button
                iconName="save"
-               style={{ paddingHorizontal: 20 }}
+               style={{ paddingHorizontal: 20, marginBottom: 10 }}
                title="Save Appointment"
                disabled={!selectedDate}
                onPress={() => {

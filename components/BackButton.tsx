@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
    },
    backButtonText: {
       color: '#007AFF',
-      marginLeft: 4
+      marginLeft: 4,
+      padding: 4
    }
 })

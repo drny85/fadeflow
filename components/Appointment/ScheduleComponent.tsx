@@ -417,25 +417,23 @@ const styles = StyleSheet.create({
       flex: 1, // Make sure each button takes equal width
       alignItems: 'center', // Center the text inside the button
       paddingVertical: 10, // Vertical padding for buttons
-      marginHorizontal: 5, // Small space between buttons
+      marginHorizontal: 4, // Small space between buttons
       borderRadius: 5,
-
+      justifyContent: 'center',
       minWidth: 40 // Ensures each button has a reasonable minimum size
-   },
-   activeDay: {
-      backgroundColor: '#3D5AFE'
    },
 
    activeDayText: {
       color: '#fff',
-      fontSize: 16
+      fontSize: 16,
+      fontWeight: 700
    },
    scheduleContainer: {
       padding: 20,
       borderRadius: 10,
       shadowColor: '#000',
       shadowOpacity: 0.1,
-      shadowRadius: 10,
+      shadowRadius: 8,
       elevation: 5
    },
    dayTitle: {
@@ -457,7 +455,7 @@ const styles = StyleSheet.create({
    input: {
       borderWidth: 1,
       borderColor: '#ddd',
-      padding: 15,
+      padding: 12,
       borderRadius: 5,
       marginBottom: 10
    },

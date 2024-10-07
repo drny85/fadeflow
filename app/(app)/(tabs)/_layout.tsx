@@ -19,7 +19,7 @@ export default function TabLayout() {
       <Tabs
          screenOptions={{
             tabBarActiveTintColor: isDarkColorScheme
-               ? colors.accent
+               ? colors.primary
                : colors.grey,
             tabBarInactiveTintColor: isDarkColorScheme
                ? '#ffffff'

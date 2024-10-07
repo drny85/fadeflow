@@ -33,6 +33,7 @@ import { usePhoto } from '~/hooks/usePhoto'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
+import * as Linking from 'expo-linking'
 
 const IMAGE_HEIGHT = 100
 export default function CustomerModernSettingsPage() {
@@ -245,7 +246,22 @@ export default function CustomerModernSettingsPage() {
                <TouchableOpacity
                   onPress={() => {
                      // handle onPress
-                     Alert.alert('Upcoming feature')
+                     Linking.canOpenURL(
+                        `mailto:${process.env.EXPO_PUBLIC_CONTACT_EMAIL}`
+                     )
+                        .then((supported) => {
+                           if (supported) {
+                              Linking.openURL(
+                                 `mailto:${process.env.EXPO_PUBLIC_CONTACT_EMAIL}`
+                              )
+                           } else {
+                              console.log(
+                                 "Don't know how to open URI: " +
+                                    process.env.EXPO_PUBLIC_CONTACT_EMAIL
+                              )
+                           }
+                        })
+                        .catch((err) => console.error('An error occurred', err))
                   }}
                   style={[styles.row, { backgroundColor: colors.card }]}
                >

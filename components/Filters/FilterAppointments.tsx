@@ -48,7 +48,7 @@ const FilterAppointments = () => {
             enablePanDownToClose
          >
             <View className="flex-1 p-6 justify-center">
-               <Text variant="title2">Filter Appointments</Text>
+               <Text variant="title2">Filter Appointments By</Text>
 
                <FilterItems appointments={appointments} onPress={applyFilter} />
             </View>

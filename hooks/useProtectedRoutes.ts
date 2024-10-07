@@ -11,7 +11,6 @@ const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS as string
 
 export function useProtectedRoute() {
    const segments = useSegments()
-
    const router = useRouter()
    useUser()
    const [mounted, setMounted] = useState(false)

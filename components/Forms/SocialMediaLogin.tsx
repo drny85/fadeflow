@@ -89,6 +89,7 @@ const SignInComponent: React.FC<Props> = ({ isBarber }) => {
                if (created) {
                   if (params && params.returnUrl) {
                      router.canDismiss() && router.dismiss()
+                     console.log(params)
                      router.replace(params.returnUrl as any)
                   }
                }

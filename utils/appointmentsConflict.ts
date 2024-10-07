@@ -14,6 +14,7 @@ export const appointmentsConflict = (
             isSameDay(a.date, appointmentDate) &&
             !isPast(a.date) &&
             a.customer.id === userId &&
-            a.status !== 'completed'
+            a.status !== 'completed' &&
+            a.status !== 'cancelled'
       )
       .some((app) => isBefore(app.date, addMinutes(appointmentDate, duration)))
