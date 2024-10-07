@@ -48,7 +48,7 @@ const Day: React.FC<DayProps> = ({
             setSelectedTimeSlot(null)
             setIndex(0)
          }}
-         className={`my-1 items-center rounded-lg ${isSelected ? 'bg-primary' : isOff && !user?.isBarber ? 'bg-grey border-2 border-dashed border-slate-400' : isOff && user?.isBarber && ignorePast ? 'border-2 border-destructive border-dashed' : 'bg-card'}`}
+         className={`my-1 items-center rounded-lg ${isSelected ? 'bg-primary' : isOff && !user?.isBarber ? 'bg-grey border-2 border-dashed border-slate-400' : isOff && user?.isBarber && ignorePast ? 'border-2 border-gray border-double' : 'bg-card'}`}
       >
          <Animated.View
             entering={SlideInRight}
@@ -61,9 +61,10 @@ const Day: React.FC<DayProps> = ({
                {format(date, 'E')}
             </Text>
             <Text
-               className={`${isSelected ? 'font-semibold text-white' : ''} ${isPast ? 'opacity-35' : ''} `}
+               className={`${isSelected ? 'font-semibold text-white' : ''} ${isPast || isOff ? 'opacity-35' : ''} `}
             >
-               {format(date, 'dd')}
+               {/* {format(date, 'dd')} */}
+               {isOff ? 'Off' : format(date, 'dd')}
             </Text>
          </Animated.View>
          {hasAppointments && user?.isBarber && (
@@ -209,8 +210,7 @@ const WeekSelector: React.FC<Props> = ({
                      (d) =>
                         d.allDay && d.date === date.toISOString().split('T')[0]
                   ) !== -1
-               const dayOff =
-                  (schedule[day] as { isOff: boolean }).isOff || allDay
+               const dayOff = schedule[day].isOff || allDay
                return (
                   <Day
                      key={index}

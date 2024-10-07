@@ -23,6 +23,7 @@ const _layout = () => {
                      />
                   </TouchableOpacity>
                ),
+
                headerRight: () => <FilterComponent />,
                animation: 'slide_from_bottom',
                ...StackScreenWithSearchBar(colors.background, colorScheme)

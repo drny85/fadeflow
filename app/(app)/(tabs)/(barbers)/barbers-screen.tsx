@@ -7,10 +7,12 @@ import BarbersSkelenton from '~/components/Skeletons/BarbersSkeleton'
 import { Text } from '~/components/nativewindui/Text'
 import { useLocation } from '~/hooks/useLocation'
 import { useNavigationSearch } from '~/hooks/useNavigationSeach'
+import { useReviews } from '~/hooks/useReviews'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import { Barber } from '~/shared/types'
+import { Barber, BarbersFiltered } from '~/shared/types'
+import { getReviews } from '~/utils'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
 
 type BarberWithDistance = Barber & {
@@ -19,8 +21,9 @@ type BarberWithDistance = Barber & {
 
 const BarbersPage = () => {
    const { location, loading: locationLoading } = useLocation()
-   const { barbers: data, loading } = useBarbersStore()
+   const { barbers: data, loading, barbersFilter } = useBarbersStore()
    const { isDarkColorScheme, colors } = useColorScheme()
+   const { reviews } = useReviews()
 
    const search = useNavigationSearch({
       searchBarOptions: {
@@ -28,7 +31,7 @@ const BarbersPage = () => {
          tintColor: isDarkColorScheme ? '#dedede' : colors.accent
       }
    })
-   const barbers: BarberWithDistance[] = useMemo(() => {
+   const barbers: BarberWithDistance[] | BarbersFiltered[] = useMemo(() => {
       if (!location) return data.map((b) => ({ ...b, distance: null }))
       return data
          .map((b) => {
@@ -45,11 +48,37 @@ const BarbersPage = () => {
    }, [data, location])
 
    const searchData = useMemo(() => {
-      if (!search) return barbers
+      if ((!search && barbersFilter === null) || !location) return barbers
+      let filteredBarbers: BarbersFiltered[] = []
+      if (barbersFilter !== null) {
+         const { distance, isAvailable, rating } = barbersFilter
+
+         filteredBarbers = barbers
+            .map((b) => {
+               return {
+                  ...b,
+                  distance: distance,
+                  rating: getReviews(b.id, reviews)
+               }
+            })
+            .filter(
+               (barber) =>
+                  barber.distance <= distance && barber.rating >= rating
+            ) as BarbersFiltered[]
+
+         if (isAvailable) {
+            filteredBarbers = filteredBarbers.filter(
+               (barber) => barber.isAvailable
+            )
+         }
+
+         return filteredBarbers
+      }
+
       return barbers.filter((b) =>
          b.name.toLowerCase().includes(search.toLowerCase())
       )
-   }, [search, barbers])
+   }, [search, barbers, barbersFilter])
 
    useStatusBarColor('dark')
 

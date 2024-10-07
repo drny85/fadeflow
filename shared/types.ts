@@ -106,6 +106,18 @@ export type Appointment = {
    reminderSent: boolean
 }
 
+export type BarberFilter = {
+   distance: number
+   isAvailable: boolean
+   rating: number
+}
+
+export type BarbersFiltered = Barber & {
+   distance: number
+   rating: number
+   available: boolean
+}
+
 export type Response = {
    success: boolean
    result: string | null

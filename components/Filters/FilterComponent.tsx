@@ -12,95 +12,53 @@ import {
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
 
-import { useLocation } from '~/hooks/useLocation'
-import { useReviews } from '~/hooks/useReviews'
+import { AnimatePresence, MotiView } from 'moti'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import { Barber, Days } from '~/shared/types'
-import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
-import { format } from 'date-fns'
-
-type BarberFiltered = Barber & {
-   distance: number
-   rating: number
-   available: boolean
-}
+import { Barber } from '~/shared/types'
 
 const FilterComponent = () => {
-   const { loading, location } = useLocation()
    const { colors, isDarkColorScheme } = useColorScheme()
-   const { reviews } = useReviews()
+   const { barbersFilter, setBarbersFilter } = useBarbersStore()
+
    const snapPoints = useMemo(() => ['75%'], [])
    const bottomSheetRef = useSheetRef()
-   const { barbers } = useBarbersStore()
-   const [distance, setDistance] = useState(10)
+   const [distance, setDistance] = useState(3)
    const [rating, setRating] = useState(4)
    const [isAvailable, setIsAvailable] = useState(false)
-   const [isFiltered, setIsFiltred] = useState(false)
-
-   const getReviews = (barber: Barber): number => {
-      return (
-         reviews
-            .filter((r) => r.barberId === barber?.id)
-            .reduce((acc, curr) => acc + curr.rating, 0) / reviews.length || 0
-      )
-   }
-
-   const checkIfScheuleIsAvailableToday = (barber: Barber) => {
-      // Implement the logic to check if the barber is available today
-      const today = format(new Date(), 'E') as Days
-      return !barber.schedule[today].isOff
-   }
-
-   const barbersCopy = useMemo(() => {
-      if (!location)
-         return barbers.map((b) => ({ ...barbers, distance: 0, rating: 0 }))
-      return [
-         ...barbers.map((barber) => {
-            return {
-               ...barber,
-               distance: +getDistanceFromLatLonInMeters(
-                  barber.profile?.coords!,
-                  {
-                     lat: location?.coords.latitude!,
-                     lng: location?.coords.longitude
-                  }
-               ).toFixed(1),
-               rating: barber.name.includes('Breidys') ? 4 : getReviews(barber),
-               available: checkIfScheuleIsAvailableToday(barber)
-            }
-         })
-      ] as BarberFiltered[]
-   }, [barbers, location])
 
    const applyFilter = () => {
       console.log({ distance, isAvailable, rating })
-      let filteredBarbers: BarberFiltered[] = []
-      filteredBarbers = barbersCopy.filter((barber) => {
-         return barber.distance <= distance && barber.rating >= rating
-      }) as BarberFiltered[]
-      if (isAvailable) {
-         filteredBarbers = filteredBarbers.filter((barber) => barber.available)
-      }
-      // Handle the filtering logic based on the current states
-      console.log(JSON.stringify(filteredBarbers.length, null, 2))
-      setIsFiltred((prev) => !prev)
+      setBarbersFilter({ distance, isAvailable, rating })
       bottomSheetRef.current?.close()
    }
-
-   if (loading) return null
 
    return (
       <View>
          <View className="flex-row items-center gap-3">
+            <AnimatePresence>
+               {barbersFilter !== null && (
+                  <MotiView
+                     from={{ opacity: 0, scale: 0 }}
+                     animate={{ opacity: 1, scale: 1 }}
+                     transition={{ type: 'timing' }}
+                     exit={{ opacity: 0, scale: 0 }}
+                  >
+                     <TouchableOpacity onPress={() => setBarbersFilter(null)}>
+                        <Text className="font-bold text-blue-500">Clear</Text>
+                     </TouchableOpacity>
+                  </MotiView>
+               )}
+            </AnimatePresence>
             <TouchableOpacity
                onPress={() => {
-                  setIsFiltred(false)
                   bottomSheetRef.current?.present()
                }}
             >
                <MaterialIcons
-                  name={isFiltered ? 'filter-alt' : 'filter-alt-off'}
+                  name={
+                     barbersFilter !== null ? 'filter-alt' : 'filter-alt-off'
+                  }
                   size={26}
                   color={isDarkColorScheme ? '#ffffff' : colors.accent}
                />
