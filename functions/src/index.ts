@@ -381,15 +381,11 @@ exports.deleteUser = onCall(
 )
 
 exports.sendAppointmentReminder = functions.pubsub
-   .schedule('*/5 * * * *')
+   .schedule('*/15 * * * *')
    .timeZone('America/New_York')
    .onRun(async (context) => {
       try {
-         logger.log(
-            'Reminder started',
-            format(context.timestamp, 'PPpp'),
-            format(new Date(), 'PPpp')
-         )
+         logger.log('Reminder started', format(context.timestamp, 'PPpp'))
          await notificationReminder()
       } catch (error) {
          logger.error(error)

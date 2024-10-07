@@ -1,12 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import {
-   addDays,
-   addMinutes,
-   differenceInDays,
-   format,
-   isPast,
-   isToday
-} from 'date-fns'
+import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { useMemo } from 'react'
@@ -30,7 +23,6 @@ import { shareBarberLink } from '~/utils/shareBarberLink'
 const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
 
 const BarberHome = () => {
-   console.log(format(new Date('2024-10-07T20:16:00.000Z'), 'PPpp'))
    const { user } = useAuth()
    const { colors } = useColorScheme()
    const daysRemaining = differenceInDays(
@@ -77,9 +69,6 @@ const BarberHome = () => {
    }, 0)
    const completedAppointments = appointmentsData.filter(
       (appointment) => appointment.status === 'completed'
-   )
-   const confirmedAppointments = todayAppoinments.filter(
-      (appointment) => appointment.status === 'confirmed'
    )
 
    const donePercentage =

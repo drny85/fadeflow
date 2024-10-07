@@ -15,8 +15,11 @@ const getTimeWindow = () => {
    const toNewYorkTime = moment(now.toDate()).tz('America/New_York')
    const twoHours = toNewYorkTime.clone().add(2, 'hours')
 
-   const fiveMinutesAfter = twoHours.clone().add(5, 'minutes')
-   return { start: twoHours.toISOString(), end: fiveMinutesAfter.toISOString() }
+   const fifteenMinutesAfter = twoHours.clone().add(15, 'minutes')
+   return {
+      start: twoHours.toISOString(),
+      end: fifteenMinutesAfter.toISOString()
+   }
 }
 
 export const notificationReminder = async (): Promise<any> => {
@@ -24,7 +27,6 @@ export const notificationReminder = async (): Promise<any> => {
       const { start, end } = getTimeWindow()
       const startDate = moment(start).tz('America/New_York').toISOString()
       const endDate = moment(end).tz('America/New_York').toISOString()
-      console.log('BETWEEN', startDate, endDate)
 
       const db = getFirestore()
       const appointmentsRef = db.collection('appointments')

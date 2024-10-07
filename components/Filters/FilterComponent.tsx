@@ -16,12 +16,14 @@ import { useLocation } from '~/hooks/useLocation'
 import { useReviews } from '~/hooks/useReviews'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import { Barber } from '~/shared/types'
+import { Barber, Days } from '~/shared/types'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
+import { format } from 'date-fns'
 
 type BarberFiltered = Barber & {
    distance: number
    rating: number
+   available: boolean
 }
 
 const FilterComponent = () => {
@@ -44,6 +46,12 @@ const FilterComponent = () => {
       )
    }
 
+   const checkIfScheuleIsAvailableToday = (barber: Barber) => {
+      // Implement the logic to check if the barber is available today
+      const today = format(new Date(), 'E') as Days
+      return !barber.schedule[today].isOff
+   }
+
    const barbersCopy = useMemo(() => {
       if (!location)
          return barbers.map((b) => ({ ...barbers, distance: 0, rating: 0 }))
@@ -58,7 +66,8 @@ const FilterComponent = () => {
                      lng: location?.coords.longitude
                   }
                ).toFixed(1),
-               rating: getReviews(barber)
+               rating: barber.name.includes('Breidys') ? 4 : getReviews(barber),
+               available: checkIfScheuleIsAvailableToday(barber)
             }
          })
       ] as BarberFiltered[]
@@ -66,11 +75,15 @@ const FilterComponent = () => {
 
    const applyFilter = () => {
       console.log({ distance, isAvailable, rating })
-      const filtered = barbersCopy.filter((barber) => {
+      let filteredBarbers: BarberFiltered[] = []
+      filteredBarbers = barbersCopy.filter((barber) => {
          return barber.distance <= distance && barber.rating >= rating
-      })
+      }) as BarberFiltered[]
+      if (isAvailable) {
+         filteredBarbers = filteredBarbers.filter((barber) => barber.available)
+      }
       // Handle the filtering logic based on the current states
-      console.log(JSON.stringify(filtered, null, 2))
+      console.log(JSON.stringify(filteredBarbers.length, null, 2))
       setIsFiltred((prev) => !prev)
       bottomSheetRef.current?.close()
    }
@@ -138,7 +151,7 @@ const FilterComponent = () => {
 
                {/* Availability Filter */}
                <View style={styles.filterRow}>
-                  <Text className="text-lg mb-1">Available Now:</Text>
+                  <Text className="text-lg mb-1">Available Today:</Text>
                   <Switch
                      value={isAvailable}
                      onValueChange={setIsAvailable}

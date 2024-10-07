@@ -28,18 +28,6 @@ export const COORDS = {
    latitude: 40.83728,
    longitude: -73.90757
 }
-export const initialBlockedDates: BlockTimeParams[] = [
-   {
-      allDay: true,
-      date: '2024-10-22'
-   },
-   {
-      allDay: false,
-      date: '2024-10-14',
-      start: new Date('2024-10-01T17:00:00.000Z'),
-      end: new Date('2024-10-02T21:00:00.000Z')
-   }
-]
 
 export const DEFAULT_SCHEDULE: Schedule = {
    Sun: {
@@ -88,7 +76,6 @@ export const DEFAULT_SCHEDULE: Schedule = {
 
 export const ICON_IMAGES: IconImageType = {
    haircut: require('~/assets/images/haircut.png'),
-   shave: require('~/assets/images/shave.png'),
    beardTrimming: require('~/assets/images/beard-trimming.png'),
    kids: require('~/assets/images/kid.png'),
    lotion: require('~/assets/images/lotion.png'),

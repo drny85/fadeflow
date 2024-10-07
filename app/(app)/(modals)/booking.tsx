@@ -50,6 +50,7 @@ const BookingPage = () => {
 
    const barber = barbers.find((barber) => barber.id === barberId)
    const [phone, setPhone] = useState(user?.phone)
+   const [name, setName] = useState(user?.name)
    const bottomSheetModalRef = useSheetRef()
    const bottomSheetModalRef2 = useSheetRef()
    const bottomSheetModalRefConfirm = useSheetRef()
@@ -100,7 +101,7 @@ const BookingPage = () => {
          })
          return
       }
-      if (phone?.length !== 14) {
+      if (phone?.length !== 14 || !name) {
          bottomSheetModalRef2.current?.present()
          return
       }
@@ -226,7 +227,7 @@ const BookingPage = () => {
          if (barber?.schedule) {
             const shortDay = format(selectedDate, 'E') as Days
             const isDayOff = (barber?.schedule[shortDay]).isOff
-            console.log('IsOFF', isDayOff)
+
             if (isDayOff) {
                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
                return toastMessage({
@@ -301,8 +302,8 @@ const BookingPage = () => {
             preset: 'done',
             duration: 2
          })
-         if (user && phone) {
-            await updateUser({ ...user, phone })
+         if (user && !user.phone && phone && name) {
+            await updateUser({ ...user, phone, name })
          }
 
          bottomSheetModalRef.current?.close()
@@ -337,8 +338,9 @@ const BookingPage = () => {
    }, [appointmentId])
 
    useEffect(() => {
+      if (user?.name) setName(user.name)
       if (user?.phone) setPhone(user.phone)
-   }, [user?.phone])
+   }, [user?.phone, user?.name])
 
    if (!barber || loading) return null
 
@@ -446,20 +448,29 @@ const BookingPage = () => {
                />
             </View>
          </View>
-         <Sheet ref={bottomSheetModalRef2} snapPoints={['60%']}>
+         <Sheet ref={bottomSheetModalRef2} snapPoints={['70%']}>
             <View className="flex-1 gap-4 p-3">
                <Text variant="title3" className="ml-2">
-                  Phone Number is required
+                  Name & Number are required
                </Text>
+               <BottomSheetTextInput
+                  className={`m-2 border-b-[1px] border-slate-300 bg-card p-2 text-black dark:text-slate-100 font-roboto text-lg ${phone?.length === 14 ? 'border-green-600' : 'border-slate-300'}`}
+                  placeholder="John Smith"
+                  autoCapitalize="words"
+                  autoFocus={!user?.name}
+                  value={name}
+                  onChangeText={(text) => setName(text)}
+               />
                <BottomSheetTextInput
                   className={`m-2 border-b-[1px] border-slate-300 bg-card p-2 text-black dark:text-slate-100 font-roboto text-lg ${phone?.length === 14 ? 'border-green-600' : 'border-slate-300'}`}
                   placeholder="(646) 555-4444"
                   keyboardType="numeric"
+                  autoFocus={user?.name !== undefined && !user.phone}
                   value={phone}
                   onChangeText={(text) => setPhone(formatPhone(text))}
                />
                <Button
-                  disabled={phone?.length !== 14}
+                  disabled={phone?.length !== 14 || !name}
                   title="Save"
                   style={{ opacity: phone?.length === 14 ? 1 : 0.5 }}
                   onPress={() => bottomSheetModalRef2.current?.close()}

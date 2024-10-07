@@ -133,13 +133,13 @@ const AppointmentsPage = () => {
                ListEmptyComponent={
                   <View className="mx-3 gap-10">
                      <Text className=" mt-10 text-center text-xl text-muted">
-                        No Appointments Scheduled
+                        No Appointments Scheduled-
                      </Text>
                      {selectedIndex === 1 && (
                         <View className="w-1/2 self-center">
                            <Button
                               title="Book Appointment"
-                              onPress={() => router.push('/barbers-screen')}
+                              onPress={() => router.push('/quick-booking')}
                            />
                         </View>
                      )}

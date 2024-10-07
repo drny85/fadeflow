@@ -112,7 +112,6 @@ export type Response = {
 }
 export type IconNames =
    | 'haircut'
-   | 'shave'
    | 'beardTrimming'
    | 'kids'
    | 'lotion'

@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 
 async function onFetchUpdateAsync() {
    try {
+      console.log('UPDATES RAN')
       const update = await Updates.checkForUpdateAsync()
       if (update.isAvailable) {
          await Updates.fetchUpdateAsync()

@@ -2,7 +2,7 @@ import { ExpoConfig } from 'expo/config'
 const config: ExpoConfig = {
    name: 'FadeFlow',
    slug: 'fadeflow',
-   version: '1.0.5',
+   version: '1.0.6',
    scheme: 'fadeflow',
    web: {
       bundler: 'metro',
@@ -69,7 +69,7 @@ const config: ExpoConfig = {
    ios: {
       supportsTablet: false,
       usesAppleSignIn: true,
-      buildNumber: '1.0.0',
+      buildNumber: '1.0.6',
       bundleIdentifier: 'net.robertdev.fadeflow',
       infoPlist: {
          LSApplicationQueriesSchemes: ['tel', 'mailto'],
@@ -114,9 +114,9 @@ const config: ExpoConfig = {
    },
    updates: {
       url: 'https://u.expo.dev/cb7be3e3-9d35-412f-ad3b-064c09c29bfa',
-      enabled: true,
-      checkAutomatically: 'ON_LOAD',
-      fallbackToCacheTimeout: 0
+      requestHeaders: {
+         'expo-channel-name': 'production'
+      }
    },
    extra: {
       eas: {
@@ -130,8 +130,7 @@ const config: ExpoConfig = {
    runtimeVersion: {
       policy: 'appVersion'
    },
-   owner: 'drny85',
-   jsEngine: 'hermes'
+   owner: 'drny85'
 }
 
 export default config
