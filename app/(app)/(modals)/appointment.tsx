@@ -208,6 +208,7 @@ const AppointmentDetails = () => {
                <Button
                   title="Re-Schedule"
                   iconName="calendar-o"
+                  textStyle={{ paddingHorizontal: 12 }}
                   style={{ paddingHorizontal: 30 }}
                   onPress={() => {
                      router.push({

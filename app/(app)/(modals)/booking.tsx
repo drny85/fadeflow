@@ -18,6 +18,7 @@ import BarberImageHeader from '~/components/BarberImageHeader'
 import { Button } from '~/components/Button'
 import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
 import { Text } from '~/components/nativewindui/Text'
+import { SIZES } from '~/constants'
 import { useServices } from '~/hooks/useServices'
 import { useUser } from '~/hooks/useUser'
 import { toastAlert, toastMessage } from '~/lib/toast'
@@ -448,7 +449,11 @@ const BookingPage = () => {
                />
             </View>
          </View>
-         <Sheet ref={bottomSheetModalRef2} snapPoints={['70%']}>
+         <Sheet
+            ref={bottomSheetModalRef2}
+            snapPoints={['70%']}
+            topInset={SIZES.statusBarHeight}
+         >
             <View className="flex-1 gap-4 p-3">
                <Text variant="title3" className="ml-2">
                   Name & Number are required
@@ -457,7 +462,7 @@ const BookingPage = () => {
                   className={`m-2 border-b-[1px] border-slate-300 bg-card p-2 text-black dark:text-slate-100 font-roboto text-lg ${phone?.length === 14 ? 'border-green-600' : 'border-slate-300'}`}
                   placeholder="John Smith"
                   autoCapitalize="words"
-                  autoFocus={!user?.name}
+                  autoFocus={!user?.name && !user?.phone}
                   value={name}
                   onChangeText={(text) => setName(text)}
                />
@@ -465,7 +470,6 @@ const BookingPage = () => {
                   className={`m-2 border-b-[1px] border-slate-300 bg-card p-2 text-black dark:text-slate-100 font-roboto text-lg ${phone?.length === 14 ? 'border-green-600' : 'border-slate-300'}`}
                   placeholder="(646) 555-4444"
                   keyboardType="numeric"
-                  autoFocus={user?.name !== undefined && !user.phone}
                   value={phone}
                   onChangeText={(text) => setPhone(formatPhone(text))}
                />

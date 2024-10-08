@@ -7,6 +7,7 @@ import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import AnimatedNumber from '~/components/AnimatedNumber'
+import WaitingAppoinmentCard from '~/components/Appointment/WaitingAppoinmentCard'
 import { Button } from '~/components/Button'
 import ProgressBar from '~/components/ProgressBar'
 import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
@@ -68,7 +69,11 @@ const BarberHome = () => {
       return total + serviceDuration
    }, 0)
    const completedAppointments = appointmentsData.filter(
-      (appointment) => appointment.status === 'completed'
+      (appointment) =>
+         appointment.status === 'completed' && isPast(appointment.date)
+   )
+   const confirmedAppointments = appointmentsData.filter(
+      (a) => a.status === 'confirmed' && isPast(a.date)
    )
 
    const donePercentage =
@@ -205,7 +210,9 @@ const BarberHome = () => {
                         out of {todayAppoinments.length}
                      </Text>
                      <ProgressBar
-                        value={donePercentage > 0 ? donePercentage : 0.0}
+                        value={
+                           donePercentage > 0 ? +donePercentage.toFixed(1) : 0.0
+                        }
                      />
                   </View>
                )}
@@ -304,98 +311,21 @@ const BarberHome = () => {
                            </View>
                         )}
                      </View>
+                     <WaitingAppoinmentCard
+                        title="Waiting for confirmation"
+                        appointments={waitinfForConfirmation}
+                     />
 
-                     <View className="rounded-md bg-card p-2 shadow-sm mb-3">
-                        <Text variant="title3">
-                           Waiting for confirmation (
-                           {waitinfForConfirmation.length})
-                        </Text>
-                        <FlatList
-                           data={waitinfForConfirmation.sort((a, b) =>
-                              a.date > b.date ? 1 : -1
-                           )}
-                           horizontal
-                           showsHorizontalScrollIndicator={false}
-                           ListEmptyComponent={
-                              <View className="p-2">
-                                 <Text className="text-muted capitalize dark:text-slate-300">
-                                    All appointments have been confirmed
-                                 </Text>
-                              </View>
-                           }
-                           renderItem={({ item }) => {
-                              return (
-                                 <TouchableOpacity
-                                    onPress={() =>
-                                       router.push({
-                                          pathname: '/barber-appointment-view',
-                                          params: {
-                                             appointmentId: item.id
-                                          }
-                                       })
-                                    }
-                                    className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
-                                 >
-                                    <Text className="font-semibold">
-                                       {format(item.date, 'eee')} (
-                                       <Text className="text-sm text-muted dark:text-slate-400">
-                                          {' '}
-                                          {format(item.date, 'dd')})
-                                       </Text>
-                                    </Text>
-                                    <Text>{item.startTime}</Text>
-                                 </TouchableOpacity>
-                              )
-                           }}
-                        />
-                     </View>
-                     {completedAppointments.length > 0 && (
-                        <View className="rounded-md bg-card p-2 shadow-sm">
-                           <Text variant="title3">
-                              Waiting to cash out (
-                              {completedAppointments.length})
-                           </Text>
-                           <FlatList
-                              data={completedAppointments.sort((a, b) =>
-                                 a.date > b.date ? 1 : -1
-                              )}
-                              horizontal
-                              contentContainerClassName="mb-3"
-                              ListEmptyComponent={
-                                 <View className="p-2">
-                                    <Text className="text-muted dark:text-slate-300">
-                                       No data
-                                    </Text>
-                                 </View>
-                              }
-                              renderItem={({ item }) => {
-                                 return (
-                                    <TouchableOpacity
-                                       onPress={() =>
-                                          router.push({
-                                             pathname:
-                                                '/barber-appointment-view',
-                                             params: {
-                                                appointmentId: item.id
-                                             }
-                                          })
-                                       }
-                                       className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
-                                    >
-                                       <Text className="font-semibold">
-                                          {format(item.date, 'eee')} (
-                                          <Text className="text-sm text-muted dark:text-slate-400">
-                                             {' '}
-                                             {format(item.date, 'dd')})
-                                          </Text>
-                                       </Text>
-                                       <Text>{item.startTime}</Text>
-                                    </TouchableOpacity>
-                                 )
-                              }}
-                           />
-                        </View>
-                     )}
+                     <WaitingAppoinmentCard
+                        appointments={confirmedAppointments}
+                        title="Waiting to for completion"
+                     />
+                     <WaitingAppoinmentCard
+                        title="Waiting to cash out"
+                        appointments={confirmedAppointments.filter(
+                           (a) => !isPast(a.date)
+                        )}
+                     />
                   </View>
                )}
             </ScrollView>
