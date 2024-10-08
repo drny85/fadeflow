@@ -180,10 +180,9 @@ const AppointmentDetails = () => {
                className="flex-row justify-evenly"
             >
                <Button
-                  textStyle={{ color: 'orange' }}
+                  textStyle={{ color: 'orange', paddingHorizontal: 12 }}
                   style={{
-                     backgroundColor: '#fff',
-                     paddingHorizontal: 30
+                     backgroundColor: '#fff'
                   }}
                   title="Cancel"
                   onPress={() =>

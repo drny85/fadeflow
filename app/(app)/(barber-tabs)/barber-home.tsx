@@ -1,36 +1,28 @@
-import { Feather } from '@expo/vector-icons'
 import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns'
-import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { useMemo } from 'react'
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
-import AnimatedNumber from '~/components/AnimatedNumber'
+import { ScrollView, View } from 'react-native'
 import WaitingAppoinmentCard from '~/components/Appointment/WaitingAppoinmentCard'
 import { Button } from '~/components/Button'
+import HomeBarberHeader from '~/components/HomeBarberHeader'
 import ProgressBar from '~/components/ProgressBar'
 import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { Text } from '~/components/nativewindui/Text'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
-import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter'
-import { convertMinutesToHours } from '~/utils/convertMinutesIntoHours'
-import { shareBarberLink } from '~/utils/shareBarberLink'
 
 const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
 
 const BarberHome = () => {
    const { user } = useAuth()
-   const { colors } = useColorScheme()
    const daysRemaining = differenceInDays(
       addDays(user?.createdAt!, +DAYS),
       new Date()
    )
-   const { top } = useSafeAreaInsets()
+
    const { services, loading } = useServices(user?.id!)
    const data = useAppointmentStore((s) => s.appointments)
    const appointments = data.filter(
@@ -111,89 +103,11 @@ const BarberHome = () => {
    return (
       <View className="flex-1 bg-background">
          <View className="flex-1 gap-2">
-            <View
-               style={{
-                  paddingTop: top,
-                  height: '45%',
-                  shadowOffset: { height: 3, width: 0 },
-                  shadowColor: colors.grey,
-                  shadowOpacity: 0.5,
-                  shadowRadius: 5,
-                  elevation: 5
-               }}
-               className="rounded-3xl bg-accent p-2"
-            >
-               <View className="flex-row items-center justify-between">
-                  <TouchableOpacity
-                     onPress={() => router.replace('/barber-profile')}
-                  >
-                     <Image
-                        source={
-                           user?.image
-                              ? { uri: user.image }
-                              : require('~/assets/images/banner.png')
-                        }
-                        style={{
-                           height: 60,
-                           width: 60,
-                           borderRadius: 30,
-                           objectFit: 'cover'
-                        }}
-                     />
-                  </TouchableOpacity>
-                  <Text className="font-raleway text-2xl text-white">
-                     Hi {user?.name?.split(' ')[0]}
-                  </Text>
-                  {user && (
-                     <TouchableOpacity
-                        onPress={() => shareBarberLink(user?.id!)}
-                        className="h-10 w-10 items-center justify-center rounded-full bg-slate-200 p-1"
-                     >
-                        <Feather name="share" size={26} color={colors.accent} />
-                     </TouchableOpacity>
-                  )}
-               </View>
-               <Text className="mt-2 text-center text-white">
-                  {new Date().toDateString()}
-               </Text>
-               {services.length > 0 &&
-                  user?.isBarber &&
-                  (user.subscriptionStatus === 'active' ||
-                     user.subscriptionStatus === 'trialing') && (
-                     <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
-                        <Text className="text-white" variant="title3">
-                           Today's Estimated
-                        </Text>
-                        <AnimatedNumber
-                           textStyle={{ fontSize: 32, color: 'white' }}
-                           value={allAppointments}
-                        />
-                        <View className="w-full flex-row justify-evenly">
-                           <View className="items-center justify-center">
-                              <Text className="text-slate-300">Pending</Text>
-                              <AnimatedNumber
-                                 value={allAppointments - confirmedTotal}
-                                 textStyle={{ color: 'white' }}
-                              />
-                           </View>
-                           <View className="items-center justify-center">
-                              <Text className="text-muted text-slate-300">
-                                 Earned
-                              </Text>
-                              <AnimatedNumber
-                                 value={confirmedTotal}
-                                 textStyle={{ color: 'white' }}
-                              />
-                           </View>
-                        </View>
-                        {totalHours > 0 && (
-                           <Text className="text-white font-roboto-bold">
-                              Total Hrs: {convertMinutesToHours(totalHours)}
-                           </Text>
-                        )}
-                     </View>
-                  )}
-            </View>
+            <HomeBarberHeader
+               totalHours={totalHours}
+               confirmedTotal={confirmedTotal}
+               allAppointments={allAppointments}
+            />
             <ScrollView
                className="flex-1"
                contentContainerStyle={{ marginBottom: 16, gap: 16 }}
@@ -285,7 +199,7 @@ const BarberHome = () => {
                   </View>
                )}
                {services.length > 0 && (
-                  <View>
+                  <View className="gap-3">
                      <View className="bg-card p-2">
                         <Text variant="title3">Next Appointment</Text>
                         {myNextAppointment ? (

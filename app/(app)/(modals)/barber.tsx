@@ -87,7 +87,7 @@ const BarberDetails = () => {
             title: 'No Completed Appointment',
             message:
                'You must have a completed appointment with this barber to leave a review',
-            duration: 4,
+            duration: 3,
             preset: 'error'
          })
          return

@@ -15,7 +15,6 @@ import { Text } from '../nativewindui/Text'
 import { AnimatePresence, MotiView } from 'moti'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import { Barber } from '~/shared/types'
 
 const FilterComponent = () => {
    const { colors, isDarkColorScheme } = useColorScheme()

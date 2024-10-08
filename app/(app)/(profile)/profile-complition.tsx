@@ -1,9 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { router } from 'expo-router'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { ScrollView, View } from 'react-native'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import {
+   GooglePlacesAutocomplete,
+   GooglePlacesAutocompleteRef
+} from 'react-native-google-places-autocomplete'
 import { z } from 'zod'
 
 import { updateUser } from '~/actions/users'
@@ -38,6 +41,7 @@ type Profile = z.infer<typeof profileScheme>
 
 const ProfileComplition = () => {
    const { user } = useAuth()
+   const googleRef = useRef<GooglePlacesAutocompleteRef>(null)
    const { colors, isDarkColorScheme } = useColorScheme()
    const profile = user?.isBarber && user.profile
    const {
@@ -81,6 +85,14 @@ const ProfileComplition = () => {
          console.log(error)
       }
    }
+
+   useEffect(() => {
+      if (user?.isBarber) {
+         if (user.profile?.address) {
+            googleRef.current?.setAddressText(user.profile.address)
+         }
+      }
+   }, [user])
    return (
       <KeyboardScreen style={{ flex: 1 }}>
          <ScrollView
@@ -103,6 +115,7 @@ const ProfileComplition = () => {
             />
             <GooglePlacesAutocomplete
                disableScroll
+               ref={googleRef}
                placeholder="Address"
                onPress={(data, details = null) => {
                   // 'details' is provided when fetchDetails = true

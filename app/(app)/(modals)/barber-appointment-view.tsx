@@ -196,10 +196,9 @@ const BarberAppointmentView = () => {
                className="flex-row justify-evenly"
             >
                <Button
-                  textStyle={{ color: 'orange' }}
+                  textStyle={{ color: 'orange', paddingHorizontal: 12 }}
                   style={{
-                     backgroundColor: '#fff',
-                     paddingHorizontal: 30
+                     backgroundColor: '#fff'
                   }}
                   title="Cancel"
                   onPress={() =>
@@ -224,7 +223,8 @@ const BarberAppointmentView = () => {
                <Button
                   title="Confirm"
                   iconName="thumbs-up"
-                  style={{ paddingHorizontal: 30 }}
+                  style={{ paddingHorizontal: 10 }}
+                  textStyle={{ paddingHorizontal: 20 }}
                   onPress={async () => {
                      const updated = await updateAppointmentInDatabase({
                         ...appointment,

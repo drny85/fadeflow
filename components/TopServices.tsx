@@ -32,7 +32,7 @@ const TopServices: React.FC<TopServicesProps> = ({ services }) => {
          )}
          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {services
-               .sort((a, b) => (a.id! > b.id! ? 1 : -1))
+               .sort((a, b) => (a.price! < b.price! ? 1 : -1))
                .map((service, index) => (
                   <TouchableOpacity
                      onPress={() => {
