@@ -5,6 +5,7 @@
    },
    "build": {
       "development": {
+         "bun": "1.1.29",
          "channel": "development",
          "developmentClient": true,
          "distribution": "internal",

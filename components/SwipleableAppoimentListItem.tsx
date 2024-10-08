@@ -10,6 +10,7 @@ import { handleAppointmentUpdates } from '~/actions/appointments'
 import { useAuth } from '~/providers/AuthContext'
 import { Appointment } from '~/shared/types'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    item: Appointment
@@ -29,6 +30,7 @@ const SwipleableAppoimentListItem = ({
    dateTextStyle
 }: Props) => {
    const { user } = useAuth()
+   const translate = useTranslate()
    const handleCancelBack = async (): Promise<boolean> => {
       try {
          if (item.status === 'pending') {
@@ -116,7 +118,9 @@ const SwipleableAppoimentListItem = ({
                   className={`${item.status === 'confirmed' ? 'bg-green-400' : item.status === 'pending' ? 'bg-orange-400' : item.status === 'cancelled' ? 'bg-primary' : 'bg-gray-400'} w-1/4 rounded-2xl p-1 px-2`}
                >
                   <Text className="text-center text-sm font-semibold capitalize text-white">
-                     {item.status}
+                     {translate(
+                        `appointment.filter.${item.status.charAt(0).toUpperCase() + item.status.slice(1)}`
+                     )}
                   </Text>
                </View>
             </TouchableOpacity>

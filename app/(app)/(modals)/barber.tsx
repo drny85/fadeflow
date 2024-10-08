@@ -18,6 +18,7 @@ import TopServices from '~/components/TopServices'
 import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
 import { Text } from '~/components/nativewindui/Text'
 import { useServices } from '~/hooks/useServices'
+import { useTranslate } from '~/hooks/useTranslation'
 import { toastAlert } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
@@ -33,6 +34,7 @@ type ParamsProps = {
 const VALUES = ['Info', 'Gallery', 'Reviews']
 
 const BarberDetails = () => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const { barberId } = useLocalSearchParams<ParamsProps>()
    const { loading, services } = useServices(barberId)
@@ -141,7 +143,9 @@ const BarberDetails = () => {
             >
                <View className="gap-7">
                   <View className="mt-2 gap-1">
-                     <Text variant="title3">About {barber.name}</Text>
+                     <Text variant="title3">
+                        {translate('barber.about', { name: barber.name })}
+                     </Text>
                      <Text className="opacity-60">
                         {barber.bio || barber.profile?.bio}
                      </Text>
@@ -151,8 +155,8 @@ const BarberDetails = () => {
 
                   {services.length > 0 && selectedServices.length > 0 && (
                      <View className="gap-3 rounded-lg bg-card p-2">
-                        <Text variant="title3">
-                           Available Appointments Today
+                        <Text variant="title3" className="capitalize">
+                           {translate('appointment.available_today')}
                         </Text>
                         <TimeSlotPickerComponent
                            barber={barber}

@@ -13,12 +13,14 @@ import { ICON_IMAGES, SIZES } from '~/constants'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Service } from '~/shared/types'
+import { useTranslate } from '~/hooks/useTranslation'
 
 interface TopServicesProps {
    services: Service[]
 }
 
 const TopServices: React.FC<TopServicesProps> = ({ services }) => {
+   const translate = useTranslate()
    const [selected, setSelected] = useState<string>('')
    const { isDarkColorScheme } = useColorScheme()
    const setSelectedService = useAppointmentFlowStore(
@@ -26,9 +28,11 @@ const TopServices: React.FC<TopServicesProps> = ({ services }) => {
    )
    return (
       <View className="gap-2 rounded-xl bg-card p-3">
-         <Text variant="title3">Top Services</Text>
+         <Text variant="title3">{translate('barber.top_services')}</Text>
          {services.length === 0 && (
-            <Text className="mt-1 text-muted">No services listed</Text>
+            <Text className="mt-1 text-muted">
+               {translate('barber.no_services')}
+            </Text>
          )}
          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {services

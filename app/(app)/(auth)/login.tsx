@@ -8,6 +8,7 @@ import SignInComponent from '~/components/Forms/SocialMediaLogin'
 import KeyboardScreen from '~/components/KeyboardScreen'
 import Loading from '~/components/Loading'
 import { Text } from '~/components/nativewindui/Text'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 
@@ -16,6 +17,7 @@ type Props = {
    isBarber?: string
 }
 const LoginScreen = () => {
+   const translate = useTranslate()
    const [isSignUp, setIsSignUp] = useState(false)
    const { loading } = useAuth()
    const { colors } = useColorScheme()
@@ -29,7 +31,7 @@ const LoginScreen = () => {
    return (
       <KeyboardScreen style={styles.container}>
          <Text className="text-center" variant="title1">
-            Welcome
+            {translate('signup.title')}
          </Text>
 
          <View style={styles.authSwitch}>
@@ -53,7 +55,7 @@ const LoginScreen = () => {
                      !isSignUp ? styles.activeTabText : styles.inactiveTabText
                   }
                >
-                  Sign in
+                  {translate('signup.login')}
                </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -74,7 +76,7 @@ const LoginScreen = () => {
                      isSignUp ? styles.activeTabText : styles.inactiveTabText
                   }
                >
-                  Sign up
+                  {translate('signup.signup')}
                </Text>
             </TouchableOpacity>
          </View>
@@ -84,7 +86,7 @@ const LoginScreen = () => {
          ) : (
             <View>
                <LoginForm />
-               <View className="flex-row items-center gap-3 justify-center">
+               <View className="flex-row items-center gap-3 justify-center mb-2">
                   <View className="h-[1px] bg-slate-300 w-1/3" />
                   <Text className="text-center">or</Text>
                   <View className="h-[1px] bg-slate-300 w-1/3" />

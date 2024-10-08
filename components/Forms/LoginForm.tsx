@@ -15,6 +15,7 @@ import { Text } from '../nativewindui/Text'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { FIREBASE_ERRORS } from '~/utils/firebaseErrorMessages'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const loginSchema = z.object({
    email: z.string().email(),
@@ -24,6 +25,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>
 
 const LoginForm: React.FC = () => {
+   const translate = useTranslate()
    const bottomSheetRef = useSheetRef()
    const { isDarkColorScheme, colors } = useColorScheme()
    const [showPassword, setShowPassword] = useState(false)
@@ -62,7 +64,7 @@ const LoginForm: React.FC = () => {
          <TextInput
             name="email"
             control={control}
-            label="Email Address"
+            label={translate('signup.email')}
             keyboardType="email-address"
             autoComplete="off"
             placeholder="john.smith@email.com"
@@ -71,9 +73,9 @@ const LoginForm: React.FC = () => {
             <TextInput
                name="password"
                control={control}
-               label="Password"
+               label={translate('signup.password')}
                textContentType="oneTimeCode"
-               placeholder="Enter your password"
+               placeholder={translate('signup.placeholder.password')}
                secureTextEntry={!showPassword}
                RightIcon={
                   <TouchableOpacity onPress={() => setShowPassword((p) => !p)}>
@@ -86,7 +88,10 @@ const LoginForm: React.FC = () => {
                }
             />
          </View>
-         <Button title="Login" onPress={handleSubmit(onSubmit)} />
+         <Button
+            title={translate('login.button')}
+            onPress={handleSubmit(onSubmit)}
+         />
          <TouchableOpacity
             className="mt-8"
             onPress={() => {
@@ -94,7 +99,7 @@ const LoginForm: React.FC = () => {
             }}
          >
             <Text className="text-center text-muted dark:text-slate-300">
-               Forgot Password?
+               {translate('signup.forgot')}
             </Text>
          </TouchableOpacity>
          {/* <Sheet snapPoints={['90%']} ref={forgotPasswordRef}>

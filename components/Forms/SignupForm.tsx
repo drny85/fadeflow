@@ -14,6 +14,7 @@ import { DEFAULT_SCHEDULE } from '~/constants'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { AppUser } from '~/shared/types'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const signupSchema = z
    .object({
@@ -56,6 +57,7 @@ type SignupFormProps = {
 }
 const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
    const { signUp, createUser } = useAuth()
+   const translate = useTranslate()
    const { isDarkColorScheme, colors } = useColorScheme()
    const [show, setShow] = useState(false)
    const params = useLocalSearchParams()
@@ -138,7 +140,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             name="name"
             autoFocus
             control={control}
-            label="Full Name"
+            label={translate('signup.name')}
             placeholder="John Smith"
             autoCapitalize="words"
          />
@@ -146,8 +148,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             name="phone"
             control={control}
             label={
-               <Text>
-                  Cell Phone{' '}
+               <Text className="font-roboto-bold">
+                  {translate('signup.phone')}{' '}
                   <Text className="text-sm text-muted">(optional)</Text>
                </Text>
             }
@@ -157,7 +159,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
          <TextInput
             name="email"
             control={control}
-            label="Email Address"
+            label={translate('signup.email')}
             keyboardType="email-address"
             placeholder="john.smith@email.com"
          />
@@ -166,8 +168,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             name="password"
             control={control}
             textContentType="oneTimeCode"
-            label="Password"
-            placeholder="Enter your password"
+            label={translate('signup.password')}
+            placeholder={translate('signup.placeholder.password')}
             secureTextEntry={show}
             RightIcon={
                <TouchableOpacity onPress={() => setShow((p) => !p)}>
@@ -183,8 +185,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             name="confirmPassword"
             control={control}
             textContentType="oneTimeCode"
-            label="Confirm Password"
-            placeholder="Confirm your password"
+            label={translate('signup.confirmPassword')}
+            placeholder={translate('signup.placeholder.confirmPassword')}
             secureTextEntry={show}
             RightIcon={
                <TouchableOpacity onPress={() => setShow((p) => !p)}>
@@ -199,10 +201,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
          <CheckBox
             name="isBarber"
             control={control}
-            label="Are you signing up as a barber?"
+            label={translate('signup.toggle')}
          />
          {/* <CheckBox name="acceptTerms" control={control} label="I accept the terms and conditions" /> */}
-         <Button title="Sign Up" onPress={handleSubmit(onSubmit)} />
+         <Button
+            title={translate('signup.button')}
+            onPress={handleSubmit(onSubmit)}
+         />
       </ScrollView>
    )
 }

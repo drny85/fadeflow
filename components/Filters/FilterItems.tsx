@@ -13,6 +13,7 @@ import { Text } from '../nativewindui/Text'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { Appointment, AppointmentStatus } from '~/shared/types'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const CIRCLE_SIZE = 24
 
@@ -89,6 +90,7 @@ const AppointmentFilter = ({ appointments, onPress }: Props) => {
    // const [selectedStatuses, setSelectedStatuses] = useState<
    //    AppointmentStatus[]
    // >([])
+   const translate = useTranslate()
    const {
       setFiltered,
       setFilteredAppointments,
@@ -135,13 +137,18 @@ const AppointmentFilter = ({ appointments, onPress }: Props) => {
                   isSelected={selectedStatuses.includes(status)}
                />
                <Text style={{ marginLeft: 10 }}>
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                  {translate(
+                     `appointment.filter.${status.charAt(0).toUpperCase() + status.slice(1)}`
+                  )}{' '}
                </Text>
             </TouchableOpacity>
          ))}
 
          <View className="mt-5">
-            <Button title="Apply Filter" onPress={onApplyFilter} />
+            <Button
+               title={translate('appointment.filter.button')}
+               onPress={onApplyFilter}
+            />
          </View>
       </View>
    )

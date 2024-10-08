@@ -12,6 +12,7 @@ import { ActivityIndicator } from './nativewindui/ActivityIndicator'
 
 type ButtonProps = {
    title?: string
+   primary?: boolean
    textStyle?: TextStyle
    iconName?: ComponentProps<typeof FontAwesome>['name']
    iconSize?: number
@@ -20,14 +21,22 @@ type ButtonProps = {
 
 export const Button = forwardRef<TouchableOpacity, ButtonProps>(
    (
-      { title, textStyle, iconName, iconSize, isLoading, ...touchableProps },
+      {
+         title,
+         textStyle,
+         iconName,
+         iconSize,
+         isLoading,
+         primary = false,
+         ...touchableProps
+      },
       ref
    ) => {
       return (
          <TouchableOpacity
             ref={ref}
             {...touchableProps}
-            className="flex-row items-center justify-center rounded-full bg-accent px-4 py-3 shadow-sm dark:bg-primary"
+            className={`flex-row items-center justify-center rounded-full ${primary ? 'bg-primary' : 'bg-accent'} px-4 py-3 shadow-sm dark:bg-primary`}
             style={[touchableProps.style]}
          >
             {iconName && (

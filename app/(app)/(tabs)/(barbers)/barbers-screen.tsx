@@ -9,6 +9,7 @@ import { useLocation } from '~/hooks/useLocation'
 import { useNavigationSearch } from '~/hooks/useNavigationSeach'
 import { useReviews } from '~/hooks/useReviews'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
 import { Barber, BarbersFiltered } from '~/shared/types'
@@ -20,6 +21,7 @@ type BarberWithDistance = Barber & {
 }
 
 const BarbersPage = () => {
+   const translate = useTranslate()
    const { location, loading: locationLoading } = useLocation()
    const { barbers: data, loading, barbersFilter } = useBarbersStore()
    const { isDarkColorScheme, colors } = useColorScheme()
@@ -27,7 +29,7 @@ const BarbersPage = () => {
 
    const search = useNavigationSearch({
       searchBarOptions: {
-         placeholder: 'Search Barbers',
+         placeholder: translate('barber.search'),
          tintColor: isDarkColorScheme ? '#dedede' : colors.accent
       }
    })
@@ -93,7 +95,9 @@ const BarbersPage = () => {
             scrollEnabled={false}
             ListEmptyComponent={
                <View className="mt-10 flex-1 items-center justify-center">
-                  <Text className="text-xl text-muted">No Barbers Found</Text>
+                  <Text className="text-xl text-muted">
+                     {translate('barber.no_barber')}
+                  </Text>
                </View>
             }
             // contentContainerClassName="p-2 mb-3"

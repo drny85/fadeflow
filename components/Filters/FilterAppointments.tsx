@@ -9,8 +9,10 @@ import { Text } from '../nativewindui/Text'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const FilterAppointments = () => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const appointments = useAppointmentStore((data) =>
       data.appointments.filter((a) => a.customer.id === user?.id)
@@ -48,7 +50,9 @@ const FilterAppointments = () => {
             enablePanDownToClose
          >
             <View className="flex-1 p-6 justify-center">
-               <Text variant="title2">Filter Appointments By</Text>
+               <Text variant="title2">
+                  {translate('appointment.filter.title')}
+               </Text>
 
                <FilterItems appointments={appointments} onPress={applyFilter} />
             </View>

@@ -8,8 +8,10 @@ import { useBarbers } from '~/hooks/useBarbers'
 import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
+import { useTranslate } from '~/hooks/useTranslation'
 
 export default function TabLayout() {
+   const translate = useTranslate()
    const { colors, isDarkColorScheme } = useColorScheme()
    const { user } = useAuth()
    useNotifications()
@@ -34,7 +36,7 @@ export default function TabLayout() {
             name="index"
             options={{
                headerShown: false,
-               title: 'Home',
+               title: translate('tabs.home'),
                tabBarIcon: ({ color, focused }) => (
                   <Image
                      source={require('~/assets/images/barbershop.png')}
@@ -53,7 +55,7 @@ export default function TabLayout() {
          <Tabs.Screen
             name="appointments"
             options={{
-               title: 'Appointments',
+               title: translate('tabs.appointments'),
                headerRight: () => <FilterAppointments />,
 
                tabBarIcon: ({ focused }) => (
@@ -74,7 +76,7 @@ export default function TabLayout() {
          <Tabs.Screen
             name="(barbers)"
             options={{
-               title: 'Barbers',
+               title: translate('tabs.barbers'),
                headerShown: false,
 
                tabBarIcon: ({ focused }) => (
@@ -96,7 +98,7 @@ export default function TabLayout() {
             name="profile"
             options={{
                headerShown: false,
-               title: 'Profile',
+               title: translate('tabs.profile'),
 
                tabBarIcon: ({ focused, size }) =>
                   user && user.image ? (

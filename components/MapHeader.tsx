@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
 import { TouchableOpacity, View, ViewStyle } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
+import { useTranslation } from 'react-i18next'
 import Loading from './Loading'
 import { Text } from './nativewindui/Text'
 
@@ -27,6 +27,7 @@ const MapHeader = ({ shouldGoBack, containerStyle, barberInfo }: Props) => {
    const { isDarkColorScheme } = useColorScheme()
    const { user } = useAuth()
    const { top } = useSafeAreaInsets()
+   const { t } = useTranslation()
 
    const { getBarberById } = useBarbersStore()
    const { location, loading } = useLocation()
@@ -134,7 +135,7 @@ const MapHeader = ({ shouldGoBack, containerStyle, barberInfo }: Props) => {
             )}
             {user && !barberInfo ? (
                <Text className="font-raleway-bold text-2xl text-accent">
-                  Hi, {user?.name?.split(' ')[0]}
+                  {t('welcome', { name: user?.name?.split(' ')[0] })}
                </Text>
             ) : (
                <Text className="font-raleway-bold text-2xl text-accent">

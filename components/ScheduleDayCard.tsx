@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import { Text } from './nativewindui/Text'
 
 import { Days, ScheduleDay } from '~/shared/types'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    day: Days
@@ -11,11 +12,12 @@ type Props = {
 }
 
 const ScheduleDayCard = ({ day, slot }: Props) => {
+   const translate = useTranslate()
    return (
       <View key={day} className="flex-1 flex-row items-center gap-3 p-1">
-         <View className="w-10">
+         <View className="w-1/5">
             <Text className="font-semibold text-muted dark:text-white">
-               {day}
+               {translate(`days.${day}`)}
             </Text>
          </View>
          <View className="flex-grow flex-row items-center gap-3">

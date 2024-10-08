@@ -1,15 +1,18 @@
 import { Feather } from '@expo/vector-icons'
 import { addMinutes, format } from 'date-fns'
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
+import { useTranslate } from '~/hooks/useTranslation'
 
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { getBookingDate } from '~/utils/getBookingDate'
+import { Text } from '../nativewindui/Text'
 
 type Props = {
    onPress: () => void
 }
 const AppointmentDatePicker = ({ onPress }: Props) => {
+   const translate = useTranslate()
    const { selectedDate, selectedTimeSlot, selectedServices } =
       useAppointmentFlowStore()
    const duration = selectedServices?.reduce(
@@ -23,12 +26,20 @@ const AppointmentDatePicker = ({ onPress }: Props) => {
       >
          <View className="flex-row items-center  justify-between">
             <View className="gap-1">
-               <Text className="font-raleway-bold text-xl dark:text-white">
+               <Text variant="heading">
                   {selectedDate && selectedTimeSlot
-                     ? format(
+                     ? `${translate(
+                          `longDays.${format(
+                             getBookingDate(
+                                selectedDate,
+                                selectedTimeSlot?.time
+                             ),
+                             'cccc'
+                          )}`
+                       )}, ${format(
                           getBookingDate(selectedDate, selectedTimeSlot?.time),
-                          'cccc, PPP'
-                       )
+                          'PP'
+                       )}`
                      : 'Select a Date & Time'}
                </Text>
                {selectedTimeSlot && (

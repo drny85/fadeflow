@@ -12,6 +12,7 @@ import { Container } from '~/components/Container'
 import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { Text } from '~/components/nativewindui/Text'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
@@ -23,6 +24,7 @@ type ParamsProps = {
    confetti?: string
 }
 const AppointmentsPage = () => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const { confetti } = useLocalSearchParams<ParamsProps>()
    const { colors, isDarkColorScheme } = useColorScheme()
@@ -67,10 +69,10 @@ const AppointmentsPage = () => {
          <Container>
             <View className="flex-1 items-center justify-center gap-6">
                <Text className="font-raleway text-xl text-muted dark:text-white">
-                  Please login to view your appointments
+                  {translate('login.no_login', { name: 'tu citas' })}
                </Text>
                <Button
-                  title="Login"
+                  title={translate('login.button')}
                   textStyle={{ paddingHorizontal: 22 }}
                   onPress={() => {
                      router.push({
@@ -93,12 +95,15 @@ const AppointmentsPage = () => {
                }}
             >
                <Text className="text-center text-sm my-1 text-blue-600">
-                  Clear Filters
+                  {translate('appointment.filter.clear')}
                </Text>
             </TouchableOpacity>
          )}
          <SegmentedControl
-            values={VALUES}
+            values={[
+               translate('appointment.toggle.upcoming'),
+               translate('appointment.toggle.past')
+            ]}
             fontStyle={{
                fontSize: 16,
                color: isDarkColorScheme ? '#ffffff' : '#212121'
@@ -133,12 +138,13 @@ const AppointmentsPage = () => {
                ListEmptyComponent={
                   <View className="mx-3 gap-10">
                      <Text className=" mt-10 text-center text-xl text-muted">
-                        No Appointments Scheduled
+                        {translate('appointment.no_appointment')}
                      </Text>
                      {selectedIndex === 1 && (
-                        <View className="w-[80%] self-center">
+                        <View className="w-[80%] self-center mt-10">
                            <Button
-                              title="Book Appointment"
+                              title={translate('button.book')}
+                              primary
                               textStyle={{ paddingHorizontal: 12 }}
                               onPress={() => router.push('/quick-booking')}
                            />

@@ -11,6 +11,7 @@ import { Text } from './nativewindui/Text'
 
 import { useReviews } from '~/hooks/useReviews'
 import { Barber } from '~/shared/types'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    barber: Barber
@@ -36,7 +37,7 @@ const BarberCard = ({
    disabled = false
 }: Props) => {
    const { reviews } = useReviews()
-
+   const translate = useTranslate()
    const barberReviews = reviews.filter((r) => r.barberId === barber?.id)
    const barberRating =
       barberReviews.reduce((acc, curr) => acc + curr.rating, 0) /
@@ -85,7 +86,7 @@ const BarberCard = ({
                      <View className="flex-row items-center gap-1">
                         <FontAwesome name="star" size={20} color="orange" />
                         <Text className="text-muted opacity-80 dark:text-white">
-                           {barberRating.toFixed(1)} rating
+                           {barberRating.toFixed(1)} {translate('home.rating')}
                         </Text>
                      </View>
                      {isOwner ? (
@@ -93,7 +94,7 @@ const BarberCard = ({
                      ) : (
                         <Button
                            style={{ paddingVertical: 9 }}
-                           title="Book Now"
+                           title={translate('button.book')}
                            onPress={() => {
                               router.push({
                                  pathname: '/booking',

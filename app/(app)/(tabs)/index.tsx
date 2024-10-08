@@ -19,8 +19,10 @@ import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
 import { COLORS } from '~/theme/colors'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
+import { useTranslation } from 'react-i18next'
 
 const Home = () => {
+   const { t } = useTranslation()
    const { user, loading: loadingUser } = useAuth()
    const { location, loading } = useLocation()
    const favoriteBarber =
@@ -81,7 +83,7 @@ const Home = () => {
                               </Text>
                               {distance && (
                                  <Text className="text-slate-700 font-roboto-bold dark:text-slate-300">
-                                    {distance.toFixed(1)} miles
+                                    {distance.toFixed(1)} {t('home.miles')}
                                  </Text>
                               )}
                            </View>
@@ -104,7 +106,7 @@ const Home = () => {
             }
          >
             <View className=" gap-2 rounded-lg bg-card p-2 shadow-sm">
-               <Text variant="title2">Upcoming Appointment</Text>
+               <Text variant="title2">{t('home.appointment.upcoming')}</Text>
                {appointment.length > 0 ? (
                   <AppointmentCard
                      appointmentId={appointment[0].id!}
@@ -118,11 +120,11 @@ const Home = () => {
                ) : (
                   <View className="gap-3">
                      <Text className="text-muted dark:text-slate-400">
-                        No Upcoming Appointment
+                        {t('home.appointment.no_appointment')}
                      </Text>
                      <View className="w-1/2 self-center">
                         <Button
-                           title="Book Now"
+                           title={t('button.book')}
                            onPress={() => router.push('/quick-booking')}
                         />
                      </View>
@@ -130,17 +132,17 @@ const Home = () => {
                )}
             </View>
             <View className="gap-2 rounded-l bg-card p-2 shadow-sm">
-               <Text variant="title2">My Barbers</Text>
+               <Text variant="title2">{t('home.my_barber')}</Text>
                {!user?.isBarber && user?.favoriteBarber && barber ? (
                   <BarberCard barber={barber} index={0} isOwner={false} />
                ) : (
                   <View className="gap-3">
                      <Text className="text-muted dark:text-slate-400">
-                        No Barber Available
+                        {t('home.appointment.no_barber')}
                      </Text>
                      <View className="w-1/2 self-center">
                         <Button
-                           title="Find Barber"
+                           title={t('home.find_barber')}
                            onPress={() => router.push('/quick-booking')}
                         />
                      </View>
@@ -149,10 +151,10 @@ const Home = () => {
             </View>
             {!user && (
                <View className="gap-4 rounded-l bg-card p-2 shadow-sm">
-                  <Text variant="title3">Want to sign up as a Barber?</Text>
+                  <Text variant="title3">{t('home.signup')}</Text>
                   <View className="w-1/2 self-center">
                      <Button
-                        title="Sign Up"
+                        title={t('home.signup_title')}
                         onPress={() =>
                            router.push({
                               pathname: '/login',

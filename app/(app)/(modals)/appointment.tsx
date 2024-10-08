@@ -17,6 +17,7 @@ import CommunicationButtons from '~/components/CommunicationButtons'
 import { Container } from '~/components/Container'
 import MapHeader from '~/components/MapHeader'
 import { Text } from '~/components/nativewindui/Text'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
@@ -28,6 +29,7 @@ type ParamsProps = {
    appointmentId: string
 }
 const AppointmentDetails = () => {
+   const translate = useTranslate()
    const { bottom } = useSafeAreaInsets()
    const { appointmentId } = useLocalSearchParams<ParamsProps>()
    const { getAppointment } = useAppointmentStore()
@@ -71,7 +73,9 @@ const AppointmentDetails = () => {
          <ScrollView style={{ flex: 0.6 }}>
             <View className="m-2 rounded-lg bg-card p-4 shadow-sm">
                <View className="flex-row items-center justify-between">
-                  <Text variant="title3">Appointment Details</Text>
+                  <Text variant="title3">
+                     {translate('appointment.details.main')}
+                  </Text>
                   <TouchableOpacity
                      className="rounded-full bg-card px-3 py-2"
                      onPress={() =>
@@ -125,7 +129,9 @@ const AppointmentDetails = () => {
                </View>
             </View>
             <View className="m-2 gap-1 rounded-lg bg-card p-4 shadow-sm">
-               <Text variant="title3">Service Details</Text>
+               <Text variant="title3">
+                  {translate('appointment.details.title')}
+               </Text>
                <View>
                   {appointment.services.map((s, index) => (
                      <Text
@@ -146,7 +152,8 @@ const AppointmentDetails = () => {
                   <Text className="text-muted dark:text-white">${price} </Text>
                </View>
                <Text className="text-muted dark:text-white">
-                  {format(appointment.date, 'E, PPP')}
+                  {translate(`days.${format(appointment.date, 'E')}`)},{' '}
+                  {format(appointment.date, 'PPP')}
                </Text>
                <Text className="text-muted dark:text-white">
                   {appointment.startTime} -{' '}
@@ -170,7 +177,9 @@ const AppointmentDetails = () => {
                <Text
                   className={`my-2 text-center text-xl font-bold capitalize  ${appointment.status === 'pending' ? 'text-orange-400' : appointment.status === 'confirmed' ? 'text-green-400' : appointment.status === 'cancelled' ? 'text-red-500' : 'text-slate-600'}`}
                >
-                  {appointment.status}
+                  {translate(
+                     `appointment.filter.${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}`
+                  )}
                </Text>
             </View>
          </ScrollView>
@@ -184,7 +193,7 @@ const AppointmentDetails = () => {
                   style={{
                      backgroundColor: '#fff'
                   }}
-                  title="Cancel"
+                  title={translate('button.cancel')}
                   onPress={() =>
                      Alert.alert(
                         'Are you sure you want to cancel this appointment?',
@@ -205,7 +214,7 @@ const AppointmentDetails = () => {
                   }
                />
                <Button
-                  title="Re-Schedule"
+                  title={translate('button.reschedule')}
                   iconName="calendar-o"
                   textStyle={{ paddingHorizontal: 12 }}
                   style={{ paddingHorizontal: 30 }}

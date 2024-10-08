@@ -17,6 +17,7 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { Barber } from '~/shared/types'
 import { shareBarberLink } from '~/utils/shareBarberLink'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    barber: Barber
@@ -34,6 +35,7 @@ const BarberImageHeader = ({
    showFavoriteButton = true
 }: Props) => {
    const { top } = useSafeAreaInsets()
+   const translate = useTranslate()
    useUser()
    const { colors } = useColorScheme()
    const { user } = useAuth()
@@ -155,7 +157,9 @@ const BarberImageHeader = ({
                         }
                         className="mr-3 rounded-md bg-accent px-3 py-1 dark:bg-primary"
                      >
-                        <Text className="font-bold text-white">Book Now</Text>
+                        <Text className="font-bold text-white">
+                           {translate('button.book')}
+                        </Text>
                      </TouchableOpacity>
                   )}
                </View>
@@ -174,10 +178,10 @@ const BarberImageHeader = ({
                   <View className="flex-row items-center gap-1">
                      <FontAwesome name="star" color="orange" size={20} />
                      <Text className="text-sm text-slate-700 dark:text-slate-200">
-                        {barberRating.toFixed(1)} rating
+                        {barberRating.toFixed(1)} {translate('barber.rating')}
                      </Text>
                      <Text className="text-sm text-slate-700 dark:text-slate-200">
-                        ({barberReviews.length} reviews)
+                        ({barberReviews.length} {translate('barber.review')})
                      </Text>
                   </View>
                   <View className="w-1/3  flex-row self-end">

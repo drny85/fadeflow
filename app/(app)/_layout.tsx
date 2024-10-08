@@ -8,7 +8,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { Fragment, useEffect } from 'react'
 import { Appearance, TouchableOpacity } from 'react-native'
-
+import { I18nextProvider } from 'react-i18next'
 import Loading from '~/components/Loading'
 import { ThemeToggle } from '~/components/nativewindui/ThemeToggle'
 import { Fonts } from '~/constants/Fonts'
@@ -20,6 +20,7 @@ import { useUser } from '~/hooks/useUser'
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { NAV_THEME } from '~/theme'
+import { i18n } from '~/locales/i18n'
 SplashScreen.preventAutoHideAsync().catch((e) => {
    console.log('errors from splashscreen', e)
 })
@@ -63,117 +64,121 @@ export default function RootLayout() {
          />
          {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
          {/* <ExampleProvider> */}
-
-         <ActionSheetProvider>
-            <NavThemeProvider value={NAV_THEME[colorScheme]}>
-               <Stack screenOptions={{ ...SCREEN_OPTIONS }}>
-                  <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
-                  <Stack.Screen name="(barber-tabs)" options={TABS_OPTIONS} />
-                  <Stack.Screen name="(terms)" options={TABS_OPTIONS} />
-                  <Stack.Screen name="(modals)" options={TABS_OPTIONS} />
-                  <Stack.Screen
-                     name="(profile)"
-                     options={{
-                        ...MODAL_OPTIONS,
-                        headerStyle: {
-                           backgroundColor: colors.background
-                        },
-                        headerBackTitle: 'Back',
-                        headerLeft: () => (
-                           <TouchableOpacity onPress={router.back}>
-                              <Feather
-                                 name="chevron-left"
-                                 className="p-1"
-                                 size={26}
-                                 color={
-                                    isDarkColorScheme ? '#ffffff' : '#212121'
-                                 }
-                              />
-                           </TouchableOpacity>
-                        )
-                     }}
-                  />
-                  <Stack.Screen
-                     name="(auth)"
-                     options={{
-                        headerBackTitle: 'Back',
-                        title: '',
-                        headerShadowVisible: false,
-                        headerStyle: {
-                           backgroundColor: colors.background
-                        },
-                        // headerTintColor: colors.grey,
-                        headerTitleStyle: {
-                           fontWeight: 'bold',
-                           color: '#ffffff'
-                        },
-                        presentation: 'modal',
-                        animation: 'slide_from_bottom',
-                        //headerShown: false,
-                        contentStyle: {
-                           backgroundColor: colors.background
-                        },
-                        headerLeft: () => (
-                           <TouchableOpacity onPress={router.back}>
-                              <Feather
-                                 name="chevron-left"
-                                 className="p-1"
-                                 size={26}
-                                 color={
-                                    isDarkColorScheme ? '#ffffff' : '#212121'
-                                 }
-                              />
-                           </TouchableOpacity>
-                        ),
-                        headerRight: () => {
-                           return <ThemeToggle />
-                        }
-                     }}
-                  />
-                  <Stack.Screen
-                     name="subscription"
-                     options={{
-                        title: 'Subscription',
-                        headerShadowVisible: false,
-                        headerStyle: {
-                           backgroundColor: colors.background
-                        },
-                        // headerTintColor: colors.grey,
-                        headerTitleStyle: {
-                           fontWeight: 'bold',
-                           color: isDarkColorScheme ? '#ffffff' : '#212121'
-                        },
-                        presentation: 'modal',
-                        animation: 'slide_from_bottom',
-                        //headerShown: false,
-                        contentStyle: {
-                           backgroundColor: colors.background
-                        },
-                        headerLeft: ({ canGoBack }) =>
-                           canGoBack ? (
-                              <TouchableOpacity
-                                 activeOpacity={0.3}
-                                 onPress={() => router.back()}
-                              >
+         <I18nextProvider i18n={i18n}>
+            <ActionSheetProvider>
+               <NavThemeProvider value={NAV_THEME[colorScheme]}>
+                  <Stack screenOptions={{ ...SCREEN_OPTIONS }}>
+                     <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
+                     <Stack.Screen
+                        name="(barber-tabs)"
+                        options={TABS_OPTIONS}
+                     />
+                     <Stack.Screen name="(terms)" options={TABS_OPTIONS} />
+                     <Stack.Screen name="(modals)" options={TABS_OPTIONS} />
+                     <Stack.Screen
+                        name="(profile)"
+                        options={{
+                           ...MODAL_OPTIONS,
+                           headerStyle: {
+                              backgroundColor: colors.background
+                           },
+                           headerBackTitle: 'Back',
+                           headerLeft: () => (
+                              <TouchableOpacity onPress={router.back}>
                                  <Feather
-                                    className="p-1"
                                     name="chevron-left"
+                                    className="p-1"
                                     size={26}
                                     color={
-                                       isDarkColorScheme ? 'white' : 'black'
+                                       isDarkColorScheme ? '#ffffff' : '#212121'
                                     }
                                  />
                               </TouchableOpacity>
-                           ) : null,
+                           )
+                        }}
+                     />
+                     <Stack.Screen
+                        name="(auth)"
+                        options={{
+                           headerBackTitle: 'Back',
+                           title: '',
+                           headerShadowVisible: false,
+                           headerStyle: {
+                              backgroundColor: colors.background
+                           },
+                           // headerTintColor: colors.grey,
+                           headerTitleStyle: {
+                              fontWeight: 'bold',
+                              color: '#ffffff'
+                           },
+                           presentation: 'modal',
+                           animation: 'slide_from_bottom',
+                           //headerShown: false,
+                           contentStyle: {
+                              backgroundColor: colors.background
+                           },
+                           headerLeft: () => (
+                              <TouchableOpacity onPress={router.back}>
+                                 <Feather
+                                    name="chevron-left"
+                                    className="p-1"
+                                    size={26}
+                                    color={
+                                       isDarkColorScheme ? '#ffffff' : '#212121'
+                                    }
+                                 />
+                              </TouchableOpacity>
+                           ),
+                           headerRight: () => {
+                              return <ThemeToggle />
+                           }
+                        }}
+                     />
+                     <Stack.Screen
+                        name="subscription"
+                        options={{
+                           title: 'Subscription',
+                           headerShadowVisible: false,
+                           headerStyle: {
+                              backgroundColor: colors.background
+                           },
+                           // headerTintColor: colors.grey,
+                           headerTitleStyle: {
+                              fontWeight: 'bold',
+                              color: isDarkColorScheme ? '#ffffff' : '#212121'
+                           },
+                           presentation: 'modal',
+                           animation: 'slide_from_bottom',
+                           //headerShown: false,
+                           contentStyle: {
+                              backgroundColor: colors.background
+                           },
+                           headerLeft: ({ canGoBack }) =>
+                              canGoBack ? (
+                                 <TouchableOpacity
+                                    activeOpacity={0.3}
+                                    onPress={() => router.back()}
+                                 >
+                                    <Feather
+                                       className="p-1"
+                                       name="chevron-left"
+                                       size={26}
+                                       color={
+                                          isDarkColorScheme ? 'white' : 'black'
+                                       }
+                                    />
+                                 </TouchableOpacity>
+                              ) : null,
 
-                        headerRight: () => {
-                           return <ThemeToggle />
-                        }
-                     }}
-                  />
-               </Stack>
-            </NavThemeProvider>
-         </ActionSheetProvider>
+                           headerRight: () => {
+                              return <ThemeToggle />
+                           }
+                        }}
+                     />
+                  </Stack>
+               </NavThemeProvider>
+            </ActionSheetProvider>
+         </I18nextProvider>
 
          {/* </ExampleProvider> */}
       </Fragment>

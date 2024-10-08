@@ -20,6 +20,7 @@ import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
 import { Text } from '~/components/nativewindui/Text'
 import { SIZES } from '~/constants'
 import { useServices } from '~/hooks/useServices'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useUser } from '~/hooks/useUser'
 import { toastAlert, toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
@@ -42,6 +43,7 @@ type ParamProps = {
 
 const BookingPage = () => {
    useUser()
+   const translate = useTranslate()
    const { bottom } = useSafeAreaInsets()
    const { barberId, appointmentId } = useLocalSearchParams<ParamProps>()
    const { loading, services } = useServices(barberId)
@@ -372,9 +374,10 @@ const BookingPage = () => {
                            Haptics.NotificationFeedbackType.Error
                         )
                         toastAlert({
-                           title: 'Service Required',
-                           message:
-                              'You must select a service to book an appointment',
+                           title: translate('booking.service_required'),
+                           message: translate(
+                              'booking.service_required_message'
+                           ),
                            preset: 'custom',
                            duration: 3,
                            iconName: 'hand.raised.slash'
@@ -396,7 +399,7 @@ const BookingPage = () => {
             {!barber.isAvailable && (
                <View className="flex-1 items-center justify-center">
                   <Text className="text-center text-xl text-muted">
-                     {barber.name} is not available today
+                     {barber.name} {translate('barber.no_available')}
                   </Text>
                </View>
             )}
@@ -418,7 +421,7 @@ const BookingPage = () => {
                   $
                   {selectedServices.length > 0 &&
                      getAppointmentPrice(selectedServices)}{' '}
-                  Cash Only
+                  {translate('booking.cash')}
                </Text>
             </View>
             <View className="w-[80%] self-center">
@@ -524,12 +527,13 @@ const BookingPage = () => {
                </Text>
                <ScrollView className="flex-1" contentContainerClassName="p-3">
                   <Text variant="largeTitle" className="text-center">
-                     Review & Confirm
+                     {translate('booking.review')}
                   </Text>
                   <View className="h-[1px] w-2/3 bg-slate-400 self-center my-2" />
 
                   <Text className="my-2 text-xl">
-                     {format(selectedDate, 'E, PP')} at {selectedTimeSlot?.time}
+                     {translate(`days.${format(selectedDate, 'E')}`)},{' '}
+                     {format(selectedDate, 'PP')} at {selectedTimeSlot?.time}
                   </Text>
                   <Text variant="title2">{barber.profile?.barbershopName}</Text>
 
@@ -575,12 +579,12 @@ const BookingPage = () => {
                      />
                   </View>
                   <Text className="text-muted text-center mt-3 dark:text-slate-400">
-                     Payment will be make in cash after service complition.
+                     {translate('booking.payment')}
                   </Text>
                </ScrollView>
                <View className="w-2/3 self-center">
                   <Button
-                     title="Confirm & Book"
+                     title={translate('booking.confirm')}
                      onPress={handleSchuduleAppointment}
                   />
                </View>

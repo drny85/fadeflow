@@ -26,6 +26,7 @@ import { Sheet, useSheetRef } from './nativewindui/Sheet'
 import { Text } from './nativewindui/Text'
 import { ThemeToggle } from './nativewindui/ThemeToggle'
 
+import * as Linking from 'expo-linking'
 import { updateUser } from '~/actions/users'
 import { SIZES } from '~/constants'
 import { deleteUserFunction } from '~/firebase-collections'
@@ -33,10 +34,13 @@ import { usePhoto } from '~/hooks/usePhoto'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
-import * as Linking from 'expo-linking'
+
+import LanguageSwitcher from './LanguagueSwitcher'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const IMAGE_HEIGHT = 100
 export default function CustomerModernSettingsPage() {
+   const translate = useTranslate()
    const { user, logOut } = useAuth()
    const [loading, setLoading] = useState(false)
    const [view, setView] = useState<
@@ -174,7 +178,7 @@ export default function CustomerModernSettingsPage() {
                   </TouchableOpacity>
                   <TouchableOpacity onPress={handleSignOut}>
                      <Text className="font-semibold text-slate-200">
-                        Log Out
+                        {translate('profile.logout')}
                      </Text>
                   </TouchableOpacity>
                </View>
@@ -203,16 +207,41 @@ export default function CustomerModernSettingsPage() {
                <Text style={styles.sectionTitle}>Preferences</Text>
                <View style={[styles.row, { backgroundColor: colors.card }]}>
                   <View
-                     style={[styles.rowIcon, { backgroundColor: '#007afe' }]}
+                     style={[
+                        styles.rowIcon,
+                        { backgroundColor: colors.accent }
+                     ]}
                   >
                      <Feather color="#fff" name="moon" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Theme</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.theme')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
                   <ThemeToggle />
+               </View>
+               <View style={[styles.row, { backgroundColor: colors.card }]}>
+                  <View
+                     style={[
+                        styles.rowIcon,
+                        { backgroundColor: colors.primary }
+                     ]}
+                  >
+                     <FontAwesome name="language" size={24} color="#ffffff" />
+                  </View>
+
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.language')}
+                  </Text>
+
+                  <View style={styles.rowSpacer} />
+
+                  <View>
+                     <LanguageSwitcher />
+                  </View>
                </View>
 
                <TouchableOpacity
@@ -232,7 +261,9 @@ export default function CustomerModernSettingsPage() {
                      <Feather color="#fff" name="user" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Change Phone/Name</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.name')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -271,7 +302,9 @@ export default function CustomerModernSettingsPage() {
                      <Feather color="#fff" name="mail" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Contact Us</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.contact')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -279,7 +312,9 @@ export default function CustomerModernSettingsPage() {
                </TouchableOpacity>
             </View>
             <View style={styles.section}>
-               <Text style={styles.sectionTitle}>Privacy</Text>
+               <Text style={styles.sectionTitle}>
+                  {translate('profile.privacy')}
+               </Text>
                <TouchableOpacity
                   onPress={() => {
                      // handle onPress
@@ -298,7 +333,9 @@ export default function CustomerModernSettingsPage() {
                      />
                   </View>
 
-                  <Text style={styles.rowLabel}>Terms of Use</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.terms')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -316,7 +353,9 @@ export default function CustomerModernSettingsPage() {
                      <Feather color="#fff" name="user-x" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Privacy Policy</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.privacy')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -335,7 +374,9 @@ export default function CustomerModernSettingsPage() {
                      <Feather color="#fff" name="x" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Delete Account</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.delete')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 

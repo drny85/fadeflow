@@ -9,6 +9,7 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Service } from '~/shared/types'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    services: Service[]
@@ -25,6 +26,7 @@ type Props = {
 )
 
 const ServicePicker = ({ services, isBarber, onPressServiceEdit }: Props) => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const { colors, isDarkColorScheme } = useColorScheme()
    const {
@@ -44,7 +46,7 @@ const ServicePicker = ({ services, isBarber, onPressServiceEdit }: Props) => {
       <View className="m-2 rounded-2xl bg-card py-1 shadow-sm">
          {!user?.isBarber && (
             <Text className="text-center font-raleway-bold text-lg">
-               Select a Service
+               {translate('booking.select_service')}
             </Text>
          )}
          {services

@@ -1,0 +1,144 @@
+{
+   "welcome": "Hola, {{name}}",
+   "tabs": {
+      "home": "Inicio",
+      "barbers": "Barberos",
+      "appointments": "Citas",
+      "profile": "Perfil"
+   },
+
+   "login": {
+      "username": "Nombre de usuario",
+      "password": "Contraseña",
+      "button": "Iniciar sesión",
+      "no_login": "Favor de ingresar a tu cuenta para ver {{name}}"
+   },
+   "register": {
+      "username": "Nombre de usuario",
+      "email": "Correo electrónico",
+      "password": "XXXXXXXXña",
+      "button": "Registrarse"
+   },
+
+   "profile": {
+      "theme": "Tema",
+      "language": "Idioma",
+      "contact": "Contactanos",
+      "logout": "Salir",
+      "name": "Cambiar Nombre / Telefono",
+      "terms": "Terminos y Condiciones",
+      "privacy": "Politica de Privacidad",
+      "delete": "Eliminar Cuenta"
+   },
+   "settings": {
+      "title": "Configuración",
+      "language": "Idioma",
+      "theme": "Tema",
+      "logout": "Cerrar sesión"
+   },
+   "days": {
+      "Mon": "Lunes",
+      "Tue": "Martes",
+      "Wed": "Miércoles",
+      "Thu": "Jueves",
+      "Fri": "Viernes",
+      "Sat": "Sábado",
+      "Sun": "Domingo"
+   },
+   "longDays": {
+      "Monday": "Lunes",
+      "Tuesday": "Martes",
+      "Wednesday": "Miércoles",
+      "Thursday": "Jueves",
+      "Friday": "Viernes",
+      "Saturday": "Sábado",
+      "Sunday": "Domingo"
+   },
+
+   "booking": {
+      "cash": "Solo Efectivo",
+      "select_service": "Seleccione un Servicio",
+      "service_required": "Servicio Requerido",
+      "service_required_message": "Favor de seleccionar un servicio",
+      "payment": "Pago sera coletado en la barberia una vez el servicio alla terminado",
+      "confirm": "Confirmar & Reservar",
+      "review": "Revisar & Confirmar"
+   },
+
+   "button": {
+      "book": "Reserva ya",
+      "cancel": "Cancelar",
+      "reschedule": "Reprogramar"
+   },
+   "appointment": {
+      "details": {
+         "main": "Detalles de la Cita",
+         "title": "Detalles del Servicio"
+      },
+      "no_appointment": "No Citas",
+      "available_today": "Citas disponibles hoy",
+      "toggle": {
+         "upcoming": "Próximas",
+         "past": "Pasadas"
+      },
+      "filter": {
+         "title": "Filtrar Citas Por",
+         "Pending": "Pendiente",
+         "Confirmed": "Confirmado",
+         "Cancelled": "Cancelado",
+         "Completed": "Completado",
+         "No-show": "No Mostrar",
+         "button": "Aplicar Filtro",
+         "clear": "Limpiar Filtro"
+      }
+   },
+
+   "barber": {
+      "search": "Buscar Barberos",
+      "title": "Barberos",
+      "rating": "Calificación",
+      "distance": "Distancia",
+      "no_barber": "No barbero disponible",
+      "review": "reseñas",
+      "about": "Acerca de {{name}}",
+      "top_services": "Servicios Populares",
+      "no_services": "No hay servicios disponibles",
+      "schedule": "Horario",
+      "no_available": "no esta disponible hoy"
+   },
+   "signup": {
+      "login": "Ingresar",
+      "signup": "Registrarse",
+      "title": "Bienvenido",
+      "name": "Nombre Completo",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "forgot": "¿Olvidaste tu contraseña?",
+      "placeholder": {
+         "name": "Nombre Completo",
+         "phone": "Teléfono",
+         "email": "Correo electrónico",
+         "password": "Escribe tu contraseña",
+         "confirmPassword": "Confirma tu contraseña"
+      },
+
+      "button": "Registrarme",
+      "toggle": "¿Te esta registrando como Barbero?"
+   },
+   "home": {
+      "my_barber": "Mi Barbero",
+      "find_barber": "Encontrar Barbero",
+      "miles": "millas",
+      "signup": "Quieres regístrarte como Barbero?",
+      "signup_title": "Regístrate",
+      "rating": "calificación",
+      "appointment": {
+         "upcoming": "Siguiente Cita",
+         "no_appointment": "No Citas",
+         "no_barber": "No barbero disponibles"
+      },
+      "greeting": "¡Hola, {{name}}!"
+   }
+}

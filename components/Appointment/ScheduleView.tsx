@@ -4,16 +4,18 @@ import ScheduleDayCard from '../ScheduleDayCard'
 import { Text } from '../nativewindui/Text'
 
 import { dayOrder, Days, Schedule, ScheduleDay } from '~/shared/types'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    schedule: Schedule
 }
 const ScheduleView = ({ schedule }: Props) => {
+   const translate = useTranslate()
    return (
       <View className="rounded-lg bg-card shadow-sm">
          <View className="p-2">
             <Text className="mb-2" variant="title3">
-               Schedule
+               {translate('barber.schedule')}
             </Text>
             {Object.entries(schedule)
                .sort(

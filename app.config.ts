@@ -12,6 +12,7 @@ const config: ExpoConfig = {
    plugins: [
       'expo-router',
       'expo-font',
+      'expo-localization',
       'expo-apple-authentication',
       [
          'expo-build-properties',

@@ -1,0 +1,135 @@
+{
+   "welcome": "Hi, {{name}}",
+   "tabs": {
+      "home": "Home",
+      "appointments": "Appointments",
+      "barbers": "Barbers",
+      "profile": "Profile"
+   },
+   "login": {
+      "username": "Username",
+      "password": "Password",
+      "button": "Login",
+      "no_login": "Please login to view your appointments"
+   },
+   "profile": {
+      "theme": "Theme",
+      "language": "Language",
+      "contact": "Contact Us",
+      "logout": "Log Out",
+      "name": "Change Name / Phone",
+      "terms": "Terms and Conditions",
+      "privacy": "Privacy Policy",
+      "delete": "Delete Account"
+   },
+   "days": {
+      "Mon": "Mon",
+      "Tue": "Tue",
+      "Wed": "Wed",
+      "Thu": "Thu",
+      "Fri": "Fri",
+      "Sat": "Sat",
+      "Sun": "Sun"
+   },
+   "longDays": {
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday"
+   },
+
+   "booking": {
+      "cash": "Cash Only",
+      "select_service": "Select a Service",
+      "service_required": "Service Required",
+      "service_required_message": "You must select a service to book an appointment",
+      "payment": "Paymment will be make in cash after service complition",
+      "confirm": "Confirm & Book",
+      "review": "Review & Confirm"
+   },
+   "button": {
+      "book": "Book Now",
+      "cancel": "Cancel",
+      "reschedule": "Re-Schedule"
+   },
+   "appointment": {
+      "details": {
+         "main": "Appointment Details",
+         "title": "Service Details"
+      },
+      "no_appointment": "No Appointments",
+      "available_today": "Appointments available today",
+      "toggle": {
+         "upcoming": "Upcoming",
+         "past": "Past"
+      },
+      "filter": {
+         "title": "Filter Appointments By",
+         "Pending": "Pending",
+         "Confirmed": "Confirmed",
+         "Cancelled": "Cancelled",
+         "Completed": "Completed",
+         "No-show": "No Show",
+         "button": "Apply Filter",
+         "clear": "Clear Filters"
+      }
+   },
+   "barber": {
+      "search": "Search Barbers",
+      "title": "Barberos",
+      "rating": "Calificación",
+      "distance": "Distancia",
+      "no_barber": "No barbero disponible",
+      "review": "reviews",
+      "about": "About {{name}}",
+      "top_services": "Top Services",
+      "no_services": "No services available",
+      "schedule": "Schedule",
+      "no_available": "is not available today"
+   },
+
+   "settings": {
+      "title": "Settings",
+      "language": "Language",
+      "theme": "Theme",
+      "logout": "Logout"
+   },
+   "signup": {
+      "login": "Login",
+      "signup": "Sign Up",
+      "title": "Welcome",
+      "name": "Full Name",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "forgot": "Forgot Password?",
+      "placeholder": {
+         "name": "Enter your full name",
+         "phone": "Enter your phone number",
+         "email": "Enter your email address",
+         "password": "Enter your password",
+         "confirmPassword": "Confirm your password"
+      },
+
+      "button": "Sign Up",
+      "toggle": "Are you signin up as a Barber?"
+   },
+   "home": {
+      "my_barber": "My Barber",
+      "find_barber": "Find Barber",
+      "miles": "miles",
+      "signup": "Want to sign up as a Barber?",
+      "signup_title": "Sign Up",
+      "rating": "rating",
+      "appointment": {
+         "upcoming": "Upcoming Appointment",
+         "no_appointment": "No Appointments",
+         "no_barber": "No barber Available"
+      },
+      "greeting": "Hello, {{name}}!"
+   }
+}
