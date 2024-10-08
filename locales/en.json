@@ -20,7 +20,19 @@
       "name": "Change Name / Phone",
       "terms": "Terms and Conditions",
       "privacy": "Privacy Policy",
-      "delete": "Delete Account"
+      "delete": "Delete Account",
+      "confirmation": {
+         "delete": {
+            "title": "Delete Account",
+            "message": "Are you sure you want to delete your account?",
+            "yes": "Yes"
+         },
+         "logout": {
+            "title": "Log Out",
+            "message": "Are you sure you want to log out?",
+            "yes": "Yes"
+         }
+      }
    },
    "days": {
       "Mon": "Mon",
@@ -48,12 +60,25 @@
       "service_required_message": "You must select a service to book an appointment",
       "payment": "Paymment will be make in cash after service complition",
       "confirm": "Confirm & Book",
-      "review": "Review & Confirm"
+      "review": "Review & Confirm",
+      "no_services": "{{name}} has not listed any services yet. Please let him know!"
    },
+   "reviews": {
+      "add": "Add Review",
+      "no_review": "No reviews yet",
+      "title": "Reviews",
+      "alert": {
+         "title": "No Completed Appointment",
+         "message": "You must have a completed appointment to leave a review"
+      }
+   },
+
    "button": {
       "book": "Book Now",
       "cancel": "Cancel",
-      "reschedule": "Re-Schedule"
+      "reschedule": "Re-Schedule",
+      "continue": "Continue",
+      "update": "Update"
    },
    "appointment": {
       "details": {
@@ -75,6 +100,13 @@
          "No-show": "No Show",
          "button": "Apply Filter",
          "clear": "Clear Filters"
+      },
+      "conformation": {
+         "cancel": {
+            "title": "Cancel Appointment",
+            "message": "Are you sure you want to cancel this appointment?",
+            "yes": "Yes"
+         }
       }
    },
    "barber": {
@@ -84,11 +116,20 @@
       "distance": "Distancia",
       "no_barber": "No barbero disponible",
       "review": "reviews",
+      "no_review": "no review yet",
       "about": "About {{name}}",
       "top_services": "Top Services",
       "no_services": "No services available",
       "schedule": "Schedule",
-      "no_available": "is not available today"
+      "no_available": "is not available today",
+      "filter": "Filter Barbers",
+      "clear": "Clear",
+      "available": "Available Today",
+      "info_options": {
+         "info": "Info",
+         "gallery": "Galleria",
+         "reviews": "Reviews"
+      }
    },
 
    "settings": {

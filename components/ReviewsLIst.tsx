@@ -7,11 +7,13 @@ import ReviewSkelenton from './Skeletons/ReviesSkeleton'
 import { Text } from './nativewindui/Text'
 
 import { useReviews } from '~/hooks/useReviews'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    barberId: string
 }
 const ReviewsList = ({ barberId }: Props) => {
+   const translate = useTranslate()
    const { reviews, loading } = useReviews()
    const data = useMemo(
       () => reviews.filter((review) => review.barberId === barberId),
@@ -24,7 +26,7 @@ const ReviewsList = ({ barberId }: Props) => {
       return (
          <View>
             <Text className="mt-10 text-center text-lg text-muted dark:text-white">
-               No reviews yet
+               {translate('reviews.no_review')}
             </Text>
          </View>
       )

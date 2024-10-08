@@ -12,6 +12,7 @@ import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber, Days, TimeSlot } from '~/shared/types'
 import { addUnavailableTimeSlots } from '~/utils/addUnavailableTimeSlots'
 import { generateAvailableTimeSlots } from '~/utils/getTimeSlots'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const _spacing = 10
 
@@ -26,6 +27,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
    date,
    onTilePress
 }) => {
+   const translate = useTranslate()
    const segment = useSegments() as string[]
    const changeColor = segment.includes('barber')
    const { appointments: data } = useAppointmentStore()
@@ -92,8 +94,6 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
          }))
          .find((d) => d.date === format(day, 'yyyy-MM-dd'))
    }, [barber.blockedTimes, day])
-
-   console.log(blocked)
 
    const timeSlots = isDayOff
       ? []
@@ -166,8 +166,8 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
 
    if (isDayOff)
       return (
-         <Text className="ml-2 text-muted">
-            There is no appoitments available for today.
+         <Text className="ml-2 text-muted lowercase">
+            No {translate('appointment.available_today')}
          </Text>
       )
 

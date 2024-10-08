@@ -15,11 +15,12 @@ import { Text } from '../nativewindui/Text'
 import { AnimatePresence, MotiView } from 'moti'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const FilterComponent = () => {
    const { colors, isDarkColorScheme } = useColorScheme()
    const { barbersFilter, setBarbersFilter } = useBarbersStore()
-
+   const translate = useTranslate()
    const snapPoints = useMemo(() => ['75%'], [])
    const bottomSheetRef = useSheetRef()
    const [distance, setDistance] = useState(3)
@@ -44,7 +45,9 @@ const FilterComponent = () => {
                      exit={{ opacity: 0, scale: 0 }}
                   >
                      <TouchableOpacity onPress={() => setBarbersFilter(null)}>
-                        <Text className="font-bold text-blue-500">Clear</Text>
+                        <Text className="font-bold text-blue-500">
+                           {translate('barber.clear')}
+                        </Text>
                      </TouchableOpacity>
                   </MotiView>
                )}
@@ -72,11 +75,13 @@ const FilterComponent = () => {
             enablePanDownToClose
          >
             <View className="flex-1 justify-evenly p-6">
-               <Text variant="title2">Filter Barbers</Text>
+               <Text variant="title2">{translate('barber.filter')}</Text>
 
                {/* Distance Filter */}
                <View style={styles.filterRow}>
-                  <Text className="text-lg">Distance (miles): {distance}</Text>
+                  <Text className="text-lg">
+                     {translate('barber.distance')} (miles): {distance}
+                  </Text>
                   <Slider
                      style={styles.slider}
                      minimumValue={1}
@@ -92,7 +97,9 @@ const FilterComponent = () => {
 
                {/* Rating Filter */}
                <View style={styles.filterRow}>
-                  <Text className="text-lg">Rating: {rating}</Text>
+                  <Text className="text-lg">
+                     {translate('barber.rating')}: {rating}
+                  </Text>
                   <Slider
                      style={styles.slider}
                      minimumValue={1}
@@ -108,7 +115,9 @@ const FilterComponent = () => {
 
                {/* Availability Filter */}
                <View style={styles.filterRow}>
-                  <Text className="text-lg mb-1">Available Today:</Text>
+                  <Text className="text-lg mb-1">
+                     {translate('barber.available')}:
+                  </Text>
                   <Switch
                      value={isAvailable}
                      onValueChange={setIsAvailable}
@@ -118,7 +127,10 @@ const FilterComponent = () => {
                </View>
 
                {/* Apply Filter Button */}
-               <Button title="Apply Filter" onPress={applyFilter} />
+               <Button
+                  title={translate('appointment.filter.button')}
+                  onPress={applyFilter}
+               />
             </View>
          </Sheet>
       </View>

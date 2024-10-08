@@ -391,8 +391,7 @@ const BookingPage = () => {
             {services.length === 0 && (
                <View className="mt-10 flex-1 items-center justify-center p-2">
                   <Text className="text-center text-xl text-muted">
-                     {barber.name} has not listed any services yet. Please let
-                     him know!
+                     {translate('booking.no_services', { name: barber.name })}
                   </Text>
                </View>
             )}
@@ -427,7 +426,11 @@ const BookingPage = () => {
             <View className="w-[80%] self-center">
                <Button
                   disabled={!barber.isAvailable || services.length === 0}
-                  title={appointmentId ? 'Update Appointment' : 'Continue'}
+                  title={
+                     appointmentId
+                        ? translate('button.update')
+                        : translate('button.continue')
+                  }
                   style={{
                      opacity:
                         !barber.isAvailable || services.length === 0 ? 0.5 : 1

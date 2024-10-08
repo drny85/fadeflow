@@ -86,9 +86,8 @@ const BarberDetails = () => {
    const openReviewSheet = () => {
       if (!hasConfirmedAppointmentWithBarber) {
          toastAlert({
-            title: 'No Completed Appointment',
-            message:
-               'You must have a completed appointment with this barber to leave a review',
+            title: translate('reviews.alert.title'),
+            message: translate('reviews.alert.message'),
             duration: 3,
             preset: 'error'
          })
@@ -111,7 +110,11 @@ const BarberDetails = () => {
             showBookingButton
          />
          <SegmentedControl
-            values={VALUES}
+            values={[
+               translate('barber.info_options.info'),
+               translate('barber.info_options.gallery'),
+               translate('barber.info_options.reviews')
+            ]}
             fontStyle={{
                fontSize: 16,
                color: isDarkColorScheme ? '#ffffff' : '#212121'
@@ -125,7 +128,7 @@ const BarberDetails = () => {
             style={{
                backgroundColor: colors.card,
                height: 40,
-               width: '80%',
+               width: '86%',
                alignSelf: 'center',
                marginVertical: 10
             }}
@@ -183,17 +186,15 @@ const BarberDetails = () => {
 
          {selectedIndex === 2 && (
             <View className="mb-4 flex-1 gap-2 p-2">
-               <View className="flex-row items-center justify-between">
-                  <Text className="font-semibold" variant="title3">
-                     Reviews
-                  </Text>
+               <View className="flex-row items-center justify-between mr-4">
+                  <Text />
                   <Button
                      textStyle={{ color: colors.grey }}
                      style={{
                         backgroundColor: colors.background,
                         borderRadius: 10
                      }}
-                     title="Add Review"
+                     title={translate('reviews.add')}
                      onPress={openReviewSheet}
                   />
                </View>

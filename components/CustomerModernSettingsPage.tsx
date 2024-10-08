@@ -57,14 +57,18 @@ export default function CustomerModernSettingsPage() {
    const [phone, setPhone] = useState('')
 
    const handleSignOut = () => {
-      Alert.alert('Signing Out', 'Are you sure you want to sign out?', [
-         {
-            text: 'Yes',
-            style: 'destructive',
-            onPress: logOut
-         },
-         { text: 'Cancel', style: 'cancel' }
-      ])
+      Alert.alert(
+         translate('profile.confirmation.logout.title'),
+         translate('profile.confirmation.logout.message'),
+         [
+            {
+               text: translate('profile.confirmation.logout.yes'),
+               style: 'destructive',
+               onPress: logOut
+            },
+            { text: 'No', style: 'cancel' }
+         ]
+      )
    }
 
    const deleteAccount = async () => {
@@ -88,15 +92,15 @@ export default function CustomerModernSettingsPage() {
    const handleDeleteAccount = async () => {
       try {
          Alert.alert(
-            'Delete Account',
-            'Are you sure you want to delete your account?',
+            translate('profile.confirmation.delete.title'),
+            translate('profile.confirmation.delete.message'),
             [
                {
-                  text: 'Yes',
+                  text: translate('profile.confirmation.delete.yes'),
                   style: 'destructive',
                   onPress: deleteAccount
                },
-               { text: 'Cancel', style: 'cancel' }
+               { text: 'No', style: 'cancel' }
             ]
          )
       } catch (error) {
@@ -177,7 +181,7 @@ export default function CustomerModernSettingsPage() {
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={handleSignOut}>
-                     <Text className="font-semibold text-slate-200">
+                     <Text className="font-semibold mr-2 text-slate-200">
                         {translate('profile.logout')}
                      </Text>
                   </TouchableOpacity>
@@ -404,9 +408,11 @@ export default function CustomerModernSettingsPage() {
          >
             <View className="mb-2 flex-1">
                {view === 'user-update' && (
-                  <View className="px-2">
+                  <View className="px-2 mt-3">
                      <View>
-                        <Text>Full Name</Text>
+                        <Text variant={'title3'}>
+                           {translate('signup.name')}
+                        </Text>
                         <BottomSheetTextInput
                            style={{
                               marginTop: 10,
@@ -428,7 +434,9 @@ export default function CustomerModernSettingsPage() {
                         />
                      </View>
                      <View>
-                        <Text variant="title3">Phone</Text>
+                        <Text variant={'title3'}>
+                           {translate('signup.phone')}
+                        </Text>
                         <BottomSheetTextInput
                            style={{
                               marginTop: 10,
@@ -449,12 +457,12 @@ export default function CustomerModernSettingsPage() {
                         />
                         <View className="gap- flex-row items-center justify-evenly">
                            <Button
-                              title="Cancel"
+                              title={translate('button.cancel')}
                               color="orange"
                               onPress={resetForm}
                            />
                            <Button
-                              title="Update"
+                              title={translate('button.update')}
                               disabled={!name || !phone}
                               onPress={() => {
                                  if (!name) {

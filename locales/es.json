@@ -28,7 +28,20 @@
       "name": "Cambiar Nombre / Telefono",
       "terms": "Terminos y Condiciones",
       "privacy": "Politica de Privacidad",
-      "delete": "Eliminar Cuenta"
+      "delete": "Eliminar Cuenta",
+      "delete_account": "Eliminar Cuenta",
+      "confirmation": {
+         "delete": {
+            "title": "Eliminar Cuenta",
+            "message": "¿Seguro que quieres eliminar tu cuenta?",
+            "yes": "Si"
+         },
+         "logout": {
+            "title": "Cerrar Sesión",
+            "message": "¿Seguro que quieres cerrar sesión?",
+            "yes": "Si"
+         }
+      }
    },
    "settings": {
       "title": "Configuración",
@@ -60,15 +73,26 @@
       "select_service": "Seleccione un Servicio",
       "service_required": "Servicio Requerido",
       "service_required_message": "Favor de seleccionar un servicio",
-      "payment": "Pago sera coletado en la barberia una vez el servicio alla terminado",
+      "payment": "Pago sera coletado en la barberia una vez el servicio sea completado",
       "confirm": "Confirmar & Reservar",
-      "review": "Revisar & Confirmar"
+      "review": "Revisar & Confirmar",
+      "no_services": "{{name}} no tiene servicios disponible, dejale saber!."
+   },
+   "reviews": {
+      "add": "Añadir Reseña",
+      "no_review": "no reseñas aun",
+      "alert": {
+         "title": "No Citas Completada",
+         "message": "Favor de completar tu cita para dejar una reseña"
+      }
    },
 
    "button": {
       "book": "Reserva ya",
       "cancel": "Cancelar",
-      "reschedule": "Reprogramar"
+      "reschedule": "Reprogramar",
+      "continue": "Continuar",
+      "update": "Actualizar"
    },
    "appointment": {
       "details": {
@@ -90,6 +114,13 @@
          "No-show": "No Mostrar",
          "button": "Aplicar Filtro",
          "clear": "Limpiar Filtro"
+      },
+      "confirmation": {
+         "cancel": {
+            "title": "Cancelar Cita",
+            "message": "¿Seguro que quieres cancelar esta cita?",
+            "yes": "Si"
+         }
       }
    },
 
@@ -100,11 +131,20 @@
       "distance": "Distancia",
       "no_barber": "No barbero disponible",
       "review": "reseñas",
+      "no_review": "no reseñas aun",
       "about": "Acerca de {{name}}",
       "top_services": "Servicios Populares",
       "no_services": "No hay servicios disponibles",
       "schedule": "Horario",
-      "no_available": "no esta disponible hoy"
+      "no_available": "no esta disponible hoy",
+      "available": "Disponible Hoy",
+      "filter": "Filtrar Barberos",
+      "clear": "Eliminar Filtro",
+      "info_options": {
+         "info": "Information",
+         "gallery": "Galleria",
+         "reviews": "Reseñas"
+      }
    },
    "signup": {
       "login": "Ingresar",

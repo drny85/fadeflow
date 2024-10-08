@@ -1,10 +1,11 @@
-import { format, formatDistanceToNow, isPast } from 'date-fns'
+import { format } from 'date-fns'
 import { Image } from 'expo-image'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 
 import { Text } from '../nativewindui/Text'
 
+import { useTranslate } from '~/hooks/useTranslation'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { Appointment } from '~/shared/types'
@@ -17,6 +18,7 @@ type Props = {
    actionsButton?: React.ReactNode
 }
 const AppointmentCard = ({ appointmentId, onPress, actionsButton }: Props) => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const { getAppointment } = useAppointmentStore()
    const item = getAppointment(appointmentId)
@@ -44,7 +46,9 @@ const AppointmentCard = ({ appointmentId, onPress, actionsButton }: Props) => {
                   className={`${item.status === 'confirmed' ? 'bg-green-400' : item.status === 'pending' ? 'bg-orange-400' : item.status === 'cancelled' ? 'bg-primary' : 'bg-gray-400'} absolute -bottom-1 left-0 right-0 w-[80%] rounded-2xl p-1 px-2`}
                >
                   <Text className="text-center text-sm font-semibold capitalize text-white">
-                     {item.status}
+                     {translate(
+                        `appointment.filter.${item.status.charAt(0).toUpperCase() + item.status.slice(1)}`
+                     )}
                   </Text>
                </View>
             </View>
@@ -79,12 +83,13 @@ const AppointmentCard = ({ appointmentId, onPress, actionsButton }: Props) => {
                   Price: ${getAppointmentPrice(item.services)}
                </Text>
                <Text className="text-sm text-muted dark:text-white">
-                  {format(item.date, 'ccc - PPP')}
+                  {translate(`days.${format(item.date, 'ccc')}`)} -{' '}
+                  {format(item.date, 'PPP')}
                </Text>
-               <Text className="text-sm text-muted dark:text-white">
+               {/* <Text className="text-sm text-muted dark:text-white">
                   ({formatDistanceToNow(new Date(item.date))}){' '}
                   {isPast(new Date(item.date)) ? 'ago' : 'from now'}
-               </Text>
+               </Text> */}
             </View>
          </TouchableOpacity>
          {actionsButton && actionsButton}

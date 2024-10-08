@@ -178,11 +178,20 @@ const BarberImageHeader = ({
                   <View className="flex-row items-center gap-1">
                      <FontAwesome name="star" color="orange" size={20} />
                      <Text className="text-sm text-slate-700 dark:text-slate-200">
-                        {barberRating.toFixed(1)} {translate('barber.rating')}
+                        {barberRating === 0 ? (
+                           translate('barber.no_review')
+                        ) : (
+                           <Text className="text-slate-700 text-sm dark:text-slate-200">
+                              {barberRating.toFixed(1)}{' '}
+                              {translate('barber.rating')}
+                           </Text>
+                        )}
                      </Text>
-                     <Text className="text-sm text-slate-700 dark:text-slate-200">
-                        ({barberReviews.length} {translate('barber.review')})
-                     </Text>
+                     {barberReviews.length > 0 && (
+                        <Text className="text-sm text-slate-700 dark:text-slate-200">
+                           ({barberReviews.length} {translate('barber.review')})
+                        </Text>
+                     )}
                   </View>
                   <View className="w-1/3  flex-row self-end">
                      <CommunicationButtons phone={barber.phone} />

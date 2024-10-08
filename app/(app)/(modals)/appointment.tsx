@@ -196,15 +196,18 @@ const AppointmentDetails = () => {
                   title={translate('button.cancel')}
                   onPress={() =>
                      Alert.alert(
-                        'Are you sure you want to cancel this appointment?',
-                        'This action cannot be undone.',
+                        translate('appointment.confirmation.cancel.title'),
+                        translate('appointment.confirmation.cancel.message'),
+
                         [
                            {
-                              text: 'Cancel',
+                              text: 'No',
                               style: 'cancel'
                            },
                            {
-                              text: 'Yes, Cancel it',
+                              text: translate(
+                                 'appointment.confirmation.cancel.yes'
+                              ),
                               style: 'destructive',
                               onPress: handleCancelAppointment
                               // Perform cancellation logic here
