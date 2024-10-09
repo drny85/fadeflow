@@ -147,7 +147,8 @@
       "continue": "Continuar",
       "update": "Actualizar",
       "back": "Atras",
-      "edit": "Editar"
+      "edit": "Editar",
+      "save": "Guardar"
    },
    "appointment": {
       "today": "Hoy",
@@ -230,6 +231,11 @@
          "email": "Correo electrónico",
          "password": "Escribe tu contraseña",
          "confirmPassword": "Confirma tu contraseña"
+      },
+      "complition": {
+         "name": "Nombre de la Barberia",
+         "address": "Escribe la direcion",
+         "about": "Hablanos acerca de ti (opcional)"
       },
 
       "button": "Registrarme",

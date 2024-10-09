@@ -38,6 +38,7 @@ export default function BarberTabLayout() {
          <Tabs.Screen
             name="barber-home"
             options={{
+               unmountOnBlur: true,
                headerShown: false,
                title: translation('tabs', 'home'),
                tabBarIcon: ({ color, focused }) => (
@@ -58,7 +59,6 @@ export default function BarberTabLayout() {
          <Tabs.Screen
             name="barber-appointments"
             options={{
-               // unmountOnBlur: true,
                title: translation('tabs', 'appointments'),
                headerShown: false,
                tabBarIcon: ({ size, focused }) => (

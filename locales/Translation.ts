@@ -131,6 +131,7 @@ export interface TranslationButton {
     update:     string;
     edit:       string;
     back:       string;
+    save:       string;
 }
 
 export interface Days {
@@ -307,8 +308,15 @@ export interface Signup {
     confirmPassword: string;
     forgot:          string;
     placeholder:     Placeholder;
+    complition:      Complition;
     button:          string;
     toggle:          string;
+}
+
+export interface Complition {
+    name:    string;
+    address: string;
+    about:   string;
 }
 
 export interface Placeholder {
@@ -606,6 +614,7 @@ const typeMap: any = {
         { json: "update", js: "update", typ: "" },
         { json: "edit", js: "edit", typ: "" },
         { json: "back", js: "back", typ: "" },
+        { json: "save", js: "save", typ: "" },
     ], false),
     "Days": o([
         { json: "Mon", js: "Mon", typ: "" },
@@ -763,8 +772,14 @@ const typeMap: any = {
         { json: "confirmPassword", js: "confirmPassword", typ: "" },
         { json: "forgot", js: "forgot", typ: "" },
         { json: "placeholder", js: "placeholder", typ: r("Placeholder") },
+        { json: "complition", js: "complition", typ: r("Complition") },
         { json: "button", js: "button", typ: "" },
         { json: "toggle", js: "toggle", typ: "" },
+    ], false),
+    "Complition": o([
+        { json: "name", js: "name", typ: "" },
+        { json: "address", js: "address", typ: "" },
+        { json: "about", js: "about", typ: "" },
     ], false),
     "Placeholder": o([
         { json: "name", js: "name", typ: "" },

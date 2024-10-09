@@ -120,7 +120,8 @@
       "continue": "Continue",
       "update": "Update",
       "edit": "Edit",
-      "back": "Back"
+      "back": "Back",
+      "save": "Save"
    },
    "schedule": {
       "name": "Final Schedule",
@@ -223,6 +224,11 @@
          "email": "Enter your email address",
          "password": "Enter your password",
          "confirmPassword": "Confirm your password"
+      },
+      "complition": {
+         "name": "Barbershop's Name",
+         "address": "Type your barbershop's address",
+         "about": "Tell us about you (optional)"
       },
 
       "button": "Sign Up",

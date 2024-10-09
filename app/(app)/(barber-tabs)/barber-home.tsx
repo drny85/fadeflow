@@ -13,7 +13,6 @@ import { Text } from '~/components/nativewindui/Text'
 import { Toggle } from '~/components/nativewindui/Toggle'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
-import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
@@ -141,6 +140,7 @@ const BarberHome = () => {
                      />
                   </View>
                )}
+
                {user?.isBarber && !user.isAvailable && (
                   <View className="gap-2 rounded-md bg-destructive p-2 shadow-sm m-1">
                      <Text className="mb-2 text-center font-roboto-bold text-xl text-white capitalize">

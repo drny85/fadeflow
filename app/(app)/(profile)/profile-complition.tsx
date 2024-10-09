@@ -11,10 +11,13 @@ import { z } from 'zod'
 
 import { updateUser } from '~/actions/users'
 import { Button } from '~/components/Button'
+import { Container } from '~/components/Container'
 import KeyboardScreen from '~/components/KeyboardScreen'
+import { Text } from '~/components/nativewindui/Text'
 import TextInput from '~/components/TextInput'
 import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 
 const GOOGLE_KEY = process.env.EXPO_PUBLIC_GOOGLE_KEY as string
@@ -93,30 +96,30 @@ const ProfileComplition = () => {
          }
       }
    }, [user, googleRef.current])
+
    return (
       <KeyboardScreen style={{ flex: 1 }}>
          <ScrollView
             contentContainerClassName="p-2 gap-2"
             showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="always"
          >
             <TextInput
                control={control}
                autoFocus
                name="barbershopName"
-               placeholder="Barbershop Name"
+               placeholder={translation('signup', 'complition', 'name')}
                autoCapitalize="words"
             />
             <TextInput
                control={control}
                name="bio"
                multiline
-               placeholder="About me (optional)"
+               placeholder={translation('signup', 'complition', 'about')}
             />
             <GooglePlacesAutocomplete
                disableScroll
                ref={googleRef}
-               placeholder="Address"
+               placeholder={translation('signup', 'complition', 'address')}
                onPress={(data, details = null) => {
                   // 'details' is provided when fetchDetails = true
 
@@ -229,7 +232,7 @@ const ProfileComplition = () => {
             />
 
             <Button
-               title="Save"
+               title={translation('button', 'save')}
                onPress={handleSubmit(onSubmit)}
                disabled={isSubmitting}
                isLoading={isSubmitting || isLoading}

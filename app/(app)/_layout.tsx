@@ -21,6 +21,7 @@ import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { NAV_THEME } from '~/theme'
 import { i18n } from '~/locales/i18n'
+import { translation } from '~/locales/translate'
 SplashScreen.preventAutoHideAsync().catch((e) => {
    console.log('errors from splashscreen', e)
 })
@@ -198,7 +199,7 @@ const MODAL_OPTIONS = {
    presentation: 'modal',
 
    animation: 'fade_from_bottom', // for android
-   title: 'Profile',
+   title: translation('tabs', 'profile'),
    headerRight: () => <ThemeToggle />
 } as const
 
