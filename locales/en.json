@@ -4,7 +4,9 @@
       "home": "Home",
       "appointments": "Appointments",
       "barbers": "Barbers",
-      "profile": "Profile"
+      "profile": "Profile",
+      "stuffs": "Utills",
+      "earnings": "Earnings"
    },
    "login": {
       "username": "Username",
@@ -22,6 +24,7 @@
       "privacy": "Privacy Policy",
       "susbcription": "Suscription",
       "delete": "Delete Account",
+      "available": "I am Available",
       "update_profile": "Update Profile",
       "confirmation": {
          "delete": {
@@ -81,6 +84,23 @@
       "search_clients": "Search Clients",
       "no_services": "{{name}} has not listed any services yet. Please let him know!"
    },
+   "service": {
+      "title": "Services",
+      "no_services": "No services available",
+      "search": "Search Services",
+      "details": "Service Details",
+      "edit": {
+         "title": "Edit Service",
+         "update": "Update Service",
+         "placeholder": "Adult Haircut",
+         "add": "Add Service",
+         "duration": "Service Duration",
+         "price": "Service Price",
+         "description": "Service Description",
+         "image": "Select an image for the service",
+         "name": "Service's name"
+      }
+   },
    "reviews": {
       "add": "Add Review",
       "no_review": "No reviews yet",
@@ -96,7 +116,22 @@
       "cancel": "Cancel",
       "reschedule": "Re-Schedule",
       "continue": "Continue",
-      "update": "Update"
+      "update": "Update",
+      "edit": "Edit",
+      "back": "Back"
+   },
+   "schedule": {
+      "name": "Final Schedule",
+      "off": "Day Off",
+      "break": "Lunch Break",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "message": "This day is marked as Day off",
+      "button": {
+         "review": "Review & Save",
+         "update": "Update Schedule",
+         "close": "Close"
+      }
    },
    "appointment": {
       "today": "Today",
@@ -158,7 +193,9 @@
       "info_options": {
          "info": "Info",
          "gallery": "Galleria",
-         "reviews": "Reviews"
+         "reviews": "Reviews",
+         "services": "Services",
+         "schedule": "Schedule"
       }
    },
 
@@ -189,6 +226,7 @@
       "button": "Sign Up",
       "toggle": "Are you signin up as a Barber?"
    },
+
    "home": {
       "my_barber": "My Barber",
       "find_barber": "Find Barber",
@@ -210,5 +248,10 @@
          "no_barber": "No barber Available"
       },
       "greeting": "Hello, {{name}}!"
+   },
+   "misc": {
+      "no_data": "No data available",
+      "no_available": "No Available",
+      "no_available_message": "If you are not available, client cannot book appointments with you."
    }
 }

@@ -4,7 +4,9 @@
       "home": "Inicio",
       "barbers": "Barberos",
       "appointments": "Citas",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "stuffs": "Utilidades",
+      "earnings": "Ganancias"
    },
 
    "login": {
@@ -32,6 +34,7 @@
       "delete": "Eliminar Cuenta",
       "delete_account": "Eliminar Cuenta",
       "update_profile": "Actualizar Perfil",
+      "available": "Estoy Disponible",
       "confirmation": {
          "delete": {
             "title": "Eliminar Cuenta",
@@ -83,6 +86,19 @@
       "November": "Noviembre",
       "December": "Diciembre"
    },
+   "schedule": {
+      "name": "Horario Final",
+      "off": "Dia Libre",
+      "break": "Hora de lonche",
+      "startTime": "Hora de Inicio",
+      "endTime": "Hora que termina",
+      "message": "Este dia esta marcado como dia libre",
+      "button": {
+         "review": "Revisar & Salvar",
+         "update": "Actualizar Horario",
+         "close": "Cerrar"
+      }
+   },
 
    "booking": {
       "cash": "Solo Efectivo",
@@ -95,6 +111,23 @@
       "clients": "Clientes",
       "search_clients": "Buscar Clientes",
       "no_services": "{{name}} no tiene servicios disponible, dejale saber!."
+   },
+   "service": {
+      "title": "Servicios",
+      "search": "Buscar Servicios",
+      "no_services": "No servicios disponibles",
+      "deatils": "Detalles del Servicio",
+      "edit": {
+         "title": "Editar Servicio",
+         "update": "Actualizar Servicio",
+         "placeholder": "Recorte Para Adulto",
+         "duration": "Duración",
+         "price": "Precio",
+         "add": "Agregar Servicio",
+         "description": "Descripción",
+         "name": "Nombre del Servicio",
+         "image": "Selecione una imagen para el servicio"
+      }
    },
    "reviews": {
       "add": "Añadir Reseña",
@@ -110,7 +143,9 @@
       "cancel": "Cancelar",
       "reschedule": "Reprogramar",
       "continue": "Continuar",
-      "update": "Actualizar"
+      "update": "Actualizar",
+      "back": "Atras",
+      "edit": "Editar"
    },
    "appointment": {
       "today": "Hoy",
@@ -172,7 +207,9 @@
       "info_options": {
          "info": "Information",
          "gallery": "Galleria",
-         "reviews": "Reseñas"
+         "reviews": "Reseñas",
+         "services": "Servicios",
+         "schedule": "Horario"
       }
    },
    "signup": {
@@ -217,5 +254,10 @@
          "no_barber": "No barbero disponibles"
       },
       "greeting": "¡Hola, {{name}}!"
+   },
+   "misc": {
+      "no_data": "No hay datos disponibles",
+      "no_available": "no esta disponible hoy",
+      "no_available_message": "Si no esta disponible, clientes no padran hacer citas contigo."
    }
 }

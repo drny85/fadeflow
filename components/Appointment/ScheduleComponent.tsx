@@ -22,6 +22,8 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { dayOrder, Days, Schedule } from '~/shared/types'
 import { days, DEFAULT_SCHEDULE } from '~/constants'
+import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 
 type Props = {
    defaultSchedule: Schedule
@@ -36,6 +38,7 @@ const title: Record<string, string> = {
 
 export default function ScheduleComponent({ defaultSchedule }: Props) {
    const { user } = useAuth()
+   const translate = useTranslate()
    const bottomSheetRef = useSheetRef()
    const bottomSheetRef2 = useSheetRef()
    const [selectedDay, setSelectedDay] = useState<Days>('Sun')
@@ -149,6 +152,8 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
       }
    }, [showPicker.field])
 
+   console.log(showPicker.field)
+
    return (
       <View style={styles.container}>
          <View style={styles.daySelector}>
@@ -167,7 +172,7 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                   ]}
                >
                   <Text style={selectedDay === day && styles.activeDayText}>
-                     {day.substring(0, 3)}
+                     {translate(`days.${day.substring(0, 3)}`).substring(0, 3)}
                   </Text>
                </TouchableOpacity>
             ))}
@@ -188,11 +193,15 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                }
             ]}
          >
-            <Text style={styles.dayTitle}>{days[selectedDay]}</Text>
+            <Text style={styles.dayTitle}>
+               {translate(`longDays.${days[selectedDay]}`)}
+            </Text>
 
             {/* Toggle for isOff */}
             <View style={styles.switchContainer}>
-               <Text style={styles.switchLabel}>Day Off: </Text>
+               <Text style={styles.switchLabel}>
+                  {translation('schedule', 'off')}:{' '}
+               </Text>
                <Switch
                   value={schedule[selectedDay].isOff}
                   onValueChange={() => handleToggleIsOff(selectedDay)}
@@ -211,7 +220,9 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                   <View className="flex-row items-center justify-between w-full gap-3 ">
                      {/* Start Time */}
                      <View className="flex-1">
-                        <Text>Start Time</Text>
+                        <Text className="capitalize">
+                           {translation('schedule', 'startTime')}
+                        </Text>
                         <TouchableOpacity
                            onPress={() => {
                               openPicker('startTime')
@@ -231,7 +242,9 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
 
                      {/* End Time */}
                      <View className="flex-1">
-                        <Text>End Time</Text>
+                        <Text className="capitalize">
+                           {translation('schedule', 'endTime')}
+                        </Text>
                         <TouchableOpacity
                            onPress={() => {
                               openPicker('endTime')
@@ -249,10 +262,12 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
 
                   {/* Lunch Break */}
                   <View style={styles.lunchContainer}>
-                     <Text style={styles.lunchLabel}>Lunch Break</Text>
+                     <Text style={styles.lunchLabel}>
+                        {translation('schedule', 'break')}
+                     </Text>
                      <View className="flex-row items-center justify-between w-full gap-3 ">
                         <View className="flex-1">
-                           <Text>Start Time</Text>
+                           <Text>{translation('schedule', 'startTime')}</Text>
                            <TouchableOpacity
                               onPress={() => {
                                  openPicker('lunch.start')
@@ -270,7 +285,7 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                            </TouchableOpacity>
                         </View>
                         <View className="flex-1">
-                           <Text>End Time</Text>
+                           <Text>{translation('schedule', 'endTime')}</Text>
                            <TouchableOpacity
                               onPress={() => {
                                  openPicker('lunch.end')
@@ -291,14 +306,18 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                   </View>
                </>
             ) : (
-               <Text style={styles.offText}>This day is marked as off.</Text>
+               <Text style={styles.offText}>
+                  {translation('schedule', 'message')}.
+               </Text>
             )}
 
             {editing && (
                <View className="mt-3">
                   <Button
                      title={
-                        invalidDays.length === 0 ? 'Review & Save' : 'Update'
+                        invalidDays.length === 0
+                           ? translation('schedule', 'button', 'review')
+                           : translation('schedule', 'button', 'update')
                      }
                      onPress={async () => {
                         if (invalidDays.length > 0) {
@@ -326,7 +345,7 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                <View className="flex-row items-center justify-between">
                   <Text />
                   <Text className="text-center font-raleway-bold">
-                     Select {days[selectedDay]}'{' '}
+                     {translate(`longDays.${days[selectedDay]}`)}'s{' '}
                      {title[showPicker.field as string]}
                   </Text>
                   <TouchableOpacity
@@ -336,7 +355,7 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                      className="self-end p-2"
                   >
                      <Text className="text-end text-blue-600 font-roboto-bold mr-2">
-                        Done
+                        {translation('schedule', 'button', 'close')}
                      </Text>
                   </TouchableOpacity>
                </View>
@@ -370,17 +389,19 @@ export default function ScheduleComponent({ defaultSchedule }: Props) {
                className="self-end p-2 mr-2"
                onPress={() => bottomSheetRef.current?.close()}
             >
-               <Text className="text-red-600 font-roboto-bold">Close</Text>
+               <Text className="text-red-600 font-roboto-bold">
+                  {translation('schedule', 'button', 'close')}
+               </Text>
             </TouchableOpacity>
             <View className="items-center h-1/2">
-               <Text variant="largeTitle">Schedule View</Text>
-               <Text variant="subhead" className="my-2">
-                  This is the client's view
+               <Text variant="largeTitle" className="mb-2">
+                  {translation('schedule', 'name')}
                </Text>
+
                <ScheduleView schedule={schedule} />
                <View className="mt-4 self-center w-1/2">
                   <Button
-                     title="Save"
+                     title={translation('schedule', 'button', 'update')}
                      onPress={async () => {
                         if (!user || !user.isBarber) return
                         await updateUser({ ...user, schedule })
@@ -465,7 +486,8 @@ const styles = StyleSheet.create({
    lunchLabel: {
       fontSize: 16,
       fontWeight: '600',
-      marginBottom: 5
+      marginBottom: 5,
+      textTransform: 'capitalize'
    },
    offText: {
       textAlign: 'center',

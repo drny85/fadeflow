@@ -390,7 +390,7 @@ const BookingPage = () => {
             )}
             {services.length === 0 && (
                <View className="mt-10 flex-1 items-center justify-center p-2">
-                  <Text className="text-center text-xl text-muted">
+                  <Text className="text-center text-xl text-muted mt-6">
                      {translate('booking.no_services', { name: barber.name })}
                   </Text>
                </View>

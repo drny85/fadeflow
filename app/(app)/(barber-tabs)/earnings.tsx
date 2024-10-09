@@ -5,6 +5,7 @@ import { Container } from '~/components/Container'
 import EarningComponent from '~/components/EarningsChart'
 import { Text } from '~/components/nativewindui/Text'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
+import { translation } from '~/locales/translate'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 
 const Earnings = () => {
@@ -18,7 +19,7 @@ const Earnings = () => {
          <Container>
             <View className="flex-1 items-center justify-center">
                <Text className="font-semibold text-muted dark:text-slate-300">
-                  No Data to show
+                  {translation('misc', 'no_data')}
                </Text>
             </View>
          </Container>
@@ -28,7 +29,7 @@ const Earnings = () => {
       <Container>
          <View className="flex-1">
             <Text className="text-center" variant="largeTitle">
-               Earnings
+               {translation('tabs', 'earnings')}
             </Text>
             <EarningComponent appointments={appointments} />
          </View>

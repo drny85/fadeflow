@@ -25,6 +25,7 @@ import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { toastAlert, toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { IconNames, Photo, Service } from '~/shared/types'
 
@@ -204,10 +205,15 @@ const GalleryReviews = () => {
          <StatusBar style="dark" />
          <View className="flex-1 bg-background">
             <Text className="mb-2 text-center font-roboto-bold text-2xl">
-               My Stuffs
+               {translation('tabs', 'stuffs')}
             </Text>
             <SegmentedControl
-               values={VALUES}
+               values={[
+                  translation('barber', 'info_options', 'services'),
+                  translation('barber', 'info_options', 'gallery'),
+                  translation('barber', 'info_options', 'reviews'),
+                  translation('barber', 'info_options', 'schedule')
+               ]}
                fontStyle={{
                   fontSize: 16,
                   color: isDarkColorScheme ? '#ffffff' : '#000000'
@@ -308,7 +314,7 @@ const GalleryReviews = () => {
                            color={isDarkColorScheme ? '#ffffff' : colors.accent}
                         />
                         <Text className="text-center text-lg">
-                           Edit Service
+                           {translation('service', 'edit', 'title')}
                         </Text>
                      </TouchableOpacity>
                   </View>
@@ -329,7 +335,11 @@ const GalleryReviews = () => {
                         autoFocus
                         value={serviceToEdit?.name}
                         autoCapitalize="words"
-                        placeholder="Haircut Only"
+                        placeholder={translation(
+                           'service',
+                           'edit',
+                           'placeholder'
+                        )}
                         onChangeText={(text) =>
                            setServiceToEdit({
                               ...serviceToEdit!,
@@ -354,7 +364,11 @@ const GalleryReviews = () => {
                         defaultValue={serviceToEdit?.description}
                         value={serviceToEdit?.description}
                         autoCapitalize="none"
-                        placeholder="Desciption"
+                        placeholder={translation(
+                           'service',
+                           'edit',
+                           'description'
+                        )}
                         onChangeText={(text) =>
                            (descriptionRef.current.value = text)
                         }
@@ -363,7 +377,7 @@ const GalleryReviews = () => {
                      />
                      <View className="flex-row items-center justify-between ">
                         <Text className="text-xl font-semibold text-muted dark:text-slate-200">
-                           Service Duration:
+                           {translation('service', 'edit', 'duration')}
                         </Text>
                         <Stepper
                            step={5}
@@ -377,7 +391,7 @@ const GalleryReviews = () => {
                      </View>
                      <View className="flex-row items-center justify-between">
                         <Text className="text-xl font-semibold text-muted dark:text-slate-200">
-                           Service Price:
+                           {translation('service', 'edit', 'price')}
                         </Text>
                         <Stepper
                            step={5}
@@ -391,7 +405,7 @@ const GalleryReviews = () => {
                      </View>
                      <View>
                         <Text className="text-xl font-semibold text-muted dark:text-slate-200">
-                           Select a Service Icon:
+                           {translation('service', 'edit', 'image')}
                         </Text>
                         <IconImages
                            selected={icon}
@@ -400,7 +414,11 @@ const GalleryReviews = () => {
                         />
                      </View>
                      <Button
-                        title={edit ? 'Update Service' : 'Add Service'}
+                        title={
+                           edit
+                              ? translation('service', 'edit', 'update')
+                              : translation('service', 'edit', 'add')
+                        }
                         onPress={() => {
                            if (!serviceToEdit) return
                            const serv: Service = {

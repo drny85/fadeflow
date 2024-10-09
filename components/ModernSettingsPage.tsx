@@ -39,6 +39,7 @@ import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
 import LanguageSwitcher from './LanguagueSwitcher'
 import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 
 const MINUTES_INTERVAL = [15, 30, 45]
 const IMAGE_HEIGHT = 100
@@ -414,7 +415,9 @@ export default function ModernSettingsPage() {
                      />
                   </View>
 
-                  <Text style={styles.rowLabel}>I am Available</Text>
+                  <Text style={styles.rowLabel}>
+                     {translation('profile', 'available')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -459,7 +462,9 @@ export default function ModernSettingsPage() {
                      <Feather color="#fff" name="mail" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Contact Us</Text>
+                  <Text style={styles.rowLabel}>
+                     {translation('profile', 'contact')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -467,7 +472,9 @@ export default function ModernSettingsPage() {
                </TouchableOpacity>
             </View>
             <View style={styles.section}>
-               <Text style={styles.sectionTitle}>Privacy</Text>
+               <Text style={styles.sectionTitle}>
+                  {translation('profile', 'privacy')}
+               </Text>
                <TouchableOpacity
                   onPress={() => {
                      // handle onPress
@@ -486,7 +493,9 @@ export default function ModernSettingsPage() {
                      />
                   </View>
 
-                  <Text style={styles.rowLabel}>Terms of Use</Text>
+                  <Text style={styles.rowLabel}>
+                     {translation('profile', 'terms')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -504,7 +513,9 @@ export default function ModernSettingsPage() {
                      <Feather color="#fff" name="user-x" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Privacy Policy</Text>
+                  <Text style={styles.rowLabel}>
+                     {translation('profile', 'privacy')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
@@ -523,7 +534,9 @@ export default function ModernSettingsPage() {
                      <Feather color="#fff" name="x" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Delete Account</Text>
+                  <Text style={styles.rowLabel}>
+                     {translation('profile', 'delete')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 

@@ -10,6 +10,7 @@ import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Service } from '~/shared/types'
 import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 
 type Props = {
    services: Service[]
@@ -116,7 +117,7 @@ const ServicePicker = ({ services, isBarber, onPressServiceEdit }: Props) => {
                                     isDarkColorScheme ? '#ffffff' : '#212121'
                                  }
                               />
-                              <Text>Edit</Text>
+                              <Text>{translation('button', 'edit')}</Text>
                            </TouchableOpacity>
                         ) : (
                            <Toggle

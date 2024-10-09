@@ -16,13 +16,16 @@ export interface Translation {
     longDays:    LongDays;
     months:      Months;
     booking:     Booking;
+    service:     Service;
     reviews:     Reviews;
-    button:      Button;
+    button:      TranslationButton;
+    schedule:    Schedule;
     appointment: TranslationAppointment;
     barber:      Barber;
     settings:    Settings;
     signup:      Signup;
     home:        Home;
+    misc:        Misc;
 }
 
 export interface TranslationAppointment {
@@ -98,9 +101,11 @@ export interface Barber {
 }
 
 export interface InfoOptions {
-    info:    string;
-    gallery: string;
-    reviews: string;
+    info:     string;
+    gallery:  string;
+    reviews:  string;
+    services: string;
+    schedule: string;
 }
 
 export interface Booking {
@@ -116,12 +121,14 @@ export interface Booking {
     no_services:              string;
 }
 
-export interface Button {
+export interface TranslationButton {
     book:       string;
     cancel:     string;
     reschedule: string;
     continue:   string;
     update:     string;
+    edit:       string;
+    back:       string;
 }
 
 export interface Days {
@@ -178,6 +185,12 @@ export interface LongDays {
     Sunday:    string;
 }
 
+export interface Misc {
+    no_data:              string;
+    no_available:         string;
+    no_available_message: string;
+}
+
 export interface Months {
     January:   string;
     February:  string;
@@ -203,6 +216,7 @@ export interface Profile {
     privacy:        string;
     susbcription:   string;
     delete:         string;
+    available:      string;
     update_profile: string;
     confirmation:   ProfileConfirmation;
 }
@@ -222,6 +236,42 @@ export interface Reviews {
 export interface Alert {
     title:   string;
     message: string;
+}
+
+export interface Schedule {
+    name:      string;
+    off:       string;
+    break:     string;
+    startTime: string;
+    endTime:   string;
+    message:   string;
+    button:    ScheduleButton;
+}
+
+export interface ScheduleButton {
+    review: string;
+    update: string;
+    close:  string;
+}
+
+export interface Service {
+    title:       string;
+    no_services: string;
+    search:      string;
+    details:     string;
+    edit:        Edit;
+}
+
+export interface Edit {
+    title:       string;
+    update:      string;
+    placeholder: string;
+    add:         string;
+    duration:    string;
+    price:       string;
+    description: string;
+    image:       string;
+    name:        string;
 }
 
 export interface Settings {
@@ -259,6 +309,8 @@ export interface Tabs {
     appointments: string;
     barbers:      string;
     profile:      string;
+    stuffs:       string;
+    earnings:     string;
 }
 
 // Converts JSON strings to/from your types
@@ -435,13 +487,16 @@ const typeMap: any = {
         { json: "longDays", js: "longDays", typ: r("LongDays") },
         { json: "months", js: "months", typ: r("Months") },
         { json: "booking", js: "booking", typ: r("Booking") },
+        { json: "service", js: "service", typ: r("Service") },
         { json: "reviews", js: "reviews", typ: r("Reviews") },
-        { json: "button", js: "button", typ: r("Button") },
+        { json: "button", js: "button", typ: r("TranslationButton") },
+        { json: "schedule", js: "schedule", typ: r("Schedule") },
         { json: "appointment", js: "appointment", typ: r("TranslationAppointment") },
         { json: "barber", js: "barber", typ: r("Barber") },
         { json: "settings", js: "settings", typ: r("Settings") },
         { json: "signup", js: "signup", typ: r("Signup") },
         { json: "home", js: "home", typ: r("Home") },
+        { json: "misc", js: "misc", typ: r("Misc") },
     ], false),
     "TranslationAppointment": o([
         { json: "today", js: "today", typ: "" },
@@ -511,6 +566,8 @@ const typeMap: any = {
         { json: "info", js: "info", typ: "" },
         { json: "gallery", js: "gallery", typ: "" },
         { json: "reviews", js: "reviews", typ: "" },
+        { json: "services", js: "services", typ: "" },
+        { json: "schedule", js: "schedule", typ: "" },
     ], false),
     "Booking": o([
         { json: "cash", js: "cash", typ: "" },
@@ -524,12 +581,14 @@ const typeMap: any = {
         { json: "search_clients", js: "search_clients", typ: "" },
         { json: "no_services", js: "no_services", typ: "" },
     ], false),
-    "Button": o([
+    "TranslationButton": o([
         { json: "book", js: "book", typ: "" },
         { json: "cancel", js: "cancel", typ: "" },
         { json: "reschedule", js: "reschedule", typ: "" },
         { json: "continue", js: "continue", typ: "" },
         { json: "update", js: "update", typ: "" },
+        { json: "edit", js: "edit", typ: "" },
+        { json: "back", js: "back", typ: "" },
     ], false),
     "Days": o([
         { json: "Mon", js: "Mon", typ: "" },
@@ -579,6 +638,11 @@ const typeMap: any = {
         { json: "Saturday", js: "Saturday", typ: "" },
         { json: "Sunday", js: "Sunday", typ: "" },
     ], false),
+    "Misc": o([
+        { json: "no_data", js: "no_data", typ: "" },
+        { json: "no_available", js: "no_available", typ: "" },
+        { json: "no_available_message", js: "no_available_message", typ: "" },
+    ], false),
     "Months": o([
         { json: "January", js: "January", typ: "" },
         { json: "February", js: "February", typ: "" },
@@ -603,6 +667,7 @@ const typeMap: any = {
         { json: "privacy", js: "privacy", typ: "" },
         { json: "susbcription", js: "susbcription", typ: "" },
         { json: "delete", js: "delete", typ: "" },
+        { json: "available", js: "available", typ: "" },
         { json: "update_profile", js: "update_profile", typ: "" },
         { json: "confirmation", js: "confirmation", typ: r("ProfileConfirmation") },
     ], false),
@@ -619,6 +684,38 @@ const typeMap: any = {
     "Alert": o([
         { json: "title", js: "title", typ: "" },
         { json: "message", js: "message", typ: "" },
+    ], false),
+    "Schedule": o([
+        { json: "name", js: "name", typ: "" },
+        { json: "off", js: "off", typ: "" },
+        { json: "break", js: "break", typ: "" },
+        { json: "startTime", js: "startTime", typ: "" },
+        { json: "endTime", js: "endTime", typ: "" },
+        { json: "message", js: "message", typ: "" },
+        { json: "button", js: "button", typ: r("ScheduleButton") },
+    ], false),
+    "ScheduleButton": o([
+        { json: "review", js: "review", typ: "" },
+        { json: "update", js: "update", typ: "" },
+        { json: "close", js: "close", typ: "" },
+    ], false),
+    "Service": o([
+        { json: "title", js: "title", typ: "" },
+        { json: "no_services", js: "no_services", typ: "" },
+        { json: "search", js: "search", typ: "" },
+        { json: "details", js: "details", typ: "" },
+        { json: "edit", js: "edit", typ: r("Edit") },
+    ], false),
+    "Edit": o([
+        { json: "title", js: "title", typ: "" },
+        { json: "update", js: "update", typ: "" },
+        { json: "placeholder", js: "placeholder", typ: "" },
+        { json: "add", js: "add", typ: "" },
+        { json: "duration", js: "duration", typ: "" },
+        { json: "price", js: "price", typ: "" },
+        { json: "description", js: "description", typ: "" },
+        { json: "image", js: "image", typ: "" },
+        { json: "name", js: "name", typ: "" },
     ], false),
     "Settings": o([
         { json: "title", js: "title", typ: "" },
@@ -652,5 +749,7 @@ const typeMap: any = {
         { json: "appointments", js: "appointments", typ: "" },
         { json: "barbers", js: "barbers", typ: "" },
         { json: "profile", js: "profile", typ: "" },
+        { json: "stuffs", js: "stuffs", typ: "" },
+        { json: "earnings", js: "earnings", typ: "" },
     ], false),
 };

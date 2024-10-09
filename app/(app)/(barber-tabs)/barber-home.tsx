@@ -1,16 +1,20 @@
+import { MaterialIcons } from '@expo/vector-icons'
 import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns'
 import { router } from 'expo-router'
 import { useMemo } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import { updateUser } from '~/actions/users'
 import WaitingAppoinmentCard from '~/components/Appointment/WaitingAppoinmentCard'
 import { Button } from '~/components/Button'
 import HomeBarberHeader from '~/components/HomeBarberHeader'
 import ProgressBar from '~/components/ProgressBar'
 import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListItem'
 import { Text } from '~/components/nativewindui/Text'
+import { Toggle } from '~/components/nativewindui/Toggle'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useTranslate } from '~/hooks/useTranslation'
+import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
@@ -19,7 +23,7 @@ import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter'
 const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
 
 const BarberHome = () => {
-   const translate = useTranslate()
+   const { colors } = useColorScheme()
    const { user } = useAuth()
    const daysRemaining = differenceInDays(
       addDays(user?.createdAt!, +DAYS),
@@ -135,6 +139,47 @@ const BarberHome = () => {
                            donePercentage > 0 ? +donePercentage.toFixed(1) : 0.0
                         }
                      />
+                  </View>
+               )}
+               {user?.isBarber && !user.isAvailable && (
+                  <View className="gap-2 rounded-md bg-destructive p-2 shadow-sm m-1">
+                     <Text className="mb-2 text-center font-roboto-bold text-xl text-white capitalize">
+                        {translation('misc', 'no_available')}
+                     </Text>
+                     <Text variant={'heading'} className="text-white">
+                        {translation('misc', 'no_available_message')}
+                     </Text>
+                     <View className="flex-row items-center bg-card p-2 rounded-md">
+                        <View
+                           style={[
+                              styles.rowIcon,
+                              {
+                                 backgroundColor: colors.primary
+                              }
+                           ]}
+                        >
+                           <MaterialIcons
+                              name="event-available"
+                              size={22}
+                              color="#ffffff"
+                           />
+                        </View>
+
+                        <Text style={styles.rowLabel}>
+                           {translation('profile', 'available')}
+                        </Text>
+
+                        <View style={styles.rowSpacer} />
+
+                        <Toggle
+                           className="animate-bounce"
+                           onValueChange={(value) => {
+                              if (!user || !user.isBarber) return
+                              updateUser({ ...user, isAvailable: value })
+                           }}
+                           value={user?.isBarber && user?.isAvailable}
+                        />
+                     </View>
                   </View>
                )}
                {user?.isBarber &&
@@ -256,3 +301,24 @@ const BarberHome = () => {
 }
 
 export default BarberHome
+
+const styles = StyleSheet.create({
+   rowIcon: {
+      width: 32,
+      height: 32,
+      borderRadius: 9999,
+      marginRight: 12,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+   },
+   rowLabel: {
+      fontSize: 17,
+      fontWeight: '400'
+   },
+   rowSpacer: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: 0
+   }
+})

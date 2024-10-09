@@ -4,6 +4,7 @@ import { Text } from '../nativewindui/Text'
 import { Appointment } from '~/shared/types'
 import { router } from 'expo-router'
 import { format } from 'date-fns'
+import { translation } from '~/locales/translate'
 
 type Props = {
    appointments: Appointment[]
@@ -24,7 +25,7 @@ const WaitingAppoinmentCard = ({ appointments, title }: Props) => {
             ListEmptyComponent={
                <View className="p-2">
                   <Text className="text-muted dark:text-slate-300">
-                     No data
+                     {translation('appointment', 'no_appointment')}
                   </Text>
                </View>
             }

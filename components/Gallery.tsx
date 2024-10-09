@@ -91,7 +91,7 @@ const PhotoGallery: React.FC<{
    if (photos.length === 0)
       return (
          <View className="m-10 items-center justify-center">
-            <Text className="mt-10">No photos available</Text>
+            <Text className="mt-10">No Photos</Text>
          </View>
       )
 
