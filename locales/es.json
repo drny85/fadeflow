@@ -69,6 +69,20 @@
       "Saturday": "Sábado",
       "Sunday": "Domingo"
    },
+   "months": {
+      "January": "Enero",
+      "February": "Febrero",
+      "March": "Marzo",
+      "April": "Abril",
+      "May": "Mayo",
+      "June": "Junio",
+      "July": "Julio",
+      "August": "Agosto",
+      "September": "Septiembre",
+      "October": "Octubre",
+      "November": "Noviembre",
+      "December": "Diciembre"
+   },
 
    "booking": {
       "cash": "Solo Efectivo",
@@ -78,6 +92,8 @@
       "payment": "Pago sera coletado en la barberia una vez el servicio sea completado",
       "confirm": "Confirmar & Reservar",
       "review": "Revisar & Confirmar",
+      "clients": "Clientes",
+      "search_clients": "Buscar Clientes",
       "no_services": "{{name}} no tiene servicios disponible, dejale saber!."
    },
    "reviews": {
@@ -97,6 +113,8 @@
       "update": "Actualizar"
    },
    "appointment": {
+      "today": "Hoy",
+      "new": "Citas Nueva",
       "details": {
          "main": "Detalles de la Cita",
          "title": "Detalles del Servicio"
@@ -107,6 +125,8 @@
          "upcoming": "Próximas",
          "past": "Pasadas"
       },
+      "status": "Estado",
+      "mark_completed": "Completado",
       "filter": {
          "title": "Filtrar Citas Por",
          "Pending": "Pendiente",
@@ -116,6 +136,13 @@
          "No-show": "No Mostrar",
          "button": "Aplicar Filtro",
          "clear": "Limpiar Filtro"
+      },
+      "broadcast": {
+         "heading": "Mensaje Para Los Clientes",
+         "title": "Titulo",
+         "placeholder": "Mensaje Para Los Clientes",
+         "message": "Mensaje",
+         "button": "Enviar Mensaje"
       },
       "confirmation": {
          "cancel": {
@@ -176,6 +203,14 @@
       "signup": "Quieres regístrarte como Barbero?",
       "signup_title": "Regístrate",
       "rating": "calificación",
+      "estimated": "Estimacion de hoy",
+      "earned": "Ganado",
+      "pending": "Pendiente",
+      "waiting": {
+         "completion": "Esperando por completar",
+         "confirmation": "Easperando por confirmacion",
+         "cashout": "Esperando para cobrar"
+      },
       "appointment": {
          "upcoming": "Siguiente Cita",
          "no_appointment": "No Citas",

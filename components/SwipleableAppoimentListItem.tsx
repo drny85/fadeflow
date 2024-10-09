@@ -11,6 +11,7 @@ import { useAuth } from '~/providers/AuthContext'
 import { Appointment } from '~/shared/types'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 
 type Props = {
    item: Appointment
@@ -75,7 +76,7 @@ const SwipleableAppoimentListItem = ({
       >
          <Text style={dateTextStyle} className="font-roboto-bold ml-2">
             {showDate
-               ? `${isToday(item.date) ? 'Today' : format(item.date, 'PP')} at ${item.startTime}`
+               ? `${isToday(item.date) ? translation('appointment', 'today') : format(item.date, 'PP')} at ${item.startTime}`
                : item.startTime}
          </Text>
          <SwipeableComponent

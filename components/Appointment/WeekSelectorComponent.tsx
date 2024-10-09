@@ -17,6 +17,8 @@ import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { BlockTimeParams, Days, Schedule } from '~/shared/types'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
+import { useTranslate } from '~/hooks/useTranslation'
 
 type DayProps = {
    date: Date
@@ -58,7 +60,7 @@ const Day: React.FC<DayProps> = ({
             <Text
                className={`${isSelected ? 'font-raleway-bold text-white' : 'font-raleway'} ${isPast ? 'opacity-35' : ''} `}
             >
-               {format(date, 'E')}
+               {translation('days', format(date, 'E') as Days).slice(0, 3)}
             </Text>
             <Text
                className={`${isSelected ? 'font-semibold text-white' : ''} ${isPast || isOff ? 'opacity-35' : ''} `}
@@ -89,6 +91,7 @@ const WeekSelector: React.FC<Props> = ({
    onChange,
    blockedDays = []
 }) => {
+   const translate = useTranslate()
    const today = new Date()
    const { colors } = useColorScheme()
    const [currentDate, setCurrentDate] = useState<Date>(new Date())
@@ -176,7 +179,8 @@ const WeekSelector: React.FC<Props> = ({
             </TouchableOpacity>
             <TouchableOpacity onPress={handleTitlePress}>
                <Text className="font-roboto-bold text-lg">
-                  {getMonthName(currentDate)}
+                  {translate(`months.${format(currentDate, 'MMMM')}`)}{' '}
+                  {format(currentDate, 'yyyy')}
                </Text>
             </TouchableOpacity>
 

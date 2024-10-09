@@ -16,6 +16,7 @@ import { Text } from '~/components/nativewindui/Text'
 import { DEFAULT_SCHEDULE, SIZES } from '~/constants'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 
@@ -54,7 +55,7 @@ const BarberAppointments = () => {
                />
             </TouchableOpacity>
             <Text variant="title1" className="text-center mb-2">
-               Appointments
+               {translation('tabs', 'appointments')}
             </Text>
             <View className="flex-row items-center gap-4">
                <TouchableOpacity onPress={() => router.push('/block-times')}>
@@ -107,7 +108,7 @@ const BarberAppointments = () => {
                ListEmptyComponent={
                   <View className="mt-10 flex-1 items-center justify-center">
                      <Text className="text-center font-semibold text-muted dark:text-slate-300">
-                        No Appointments Scheduled
+                        {translation('appointment', 'no_appointment')}
                      </Text>
                      {blockedDates &&
                         blockedDates.length > 0 &&
@@ -220,7 +221,7 @@ const BarberAppointments = () => {
                      />
                   </TouchableOpacity>
                   <Text variant="title1" className="text-center mb-2">
-                     New Appointments
+                     {translation('appointment', 'new')}
                   </Text>
                   <Text />
                </View>
@@ -229,7 +230,7 @@ const BarberAppointments = () => {
                   ListEmptyComponent={
                      <View className="mt-10 flex-1 items-center justify-center">
                         <Text className="text-center font-semibold text-muted dark:text-slate-300">
-                           No New Appointments
+                           {translation('appointment', 'no_appointment')}
                         </Text>
                      </View>
                   }

@@ -20,6 +20,7 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { groupAppointmentsByCustomer } from '~/utils/groupAppointmentsByCustomer'
+import { translation } from '~/locales/translate'
 
 const messageSchema = z.object({
    title: z.string().min(3, 'Title is required'),
@@ -49,7 +50,6 @@ const BroadcastMessageScreen = () => {
       resolver: zodResolver(messageSchema)
    })
    const onSubmit = async (data: MessageSchema) => {
-      console.log(data)
       if (!user || !user.isBarber) return
       try {
          await addDoc(broadcastCollection, {
@@ -106,30 +106,40 @@ const BroadcastMessageScreen = () => {
                         color={isDarkColorScheme ? '#ffffff' : colors.primary}
                      />
                   </TouchableOpacity>
-                  <Text variant="title2">Message to all clients</Text>
+                  <Text variant="title2">
+                     {translation('appointment', 'broadcast', 'heading')}
+                  </Text>
                   <Text />
                </View>
                <View className="gap-3">
                   <TextInput
-                     label="Title"
+                     label={translation('appointment', 'broadcast', 'title')}
                      autoCapitalize="words"
                      control={control}
                      name="title"
-                     placeholder="Title"
+                     placeholder={translation(
+                        'appointment',
+                        'broadcast',
+                        'title'
+                     )}
                   />
                   <TextInput
                      control={control}
-                     label="Message"
+                     label={translation('appointment', 'broadcast', 'message')}
                      name="message"
                      multiline
                      maxLength={300}
                      inputStyle={{ minHeight: 100 }}
-                     placeholder="Type a message to all your clients"
+                     placeholder={translation(
+                        'appointment',
+                        'broadcast',
+                        'placeholder'
+                     )}
                   />
                </View>
                <Button
                   isLoading={isLoading}
-                  title="Send Message"
+                  title={translation('appointment', 'broadcast', 'button')}
                   onPress={handleSubmit(onSubmit)}
                   disabled={isLoading}
                />

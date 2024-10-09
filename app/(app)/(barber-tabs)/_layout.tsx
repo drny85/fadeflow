@@ -9,10 +9,9 @@ import { useAppointments } from '~/hooks/useAppointments'
 import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
-import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 
 export default function BarberTabLayout() {
-   const translate = useTranslate()
    const { colors, isDarkColorScheme } = useColorScheme()
    const { user } = useAuth()
    useAppointments()
@@ -40,7 +39,7 @@ export default function BarberTabLayout() {
             name="barber-home"
             options={{
                headerShown: false,
-               title: translate('tabs.home'),
+               title: translation('tabs', 'home'),
                tabBarIcon: ({ color, focused }) => (
                   <Image
                      source={require('~/assets/images/barbershop.png')}
@@ -59,7 +58,7 @@ export default function BarberTabLayout() {
          <Tabs.Screen
             name="barber-appointments"
             options={{
-               title: translate('tabs.appointments'),
+               title: translation('tabs', 'appointments'),
                headerShown: false,
                tabBarIcon: ({ size, focused }) => (
                   <Icon

@@ -20,10 +20,13 @@ import {
 import { Button } from '~/components/Button'
 import CommunicationButtons from '~/components/CommunicationButtons'
 import { Text } from '~/components/nativewindui/Text'
+import { useTranslate } from '~/hooks/useTranslation'
 import { toastAlert, toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
+import { AppointmentStatus } from '~/shared/types'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 import { getAppointmentPrice } from '~/utils/getAppointmentPrice'
 import { getBookingDate } from '~/utils/getBookingDate'
@@ -32,6 +35,7 @@ type ParamsProps = {
    appointmentId: string
 }
 const BarberAppointmentView = () => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const { isDarkColorScheme } = useColorScheme()
    const { bottom, top } = useSafeAreaInsets()
@@ -132,7 +136,9 @@ const BarberAppointmentView = () => {
          </ImageBackground>
          <ScrollView style={{ flex: 0.6 }}>
             <View className="m-2 gap-1 rounded-lg bg-card p-4 shadow-sm">
-               <Text className="text-xl font-semibold">Service Details</Text>
+               <Text className="text-xl font-semibold">
+                  {translation('appointment', 'details', 'title')}
+               </Text>
                <View>
                   {appointment.services.map((s, index) => (
                      <Text
@@ -180,13 +186,15 @@ const BarberAppointmentView = () => {
                )}
             </View>
             <Text className="text-center text-lg text-muted  dark:text-white">
-               Status
+               {translation('appointment', 'status')}
             </Text>
             <View className="my-2 w-1/2 self-center rounded-full bg-card px-3 shadow-sm">
                <Text
                   className={`my-2 text-center text-xl font-bold capitalize ${appointment.status === 'pending' ? 'text-orange-400' : appointment.status === 'confirmed' ? 'text-green-400' : appointment.status === 'cancelled' ? 'text-red-500' : 'text-slate-600'}`}
                >
-                  {appointment.status}
+                  {translate(
+                     `appointment.filter.${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}`
+                  )}
                </Text>
             </View>
          </ScrollView>
@@ -261,12 +269,12 @@ const BarberAppointmentView = () => {
                      color={isDarkColorScheme ? '#ffffff' : '#212121'}
                   />
                   <Text className="text-center text-lg text-muted dark:text-slate-400">
-                     No Show
+                     {translate('appointment.filter.No-show')}
                   </Text>
                </TouchableOpacity>
                <View className="flex-1">
                   <Button
-                     title="Mark Complete"
+                     title={translation('appointment', 'mark_completed')}
                      onPress={() => handleAppointmentUpdates(appointment)}
                   />
                </View>

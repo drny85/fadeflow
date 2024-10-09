@@ -12,6 +12,7 @@ import { Text } from '~/components/nativewindui/Text'
 import { SIZES } from '~/constants'
 import { useNavigationSearch } from '~/hooks/useNavigationSeach'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { Appointment } from '~/shared/types'
 import { getAppointmentPrice } from '~/utils/getAppointmentPrice'
@@ -25,7 +26,7 @@ const Clients = () => {
    >([])
    const search = useNavigationSearch({
       searchBarOptions: {
-         placeholder: 'Search Clients'
+         placeholder: translation('booking', 'search_clients')
       }
    })
 
@@ -65,7 +66,7 @@ const Clients = () => {
                   }}
                />
             )}
-            renderItem={({ index, item }) => {
+            renderItem={({ item }) => {
                return (
                   <TouchableOpacity
                      className="p-2 flex-row justify-between"
@@ -121,7 +122,9 @@ const Clients = () => {
                         color={isDarkColorScheme ? '#ffffff' : colors.primary}
                      />
                   </TouchableOpacity>
-                  <Text variant="title2">Appointments</Text>
+                  <Text variant="title2">
+                     {translation('tabs', 'appointments')}
+                  </Text>
                   <Text className="mr-3" />
                </View>
                <FlashList
@@ -130,7 +133,7 @@ const Clients = () => {
                      <View className="flex-row justify-between items-center my-3 border-b-[1px] border-b-primary">
                         <View className="flex-row gap-2">
                            <Text className="text-lg font-roboto-bold text-muted dark:text-slate-400">
-                              Total Appointments
+                              {translation('tabs', 'appointments')}
                            </Text>
                            <Text className="text-lg font-roboto-bold text-muted dark:text-slate-400">
                               {customersAppointments.length}
@@ -138,10 +141,13 @@ const Clients = () => {
                         </View>
                         <View className="flex-row gap-2">
                            <Text className="text-lg font-roboto-bold text-muted dark:text-slate-400">
-                              Total Spent
+                              Total
                            </Text>
 
                            <AnimatedNumber
+                              textStyle={{
+                                 color: isDarkColorScheme ? '#ffffff' : 'dedede'
+                              }}
                               value={totalSpentByCustomer(appointments)}
                            />
                         </View>

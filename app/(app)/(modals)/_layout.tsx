@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native'
 import BroadcastMessageScreen from '~/components/BroadcastMessageScreen'
 import { StackScreenWithSearchBar } from '~/constants/layout'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 
 const ModalLayout = () => {
    const { isDarkColorScheme, colorScheme, colors } = useColorScheme()
@@ -19,7 +20,7 @@ const ModalLayout = () => {
          <Stack.Screen
             name="clients"
             options={{
-               title: 'Clients',
+               title: translation('booking', 'clients'),
                headerRight: () => <BroadcastMessageScreen />,
                headerLeft: () => (
                   <TouchableOpacity onPress={router.back}>

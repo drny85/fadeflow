@@ -10,6 +10,8 @@ import SwipleableAppoimentListItem from '~/components/SwipleableAppoimentListIte
 import { Text } from '~/components/nativewindui/Text'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
+import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter'
@@ -17,6 +19,7 @@ import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter'
 const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
 
 const BarberHome = () => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const daysRemaining = differenceInDays(
       addDays(user?.createdAt!, +DAYS),
@@ -68,6 +71,10 @@ const BarberHome = () => {
       (a) => a.status === 'confirmed' && isPast(a.date)
    )
 
+   const waitingForCashout = appointmentsData.filter(
+      (a) => a.status === 'completed'
+   )
+
    const donePercentage =
       (completedAppointments.filter((a) => isToday(a.date)).length /
          todayAppoinments.length) *
@@ -116,7 +123,7 @@ const BarberHome = () => {
                {todayAppoinments.length > 0 && (
                   <View className="w-full p-2">
                      <Text className="text-center">
-                        Completed{' '}
+                        {translation('appointment', 'filter', 'Completed')}{' '}
                         {
                            completedAppointments.filter((a) => isToday(a.date))
                               .length
@@ -174,7 +181,7 @@ const BarberHome = () => {
                {services.length === 0 && (
                   <View className="mt-5 w-full items-center justify-center gap-2 p-1">
                      <Text className="text-center text-2xl text-muted dark:text-slate-300 mb-3">
-                        No services available
+                        {translation('barber', 'no_services')}
                      </Text>
                      <View className="p-2">
                         <Text variant="footnote" className="text-lg">
@@ -201,7 +208,9 @@ const BarberHome = () => {
                {services.length > 0 && (
                   <View className="gap-3">
                      <View className="bg-card p-2">
-                        <Text variant="title3">Next Appointment</Text>
+                        <Text variant="title3">
+                           {translation('home', 'appointment', 'upcoming')}
+                        </Text>
                         {myNextAppointment ? (
                            <SwipleableAppoimentListItem
                               index={0}
@@ -220,25 +229,23 @@ const BarberHome = () => {
                         ) : (
                            <View className="p-2">
                               <Text className="text-muted dark:text-slate-300">
-                                 No Appointments Scheduled
+                                 {translation(
+                                    'home',
+                                    'appointment',
+                                    'no_appointment'
+                                 )}
                               </Text>
                            </View>
                         )}
                      </View>
                      <WaitingAppoinmentCard
-                        title="Waiting for confirmation"
+                        title={translation('home', 'waiting', 'confirmation')}
                         appointments={waitinfForConfirmation}
                      />
 
                      <WaitingAppoinmentCard
+                        title={translation('home', 'waiting', 'cashout')}
                         appointments={confirmedAppointments}
-                        title="Waiting to for completion"
-                     />
-                     <WaitingAppoinmentCard
-                        title="Waiting to cash out"
-                        appointments={confirmedAppointments.filter(
-                           (a) => !isPast(a.date)
-                        )}
                      />
                   </View>
                )}

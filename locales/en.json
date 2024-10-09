@@ -54,6 +54,20 @@
       "Saturday": "Saturday",
       "Sunday": "Sunday"
    },
+   "months": {
+      "January": "January",
+      "February": "February",
+      "March": "March",
+      "April": "April",
+      "May": "May",
+      "June": "June",
+      "July": "July",
+      "August": "August",
+      "September": "September",
+      "October": "October",
+      "November": "November",
+      "December": "December"
+   },
 
    "booking": {
       "cash": "Cash Only",
@@ -63,6 +77,8 @@
       "payment": "Paymment will be make in cash after service complition",
       "confirm": "Confirm & Book",
       "review": "Review & Confirm",
+      "clients": "Clients",
+      "search_clients": "Search Clients",
       "no_services": "{{name}} has not listed any services yet. Please let him know!"
    },
    "reviews": {
@@ -83,16 +99,21 @@
       "update": "Update"
    },
    "appointment": {
+      "today": "Today",
+      "new": "New Appointments",
       "details": {
          "main": "Appointment Details",
          "title": "Service Details"
       },
       "no_appointment": "No Appointments",
+
       "available_today": "Appointments available today",
       "toggle": {
          "upcoming": "Upcoming",
          "past": "Past"
       },
+      "status": "Status",
+      "mark_completed": "Mark as Completed",
       "filter": {
          "title": "Filter Appointments By",
          "Pending": "Pending",
@@ -103,7 +124,14 @@
          "button": "Apply Filter",
          "clear": "Clear Filters"
       },
-      "conformation": {
+      "broadcast": {
+         "heading": "Broadcast Message",
+         "title": "Title",
+         "message": "Message",
+         "placeholder": "Type a message for all your clients",
+         "button": "Send Message"
+      },
+      "confirmation": {
          "cancel": {
             "title": "Cancel Appointment",
             "message": "Are you sure you want to cancel this appointment?",
@@ -168,6 +196,14 @@
       "signup": "Want to sign up as a Barber?",
       "signup_title": "Sign Up",
       "rating": "rating",
+      "estimated": "Today's Estimated",
+      "earned": "Earned",
+      "pending": "Pendiente",
+      "waiting": {
+         "completion": "Waiting for completion",
+         "confirmation": "Waiting for confirmation",
+         "cashout": "Waiting for cashout"
+      },
       "appointment": {
          "upcoming": "Upcoming Appointment",
          "no_appointment": "No Appointments",

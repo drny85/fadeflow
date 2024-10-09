@@ -12,6 +12,9 @@ import { convertMinutesToHours } from '~/utils/convertMinutesIntoHours'
 import { shareBarberLink } from '~/utils/shareBarberLink'
 import AnimatedNumber from './AnimatedNumber'
 import { Text } from './nativewindui/Text'
+import { useTranslate } from '~/hooks/useTranslation'
+import { format } from 'date-fns'
+import { translation } from '~/locales/translate'
 
 type Props = {
    confirmedTotal: number
@@ -24,6 +27,7 @@ const HomeBarberHeader = ({
    confirmedTotal,
    totalHours
 }: Props) => {
+   const translate = useTranslate()
    const { user } = useAuth()
    const [opacity, setOpacity] = useState(0.5)
    const { colors } = useColorScheme()
@@ -103,7 +107,7 @@ const HomeBarberHeader = ({
                />
             </TouchableOpacity>
             <Text className="font-raleway text-2xl text-white">
-               Hi {user?.name?.split(' ')[0]}
+               {translate('welcome', { name: user?.name?.split(' ')[0] })}
             </Text>
             {user && (
                <TouchableOpacity
@@ -114,16 +118,14 @@ const HomeBarberHeader = ({
                </TouchableOpacity>
             )}
          </View>
-         <Text className="mt-2 text-center text-white">
-            {new Date().toDateString()}
-         </Text>
+
          {services.length > 0 &&
             user?.isBarber &&
             (user.subscriptionStatus === 'active' ||
                user.subscriptionStatus === 'trialing') && (
-               <View className="mt-2 flex-1 items-center justify-center gap-4 p-2">
-                  <Text className="text-white" variant="title3">
-                     Today's Estimated
+               <View className="mt-2 flex-1 items-center justify-center gap-4 p-2 mb-3">
+                  <Text className="text-white capitalize" variant="title3">
+                     {translation('home', 'estimated')}
                   </Text>
                   <AnimatedNumber
                      textStyle={{ fontSize: 32, color: 'white' }}
@@ -131,7 +133,9 @@ const HomeBarberHeader = ({
                   />
                   <View className="w-full flex-row justify-evenly">
                      <View className="items-center justify-center">
-                        <Text className="text-slate-300">Pending</Text>
+                        <Text className="text-slate-300">
+                           {translation('home', 'pending')}
+                        </Text>
                         <AnimatedNumber
                            value={allAppointments - confirmedTotal}
                            textStyle={{ color: 'white' }}
@@ -139,7 +143,7 @@ const HomeBarberHeader = ({
                      </View>
                      <View className="items-center justify-center">
                         <Text className="text-muted text-slate-300">
-                           Earned
+                           {translation('home', 'earned')}
                         </Text>
                         <AnimatedNumber
                            value={confirmedTotal}
