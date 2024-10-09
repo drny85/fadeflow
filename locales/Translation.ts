@@ -26,6 +26,8 @@ export interface Translation {
     signup:      Signup;
     home:        Home;
     misc:        Misc;
+    terms:       Privacy;
+    privacy:     Privacy;
 }
 
 export interface TranslationAppointment {
@@ -206,8 +208,26 @@ export interface Months {
     December:  string;
 }
 
+export interface Privacy {
+    section1: Section1;
+    section2: Section1;
+    section3: Section1;
+    section4: Section1;
+    section5: Section1;
+    section6: Section1;
+    section7: Section1;
+    section8: Section1;
+}
+
+export interface Section1 {
+    title:   string;
+    message: string;
+}
+
 export interface Profile {
     theme:          string;
+    preferences:    string;
+    communication:  string;
     language:       string;
     contact:        string;
     logout:         string;
@@ -230,12 +250,7 @@ export interface Reviews {
     add:       string;
     no_review: string;
     title:     string;
-    alert:     Alert;
-}
-
-export interface Alert {
-    title:   string;
-    message: string;
+    alert:     Section1;
 }
 
 export interface Schedule {
@@ -497,6 +512,8 @@ const typeMap: any = {
         { json: "signup", js: "signup", typ: r("Signup") },
         { json: "home", js: "home", typ: r("Home") },
         { json: "misc", js: "misc", typ: r("Misc") },
+        { json: "terms", js: "terms", typ: r("Privacy") },
+        { json: "privacy", js: "privacy", typ: r("Privacy") },
     ], false),
     "TranslationAppointment": o([
         { json: "today", js: "today", typ: "" },
@@ -657,8 +674,24 @@ const typeMap: any = {
         { json: "November", js: "November", typ: "" },
         { json: "December", js: "December", typ: "" },
     ], false),
+    "Privacy": o([
+        { json: "section1", js: "section1", typ: r("Section1") },
+        { json: "section2", js: "section2", typ: r("Section1") },
+        { json: "section3", js: "section3", typ: r("Section1") },
+        { json: "section4", js: "section4", typ: r("Section1") },
+        { json: "section5", js: "section5", typ: r("Section1") },
+        { json: "section6", js: "section6", typ: r("Section1") },
+        { json: "section7", js: "section7", typ: r("Section1") },
+        { json: "section8", js: "section8", typ: r("Section1") },
+    ], false),
+    "Section1": o([
+        { json: "title", js: "title", typ: "" },
+        { json: "message", js: "message", typ: "" },
+    ], false),
     "Profile": o([
         { json: "theme", js: "theme", typ: "" },
+        { json: "preferences", js: "preferences", typ: "" },
+        { json: "communication", js: "communication", typ: "" },
         { json: "language", js: "language", typ: "" },
         { json: "contact", js: "contact", typ: "" },
         { json: "logout", js: "logout", typ: "" },
@@ -679,11 +712,7 @@ const typeMap: any = {
         { json: "add", js: "add", typ: "" },
         { json: "no_review", js: "no_review", typ: "" },
         { json: "title", js: "title", typ: "" },
-        { json: "alert", js: "alert", typ: r("Alert") },
-    ], false),
-    "Alert": o([
-        { json: "title", js: "title", typ: "" },
-        { json: "message", js: "message", typ: "" },
+        { json: "alert", js: "alert", typ: r("Section1") },
     ], false),
     "Schedule": o([
         { json: "name", js: "name", typ: "" },

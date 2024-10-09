@@ -6,8 +6,11 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import { BackButton } from '~/components/BackButton'
 import { Container } from '~/components/Container'
 import { Text } from '~/components/nativewindui/Text'
+import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 
 const BarberTermsOfUse: React.FC = () => {
+   const traslate = useTranslate()
    return (
       <Container>
          <BackButton onPress={() => router.back()} />
@@ -15,67 +18,67 @@ const BarberTermsOfUse: React.FC = () => {
             className="flex-1 bg-background p-2"
             contentContainerClassName="mb-4"
          >
-            <Text style={styles.title}>Terms of Use</Text>
+            <Text style={styles.title}>{translation('profile', 'terms')}</Text>
 
-            <Text style={styles.sectionTitle}>1. Introduction</Text>
+            <Text style={styles.sectionTitle}>
+               {translation('terms', 'section1', 'title')}
+            </Text>
             <Text style={styles.text}>
-               Welcome to {Constants.expoConfig?.name}! By using our platform,
-               you agree to comply with and be bound by the following terms of
-               use. Please read them carefully.
+               {translation('terms', 'section1', 'message')}
             </Text>
 
-            <Text style={styles.sectionTitle}>2. Barber Responsibilities</Text>
+            <Text style={styles.sectionTitle}>
+               {translation('terms', 'section2', 'title')}
+            </Text>
             <Text style={styles.text}>
-               As a barber, you are responsible for providing professional and
-               courteous services to your clients. You agree to honor all
-               bookings made through our app and to maintain the highest
-               standards of hygiene and safety.
+               {translation('terms', 'section2', 'message')}
             </Text>
 
-            <Text style={styles.sectionTitle}>3. Booking and Cancellation</Text>
+            <Text style={styles.sectionTitle}>
+               {translation('terms', 'section3', 'title')}
+            </Text>
             <Text style={styles.text}>
-               You must manage your availability accurately in the app. Any
-               cancellations should be done in a timely manner, and you must
-               notify your clients immediately if you are unable to fulfill a
-               booking.
+               {translation('terms', 'section3', 'message')}
             </Text>
 
-            <Text style={styles.sectionTitle}>4. Payment and Fees</Text>
+            <Text style={styles.sectionTitle}>
+               {translation('terms', 'section4', 'title')}
+            </Text>
             <Text style={styles.text}>
-               Payments for services rendered will be processed through our
-               platform. A service fee may be deducted from each transaction.
-               You agree to the fee structure outlined by{' '}
-               {Constants.expoConfig?.name}.
+               {translation('terms', 'section4', 'message')}
             </Text>
 
-            <Text style={styles.sectionTitle}>5. Prohibited Conduct</Text>
+            <Text style={styles.sectionTitle}>
+               {' '}
+               {translation('terms', 'section5', 'title')}
+            </Text>
             <Text style={styles.text}>
-               You agree not to engage in any unlawful, fraudulent, or harmful
-               activities. Any behavior that violates our policies or harms the
-               reputation of {Constants.expoConfig?.name} or its users will
-               result in account termination.
+               {translation('terms', 'section5', 'message')}
             </Text>
 
-            <Text style={styles.sectionTitle}>6. Account Termination</Text>
+            <Text style={styles.sectionTitle}>
+               {translation('terms', 'section6', 'title')}
+            </Text>
             <Text style={styles.text}>
-               We reserve the right to terminate your account at any time if you
-               fail to comply with these terms or engage in behavior detrimental
-               to the platform or its users.
+               {translation('terms', 'section6', 'message')}
             </Text>
 
-            <Text style={styles.sectionTitle}>7. Changes to Terms</Text>
+            <Text style={styles.sectionTitle}>
+               {translation('terms', 'section7', 'title')}
+            </Text>
             <Text style={styles.text}>
-               We may update these terms from time to time. You will be notified
-               of any significant changes, and continued use of the app
-               constitutes your acceptance of the new terms.
+               {translation('terms', 'section7', 'message')}
             </Text>
 
-            <Text style={styles.sectionTitle}>8. Contact Us</Text>
-            <Text style={styles.text}>
-               If you have any questions about these terms, please contact us at
-               melendez@robertdev.net
+            <Text style={styles.sectionTitle}>
+               {translation('terms', 'section8', 'title')}
             </Text>
-            <View className="h-10" />
+            <Text style={styles.text}>
+               {traslate('terms.section8.message', {
+                  email: process.env.EXPO_PUBLIC_CONTACT_EMAIL
+               })}
+            </Text>
+            <View className="h-10 mt-3" />
          </ScrollView>
       </Container>
    )

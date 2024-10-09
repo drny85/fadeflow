@@ -257,7 +257,9 @@ export default function ModernSettingsPage() {
       >
          <View>
             <View style={styles.section}>
-               <Text style={styles.sectionTitle}>Preferences</Text>
+               <Text style={styles.sectionTitle}>
+                  {translation('profile', 'preferences')}
+               </Text>
                <View style={[styles.row, { backgroundColor: colors.card }]}>
                   <View
                      style={[styles.rowIcon, { backgroundColor: '#007afe' }]}
@@ -432,7 +434,9 @@ export default function ModernSettingsPage() {
             </View>
 
             <View style={styles.section}>
-               <Text style={styles.sectionTitle}>Resources</Text>
+               <Text style={styles.sectionTitle}>
+                  {translation('profile', 'communication')}
+               </Text>
 
                <TouchableOpacity
                   onPress={() => {

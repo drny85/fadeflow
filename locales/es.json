@@ -24,6 +24,8 @@
 
    "profile": {
       "theme": "Tema",
+      "preferences": "Preferencias",
+      "communication": "Comunicación",
       "language": "Idioma",
       "contact": "Contactanos",
       "logout": "Salir",
@@ -259,5 +261,75 @@
       "no_data": "No hay datos disponibles",
       "no_available": "no esta disponible hoy",
       "no_available_message": "Si no esta disponible, clientes no padran hacer citas contigo."
+   },
+
+   "terms": {
+      "section1": {
+         "title": "1. Introducción",
+         "message": "¡Bienvenido a FadeFlow! Al usar nuestra plataforma, usted acepta cumplir y estar sujeto a los siguientes términos de uso. Por favor, léalos cuidadosamente."
+      },
+      "section2": {
+         "title": "2. Responsabilidades del Barbero",
+         "message": "Como barbero, usted es responsable de proporcionar servicios profesionales y corteses a sus clientes. Acepta cumplir con todas las reservas realizadas a través de nuestra aplicación y mantener los más altos estándares de higiene y seguridad."
+      },
+      "section3": {
+         "title": "3. Reservas y Cancelaciones",
+         "message": "Debe gestionar con precisión su disponibilidad en la aplicación. Cualquier cancelación debe realizarse de manera oportuna, y debe notificar a sus clientes de inmediato si no puede cumplir con una reserva."
+      },
+      "section4": {
+         "title": "4. Pagos y Reembolsos",
+         "message": "Todos los pagos son finales y no reembolsables. Si un cliente cancela una reserva, usted será responsable de reembolsar el pago del cliente. Si el pago se realiza en efectivo en la tienda, la declaración anterior no se aplica."
+      },
+      "section5": {
+         "title": "5. Privacidad y Protección de Datos",
+         "message": "Su privacidad es importante para nosotros. Valoramos su privacidad y no compartiremos su información personal con terceros sin su consentimiento."
+      },
+      "section6": {
+         "title": "6. Terminación de Cuenta",
+         "message": "Nos reservamos el derecho de terminar su cuenta en cualquier momento si no cumple con estos términos o si se involucra en un comportamiento perjudicial para la plataforma o sus usuarios."
+      },
+      "section7": {
+         "title": "7. Modificaciones a los Términos",
+         "message": "Nos reservamos el derecho de modificar estos términos en cualquier momento. Si realizamos cambios significativos, le notificaremos por correo electrónico o a través de la aplicación, y el uso continuo de la aplicación constituye su aceptación de los nuevos términos."
+      },
+      "section8": {
+         "title": "8. Información de Contacto",
+         "message": "Si tiene alguna pregunta o inquietud sobre estos términos, por favor contáctenos en {{email}}."
+      }
+   },
+
+   "privacy": {
+      "section1": {
+         "title": "1. Introducción",
+         "message": "Esta Política de Privacidad describe cómo {{name}} recopila, utiliza y protege su información personal. Al usar nuestra aplicación, usted acepta las prácticas de datos descritas en esta política."
+      },
+      "section2": {
+         "title": "2. Recopilación de Información",
+         "message": "Recopilamos información personal como su nombre, dirección de correo electrónico y número de teléfono cuando se registra para una cuenta o utiliza nuestra aplicación."
+      },
+      "section3": {
+         "title": "3. Uso de la Información",
+         "message": "Utilizamos su información personal para proporcionar y mejorar nuestros servicios, comunicarnos con usted y personalizar su experiencia."
+      },
+      "section4": {
+         "title": "4. Compartir Información",
+         "message": "No vendemos ni compartimos su información personal con terceros sin su consentimiento."
+      },
+      "section5": {
+         "title": "5. Seguridad de los Datos",
+         "message": "Implementamos medidas de seguridad para proteger su información personal del acceso o divulgación no autorizados. Sin embargo, tenga en cuenta que ningún método de transmisión por Internet o de almacenamiento electrónico es 100% seguro."
+      },
+      "section6": {
+         "title": "6. Cambios en la Política de Privacidad",
+         "message": "Nos reservamos el derecho de actualizar esta política de privacidad en cualquier momento. Si realizamos cambios significativos, le notificaremos por correo electrónico o a través de la aplicación, y el uso continuo de la aplicación constituye su aceptación de la nueva política."
+      },
+      "section7": {
+         "title": "7. Terminación de la Cuenta",
+         "message": "Si desea terminar su cuenta, puede hacerlo contactándonos a {{email}} o accediendo a la sección de su perfil dentro de la aplicación. Tenga en cuenta que podemos retener alguna información con fines de auditoría, y es su responsabilidad eliminar o desactivar su cuenta después de la terminación."
+      },
+      "section8": {
+         "title": "8. Información de Contacto",
+         "message": "Si tiene alguna pregunta o inquietud sobre esta política de privacidad, por favor contáctenos en {{email}}."
+      }
    }
 }

@@ -58,6 +58,7 @@ export default function BarberTabLayout() {
          <Tabs.Screen
             name="barber-appointments"
             options={{
+               // unmountOnBlur: true,
                title: translation('tabs', 'appointments'),
                headerShown: false,
                tabBarIcon: ({ size, focused }) => (
