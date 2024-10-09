@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+
 import { LunchBreak, TimeSlot } from '~/shared/types'
 
 type BlockTime = {

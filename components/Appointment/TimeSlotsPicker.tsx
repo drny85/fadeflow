@@ -7,12 +7,12 @@ import { FlatList, ListRenderItem, TouchableOpacity, View } from 'react-native'
 import { Button } from '../Button'
 import { Text } from '../nativewindui/Text'
 
+import { useTranslate } from '~/hooks/useTranslation'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber, Days, TimeSlot } from '~/shared/types'
 import { addUnavailableTimeSlots } from '~/utils/addUnavailableTimeSlots'
 import { generateAvailableTimeSlots } from '~/utils/getTimeSlots'
-import { useTranslate } from '~/hooks/useTranslation'
 
 const _spacing = 10
 

@@ -2,11 +2,12 @@ import { Feather } from '@expo/vector-icons'
 import { addMinutes, format } from 'date-fns'
 import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
-import { useTranslate } from '~/hooks/useTranslation'
 
+import { Text } from '../nativewindui/Text'
+
+import { useTranslate } from '~/hooks/useTranslation'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { getBookingDate } from '~/utils/getBookingDate'
-import { Text } from '../nativewindui/Text'
 
 type Props = {
    onPress: () => void

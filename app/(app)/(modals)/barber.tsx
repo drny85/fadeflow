@@ -31,8 +31,6 @@ type ParamsProps = {
    barberId: string
 }
 
-const VALUES = ['Info', 'Gallery', 'Reviews']
-
 const BarberDetails = () => {
    const translate = useTranslate()
    const { user } = useAuth()

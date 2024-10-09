@@ -8,8 +8,8 @@ import { TabBarIcon } from '../../../components/TabBarIcon'
 import { useAppointments } from '~/hooks/useAppointments'
 import { useNotifications } from '~/hooks/useNotification'
 import { useColorScheme } from '~/lib/useColorScheme'
-import { useAuth } from '~/providers/AuthContext'
 import { translation } from '~/locales/translate'
+import { useAuth } from '~/providers/AuthContext'
 
 export default function BarberTabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme()

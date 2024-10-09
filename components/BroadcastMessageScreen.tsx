@@ -17,10 +17,10 @@ import { SIZES } from '~/constants'
 import { broadcastCollection } from '~/firebase-collections'
 import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { groupAppointmentsByCustomer } from '~/utils/groupAppointmentsByCustomer'
-import { translation } from '~/locales/translate'
 
 const messageSchema = z.object({
    title: z.string().min(3, 'Title is required'),

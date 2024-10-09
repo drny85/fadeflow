@@ -59,7 +59,7 @@ const BarbersPage = () => {
             .map((b) => {
                return {
                   ...b,
-                  distance: distance,
+                  distance,
                   rating: getReviews(b.id, reviews)
                }
             })

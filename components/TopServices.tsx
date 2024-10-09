@@ -10,10 +10,10 @@ import {
 import { Text } from './nativewindui/Text'
 
 import { ICON_IMAGES, SIZES } from '~/constants'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Service } from '~/shared/types'
-import { useTranslate } from '~/hooks/useTranslation'
 
 interface TopServicesProps {
    services: Service[]

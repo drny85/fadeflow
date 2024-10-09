@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { View, Button, Text } from 'react-native'
-
-import { setStoredLanguage, getStoredLanguage } from '~/providers/languague'
 import Animated, {
    useSharedValue,
    useAnimatedStyle,
    withTiming
 } from 'react-native-reanimated'
+
 import { i18n } from '~/locales/i18n'
+import { setStoredLanguage, getStoredLanguage } from '~/providers/languague'
 
 const LanguageSwitcher = () => {
    const lng = getStoredLanguage()

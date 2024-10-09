@@ -21,6 +21,7 @@ import {
    View
 } from 'react-native'
 
+import LanguageSwitcher from './LanguagueSwitcher'
 import ParallaxScrollView from './ParallaxScrollView'
 import { ActivityIndicator } from './nativewindui/ActivityIndicator'
 import { Sheet, useSheetRef } from './nativewindui/Sheet'
@@ -33,13 +34,12 @@ import { SIZES } from '~/constants'
 import { deleteUserFunction } from '~/firebase-collections'
 import { usePhoto } from '~/hooks/usePhoto'
 import { usePortalLink } from '~/hooks/usePortalLink'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useUser } from '~/hooks/useUser'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
-import LanguageSwitcher from './LanguagueSwitcher'
-import { useTranslate } from '~/hooks/useTranslation'
-import { translation } from '~/locales/translate'
 
 const MINUTES_INTERVAL = [15, 30, 45]
 const IMAGE_HEIGHT = 100

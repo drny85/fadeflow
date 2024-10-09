@@ -7,8 +7,9 @@ import { router, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { Fragment, useEffect } from 'react'
-import { Appearance, TouchableOpacity } from 'react-native'
 import { I18nextProvider } from 'react-i18next'
+import { Appearance, TouchableOpacity } from 'react-native'
+
 import Loading from '~/components/Loading'
 import { ThemeToggle } from '~/components/nativewindui/ThemeToggle'
 import { Fonts } from '~/constants/Fonts'
@@ -18,10 +19,10 @@ import { useLinking } from '~/hooks/useLinking'
 import { useProtectedRoute } from '~/hooks/useProtectedRoutes'
 import { useUser } from '~/hooks/useUser'
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme'
-import { useAuth } from '~/providers/AuthContext'
-import { NAV_THEME } from '~/theme'
 import { i18n } from '~/locales/i18n'
 import { translation } from '~/locales/translate'
+import { useAuth } from '~/providers/AuthContext'
+import { NAV_THEME } from '~/theme'
 SplashScreen.preventAutoHideAsync().catch((e) => {
    console.log('errors from splashscreen', e)
 })

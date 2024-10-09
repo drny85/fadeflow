@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import Slider from '@react-native-community/slider'
+import { AnimatePresence, MotiView } from 'moti'
 import React, { useMemo, useState } from 'react'
 import {
    Button,
@@ -12,10 +13,9 @@ import {
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
 
-import { AnimatePresence, MotiView } from 'moti'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useBarbersStore } from '~/providers/useBarbersStore'
-import { useTranslate } from '~/hooks/useTranslation'
 
 const FilterComponent = () => {
    const { colors, isDarkColorScheme } = useColorScheme()

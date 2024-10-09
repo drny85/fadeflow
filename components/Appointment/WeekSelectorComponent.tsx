@@ -12,13 +12,13 @@ import Animated, { SlideInRight } from 'react-native-reanimated'
 
 import { Text } from '../nativewindui/Text'
 
+import { useTranslate } from '~/hooks/useTranslation'
+import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { BlockTimeParams, Days, Schedule } from '~/shared/types'
-import { useColorScheme } from '~/lib/useColorScheme'
-import { translation } from '~/locales/translate'
-import { useTranslate } from '~/hooks/useTranslation'
 
 type DayProps = {
    date: Date

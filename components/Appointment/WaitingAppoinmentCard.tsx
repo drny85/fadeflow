@@ -1,10 +1,12 @@
-import { FlatList, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import { Text } from '../nativewindui/Text'
-import { Appointment } from '~/shared/types'
-import { router } from 'expo-router'
 import { format } from 'date-fns'
+import { router } from 'expo-router'
+import React from 'react'
+import { FlatList, TouchableOpacity, View } from 'react-native'
+
+import { Text } from '../nativewindui/Text'
+
 import { translation } from '~/locales/translate'
+import { Appointment } from '~/shared/types'
 
 type Props = {
    appointments: Appointment[]

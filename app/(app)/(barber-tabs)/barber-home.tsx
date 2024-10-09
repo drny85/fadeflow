@@ -3,6 +3,7 @@ import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns'
 import { router } from 'expo-router'
 import { useMemo } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
+
 import { updateUser } from '~/actions/users'
 import WaitingAppoinmentCard from '~/components/Appointment/WaitingAppoinmentCard'
 import { Button } from '~/components/Button'
@@ -74,10 +75,6 @@ const BarberHome = () => {
       (a) => a.status === 'confirmed' && isPast(a.date)
    )
 
-   const waitingForCashout = appointmentsData.filter(
-      (a) => a.status === 'completed'
-   )
-
    const donePercentage =
       (completedAppointments.filter((a) => isToday(a.date)).length /
          todayAppoinments.length) *
@@ -146,7 +143,7 @@ const BarberHome = () => {
                      <Text className="mb-2 text-center font-roboto-bold text-xl text-white capitalize">
                         {translation('misc', 'no_available')}
                      </Text>
-                     <Text variant={'heading'} className="text-white">
+                     <Text variant="heading" className="text-white">
                         {translation('misc', 'no_available_message')}
                      </Text>
                      <View className="flex-row items-center bg-card p-2 rounded-md">

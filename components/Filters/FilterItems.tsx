@@ -10,10 +10,10 @@ import Animated, {
 import { Button } from '../Button'
 import { Text } from '../nativewindui/Text'
 
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { Appointment, AppointmentStatus } from '~/shared/types'
-import { useTranslate } from '~/hooks/useTranslation'
 
 const CIRCLE_SIZE = 24
 

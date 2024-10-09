@@ -1,17 +1,19 @@
+import { Ionicons } from '@expo/vector-icons'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import { addHours, addMonths, format, isPast, startOfDay } from 'date-fns'
+import { router, useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useMemo, useState } from 'react'
 import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import { Calendar } from 'react-native-calendars'
-import { addHours, addMonths, format, isPast, startOfDay } from 'date-fns'
 import { ScrollView } from 'react-native-gesture-handler'
+
 import { Container } from '../Container'
-import { useColorScheme } from '~/lib/useColorScheme'
 import { Text } from '../nativewindui/Text'
-import { BlockTimeParams, MarkedDate } from '~/shared/types'
 import { Toggle } from '../nativewindui/Toggle'
-import { Ionicons } from '@expo/vector-icons'
-import { router, useLocalSearchParams } from 'expo-router'
+
+import { useColorScheme } from '~/lib/useColorScheme'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
+import { BlockTimeParams, MarkedDate } from '~/shared/types'
 
 type Props = {
    initialBlockTimes: BlockTimeParams[] // array of BlockTime
@@ -175,7 +177,7 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                      color={colors.primary}
                   />
                </TouchableOpacity>
-               <Text variant={'title1'}>BLOCK TIME-FRAME</Text>
+               <Text variant="title1">BLOCK TIME-FRAME</Text>
                <Text />
             </View>
 
@@ -195,7 +197,7 @@ const BlockTime = ({ initialBlockTimes, onBlockTimeChange }: Props) => {
                minDate={new Date().toISOString().split('T')[0]}
                horizontal
                pagingEnabled
-               enableSwipeMonths={true}
+               enableSwipeMonths
                theme={{
                   backgroundColor: colors.card,
                   calendarBackground: colors.background,

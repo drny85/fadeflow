@@ -5,12 +5,12 @@ import Animated, { FadeInUp, FadeOut } from 'react-native-reanimated'
 import { Text } from '../nativewindui/Text'
 import { Toggle } from '../nativewindui/Toggle'
 
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Service } from '~/shared/types'
-import { useTranslate } from '~/hooks/useTranslation'
-import { translation } from '~/locales/translate'
 
 type Props = {
    services: Service[]

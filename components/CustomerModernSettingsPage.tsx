@@ -8,6 +8,7 @@ import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import { BlurView } from 'expo-blur'
 import Constants from 'expo-constants'
 import { ImageBackground } from 'expo-image'
+import * as Linking from 'expo-linking'
 import { router } from 'expo-router'
 import React, { useEffect, useMemo, useState } from 'react'
 import {
@@ -20,23 +21,21 @@ import {
 } from 'react-native'
 
 import { Container } from './Container'
+import LanguageSwitcher from './LanguagueSwitcher'
 import ParallaxScrollView from './ParallaxScrollView'
 import { ActivityIndicator } from './nativewindui/ActivityIndicator'
 import { Sheet, useSheetRef } from './nativewindui/Sheet'
 import { Text } from './nativewindui/Text'
 import { ThemeToggle } from './nativewindui/ThemeToggle'
 
-import * as Linking from 'expo-linking'
 import { updateUser } from '~/actions/users'
 import { SIZES } from '~/constants'
 import { deleteUserFunction } from '~/firebase-collections'
 import { usePhoto } from '~/hooks/usePhoto'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
-
-import LanguageSwitcher from './LanguagueSwitcher'
-import { useTranslate } from '~/hooks/useTranslation'
 
 const IMAGE_HEIGHT = 100
 export default function CustomerModernSettingsPage() {
@@ -410,9 +409,7 @@ export default function CustomerModernSettingsPage() {
                {view === 'user-update' && (
                   <View className="px-2 mt-3">
                      <View>
-                        <Text variant={'title3'}>
-                           {translate('signup.name')}
-                        </Text>
+                        <Text variant="title3">{translate('signup.name')}</Text>
                         <BottomSheetTextInput
                            style={{
                               marginTop: 10,
@@ -434,7 +431,7 @@ export default function CustomerModernSettingsPage() {
                         />
                      </View>
                      <View>
-                        <Text variant={'title3'}>
+                        <Text variant="title3">
                            {translate('signup.phone')}
                         </Text>
                         <BottomSheetTextInput

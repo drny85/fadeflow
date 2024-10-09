@@ -7,11 +7,11 @@ import SwipeableComponent from './SwipeableComponent'
 import { Text } from './nativewindui/Text'
 
 import { handleAppointmentUpdates } from '~/actions/appointments'
+import { useTranslate } from '~/hooks/useTranslation'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { Appointment } from '~/shared/types'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
-import { useTranslate } from '~/hooks/useTranslation'
-import { translation } from '~/locales/translate'
 
 type Props = {
    item: Appointment

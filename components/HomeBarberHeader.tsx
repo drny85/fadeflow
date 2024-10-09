@@ -1,20 +1,22 @@
 import { Feather } from '@expo/vector-icons'
 import Slider from '@react-native-community/slider'
+import { format } from 'date-fns'
 import { Image, ImageBackground } from 'expo-image'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+import AnimatedNumber from './AnimatedNumber'
+import { Text } from './nativewindui/Text'
+
 import { useServices } from '~/hooks/useServices'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { convertMinutesToHours } from '~/utils/convertMinutesIntoHours'
 import { shareBarberLink } from '~/utils/shareBarberLink'
-import AnimatedNumber from './AnimatedNumber'
-import { Text } from './nativewindui/Text'
-import { useTranslate } from '~/hooks/useTranslation'
-import { format } from 'date-fns'
-import { translation } from '~/locales/translate'
 
 type Props = {
    confirmedTotal: number
@@ -87,7 +89,7 @@ const HomeBarberHeader = ({
                onValueChange={(value) => setOpacity(value)}
                minimumTrackTintColor={colors.primary}
                maximumTrackTintColor="#d3d3d3"
-               thumbTintColor={'#ffffff'}
+               thumbTintColor="#ffffff"
             />
          )}
          <View className="flex-row items-center justify-between">

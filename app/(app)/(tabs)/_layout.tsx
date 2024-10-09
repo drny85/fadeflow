@@ -6,9 +6,9 @@ import { TabBarIcon } from '../../../components/TabBarIcon'
 import FilterAppointments from '~/components/Filters/FilterAppointments'
 import { useBarbers } from '~/hooks/useBarbers'
 import { useNotifications } from '~/hooks/useNotification'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
-import { useTranslate } from '~/hooks/useTranslation'
 
 export default function TabLayout() {
    const translate = useTranslate()

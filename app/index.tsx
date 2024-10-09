@@ -1,10 +1,9 @@
 import Constants from 'expo-constants'
+import { router } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
 import { StyleSheet } from 'nativewind'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Animated } from 'react-native'
-
-import { router } from 'expo-router'
-import * as SplashScreen from 'expo-splash-screen'
 
 const Index = () => {
    const [isAppReady, setAppReady] = useState(false)

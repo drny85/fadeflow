@@ -2,10 +2,11 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import { Image, ImageBackground } from 'expo-image'
 import { router } from 'expo-router'
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View, ViewStyle } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useTranslation } from 'react-i18next'
+
 import Loading from './Loading'
 import { Text } from './nativewindui/Text'
 

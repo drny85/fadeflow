@@ -11,10 +11,10 @@ import TextInput from '../TextInput'
 import { Text } from '../nativewindui/Text'
 
 import { DEFAULT_SCHEDULE } from '~/constants'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { AppUser } from '~/shared/types'
-import { useTranslate } from '~/hooks/useTranslation'
 
 const signupSchema = z
    .object({

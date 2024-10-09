@@ -12,10 +12,10 @@ import ForgotPassword from './ForgotPassword'
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
 
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { FIREBASE_ERRORS } from '~/utils/firebaseErrorMessages'
-import { useTranslate } from '~/hooks/useTranslation'
 
 const loginSchema = z.object({
    email: z.string().email(),

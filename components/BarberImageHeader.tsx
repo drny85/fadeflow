@@ -11,13 +11,13 @@ import { Text } from './nativewindui/Text'
 import { updateUser } from '~/actions/users'
 import { SIZES } from '~/constants'
 import { useReviews } from '~/hooks/useReviews'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useUser } from '~/hooks/useUser'
 import { toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { Barber } from '~/shared/types'
 import { shareBarberLink } from '~/utils/shareBarberLink'
-import { useTranslate } from '~/hooks/useTranslation'
 
 type Props = {
    barber: Barber

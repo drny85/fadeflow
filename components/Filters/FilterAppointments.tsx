@@ -6,10 +6,10 @@ import FilterItems from './FilterItems'
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
 
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
-import { useTranslate } from '~/hooks/useTranslation'
 
 const FilterAppointments = () => {
    const translate = useTranslate()

@@ -3,6 +3,7 @@ import { BlurView } from 'expo-blur'
 import Constants from 'expo-constants'
 import { router } from 'expo-router'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import AppointmentCard from '~/components/Appointment/AppointmentCard'
@@ -19,7 +20,6 @@ import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useBarbersStore } from '~/providers/useBarbersStore'
 import { COLORS } from '~/theme/colors'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
-import { useTranslation } from 'react-i18next'
 
 const Home = () => {
    const { t } = useTranslation()

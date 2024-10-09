@@ -12,18 +12,18 @@ import {
 import Animated, { SlideInLeft, SlideOutRight } from 'react-native-reanimated'
 
 import { Button } from '../Button'
+import ScheduleView from './ScheduleView'
 import { Sheet, useSheetRef } from '../nativewindui/Sheet'
 import { Text } from '../nativewindui/Text'
-import ScheduleView from './ScheduleView'
 
 import { updateUser } from '~/actions/users'
-import { toastMessage } from '~/lib/toast'
-import { useColorScheme } from '~/lib/useColorScheme'
-import { useAuth } from '~/providers/AuthContext'
-import { dayOrder, Days, Schedule } from '~/shared/types'
 import { days, DEFAULT_SCHEDULE } from '~/constants'
 import { useTranslate } from '~/hooks/useTranslation'
+import { toastMessage } from '~/lib/toast'
+import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
+import { useAuth } from '~/providers/AuthContext'
+import { dayOrder, Days, Schedule } from '~/shared/types'
 
 type Props = {
    defaultSchedule: Schedule

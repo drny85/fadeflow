@@ -3,8 +3,8 @@ import { View } from 'react-native'
 
 import { Text } from './nativewindui/Text'
 
-import { Days, ScheduleDay } from '~/shared/types'
 import { useTranslate } from '~/hooks/useTranslation'
+import { Days, ScheduleDay } from '~/shared/types'
 
 type Props = {
    day: Days

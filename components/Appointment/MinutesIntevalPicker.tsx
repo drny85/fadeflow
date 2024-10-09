@@ -1,6 +1,7 @@
+import { format, addMinutes } from 'date-fns'
 import React, { useState } from 'react'
 import { View, Text, FlatList, StyleSheet } from 'react-native'
-import { format, addMinutes } from 'date-fns'
+
 import { Picker, PickerItem } from '../nativewindui/Picker'
 
 const MinuteIntervalPicker = () => {
@@ -8,7 +9,7 @@ const MinuteIntervalPicker = () => {
    const [availableTimes, setAvailableTimes] = useState<string[]>([])
 
    const generateTimes = (minuteInterval: number) => {
-      let startHour = new Date()
+      const startHour = new Date()
       startHour.setHours(10, 0, 0, 0) // Start at 10:00 AM
 
       const timesArray: string[] = []

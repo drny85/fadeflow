@@ -3,6 +3,7 @@ import { Slot } from 'expo-router'
 import { useUpdates } from 'expo-updates'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
+
 import 'react-native-get-random-values'
 import { AuthProvider } from '~/providers/AuthContext'
 

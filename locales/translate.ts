@@ -1,5 +1,6 @@
-import { Translation } from './Translation'
 import i18n from 'i18next'
+
+import { Translation } from './Translation'
 
 export function translation<
    K1 extends keyof Translation,

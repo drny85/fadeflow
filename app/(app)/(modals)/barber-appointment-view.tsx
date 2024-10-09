@@ -6,10 +6,10 @@ import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { useCallback } from 'react'
 import {
    Alert,
+   ImageBackground,
    ScrollView,
    TouchableOpacity,
-   View,
-   ImageBackground
+   View
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -26,7 +26,6 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
-import { AppointmentStatus } from '~/shared/types'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 import { getAppointmentPrice } from '~/utils/getAppointmentPrice'
 import { getBookingDate } from '~/utils/getBookingDate'

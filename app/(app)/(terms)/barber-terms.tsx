@@ -1,4 +1,3 @@
-import Constants from 'expo-constants'
 import { router } from 'expo-router'
 import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'

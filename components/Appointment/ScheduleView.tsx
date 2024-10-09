@@ -3,8 +3,8 @@ import { View } from 'react-native'
 import ScheduleDayCard from '../ScheduleDayCard'
 import { Text } from '../nativewindui/Text'
 
-import { dayOrder, Days, Schedule, ScheduleDay } from '~/shared/types'
 import { useTranslate } from '~/hooks/useTranslation'
+import { dayOrder, Days, Schedule, ScheduleDay } from '~/shared/types'
 
 type Props = {
    schedule: Schedule

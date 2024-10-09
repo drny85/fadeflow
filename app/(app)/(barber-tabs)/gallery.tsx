@@ -3,7 +3,7 @@ import { BottomSheetTextInput, TouchableOpacity } from '@gorhom/bottom-sheet'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { StatusBar } from 'expo-status-bar'
 import { deleteObject, ref } from 'firebase/storage'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Alert, View } from 'react-native'
 
 import { addNewService, updateService } from '~/actions/services'

@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+
 import { Barber, Days, Review } from '~/shared/types'
 
 export const getReviews = (barberId: string, reviews: Review[]): number => {

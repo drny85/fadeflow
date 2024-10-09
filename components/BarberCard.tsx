@@ -10,8 +10,8 @@ import CommunicationButtons from './CommunicationButtons'
 import { Text } from './nativewindui/Text'
 
 import { useReviews } from '~/hooks/useReviews'
-import { Barber } from '~/shared/types'
 import { useTranslate } from '~/hooks/useTranslation'
+import { Barber } from '~/shared/types'
 
 type Props = {
    barber: Barber

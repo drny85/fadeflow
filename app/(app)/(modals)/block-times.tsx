@@ -1,5 +1,6 @@
 import { router } from 'expo-router'
 import React from 'react'
+
 import { updateUser } from '~/actions/users'
 import BlockTime from '~/components/Appointment/BlockTime'
 import { toastMessage } from '~/lib/toast'

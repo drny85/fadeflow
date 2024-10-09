@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+import { AnimatePresence, MotiView } from 'moti'
 import { ScrollView, View } from 'react-native'
 
 import TimeSlotPickerComponent from './TimeSlotsPicker'
@@ -8,8 +10,6 @@ import { Text } from '../nativewindui/Text'
 import { toastMessage } from '~/lib/toast'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber } from '~/shared/types'
-import { AnimatePresence, MotiView } from 'moti'
-import { format } from 'date-fns'
 
 type Props = {
    onPress: () => void

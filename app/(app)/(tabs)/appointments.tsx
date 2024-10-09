@@ -18,8 +18,6 @@ import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { COLORS } from '~/theme/colors'
 
-const VALUES = ['Upcoming', 'Past']
-
 type ParamsProps = {
    confetti?: string
 }
