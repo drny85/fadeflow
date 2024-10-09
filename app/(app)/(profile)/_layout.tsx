@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router'
 
-const _layout = () => {
+const ProfileCompletion = () => {
    return (
       <Stack>
          <Stack.Screen
@@ -11,4 +11,4 @@ const _layout = () => {
    )
 }
 
-export default _layout
+export default ProfileCompletion

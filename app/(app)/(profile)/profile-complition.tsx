@@ -88,11 +88,11 @@ const ProfileComplition = () => {
 
    useEffect(() => {
       if (user?.isBarber) {
-         if (user.profile?.address) {
+         if (user.profile?.address && googleRef.current) {
             googleRef.current?.setAddressText(user.profile.address)
          }
       }
-   }, [user])
+   }, [user, googleRef.current])
    return (
       <KeyboardScreen style={{ flex: 1 }}>
          <ScrollView

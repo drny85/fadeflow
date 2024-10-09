@@ -37,12 +37,15 @@ import { useUser } from '~/hooks/useUser'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
+import LanguageSwitcher from './LanguagueSwitcher'
+import { useTranslate } from '~/hooks/useTranslation'
 
 const MINUTES_INTERVAL = [15, 30, 45]
 const IMAGE_HEIGHT = 100
 
 export default function ModernSettingsPage() {
    useUser()
+   const translate = useTranslate()
    const { user, logOut } = useAuth()
    const { loading, getCustomerPortal } = usePortalLink()
    const [view, setView] = useState<
@@ -204,7 +207,9 @@ export default function ModernSettingsPage() {
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={handleSignOut}>
-                     <Text className="font-semibold  text-white">Log Out</Text>
+                     <Text className="font-semibold  text-white">
+                        {translate('profile.logout')}
+                     </Text>
                   </TouchableOpacity>
                </View>
                <BlurView
@@ -259,11 +264,33 @@ export default function ModernSettingsPage() {
                      <Feather color="#fff" name="moon" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Theme</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.theme')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 
                   <ThemeToggle />
+               </View>
+               <View style={[styles.row, { backgroundColor: colors.card }]}>
+                  <View
+                     style={[
+                        styles.rowIcon,
+                        { backgroundColor: colors.primary }
+                     ]}
+                  >
+                     <FontAwesome name="language" size={24} color="#ffffff" />
+                  </View>
+
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.language')}
+                  </Text>
+
+                  <View style={styles.rowSpacer} />
+
+                  <View>
+                     <LanguageSwitcher />
+                  </View>
                </View>
                <TouchableOpacity
                   disabled={
@@ -278,7 +305,9 @@ export default function ModernSettingsPage() {
                         <Feather color="#fff" name="activity" size={20} />
                      </View>
 
-                     <Text style={styles.rowLabel}>Subscription</Text>
+                     <Text style={styles.rowLabel}>
+                        {translate('profile.susbcription')}
+                     </Text>
 
                      <View style={styles.rowSpacer} />
                      {loading ? (
@@ -350,9 +379,6 @@ export default function ModernSettingsPage() {
 
                <TouchableOpacity
                   onPress={() => {
-                     // // handle onPress
-                     // setView('user-update');
-                     // bottomSheetRef.current?.present();
                      router.push('/profile-complition')
                   }}
                   style={[styles.row, { backgroundColor: colors.card }]}
@@ -366,7 +392,9 @@ export default function ModernSettingsPage() {
                      <Feather color="#fff" name="user" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Update Profile</Text>
+                  <Text style={styles.rowLabel}>
+                     {translate('profile.update_profile')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
 

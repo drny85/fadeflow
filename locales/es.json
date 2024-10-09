@@ -28,8 +28,10 @@
       "name": "Cambiar Nombre / Telefono",
       "terms": "Terminos y Condiciones",
       "privacy": "Politica de Privacidad",
+      "susbcription": "Suscripcion",
       "delete": "Eliminar Cuenta",
       "delete_account": "Eliminar Cuenta",
+      "update_profile": "Actualizar Perfil",
       "confirmation": {
          "delete": {
             "title": "Eliminar Cuenta",

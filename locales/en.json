@@ -20,7 +20,9 @@
       "name": "Change Name / Phone",
       "terms": "Terms and Conditions",
       "privacy": "Privacy Policy",
+      "susbcription": "Suscription",
       "delete": "Delete Account",
+      "update_profile": "Update Profile",
       "confirmation": {
          "delete": {
             "title": "Delete Account",

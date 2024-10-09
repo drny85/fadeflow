@@ -33,7 +33,7 @@ const HomeBarberHeader = ({
       <View
          style={{
             paddingTop: top,
-            height: '45%',
+            height: '48%',
             shadowOffset: { height: 3, width: 0 },
             //shadowColor: colors.grey,
             shadowOpacity: 0.5,
@@ -71,7 +71,7 @@ const HomeBarberHeader = ({
             <Slider
                style={{
                   position: 'absolute',
-                  bottom: 6,
+                  bottom: 0,
                   zIndex: 2,
                   left: 10,
                   right: 10
