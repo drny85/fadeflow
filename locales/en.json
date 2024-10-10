@@ -25,6 +25,7 @@
       "terms": "Terms and Conditions",
       "privacy": "Privacy Policy",
       "susbcription": "Suscription",
+      "minutes_interval": "Booking Interval",
       "delete": "Delete Account",
       "available": "I am Available",
       "update_profile": "Update Profile",
@@ -258,9 +259,17 @@
       "greeting": "Hello, {{name}}!"
    },
    "misc": {
+      "trial_expired": "Your trial has expired. Please subscribe to continue using the app.",
+      "created_at": "created on",
+      "subscribe": "Subscribe Now",
+      "remaining_days": "Remaining Days",
+      "add_service": "Add Service",
+      "must_subscribe": "You must subscribe in order to get appointments",
+      "free_trial": "Your Accouint is on {{days}} DaysFree-Trial",
       "no_data": "No data available",
       "no_available": "No Available",
-      "no_available_message": "If you are not available, client cannot book appointments with you."
+      "no_available_message": "If you are not available, client cannot book appointments with you.",
+      "no_services_added": "Please add services to get started. You wont be able to receive appointments if you dont have at least a service listed."
    },
    "terms": {
       "section1": {

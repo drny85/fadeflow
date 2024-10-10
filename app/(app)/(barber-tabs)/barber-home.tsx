@@ -14,6 +14,7 @@ import { Text } from '~/components/nativewindui/Text'
 import { Toggle } from '~/components/nativewindui/Toggle'
 import { useServices } from '~/hooks/useServices'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
+import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
@@ -23,6 +24,7 @@ import { calculateEarningsByFilter } from '~/utils/calculateEarningByFilter'
 const DAYS = process.env.EXPO_PUBLIC_FREE_TRIAL_DAYS!
 
 const BarberHome = () => {
+   const translate = useTranslate()
    const { colors } = useColorScheme()
    const { user } = useAuth()
    const daysRemaining = differenceInDays(
@@ -185,18 +187,20 @@ const BarberHome = () => {
                      <View className="gap-2 rounded-md bg-card p-2 shadow-sm">
                         <Text className="mb-2 text-center font-roboto-bold text-xl">
                            {daysRemaining > 0
-                              ? `Your account is on ${DAYS} days Free-trial`
-                              : 'Your Free-Trial Expired'}
+                              ? translate('misc.free_trial', { days: DAYS })
+                              : translation('misc', 'trial_expired')}
                         </Text>
                         <Text className="text-center text-sm text-muted">
-                           created at: {format(user.createdAt, 'PPpp')}
+                           {translation('misc', 'created_at')}{' '}
+                           {format(user.createdAt, 'PPpp')}
                         </Text>
                         <Text className="text-center">
-                           Remainging Days {daysRemaining}
+                           {translation('misc', 'remaining_days')}{' '}
+                           {daysRemaining}
                         </Text>
                         <View className="self-center">
                            <Button
-                              title="Subscribe Now"
+                              title={translation('misc', 'subscribe')}
                               textStyle={{ paddingHorizontal: 12 }}
                               onPress={() => router.push('/subscription')}
                            />
@@ -209,11 +213,11 @@ const BarberHome = () => {
                   user.subscriptionStatus !== 'active' && (
                      <View className="gap-2 rounded-md bg-card p-2 py-3">
                         <Text className="mb-2 text-center font-roboto-bold">
-                           You must subscribe in order to get appointments
+                           {translation('misc', 'must_subscribe')}
                         </Text>
                         <View className="self-center animate-pulse">
                            <Button
-                              title="Subscribe Now"
+                              title={translation('misc', 'subscribe')}
                               textStyle={{ paddingHorizontal: 12 }}
                               onPress={() => router.push('/subscription')}
                            />
@@ -227,16 +231,14 @@ const BarberHome = () => {
                      </Text>
                      <View className="p-2">
                         <Text variant="footnote" className="text-lg">
-                           Please add services to get started. You wont be able
-                           to receive appointments if you dont have at least a
-                           service listed.
+                           {translation('misc', 'no_services_added')}
                         </Text>
                      </View>
 
                      <View className="animate-bounce">
                         <Button
                            textStyle={{ paddingHorizontal: 20 }}
-                           title="Add Service"
+                           title={translation('misc', 'add_service')}
                            onPress={() => {
                               router.push({
                                  pathname: '/(barber-tabs)/gallery',

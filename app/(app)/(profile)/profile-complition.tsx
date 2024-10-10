@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { router } from 'expo-router'
+import { router, useSegments } from 'expo-router'
 import React, { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { ScrollView, View } from 'react-native'
@@ -41,6 +41,8 @@ const profileScheme = z.object({
 type Profile = z.infer<typeof profileScheme>
 
 const ProfileComplition = () => {
+   const segment = useSegments()
+   console.log(segment[1])
    const { user } = useAuth()
    const googleRef = useRef<GooglePlacesAutocompleteRef>(null)
    const { colors, isDarkColorScheme } = useColorScheme()
@@ -99,6 +101,7 @@ const ProfileComplition = () => {
       <KeyboardScreen style={{ flex: 1 }}>
          <ScrollView
             contentContainerClassName="p-2 gap-2"
+            keyboardShouldPersistTaps="always"
             showsVerticalScrollIndicator={false}
          >
             <TextInput

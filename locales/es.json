@@ -34,6 +34,7 @@
       "privacy": "Politica de Privacidad",
       "susbcription": "Suscripcion",
       "delete": "Eliminar Cuenta",
+      "minutes_interval": "Frequencia en Citas",
       "delete_account": "Eliminar Cuenta",
       "update_profile": "Actualizar Perfil",
       "available": "Estoy Disponible",
@@ -117,7 +118,7 @@
    "service": {
       "title": "Servicios",
       "search": "Buscar Servicios",
-      "no_services": "No servicios disponibles",
+      "no_services": "No servicios disponible",
       "deatils": "Detalles del Servicio",
       "edit": {
          "title": "Editar Servicio",
@@ -158,7 +159,7 @@
          "title": "Detalles del Servicio"
       },
       "no_appointment": "No Citas",
-      "available_today": "Citas disponibles hoy",
+      "available_today": "Citas disponible hoy",
       "toggle": {
          "upcoming": "Próximas",
          "past": "Pasadas"
@@ -201,7 +202,7 @@
       "no_review": "no reseñas aun",
       "about": "Acerca de {{name}}",
       "top_services": "Servicios Populares",
-      "no_services": "No hay servicios disponibles",
+      "no_services": "No hay servicios disponible",
       "schedule": "Horario",
       "no_available": "no esta disponible hoy",
       "available": "Disponible Hoy",
@@ -259,14 +260,22 @@
       "appointment": {
          "upcoming": "Siguiente Cita",
          "no_appointment": "No Citas",
-         "no_barber": "No barbero disponibles"
+         "no_barber": "No barberos disponible"
       },
       "greeting": "¡Hola, {{name}}!"
    },
    "misc": {
-      "no_data": "No hay datos disponibles",
+      "trial_expired": "Tu dias de pruebas terminaron",
+      "created_at": "creado el",
+      "subscribe": "Subscribete Ahora",
+      "remaining_days": "Dias Restante",
+      "free_trial": "Tu Cuenta esta en {{days}} Dias de Prueba",
+      "add_service": "Agregar Servicio",
+      "no_data": "No hay datos disponible",
       "no_available": "no esta disponible hoy",
-      "no_available_message": "Si no esta disponible, clientes no padran hacer citas contigo."
+      "must_subscribe": "Tiene que subscribirte para poder recibir citas",
+      "no_available_message": "Si no esta disponible, clientes no padran hacer citas contigo.",
+      "no_services_added": "Agregar aunque sea un servicio. Sin ningun servicio, tus clientes no pueden hacer citas contigo"
    },
 
    "terms": {

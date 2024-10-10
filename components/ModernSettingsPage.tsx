@@ -336,7 +336,9 @@ export default function ModernSettingsPage() {
                      <Feather color="#fff" name="clock" size={20} />
                   </View>
 
-                  <Text style={styles.rowLabel}>Minutes Interval</Text>
+                  <Text style={styles.rowLabel}>
+                     {translation('profile', 'minutes_interval')}
+                  </Text>
 
                   <View style={styles.rowSpacer} />
                   <View className="flex-row items-center gap-2">
