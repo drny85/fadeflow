@@ -3,6 +3,7 @@ import {
    Feather,
    FontAwesome,
    FontAwesome6,
+   Ionicons,
    MaterialIcons
 } from '@expo/vector-icons'
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
@@ -207,10 +208,19 @@ export default function ModernSettingsPage() {
                   >
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={handleSignOut}>
-                     <Text className="font-semibold  text-white">
+
+                  <TouchableOpacity
+                     className="flex-row items-center gap-2"
+                     onPress={handleSignOut}
+                  >
+                     <Text className="font-semibold mr-2 text-slate-200">
                         {translate('profile.logout')}
                      </Text>
+                     <Ionicons
+                        name="exit"
+                        size={26}
+                        color={user?.image ? colors.accent : '#ffffff'}
+                     />
                   </TouchableOpacity>
                </View>
                <BlurView

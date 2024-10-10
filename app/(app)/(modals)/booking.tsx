@@ -24,6 +24,7 @@ import { useTranslate } from '~/hooks/useTranslation'
 import { useUser } from '~/hooks/useUser'
 import { toastAlert, toastMessage } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentStore } from '~/providers/useAppointmentStore'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
@@ -462,7 +463,7 @@ const BookingPage = () => {
          >
             <View className="flex-1 gap-4 p-3">
                <Text variant="title3" className="ml-2">
-                  Name & Number are required
+                  {translation('booking', 'name_required')}
                </Text>
                <BottomSheetTextInput
                   className={`m-2 border-b-[1px] border-slate-300 bg-card p-2 text-black dark:text-slate-100 font-roboto text-lg ${phone?.length === 14 ? 'border-green-600' : 'border-slate-300'}`}
@@ -481,7 +482,7 @@ const BookingPage = () => {
                />
                <Button
                   disabled={phone?.length !== 14 || !name}
-                  title="Save"
+                  title={translation('button', 'save')}
                   style={{ opacity: phone?.length === 14 ? 1 : 0.5 }}
                   onPress={() => bottomSheetModalRef2.current?.close()}
                />
@@ -526,7 +527,7 @@ const BookingPage = () => {
                   }}
                   className="text-right mr-2 p-2 text-slate-600 dark:text-slate-200"
                >
-                  Cancel
+                  {translation('button', 'cancel')}
                </Text>
                <ScrollView className="flex-1" contentContainerClassName="p-3">
                   <Text variant="largeTitle" className="text-center">

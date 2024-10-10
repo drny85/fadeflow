@@ -85,6 +85,7 @@
       "review": "Review & Confirm",
       "clients": "Clients",
       "search_clients": "Search Clients",
+      "name_required": "Name & Number are required",
       "no_services": "{{name}} has not listed any services yet. Please let him know!"
    },
    "service": {
@@ -259,6 +260,7 @@
       "greeting": "Hello, {{name}}!"
    },
    "misc": {
+      "of": "of",
       "trial_expired": "Your trial has expired. Please subscribe to continue using the app.",
       "created_at": "created on",
       "subscribe": "Subscribe Now",

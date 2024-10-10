@@ -113,6 +113,7 @@
       "review": "Revisar & Confirmar",
       "clients": "Clientes",
       "search_clients": "Buscar Clientes",
+      "name_required": "Nombre & Numero son requerido",
       "no_services": "{{name}} no tiene servicios disponible, dejale saber!."
    },
    "service": {
@@ -260,11 +261,12 @@
       "appointment": {
          "upcoming": "Siguiente Cita",
          "no_appointment": "No Citas",
-         "no_barber": "No barberos disponible"
+         "no_barber": "No barbero"
       },
       "greeting": "¡Hola, {{name}}!"
    },
    "misc": {
+      "of": "de",
       "trial_expired": "Tu dias de pruebas terminaron",
       "created_at": "creado el",
       "subscribe": "Subscribete Ahora",

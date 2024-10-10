@@ -93,7 +93,7 @@ const BarberCard = ({
                               translate('barber.no_review')
                            ) : (
                               <Text>
-                                 barberRating.toFixed(0){' '}
+                                 {barberRating.toFixed(0)}{' '}
                                  {translate('barber.rating')}
                               </Text>
                            )}

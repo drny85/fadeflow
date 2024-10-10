@@ -2,7 +2,8 @@ import {
    AntDesign,
    Feather,
    FontAwesome,
-   FontAwesome6
+   FontAwesome6,
+   Ionicons
 } from '@expo/vector-icons'
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import { BlurView } from 'expo-blur'
@@ -151,7 +152,10 @@ export default function CustomerModernSettingsPage() {
          }}
          headerImage={
             <ImageBackground
-               style={{ height: SIZES.height * 0.4, width: '100%' }}
+               style={{
+                  height: SIZES.height * 0.4,
+                  width: '100%'
+               }}
                imageStyle={{
                   objectFit: 'cover'
                }}
@@ -179,10 +183,18 @@ export default function CustomerModernSettingsPage() {
                   >
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={handleSignOut}>
+                  <TouchableOpacity
+                     className="flex-row items-center gap-2"
+                     onPress={handleSignOut}
+                  >
                      <Text className="font-semibold mr-2 text-slate-200">
                         {translate('profile.logout')}
                      </Text>
+                     <Ionicons
+                        name="exit"
+                        size={26}
+                        color={user?.image ? colors.accent : '#ffffff'}
+                     />
                   </TouchableOpacity>
                </View>
                <BlurView

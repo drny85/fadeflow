@@ -35,8 +35,8 @@ const AppointmentCard = ({ appointmentId, onPress, actionsButton }: Props) => {
             <View style={{ width: '35%' }}>
                <Image
                   source={
-                     item.customer.image
-                        ? { uri: item.customer.image }
+                     item.barber.image
+                        ? { uri: item.barber.image }
                         : require('~/assets/images/banner.png')
                   }
                   contentFit="cover"

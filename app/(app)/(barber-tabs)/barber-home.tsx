@@ -130,7 +130,7 @@ const BarberHome = () => {
                            completedAppointments.filter((a) => isToday(a.date))
                               .length
                         }{' '}
-                        out of {todayAppoinments.length}
+                        {translation('misc', 'of')} {todayAppoinments.length}
                      </Text>
                      <ProgressBar
                         value={

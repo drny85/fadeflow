@@ -120,6 +120,7 @@ export interface Booking {
     review:                   string;
     clients:                  string;
     search_clients:           string;
+    name_required:            string;
     no_services:              string;
 }
 
@@ -189,6 +190,7 @@ export interface LongDays {
 }
 
 export interface Misc {
+    of:                   string;
     trial_expired:        string;
     created_at:           string;
     subscribe:            string;
@@ -613,6 +615,7 @@ const typeMap: any = {
         { json: "review", js: "review", typ: "" },
         { json: "clients", js: "clients", typ: "" },
         { json: "search_clients", js: "search_clients", typ: "" },
+        { json: "name_required", js: "name_required", typ: "" },
         { json: "no_services", js: "no_services", typ: "" },
     ], false),
     "TranslationButton": o([
@@ -674,6 +677,7 @@ const typeMap: any = {
         { json: "Sunday", js: "Sunday", typ: "" },
     ], false),
     "Misc": o([
+        { json: "of", js: "of", typ: "" },
         { json: "trial_expired", js: "trial_expired", typ: "" },
         { json: "created_at", js: "created_at", typ: "" },
         { json: "subscribe", js: "subscribe", typ: "" },
