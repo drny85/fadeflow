@@ -20,6 +20,7 @@ export function useHeaderSearchBar(props: SearchBarProps = {}) {
             tintColor: colors.primary,
             headerIconColor: colors.foreground,
             hintTextColor: colors.grey,
+
             //hideWhenScrolling: false,
             onChangeText(ev) {
                setSearch(ev.nativeEvent.text)

@@ -62,6 +62,8 @@ export function useProtectedRoute() {
       } else if (user && user.isBarber && inUserGroup && profileCompleted) {
          console.log(`01 => redirected from ${segments[1]}`)
          router.replace('/(barber-tabs)')
+      } else if (user && user.isBarber && inUserGroup) {
+         router.replace('/(barber-tabs)')
       } else if (user && inBarberGroup && user.isBarber && !profileCompleted) {
          console.log('1-----')
          router.push('/profile-complition')

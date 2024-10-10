@@ -170,7 +170,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             textContentType="oneTimeCode"
             label={translate('signup.password')}
             placeholder={translate('signup.placeholder.password')}
-            secureTextEntry={show}
+            secureTextEntry={!show}
             RightIcon={
                <TouchableOpacity onPress={() => setShow((p) => !p)}>
                   <Icon
@@ -187,7 +187,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             textContentType="oneTimeCode"
             label={translate('signup.confirmPassword')}
             placeholder={translate('signup.placeholder.confirmPassword')}
-            secureTextEntry={show}
+            secureTextEntry={!show}
             RightIcon={
                <TouchableOpacity onPress={() => setShow((p) => !p)}>
                   <Icon

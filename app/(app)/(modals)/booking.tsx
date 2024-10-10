@@ -95,7 +95,7 @@ const BookingPage = () => {
          return
       }
       if (!user) {
-         console.log(barberId, appointmentId)
+         bottomSheetModalRefConfirm.current?.close()
          router.push({
             pathname: '/(auth)/login',
             params: {

@@ -29,6 +29,7 @@ export const StackScreenWithSearchBar = (
 
       headerTintColor: COLORS.light.accent,
       headerTransparent: true,
+
       headerBlurEffect: 'prominent',
       headerShadowVisible: false
    }

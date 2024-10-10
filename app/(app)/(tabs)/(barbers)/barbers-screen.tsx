@@ -1,10 +1,12 @@
+import { useSegments } from 'expo-router'
 import { useMemo } from 'react'
-import { FlatList, ScrollView, View } from 'react-native'
+import { FlatList, Platform, ScrollView, View } from 'react-native'
 import Animated, { SlideInLeft } from 'react-native-reanimated'
 
 import BarberImageHeader from '~/components/BarberImageHeader'
 import BarbersSkelenton from '~/components/Skeletons/BarbersSkeleton'
 import { Text } from '~/components/nativewindui/Text'
+import { SIZES } from '~/constants'
 import { useLocation } from '~/hooks/useLocation'
 import { useNavigationSearch } from '~/hooks/useNavigationSeach'
 import { useReviews } from '~/hooks/useReviews'
@@ -21,6 +23,7 @@ type BarberWithDistance = Barber & {
 }
 
 const BarbersPage = () => {
+   const segment = useSegments()
    const translate = useTranslate()
    const { location, loading: locationLoading } = useLocation()
    const { barbers: data, loading, barbersFilter } = useBarbersStore()
@@ -83,12 +86,18 @@ const BarbersPage = () => {
    }, [search, barbers, barbersFilter])
 
    useStatusBarColor('dark')
-
-   if (loading || locationLoading) return <BarbersSkelenton />
+   //if (locationLoading) return null
+   if (locationLoading) return <BarbersSkelenton />
    return (
       <ScrollView
          contentInsetAdjustmentBehavior="automatic"
          showsVerticalScrollIndicator={false}
+         contentContainerStyle={{
+            paddingTop:
+               Platform.OS === 'android' && segment[2] !== 'quick-booking'
+                  ? SIZES.statusBarHeight + 36
+                  : undefined
+         }}
       >
          <FlatList
             data={searchData}

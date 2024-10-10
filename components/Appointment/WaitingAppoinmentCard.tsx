@@ -44,7 +44,7 @@ const WaitingAppoinmentCard = ({ appointments, title }: Props) => {
                      }
                      className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
                   >
-                     <Text className="font-semibold">
+                     <Text className="font-roboto-bold text-muted dark:text-slate-300">
                         {format(item.date, 'eee')} (
                         <Text className="text-sm text-muted dark:text-slate-400">
                            {' '}

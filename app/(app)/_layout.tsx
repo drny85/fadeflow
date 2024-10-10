@@ -8,9 +8,10 @@ import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { Fragment, useEffect } from 'react'
 import { I18nextProvider } from 'react-i18next'
-import { Appearance, TouchableOpacity } from 'react-native'
+import { Appearance, TouchableOpacity, View } from 'react-native'
 
 import Loading from '~/components/Loading'
+import { Text } from '~/components/nativewindui/Text'
 import { ThemeToggle } from '~/components/nativewindui/ThemeToggle'
 import { Fonts } from '~/constants/Fonts'
 import '~/global.css'
@@ -39,7 +40,7 @@ export default function RootLayout() {
    useAppointments()
    const [loaded, error] = useFonts(Fonts)
    const { colorScheme, isDarkColorScheme, colors } = useColorScheme()
-   const { loading } = useAuth()
+   const { loading, logOut } = useAuth()
 
    const { mounted } = useProtectedRoute()
 
@@ -85,6 +86,20 @@ export default function RootLayout() {
                               backgroundColor: colors.background
                            },
                            headerBackTitle: 'Back',
+                           headerRight: () => (
+                              <View className="flex-row items-center gap-4">
+                                 <Text
+                                    onPress={() => {
+                                       logOut()
+                                       router.canDismiss() &&
+                                          router.dismissAll()
+                                    }}
+                                 >
+                                    {translation('profile', 'logout')}
+                                 </Text>
+                                 <ThemeToggle />
+                              </View>
+                           ),
                            headerLeft: () => (
                               <TouchableOpacity onPress={router.back}>
                                  <Feather
@@ -200,8 +215,7 @@ const MODAL_OPTIONS = {
    presentation: 'modal',
 
    animation: 'fade_from_bottom', // for android
-   title: translation('tabs', 'profile'),
-   headerRight: () => <ThemeToggle />
+   title: translation('tabs', 'profile')
 } as const
 
 const useSchemeListener = () => {
