@@ -86,7 +86,9 @@
       "clients": "Clients",
       "search_clients": "Search Clients",
       "name_required": "Name & Number are required",
-      "no_services": "{{name}} has not listed any services yet. Please let him know!"
+      "no_services": "{{name}} has not listed any services yet. Please let him know!",
+      "no_date_title": "Select a Date & Time",
+      "no_date_message": "You must select a date & time"
    },
    "service": {
       "title": "Services",
@@ -145,6 +147,7 @@
    },
    "appointment": {
       "today": "Today",
+      "changes": "Changes Made",
       "new": "New Appointments",
       "details": {
          "main": "Appointment Details",
@@ -193,7 +196,12 @@
       "success": "Success",
       "error": "Error",
       "warning": "Warning",
-      "info": "Info"
+      "info": "Info",
+      "booked": "Appointment Booked!",
+      "conflicts": {
+         "title": "Appointment Conflict",
+         "message": "The selected time slot is already booked."
+      }
    },
 
    "barber": {

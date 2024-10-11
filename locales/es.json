@@ -114,7 +114,9 @@
       "clients": "Clientes",
       "search_clients": "Buscar Clientes",
       "name_required": "Nombre & Numero son requerido",
-      "no_services": "{{name}} no tiene servicios disponible, dejale saber!."
+      "no_services": "{{name}} no tiene servicios disponible, dejale saber!.",
+      "no_date_title": "Selecciona Dia y Hora",
+      "no_date_message": "Debe elegir el dia y la hora"
    },
    "service": {
       "title": "Servicios",
@@ -166,9 +168,15 @@
       "success": "Listo",
       "error": "Error",
       "warning": "Advertencia",
-      "info": "Aviso"
+      "info": "Aviso",
+      "booked": "Cita agendada!",
+      "conflicts": {
+         "title": "Conflicto de Horario",
+         "message": "Ya hay una cita agendada para este horario"
+      }
    },
    "appointment": {
+      "changes": "Cambios Hecho",
       "today": "Hoy",
       "new": "Citas Nueva",
       "details": {

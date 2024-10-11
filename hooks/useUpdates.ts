@@ -6,13 +6,38 @@ async function onFetchUpdateAsync() {
    try {
       const update = await Updates.checkForUpdateAsync()
       if (update.isAvailable) {
-         await Updates.fetchUpdateAsync()
-         await Updates.reloadAsync()
+         Alert.alert(
+            'Update Available',
+            'A new update is available. Would you like to update now?',
+            [
+               {
+                  text: 'Later',
+                  style: 'cancel'
+               },
+               {
+                  text: 'Update',
+                  onPress: async () => {
+                     try {
+                        await Updates.fetchUpdateAsync()
+                        Alert.alert(
+                           'Update',
+                           'The app will now restart to apply the update.'
+                        )
+                        await Updates.reloadAsync()
+                     } catch (error) {
+                        Alert.alert(
+                           'Error',
+                           `Failed to apply the update: ${error}`
+                        )
+                     }
+                  }
+               }
+            ]
+         )
       }
    } catch (error) {
-      // You can also add an alert() here if needed for your purposes
       console.log(`Error fetching latest Expo update: ${error}`)
-      Alert.alert('Error', `Error fetching latest Expo update, ${error}`)
+      Alert.alert('Error', `Error fetching the latest Expo update: ${error}`)
    }
 }
 

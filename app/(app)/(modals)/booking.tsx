@@ -83,8 +83,8 @@ const BookingPage = () => {
       if (selectedServices.length === 0) {
          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
          toastAlert({
-            title: 'Service Required',
-            message: 'You must select a service to book an appointment',
+            title: translation('booking', 'service_required'),
+            message: translation('booking', 'select_service'),
             preset: 'custom',
             duration: 3,
             iconName: 'hand.raised.slash'
@@ -186,6 +186,7 @@ const BookingPage = () => {
 
          const updated = await updateAppointmentInDatabase({
             ...updatedAppointment,
+            status: 'pending',
             updatedCount: app.updatedCount + 1
          })
          if (updated) {
@@ -252,8 +253,8 @@ const BookingPage = () => {
 
          if (thereIsConflict) {
             return toastAlert({
-               title: 'Appointment  Conflict',
-               message: 'Please consider changing the time or services',
+               title: translation('alerts', 'conflicts', 'title'),
+               message: translation('alerts', 'conflicts', 'message'),
                preset: 'custom',
                duration: 3,
 
@@ -289,6 +290,7 @@ const BookingPage = () => {
             (item) =>
                item.barber.id === appointment.barber.id &&
                item.startTime === appointment.startTime &&
+               appointment.customer.id !== item.customer.id &&
                isSameDay(appointment.date, item.date)
          ) === -1
       return Promise.resolve(isAvailable)
@@ -301,8 +303,8 @@ const BookingPage = () => {
          setSelectedDate(new Date())
          setServices([])
          toastMessage({
-            title: 'Appointment booked',
-            message: 'Your appointment has been booked',
+            title: translation('alerts', 'success'),
+            message: translation('alerts', 'booked'),
             preset: 'done',
             duration: 2
          })
@@ -439,8 +441,8 @@ const BookingPage = () => {
                   onPress={() => {
                      if (selectedServices.length === 0) {
                         return toastMessage({
-                           title: 'Service Required',
-                           message: 'Please pick a service',
+                           title: translation('booking', 'service_required'),
+                           message: translation('booking', 'select_service'),
                            preset: 'custom',
                            duration: 3,
                            iconName: 'hand.raised.slash'
@@ -503,7 +505,9 @@ const BookingPage = () => {
                      marginRight: 20
                   }}
                >
-                  <Text className="text-muted dark:text-slate-300">Cancel</Text>
+                  <Text className="text-muted dark:text-slate-300">
+                     {translation('button', 'cancel')}
+                  </Text>
                </TouchableOpacity>
                <DateTimeAppointmentPicker
                   barber={barber}

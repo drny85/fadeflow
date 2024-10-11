@@ -8,6 +8,7 @@ import { Text } from '../nativewindui/Text'
 import { useTranslate } from '~/hooks/useTranslation'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { getBookingDate } from '~/utils/getBookingDate'
+import { translation } from '~/locales/translate'
 
 type Props = {
    onPress: () => void
@@ -41,7 +42,7 @@ const AppointmentDatePicker = ({ onPress }: Props) => {
                           getBookingDate(selectedDate, selectedTimeSlot?.time),
                           'PP'
                        )}`
-                     : 'Select a Date & Time'}
+                     : translation('booking', 'no_date_title')}
                </Text>
                {selectedTimeSlot && (
                   <View>
@@ -74,7 +75,7 @@ const AppointmentDatePicker = ({ onPress }: Props) => {
                )}
                {!selectedTimeSlot && (
                   <Text className="text-lg font-normal text-muted dark:text-white dark:opacity-70">
-                     You must select a day & time
+                     {translation('booking', 'no_date_message')}
                   </Text>
                )}
             </View>

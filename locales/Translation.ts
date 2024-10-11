@@ -34,11 +34,13 @@ export interface Translation {
 }
 
 export interface Alerts {
-    cancel:  Cancel;
-    success: string;
-    error:   string;
-    warning: string;
-    info:    string;
+    cancel:    Cancel;
+    success:   string;
+    error:     string;
+    warning:   string;
+    info:      string;
+    booked:    string;
+    conflicts: Conflicts;
 }
 
 export interface Cancel {
@@ -47,8 +49,14 @@ export interface Cancel {
     yes:     string;
 }
 
+export interface Conflicts {
+    title:   string;
+    message: string;
+}
+
 export interface TranslationAppointment {
     today:           string;
+    changes:         string;
     new:             string;
     details:         Details;
     no_appointment:  string;
@@ -133,6 +141,8 @@ export interface Booking {
     search_clients:           string;
     name_required:            string;
     no_services:              string;
+    no_date_title:            string;
+    no_date_message:          string;
 }
 
 export interface TranslationButton {
@@ -236,19 +246,14 @@ export interface Months {
 }
 
 export interface Privacy {
-    section1: Section1;
-    section2: Section1;
-    section3: Section1;
-    section4: Section1;
-    section5: Section1;
-    section6: Section1;
-    section7: Section1;
-    section8: Section1;
-}
-
-export interface Section1 {
-    title:   string;
-    message: string;
+    section1: Conflicts;
+    section2: Conflicts;
+    section3: Conflicts;
+    section4: Conflicts;
+    section5: Conflicts;
+    section6: Conflicts;
+    section7: Conflicts;
+    section8: Conflicts;
 }
 
 export interface Profile {
@@ -278,7 +283,7 @@ export interface Reviews {
     add:       string;
     no_review: string;
     title:     string;
-    alert:     Section1;
+    alert:     Conflicts;
 }
 
 export interface Schedule {
@@ -584,14 +589,21 @@ const typeMap: any = {
         { json: "error", js: "error", typ: "" },
         { json: "warning", js: "warning", typ: "" },
         { json: "info", js: "info", typ: "" },
+        { json: "booked", js: "booked", typ: "" },
+        { json: "conflicts", js: "conflicts", typ: r("Conflicts") },
     ], false),
     "Cancel": o([
         { json: "title", js: "title", typ: "" },
         { json: "message", js: "message", typ: "" },
         { json: "yes", js: "yes", typ: "" },
     ], false),
+    "Conflicts": o([
+        { json: "title", js: "title", typ: "" },
+        { json: "message", js: "message", typ: "" },
+    ], false),
     "TranslationAppointment": o([
         { json: "today", js: "today", typ: "" },
+        { json: "changes", js: "changes", typ: "" },
         { json: "new", js: "new", typ: "" },
         { json: "details", js: "details", typ: r("Details") },
         { json: "no_appointment", js: "no_appointment", typ: "" },
@@ -668,6 +680,8 @@ const typeMap: any = {
         { json: "search_clients", js: "search_clients", typ: "" },
         { json: "name_required", js: "name_required", typ: "" },
         { json: "no_services", js: "no_services", typ: "" },
+        { json: "no_date_title", js: "no_date_title", typ: "" },
+        { json: "no_date_message", js: "no_date_message", typ: "" },
     ], false),
     "TranslationButton": o([
         { json: "book", js: "book", typ: "" },
@@ -761,18 +775,14 @@ const typeMap: any = {
         { json: "December", js: "December", typ: "" },
     ], false),
     "Privacy": o([
-        { json: "section1", js: "section1", typ: r("Section1") },
-        { json: "section2", js: "section2", typ: r("Section1") },
-        { json: "section3", js: "section3", typ: r("Section1") },
-        { json: "section4", js: "section4", typ: r("Section1") },
-        { json: "section5", js: "section5", typ: r("Section1") },
-        { json: "section6", js: "section6", typ: r("Section1") },
-        { json: "section7", js: "section7", typ: r("Section1") },
-        { json: "section8", js: "section8", typ: r("Section1") },
-    ], false),
-    "Section1": o([
-        { json: "title", js: "title", typ: "" },
-        { json: "message", js: "message", typ: "" },
+        { json: "section1", js: "section1", typ: r("Conflicts") },
+        { json: "section2", js: "section2", typ: r("Conflicts") },
+        { json: "section3", js: "section3", typ: r("Conflicts") },
+        { json: "section4", js: "section4", typ: r("Conflicts") },
+        { json: "section5", js: "section5", typ: r("Conflicts") },
+        { json: "section6", js: "section6", typ: r("Conflicts") },
+        { json: "section7", js: "section7", typ: r("Conflicts") },
+        { json: "section8", js: "section8", typ: r("Conflicts") },
     ], false),
     "Profile": o([
         { json: "theme", js: "theme", typ: "" },
@@ -799,7 +809,7 @@ const typeMap: any = {
         { json: "add", js: "add", typ: "" },
         { json: "no_review", js: "no_review", typ: "" },
         { json: "title", js: "title", typ: "" },
-        { json: "alert", js: "alert", typ: r("Section1") },
+        { json: "alert", js: "alert", typ: r("Conflicts") },
     ], false),
     "Schedule": o([
         { json: "name", js: "name", typ: "" },

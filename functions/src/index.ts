@@ -292,11 +292,38 @@ exports.onAppointmentUpdates = onDocumentUpdated(
          const isBarber = data.changesMadeBy === 'barber'
          const appointmentDate = format(data.date, 'E, PPP')
          const prevDate = dataBefore && format(dataBefore.date, 'E, PPP')
+
+         const changesMade =
+            dataBefore.status === 'completed' && data.status === 'pending'
+
          if (isBarber) {
             const customerDoc = getFirestore()
                .collection('users')
                .doc(data.customer.id!)
             const customerData = (await customerDoc.get()).data() as AppUser
+            let confirmationTitle
+            let cancelTitle
+            let confirmationMessage
+            let cancelationMessage
+            const languague = customerData.languague
+            if (languague) {
+               if (languague === 'en') {
+                  cancelTitle = 'Appointment Cancellation'
+                  confirmationTitle = 'Appointment Confirmation'
+                  confirmationMessage = 'has confirmed your appointment for'
+                  cancelationMessage = 'has cancelled your appointment for'
+               } else {
+                  cancelTitle = 'Cancelación de cita'
+                  confirmationTitle = 'Confirmación de Cita'
+                  confirmationMessage = 'has confirmado su cita para'
+                  cancelationMessage = 'ha cancelado su cita para'
+               }
+            } else {
+               cancelTitle = 'Appointment Cancellation'
+               confirmationTitle = 'Appointment Confirmation'
+               confirmationMessage = 'has confirmed your appointment for'
+               cancelationMessage = 'has cancelled your appointment for'
+            }
             if (!customerData.pushToken) return
 
             if (data.status === 'confirmed') {
@@ -304,8 +331,8 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                   event.params.appointmentId,
                   'appointment-updates',
                   customerData.pushToken,
-                  'Appointment Update',
-                  `${data.barber.name} has confirmed your appointment for ${appointmentDate} at ${data.startTime}.`
+                  confirmationTitle,
+                  `${data.barber.name} ${confirmationMessage} ${appointmentDate} at ${data.startTime}.`
                )
             }
             if (data.status === 'cancelled') {
@@ -313,8 +340,8 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                   event.params.appointmentId,
                   'appointment-updates',
                   customerData.pushToken,
-                  'Appointment Update',
-                  `${data.barber.name} has cancelled your appointment for ${appointmentDate}.`
+                  cancelTitle,
+                  `${data.barber.name} ${cancelationMessage} ${appointmentDate}.`
                )
             }
          } else if (data.changesMadeBy === 'customer') {
@@ -322,14 +349,36 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                .collection('users')
                .doc(data.barber.id)
             const barberData = (await barberDoc.get()).data() as AppUser
+            const lng = barberData.languague
+
+            let updateTitle: string
+            let cancelMessage: string
+            let rescheduledMessage: string
+
             if (!barberData.pushToken) return
+
+            if (lng) {
+               if (lng === 'en') {
+                  updateTitle = 'Appointment Updates'
+                  cancelMessage = 'has cancelled the appointment for'
+                  rescheduledMessage = 'has rescheduled the appointment for'
+               } else {
+                  updateTitle = 'Actualizaciones de cita'
+                  cancelMessage = 'ha cancelado la cita para'
+                  rescheduledMessage = 'ha reprogramado la cita de'
+               }
+            } else {
+               updateTitle = 'Actualizaciones de cita'
+               cancelMessage = 'has cancelled the appointment for'
+               rescheduledMessage = 'has rescheduled the appointment from'
+            }
             if (data.status === 'cancelled') {
                await sendPushNotification(
                   event.params.appointmentId,
                   'appointment-updates',
                   barberData.pushToken,
-                  'Appointment Update',
-                  `${data.customer.name} has cancelled the appointment for ${appointmentDate} at ${data.startTime}.`
+                  updateTitle,
+                  `${data.customer.name} ${cancelMessage} ${appointmentDate} at ${data.startTime}.`
                )
             }
 
@@ -342,7 +391,7 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                   event.params.appointmentId,
                   'appointment-updates',
                   barberData.pushToken,
-                  'Appointment Update',
+                  updateTitle,
                   `${data.customer.name} has changed the service.`
                )
             }
@@ -355,8 +404,33 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                   event.params.appointmentId,
                   'appointment-updates',
                   barberData.pushToken,
-                  'Appointment Update',
-                  `${data.customer.name} has rescheduled the appointment from ${prevDate} at ${dataBefore.startTime} to ${appointmentDate} at ${data.startTime}.`
+                  updateTitle,
+                  `${data.customer.name} ${rescheduledMessage} ${prevDate} at ${dataBefore.startTime} to ${appointmentDate} at ${data.startTime}.`
+               )
+            }
+
+            if (changesMade) {
+               if (lng) {
+                  if (lng === 'en') {
+                     updateTitle = 'Appointment Updates'
+                     rescheduledMessage =
+                        'made changes to existing appointmeent'
+                  } else {
+                     ;(updateTitle = 'Actualizaciones de cita'),
+                        (rescheduledMessage =
+                           'hizo cambios en la cita existente')
+                  }
+               } else {
+                  ;(updateTitle = 'Appointment Updates'),
+                     (rescheduledMessage =
+                        'made changes to existing appointmeent')
+               }
+               await sendPushNotification(
+                  event.params.appointmentId,
+                  'appointment-updates',
+                  barberData.pushToken,
+                  updateTitle,
+                  `${data.customer.name} ${rescheduledMessage}.`
                )
             }
          }

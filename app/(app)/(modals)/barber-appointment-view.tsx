@@ -180,7 +180,8 @@ const BarberAppointmentView = () => {
                </Text>
                {appointment.updatedCount > 0 && (
                   <Text className="py-2 text-center text-sm font-semibold text-muted">
-                     Changes Made {appointment.updatedCount}
+                     {translation('appointment', 'changes')}{' '}
+                     {appointment.updatedCount}
                   </Text>
                )}
             </View>
