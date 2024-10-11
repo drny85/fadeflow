@@ -194,8 +194,13 @@
          "yes": "Yes"
       },
       "success": "Success",
+      "confirmed": "Appointment Confirmed",
       "error": "Error",
       "warning": "Warning",
+      "updated": "Updated Successfully",
+      "cannot": "Cannot Complete Appointment",
+      "cancelled": "Appointment Cancelled",
+      "completed": "Appointment Completed",
       "info": "Info",
       "booked": "Appointment Booked!",
       "conflicts": {

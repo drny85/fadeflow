@@ -6,9 +6,6 @@ import { router } from 'expo-router'
 import { MotiView } from 'moti'
 import React, { useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import AppointmentAnalysis, {
-   AppointmentToAnalyzeProps
-} from '~/components/Appointment/AppointmentsAnalysis'
 
 import WeekSelector from '~/components/Appointment/WeekSelectorComponent'
 import { Button } from '~/components/Button'
@@ -28,7 +25,7 @@ const BarberAppointments = () => {
    const { colors, isDarkColorScheme } = useColorScheme()
    const blockedDates = user?.isBarber && user.blockedTimes
    const bottomSheetRef = useSheetRef()
-   const bottomSheetAnalysisRef = useSheetRef()
+
    const [showNoData, setShowData] = useState(true)
    const [selectedDate, setSelectedDate] = useState<Date>(new Date())
    const appointments = useAppointmentStore((s) =>

@@ -36,8 +36,13 @@ export interface Translation {
 export interface Alerts {
     cancel:    Cancel;
     success:   string;
+    confirmed: string;
     error:     string;
     warning:   string;
+    updated:   string;
+    cannot:    string;
+    cancelled: string;
+    completed: string;
     info:      string;
     booked:    string;
     conflicts: Conflicts;
@@ -586,8 +591,13 @@ const typeMap: any = {
     "Alerts": o([
         { json: "cancel", js: "cancel", typ: r("Cancel") },
         { json: "success", js: "success", typ: "" },
+        { json: "confirmed", js: "confirmed", typ: "" },
         { json: "error", js: "error", typ: "" },
         { json: "warning", js: "warning", typ: "" },
+        { json: "updated", js: "updated", typ: "" },
+        { json: "cannot", js: "cannot", typ: "" },
+        { json: "cancelled", js: "cancelled", typ: "" },
+        { json: "completed", js: "completed", typ: "" },
         { json: "info", js: "info", typ: "" },
         { json: "booked", js: "booked", typ: "" },
         { json: "conflicts", js: "conflicts", typ: r("Conflicts") },

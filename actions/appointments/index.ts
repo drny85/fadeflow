@@ -3,6 +3,7 @@ import { addDoc, doc, updateDoc } from 'firebase/firestore'
 
 import { appointmentsCollection } from '~/firebase-collections'
 import { toastAlert, toastMessage } from '~/lib/toast'
+import { translation } from '~/locales/translate'
 import { Appointment } from '~/shared/types'
 
 export const addNewAppointmentToDatabase = async (
@@ -46,8 +47,8 @@ export const handleAppointmentUpdates = async (
 
          if (updated) {
             toastMessage({
-               title: 'Confirmed',
-               message: 'The appointment has been confirmed',
+               title: translation('alerts', 'success'),
+               message: translation('alerts', 'confirmed'),
                preset: 'done',
                duration: 2
             })
@@ -62,8 +63,8 @@ export const handleAppointmentUpdates = async (
 
          if (updated) {
             toastMessage({
-               title: 'Cancelled',
-               message: 'The appointment has been cancelled',
+               title: translation('alerts', 'warning'),
+               message: translation('alerts', 'cancelled'),
                preset: 'error',
                duration: 2
             })
@@ -75,7 +76,7 @@ export const handleAppointmentUpdates = async (
          if (!isPast(appointment.date)) {
             toastAlert({
                title: 'Error',
-               message: 'Cannot complete an upcoming appointment',
+               message: translation('alerts', 'cannot'),
                preset: 'error',
                duration: 2
             })
@@ -89,8 +90,8 @@ export const handleAppointmentUpdates = async (
 
          if (updated) {
             toastMessage({
-               title: 'Completed',
-               message: 'The appointment has been completed',
+               title: translation('alerts', 'success'),
+               message: translation('alerts', 'completed'),
                preset: 'done',
                duration: 2
             })

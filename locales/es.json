@@ -169,6 +169,11 @@
       "error": "Error",
       "warning": "Advertencia",
       "info": "Aviso",
+      "cannot": "No se pudo completar la acción",
+      "updated": "Cita Actualizado",
+      "confirmed": "Cita Confirmada",
+      "cancelled": "Cita Cancelada",
+      "completed": "Cita Completada",
       "booked": "Cita agendada!",
       "conflicts": {
          "title": "Conflicto de Horario",
