@@ -280,6 +280,13 @@
       "business": "Obtén valiosa información sobre el rendimiento de tu negocio y la interacción con los clientes, rastrea tus ingresos y gestiona tu horario",
       "cancel": "Cancela en cualquier momento - Sin compromiso a largo plazo"
    },
+   "sorting": {
+      "sortBy": "Ordenar Por",
+      "date": "Fecha",
+      "amount": "Cantidad",
+      "status": "Estado",
+      "customer": "Cliente"
+   },
    "misc": {
       "of": "de",
       "trial_expired": "Tu dias de pruebas terminaron",

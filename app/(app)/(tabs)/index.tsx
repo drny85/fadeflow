@@ -154,6 +154,7 @@ const Home = () => {
                   <Text variant="title3">{t('home.signup')}</Text>
                   <View className="w-1/2 self-center">
                      <Button
+                        iconName="scissors"
                         title={t('home.signup_title')}
                         onPress={() =>
                            router.push({

@@ -38,7 +38,7 @@ const ModalLayout = () => {
          <Stack.Screen
             name="quick-booking"
             options={({ navigation }) => ({
-               title: 'Barbers',
+               title: translation('tabs', 'barbers'),
                headerRight: () => (
                   <TouchableOpacity>
                      <Feather

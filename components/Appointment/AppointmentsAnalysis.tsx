@@ -12,8 +12,15 @@ import { format } from 'date-fns'
 import { FlashList } from '@shopify/flash-list'
 import { useColorScheme } from '~/lib/useColorScheme'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import { translation } from '~/locales/translate'
+import { useTranslate } from '~/hooks/useTranslation'
 
-type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed'
+type AppointmentStatus =
+   | 'pending'
+   | 'confirmed'
+   | 'cancelled'
+   | 'completed'
+   | 'no-show'
 type Criteria = 'date' | 'amount' | 'status' | 'customer'
 const criterias = ['date', 'amount', 'status', 'customer'] as Array<Criteria>
 
@@ -35,6 +42,7 @@ type Props = {
 }
 
 const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
+   const translate = useTranslate()
    const { colors, isDarkColorScheme } = useColorScheme()
    const [sortCriteria, setSortCriteria] = useState<Criteria>('date')
    const [showChart, setShowChart] = useState<'status' | 'customer' | null>(
@@ -99,11 +107,16 @@ const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
    return (
       <View style={{ flex: 1, padding: 10 }}>
          <Text variant={'largeTitle'} className="text-center mb-2">
-            Sort By
+            {translation('sorting', 'sortBy')}
          </Text>
 
          <SegmentedControl
-            values={['Date', 'Amount', 'Status', 'Customer']}
+            values={[
+               translation('sorting', 'date'),
+               translation('sorting', 'amount'),
+               translation('sorting', 'status'),
+               translation('sorting', 'customer')
+            ]}
             fontStyle={{
                fontSize: 16,
                color: isDarkColorScheme ? '#ffffff' : '#000000'
@@ -133,6 +146,9 @@ const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
             data={appointmentData}
             keyExtractor={(item) => item.id}
             estimatedItemSize={120}
+            contentContainerStyle={{
+               paddingBottom: 20
+            }}
             ItemSeparatorComponent={() => (
                <View className="h-[1px] w-[85%] self-center bg-primary" />
             )}
@@ -147,10 +163,22 @@ const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
                      borderRadius: 6
                   }}
                >
-                  <Text>Date: {format(item.date, 'PPpp')}</Text>
-                  <Text>Amount: ${item.amount}</Text>
-                  <Text className="capitalize">Status: {item.status}</Text>
-                  <Text>Customer: {item.customer.name}</Text>
+                  <Text>
+                     {translation('sorting', 'date')}:{' '}
+                     {format(item.date, 'PPpp')}
+                  </Text>
+                  <Text>
+                     {translation('sorting', 'amount')}: ${item.amount}
+                  </Text>
+                  <Text className="capitalize">
+                     {translation('sorting', 'status')}:{' '}
+                     {translate(
+                        `appointment.filter.${item.status.charAt(0).toUpperCase() + item.status.slice(1)}`
+                     )}
+                  </Text>
+                  <Text>
+                     {translation('sorting', 'customer')}: {item.customer.name}
+                  </Text>
                </Animated.View>
             )}
          />

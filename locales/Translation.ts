@@ -26,6 +26,7 @@ export interface Translation {
     signup:       Signup;
     home:         Home;
     subscription: Subscription;
+    sorting:      Sorting;
     misc:         Misc;
     terms:        Privacy;
     privacy:      Privacy;
@@ -339,6 +340,14 @@ export interface Placeholder {
     confirmPassword: string;
 }
 
+export interface Sorting {
+    sortBy:   string;
+    date:     string;
+    amount:   string;
+    status:   string;
+    customer: string;
+}
+
 export interface Subscription {
     end:            string;
     pay:            string;
@@ -548,6 +557,7 @@ const typeMap: any = {
         { json: "signup", js: "signup", typ: r("Signup") },
         { json: "home", js: "home", typ: r("Home") },
         { json: "subscription", js: "subscription", typ: r("Subscription") },
+        { json: "sorting", js: "sorting", typ: r("Sorting") },
         { json: "misc", js: "misc", typ: r("Misc") },
         { json: "terms", js: "terms", typ: r("Privacy") },
         { json: "privacy", js: "privacy", typ: r("Privacy") },
@@ -827,6 +837,13 @@ const typeMap: any = {
         { json: "email", js: "email", typ: "" },
         { json: "password", js: "password", typ: "" },
         { json: "confirmPassword", js: "confirmPassword", typ: "" },
+    ], false),
+    "Sorting": o([
+        { json: "sortBy", js: "sortBy", typ: "" },
+        { json: "date", js: "date", typ: "" },
+        { json: "amount", js: "amount", typ: "" },
+        { json: "status", js: "status", typ: "" },
+        { json: "customer", js: "customer", typ: "" },
     ], false),
     "Subscription": o([
         { json: "end", js: "end", typ: "" },
