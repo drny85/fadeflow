@@ -1,4 +1,4 @@
-import { Octicons } from '@expo/vector-icons'
+import { Ionicons, Octicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -34,12 +34,20 @@ const Earnings = () => {
                <Text className="text-center" variant="largeTitle">
                   {translation('tabs', 'earnings')}
                </Text>
-               <TouchableOpacity
-                  className="h-12 w-12 rounded-full justify-center items-center bg-primary"
-                  onPress={() => router.push('/analyties')}
-               >
-                  <Octicons name="graph" size={28} color={'white'} />
-               </TouchableOpacity>
+               <View className="flex-row items-center gap-3">
+                  <TouchableOpacity
+                     className="h-12 w-12 rounded-full justify-center items-center bg-accent"
+                     onPress={() => router.push('/insights')}
+                  >
+                     <Ionicons name="analytics" size={24} color="white" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                     className="h-12 w-12 rounded-full justify-center items-center bg-primary"
+                     onPress={() => router.push('/analyties')}
+                  >
+                     <Octicons name="graph" size={28} color={'white'} />
+                  </TouchableOpacity>
+               </View>
             </View>
 
             <EarningComponent appointments={appointments} />

@@ -35,6 +35,7 @@ const ModalLayout = () => {
             }}
          />
          <Stack.Screen name="barbers-map" options={{ headerShown: false }} />
+         <Stack.Screen name="insights" options={{ headerShown: false }} />
          <Stack.Screen
             name="analyties"
             options={{
