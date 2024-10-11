@@ -154,7 +154,7 @@ export default function RootLayout() {
                      <Stack.Screen
                         name="subscription"
                         options={{
-                           title: 'Subscription',
+                           title: translation('subscription', 'title'),
                            headerShadowVisible: false,
                            headerStyle: {
                               backgroundColor: colors.background

@@ -1,0 +1,258 @@
+{
+   "welcome": "你好, {{name}}",
+   "tabs": {
+      "home": "主页",
+      "appointments": "预约",
+      "barbers": "理发师",
+      "profile": "个人资料",
+      "stuffs": "工具",
+      "earnings": "收入"
+   },
+   "login": {
+      "username": "用户名",
+      "password": "密码",
+      "button": "登录",
+      "no_login": "请登录以查看您的预约"
+   },
+   "profile": {
+      "theme": "主题",
+      "preferences": "偏好设置",
+      "communication": "通讯",
+      "language": "语言",
+      "contact": "联系我们",
+      "logout": "登出",
+      "name": "修改姓名/电话",
+      "terms": "条款和条件",
+      "privacy": "隐私政策",
+      "susbcription": "订阅",
+      "minutes_interval": "预订时间间隔",
+      "delete": "删除账户",
+      "available": "我有空",
+      "update_profile": "更新资料",
+      "confirmation": {
+         "delete": {
+            "title": "删除账户",
+            "message": "您确定要删除账户吗?",
+            "yes": "是"
+         },
+         "logout": {
+            "title": "登出",
+            "message": "您确定要登出吗?",
+            "yes": "是"
+         }
+      }
+   },
+   "days": {
+      "Mon": "周一",
+      "Tue": "周二",
+      "Wed": "周三",
+      "Thu": "周四",
+      "Fri": "周五",
+      "Sat": "周六",
+      "Sun": "周日"
+   },
+   "longDays": {
+      "Monday": "星期一",
+      "Tuesday": "星期二",
+      "Wednesday": "星期三",
+      "Thursday": "星期四",
+      "Friday": "星期五",
+      "Saturday": "星期六",
+      "Sunday": "星期日"
+   },
+   "months": {
+      "January": "一月",
+      "February": "二月",
+      "March": "三月",
+      "April": "四月",
+      "May": "五月",
+      "June": "六月",
+      "July": "七月",
+      "August": "八月",
+      "September": "九月",
+      "October": "十月",
+      "November": "十一月",
+      "December": "十二月"
+   },
+
+   "booking": {
+      "cash": "仅限现金支付",
+      "select_service": "选择服务",
+      "service_required": "需要服务",
+      "service_required_message": "您必须选择服务才能预约",
+      "payment": "服务结束后，将使用现金支付",
+      "confirm": "确认并预订",
+      "review": "查看并确认",
+      "clients": "客户",
+      "search_clients": "搜索客户",
+      "name_required": "姓名和电话是必填项",
+      "no_services": "{{name}} 还没有列出任何服务。请通知他们!"
+   },
+   "service": {
+      "title": "服务",
+      "no_services": "暂无可用服务",
+      "search": "搜索服务",
+      "details": "服务详情",
+      "edit": {
+         "title": "编辑服务",
+         "update": "更新服务",
+         "placeholder": "成人理发",
+         "add": "添加服务",
+         "duration": "服务时长",
+         "price": "服务价格",
+         "description": "服务描述",
+         "image": "选择服务图片",
+         "name": "服务名称"
+      }
+   },
+   "reviews": {
+      "add": "添加评论",
+      "no_review": "暂无评论",
+      "title": "评论",
+      "alert": {
+         "title": "无已完成预约",
+         "message": "您需要完成一次预约后才能留下评论"
+      }
+   },
+
+   "button": {
+      "book": "立即预订",
+      "cancel": "取消",
+      "reschedule": "重新安排",
+      "continue": "继续",
+      "update": "更新",
+      "edit": "编辑",
+      "back": "返回",
+      "save": "保存"
+   },
+   "schedule": {
+      "name": "最终时间表",
+      "off": "休息日",
+      "break": "午休",
+      "startTime": "开始时间",
+      "endTime": "结束时间",
+      "message": "这一天标记为休息日",
+      "button": {
+         "review": "查看并保存",
+         "update": "更新时间表",
+         "close": "关闭"
+      }
+   },
+   "appointment": {
+      "today": "今天",
+      "new": "新预约",
+      "details": {
+         "main": "预约详情",
+         "title": "服务详情"
+      },
+      "no_appointment": "没有预约",
+      "available_today": "今天可用的预约",
+      "toggle": {
+         "upcoming": "即将到来",
+         "past": "过去的"
+      },
+      "status": "状态",
+      "mark_completed": "标记为已完成",
+      "filter": {
+         "title": "按预约状态筛选",
+         "Pending": "待处理",
+         "Confirmed": "已确认",
+         "Cancelled": "已取消",
+         "Completed": "已完成",
+         "No-show": "未出席",
+         "button": "应用筛选",
+         "clear": "清除筛选"
+      },
+      "broadcast": {
+         "heading": "群发消息",
+         "title": "标题",
+         "message": "消息",
+         "placeholder": "输入一条消息发送给所有客户",
+         "button": "发送消息"
+      },
+      "confirmation": {
+         "cancel": {
+            "title": "取消预约",
+            "message": "您确定要取消此预约吗?",
+            "yes": "是"
+         }
+      }
+   },
+   "barber": {
+      "search": "搜索理发师",
+      "title": "理发师",
+      "rating": "评分",
+      "distance": "距离",
+      "no_barber": "暂无可用理发师",
+      "review": "评论",
+      "no_review": "暂无评论",
+      "about": "关于 {{name}}",
+      "top_services": "热门服务",
+      "no_services": "暂无可用服务",
+      "schedule": "时间表",
+      "no_available": "今天不可用",
+      "filter": "筛选理发师",
+      "clear": "清除",
+      "available": "今天可用",
+      "info_options": {
+         "info": "信息",
+         "gallery": "图库",
+         "reviews": "评论",
+         "services": "服务",
+         "schedule": "时间表"
+      }
+   },
+
+   "settings": {
+      "title": "设置",
+      "language": "语言",
+      "theme": "主题",
+      "logout": "登出"
+   },
+   "signup": {
+      "login": "登录",
+      "signup": "注册",
+      "title": "欢迎",
+      "name": "全名",
+      "phone": "电话号码",
+      "email": "电子邮件",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "forgot": "忘记密码?",
+      "placeholder": {
+         "name": "请输入您的全名",
+         "phone": "请输入您的电话号码",
+         "email": "请输入您的电子邮件",
+         "password": "请输入您的密码",
+         "confirmPassword": "确认您的密码"
+      },
+      "complition": {
+         "name": "理发店名称",
+         "address": "请输入您的理发店地址",
+         "about": "告诉我们一些关于您的信息（可选）"
+      },
+      "button": "注册",
+      "toggle": "您是否注册为理发师?"
+   },
+
+   "home": {
+      "my_barber": "我的理发师",
+      "find_barber": "找理发师",
+      "miles": "英里",
+      "signup": "您想注册成为理发师吗?",
+      "signup_title": "注册",
+      "rating": "评分",
+      "estimated": "今天预估",
+      "earned": "已赚取",
+      "pending": "待处理",
+      "waiting": {
+         "completion": "等待完成",
+         "confirmation": "等待确认",
+         "cashout": "等待提现"
+      },
+      "upcoming": "即将到来的",
+      "appointments_today": "今天的预约",
+      "appointments_week": "本周的预约",
+      "start_barbering": "开始理发吧!"
+   }
+}

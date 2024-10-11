@@ -7,6 +7,16 @@ import { initReactI18next } from 'react-i18next'
 // Import translation files
 import en from '~/locales/en.json'
 import es from '~/locales/es.json'
+import zh from '~/locales/zh.json'
+import fr from '~/locales/fr.json'
+
+const resources = {
+   en: { translation: en },
+   es: { translation: es },
+   zh: { translation: zh },
+   fr: { translation: fr }
+}
+
 import { getStoredLanguage } from '~/providers/languague'
 const languague = getStoredLanguage()
 // Detect the device language
@@ -24,10 +34,7 @@ const getDeviceLanguage = () => {
 i18n
    .use(initReactI18next) // Passes i18n down to react-i18next
    .init({
-      resources: {
-         en: { translation: en },
-         es: { translation: es }
-      },
+      resources,
       lng: getDeviceLanguage() || 'en',
       fallbackLng: 'en',
       compatibilityJSON: 'v3',

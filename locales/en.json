@@ -259,6 +259,21 @@
       },
       "greeting": "Hello, {{name}}!"
    },
+   "subscription": {
+      "end": "End Free Trial & Susbcribe Now",
+      "pay": "Subscribe",
+      "title": "Subscription",
+      "heading": "Boost Your Barber Business with FadeFlow App",
+      "button": "Subscribe Now",
+      "monthly": "Billed every month",
+      "trial_bold": "14-Day Free Trial",
+      "trial": "Try all premium features risk-free",
+      "exclusive_bold": "Exlusive Benefits",
+      "exclusive": "Get access to exclusive features and benefits, accept priority bookings, and access advanced client management tools",
+      "business_bold": "Business Insights",
+      "business": "Gain valuable insights into your business performance and client engagement, track your earnings and manage your schedule",
+      "cancel": "Cancel Anytime - No long-term commitment"
+   },
    "misc": {
       "of": "of",
       "trial_expired": "Your trial has expired. Please subscribe to continue using the app.",

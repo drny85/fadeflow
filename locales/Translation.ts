@@ -8,26 +8,27 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface Translation {
-    welcome:     string;
-    tabs:        Tabs;
-    login:       Login;
-    profile:     Profile;
-    days:        Days;
-    longDays:    LongDays;
-    months:      Months;
-    booking:     Booking;
-    service:     Service;
-    reviews:     Reviews;
-    button:      TranslationButton;
-    schedule:    Schedule;
-    appointment: TranslationAppointment;
-    barber:      Barber;
-    settings:    Settings;
-    signup:      Signup;
-    home:        Home;
-    misc:        Misc;
-    terms:       Privacy;
-    privacy:     Privacy;
+    welcome:      string;
+    tabs:         Tabs;
+    login:        Login;
+    profile:      Profile;
+    days:         Days;
+    longDays:     LongDays;
+    months:       Months;
+    booking:      Booking;
+    service:      Service;
+    reviews:      Reviews;
+    button:       TranslationButton;
+    schedule:     Schedule;
+    appointment:  TranslationAppointment;
+    barber:       Barber;
+    settings:     Settings;
+    signup:       Signup;
+    home:         Home;
+    subscription: Subscription;
+    misc:         Misc;
+    terms:        Privacy;
+    privacy:      Privacy;
 }
 
 export interface TranslationAppointment {
@@ -338,6 +339,22 @@ export interface Placeholder {
     confirmPassword: string;
 }
 
+export interface Subscription {
+    end:            string;
+    pay:            string;
+    title:          string;
+    heading:        string;
+    button:         string;
+    monthly:        string;
+    trial_bold:     string;
+    trial:          string;
+    exclusive_bold: string;
+    exclusive:      string;
+    business_bold:  string;
+    business:       string;
+    cancel:         string;
+}
+
 export interface Tabs {
     home:         string;
     appointments: string;
@@ -530,6 +547,7 @@ const typeMap: any = {
         { json: "settings", js: "settings", typ: r("Settings") },
         { json: "signup", js: "signup", typ: r("Signup") },
         { json: "home", js: "home", typ: r("Home") },
+        { json: "subscription", js: "subscription", typ: r("Subscription") },
         { json: "misc", js: "misc", typ: r("Misc") },
         { json: "terms", js: "terms", typ: r("Privacy") },
         { json: "privacy", js: "privacy", typ: r("Privacy") },
@@ -809,6 +827,21 @@ const typeMap: any = {
         { json: "email", js: "email", typ: "" },
         { json: "password", js: "password", typ: "" },
         { json: "confirmPassword", js: "confirmPassword", typ: "" },
+    ], false),
+    "Subscription": o([
+        { json: "end", js: "end", typ: "" },
+        { json: "pay", js: "pay", typ: "" },
+        { json: "title", js: "title", typ: "" },
+        { json: "heading", js: "heading", typ: "" },
+        { json: "button", js: "button", typ: "" },
+        { json: "monthly", js: "monthly", typ: "" },
+        { json: "trial_bold", js: "trial_bold", typ: "" },
+        { json: "trial", js: "trial", typ: "" },
+        { json: "exclusive_bold", js: "exclusive_bold", typ: "" },
+        { json: "exclusive", js: "exclusive", typ: "" },
+        { json: "business_bold", js: "business_bold", typ: "" },
+        { json: "business", js: "business", typ: "" },
+        { json: "cancel", js: "cancel", typ: "" },
     ], false),
     "Tabs": o([
         { json: "home", js: "home", typ: "" },

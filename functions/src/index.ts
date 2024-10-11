@@ -183,17 +183,23 @@ exports.createSubscrition = onCall<CreateSubscriptionRequest, any>(
             .collection('stripe_customers')
             .doc(auth.uid)
             .get()
-         const { customer_id } = customerData.data() as {
-            customer_id: string
-         }
-         customerId = customer_id
-         if (!customer_id) {
+         if (!customerData.exists) {
             const cust = await stripe.customers.create({
                email,
                metadata: { userId: auth.uid }
             })
             customerId = cust.id
+         } else {
+            const { customer_id } = customerData.data() as {
+               customer_id: string
+            }
+            customerId = customer_id
+            await getFirestore()
+               .collection('stripe_customers')
+               .doc(auth.uid)
+               .set({ customer_id: customerId })
          }
+
          const existingSubs = await stripe.subscriptions.list({
             customer: customerId,
             price: 'price_1Q1LkAHSlvp4GnsbbaLLLb0c',

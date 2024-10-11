@@ -187,7 +187,9 @@ export default function CustomerModernSettingsPage() {
                      className="flex-row items-center gap-2"
                      onPress={handleSignOut}
                   >
-                     <Text className="font-semibold mr-2 text-slate-200">
+                     <Text
+                        className={`font-semibold mr-2 ${user?.image ? 'text-accent' : 'text-slate-200'}`}
+                     >
                         {translate('profile.logout')}
                      </Text>
                      <Ionicons

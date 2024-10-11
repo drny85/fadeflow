@@ -1,0 +1,258 @@
+{
+   "welcome": "Bonjour, {{name}}",
+   "tabs": {
+      "home": "Accueil",
+      "appointments": "Rendez-vous",
+      "barbers": "Barbiers",
+      "profile": "Profil",
+      "stuffs": "Outils",
+      "earnings": "Gains"
+   },
+   "login": {
+      "username": "Nom d'utilisateur",
+      "password": "Mot de passe",
+      "button": "Connexion",
+      "no_login": "Veuillez vous connecter pour voir vos rendez-vous"
+   },
+   "profile": {
+      "theme": "Thème",
+      "preferences": "Préférences",
+      "communication": "Communication",
+      "language": "Langue",
+      "contact": "Contactez-nous",
+      "logout": "Se déconnecter",
+      "name": "Modifier le nom / téléphone",
+      "terms": "Termes et conditions",
+      "privacy": "Politique de confidentialité",
+      "susbcription": "Abonnement",
+      "minutes_interval": "Intervalle de réservation",
+      "delete": "Supprimer le compte",
+      "available": "Je suis disponible",
+      "update_profile": "Mettre à jour le profil",
+      "confirmation": {
+         "delete": {
+            "title": "Supprimer le compte",
+            "message": "Êtes-vous sûr de vouloir supprimer votre compte?",
+            "yes": "Oui"
+         },
+         "logout": {
+            "title": "Déconnexion",
+            "message": "Êtes-vous sûr de vouloir vous déconnecter?",
+            "yes": "Oui"
+         }
+      }
+   },
+   "days": {
+      "Mon": "Lun",
+      "Tue": "Mar",
+      "Wed": "Mer",
+      "Thu": "Jeu",
+      "Fri": "Ven",
+      "Sat": "Sam",
+      "Sun": "Dim"
+   },
+   "longDays": {
+      "Monday": "Lundi",
+      "Tuesday": "Mardi",
+      "Wednesday": "Mercredi",
+      "Thursday": "Jeudi",
+      "Friday": "Vendredi",
+      "Saturday": "Samedi",
+      "Sunday": "Dimanche"
+   },
+   "months": {
+      "January": "Janvier",
+      "February": "Février",
+      "March": "Mars",
+      "April": "Avril",
+      "May": "Mai",
+      "June": "Juin",
+      "July": "Juillet",
+      "August": "Août",
+      "September": "Septembre",
+      "October": "Octobre",
+      "November": "Novembre",
+      "December": "Décembre"
+   },
+
+   "booking": {
+      "cash": "Espèces seulement",
+      "select_service": "Sélectionner un service",
+      "service_required": "Service requis",
+      "service_required_message": "Vous devez sélectionner un service pour réserver un rendez-vous",
+      "payment": "Le paiement sera effectué en espèces après la fin du service",
+      "confirm": "Confirmer et réserver",
+      "review": "Vérifier et confirmer",
+      "clients": "Clients",
+      "search_clients": "Rechercher des clients",
+      "name_required": "Le nom et le numéro sont obligatoires",
+      "no_services": "{{name}} n'a encore listé aucun service. Veuillez lui en informer!"
+   },
+   "service": {
+      "title": "Services",
+      "no_services": "Aucun service disponible",
+      "search": "Rechercher des services",
+      "details": "Détails du service",
+      "edit": {
+         "title": "Modifier le service",
+         "update": "Mettre à jour le service",
+         "placeholder": "Coupe de cheveux adulte",
+         "add": "Ajouter un service",
+         "duration": "Durée du service",
+         "price": "Prix du service",
+         "description": "Description du service",
+         "image": "Sélectionnez une image pour le service",
+         "name": "Nom du service"
+      }
+   },
+   "reviews": {
+      "add": "Ajouter un avis",
+      "no_review": "Pas encore d'avis",
+      "title": "Avis",
+      "alert": {
+         "title": "Aucun rendez-vous terminé",
+         "message": "Vous devez avoir un rendez-vous terminé pour laisser un avis"
+      }
+   },
+
+   "button": {
+      "book": "Réserver maintenant",
+      "cancel": "Annuler",
+      "reschedule": "Replanifier",
+      "continue": "Continuer",
+      "update": "Mettre à jour",
+      "edit": "Modifier",
+      "back": "Retour",
+      "save": "Sauvegarder"
+   },
+   "schedule": {
+      "name": "Horaire final",
+      "off": "Jour de congé",
+      "break": "Pause déjeuner",
+      "startTime": "Heure de début",
+      "endTime": "Heure de fin",
+      "message": "Ce jour est marqué comme jour de congé",
+      "button": {
+         "review": "Vérifier et enregistrer",
+         "update": "Mettre à jour l'horaire",
+         "close": "Fermer"
+      }
+   },
+   "appointment": {
+      "today": "Aujourd'hui",
+      "new": "Nouveaux rendez-vous",
+      "details": {
+         "main": "Détails du rendez-vous",
+         "title": "Détails du service"
+      },
+      "no_appointment": "Pas de rendez-vous",
+      "available_today": "Rendez-vous disponibles aujourd'hui",
+      "toggle": {
+         "upcoming": "À venir",
+         "past": "Passés"
+      },
+      "status": "Statut",
+      "mark_completed": "Marquer comme terminé",
+      "filter": {
+         "title": "Filtrer les rendez-vous par",
+         "Pending": "En attente",
+         "Confirmed": "Confirmé",
+         "Cancelled": "Annulé",
+         "Completed": "Terminé",
+         "No-show": "Non-présentation",
+         "button": "Appliquer le filtre",
+         "clear": "Effacer les filtres"
+      },
+      "broadcast": {
+         "heading": "Message de diffusion",
+         "title": "Titre",
+         "message": "Message",
+         "placeholder": "Tapez un message pour tous vos clients",
+         "button": "Envoyer le message"
+      },
+      "confirmation": {
+         "cancel": {
+            "title": "Annuler le rendez-vous",
+            "message": "Êtes-vous sûr de vouloir annuler ce rendez-vous?",
+            "yes": "Oui"
+         }
+      }
+   },
+   "barber": {
+      "search": "Rechercher des barbiers",
+      "title": "Barbiers",
+      "rating": "Évaluation",
+      "distance": "Distance",
+      "no_barber": "Aucun barbier disponible",
+      "review": "avis",
+      "no_review": "pas encore d'avis",
+      "about": "À propos de {{name}}",
+      "top_services": "Meilleurs services",
+      "no_services": "Aucun service disponible",
+      "schedule": "Horaire",
+      "no_available": "n'est pas disponible aujourd'hui",
+      "filter": "Filtrer les barbiers",
+      "clear": "Effacer",
+      "available": "Disponible aujourd'hui",
+      "info_options": {
+         "info": "Infos",
+         "gallery": "Galerie",
+         "reviews": "Avis",
+         "services": "Services",
+         "schedule": "Horaire"
+      }
+   },
+
+   "settings": {
+      "title": "Paramètres",
+      "language": "Langue",
+      "theme": "Thème",
+      "logout": "Déconnexion"
+   },
+   "signup": {
+      "login": "Connexion",
+      "signup": "Inscription",
+      "title": "Bienvenue",
+      "name": "Nom complet",
+      "phone": "Numéro de téléphone",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "forgot": "Mot de passe oublié?",
+      "placeholder": {
+         "name": "Entrez votre nom complet",
+         "phone": "Entrez votre numéro de téléphone",
+         "email": "Entrez votre adresse e-mail",
+         "password": "Entrez votre mot de passe",
+         "confirmPassword": "Confirmez votre mot de passe"
+      },
+      "complition": {
+         "name": "Nom du salon de coiffure",
+         "address": "Saisissez l'adresse de votre salon de coiffure",
+         "about": "Parlez-nous de vous (facultatif)"
+      },
+      "button": "S'inscrire",
+      "toggle": "Vous vous inscrivez en tant que barbier?"
+   },
+
+   "home": {
+      "my_barber": "Mon barbier",
+      "find_barber": "Trouver un barbier",
+      "miles": "miles",
+      "signup": "Vous souhaitez vous inscrire en tant que barbier?",
+      "signup_title": "S'inscrire",
+      "rating": "évaluation",
+      "estimated": "Estimé pour aujourd'hui",
+      "earned": "Gagné",
+      "pending": "En attente",
+      "waiting": {
+         "completion": "En attente de finalisation",
+         "confirmation": "En attente de confirmation",
+         "cashout": "En attente de paiement"
+      },
+      "upcoming": "À venir",
+      "appointments_today": "Rendez-vous d'aujourd'hui",
+      "appointments_week": "Rendez-vous de la semaine",
+      "start_barbering": "Commencez à barbier!"
+   }
+}

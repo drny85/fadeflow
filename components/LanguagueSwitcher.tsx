@@ -62,6 +62,13 @@ const LanguageSwitcher = () => {
                disabled={language === 'es'}
             />
          </Animated.View>
+         <Animated.View style={animatedStyle}>
+            <Button
+               title="中文"
+               onPress={() => changeLanguage('zh')}
+               disabled={language === 'zh'}
+            />
+         </Animated.View>
       </View>
    )
 }

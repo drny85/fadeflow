@@ -17,6 +17,7 @@ import { toastAlert } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { PaymentIntentResponse } from '~/shared/types'
+import { translation } from '~/locales/translate'
 
 const SubscriptionButton = () => {
    const { initPaymentSheet, presentPaymentSheet, handleURLCallback } =
@@ -99,7 +100,7 @@ const SubscriptionButton = () => {
             applePay: {
                merchantCountryCode: 'US'
             },
-            primaryButtonLabel: 'Subscribe',
+            primaryButtonLabel: translation('subscription', 'pay'),
             // defaultBillingDetails: {
             //    name: user.name,
             //    email: user.email,
@@ -184,7 +185,7 @@ const SubscriptionButton = () => {
             ) : (
                <Button
                   textStyle={{ paddingHorizontal: 16 }}
-                  title="Susbcribe Now"
+                  title={translation('subscription', 'button')}
                   onPress={onSubscrivePress}
                />
             )}

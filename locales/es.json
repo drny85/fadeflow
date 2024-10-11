@@ -255,7 +255,7 @@
       "pending": "Pendiente",
       "waiting": {
          "completion": "Esperando por completar",
-         "confirmation": "Easperando por confirmacion",
+         "confirmation": "Esperando por confirmacion",
          "cashout": "Esperando para cobrar"
       },
       "appointment": {
@@ -264,6 +264,21 @@
          "no_barber": "No barbero"
       },
       "greeting": "¡Hola, {{name}}!"
+   },
+   "subscription": {
+      "end":"Terminar Prueba & Subscribirme Ya"
+      "pay": "Subscribirme",
+      "title:": "Suscripción",
+      "heading": "Impulsa Tu Negocio de Barbería con la App FadeFlow",
+      "button": "Suscríbete Ahora",
+      "monthly": "Facturado mensualmente",
+      "trial_bold": "Prueba Gratis de 14 Días",
+      "trial": "Prueba todas las funciones premium sin riesgo",
+      "exclusive_bold": "Beneficios Exclusivos",
+      "exclusive": "Accede a funciones y beneficios exclusivos, acepta reservas prioritarias y utiliza herramientas avanzadas de gestión de clientes",
+      "business_bold": "Información Empresarial",
+      "business": "Obtén valiosa información sobre el rendimiento de tu negocio y la interacción con los clientes, rastrea tus ingresos y gestiona tu horario",
+      "cancel": "Cancela en cualquier momento - Sin compromiso a largo plazo"
    },
    "misc": {
       "of": "de",

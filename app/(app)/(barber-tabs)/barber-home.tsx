@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns'
 import { router } from 'expo-router'
 import { useMemo } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, View } from 'react-native'
 
 import { updateUser } from '~/actions/users'
 import WaitingAppoinmentCard from '~/components/Appointment/WaitingAppoinmentCard'
@@ -190,7 +190,7 @@ const BarberHome = () => {
                               ? translate('misc.free_trial', { days: DAYS })
                               : translation('misc', 'trial_expired')}
                         </Text>
-                        <Text className="text-center text-sm text-muted">
+                        <Text className="text-center text-muted dark:text-slate-500">
                            {translation('misc', 'created_at')}{' '}
                            {format(user.createdAt, 'PPpp')}
                         </Text>
@@ -200,7 +200,7 @@ const BarberHome = () => {
                         </Text>
                         <View className="self-center">
                            <Button
-                              title={translation('misc', 'subscribe')}
+                              title={translation('subscription', 'end')}
                               textStyle={{ paddingHorizontal: 12 }}
                               onPress={() => router.push('/subscription')}
                            />
@@ -219,7 +219,9 @@ const BarberHome = () => {
                            <Button
                               title={translation('misc', 'subscribe')}
                               textStyle={{ paddingHorizontal: 12 }}
-                              onPress={() => router.push('/subscription')}
+                              onPress={() => {
+                                 router.push('/subscription')
+                              }}
                            />
                         </View>
                      </View>
