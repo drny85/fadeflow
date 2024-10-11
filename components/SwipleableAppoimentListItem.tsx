@@ -36,16 +36,15 @@ const SwipleableAppoimentListItem = ({
       try {
          if (item.status === 'pending') {
             Alert.alert(
-               'Cancel Appointment',
-               'Are you sure you want to cancel this appointment?',
+               translation('alerts', 'cancel', 'title'),
+               translation('alerts', 'cancel', 'message'),
                [
                   {
-                     text: 'Cancel',
-                     onPress: () => console.log('Cancel Pressed'),
+                     text: translation('button', 'cancel'),
                      style: 'cancel'
                   },
                   {
-                     text: 'Yes, Cancel it',
+                     text: translation('alerts', 'cancel', 'yes'),
                      style: 'destructive',
                      onPress: async () => {
                         await handleAppointmentUpdates(item, true)

@@ -67,12 +67,15 @@ export type Review = {
    reviewText: string
 }
 
+export type Languague = 'en' | 'es'
+
 export type AppUser = {
    id?: string
    email: string
    name?: string
    phone?: string
    gallery?: Photo[]
+   languague: Languague
    image: string | null
    pushToken: string | null
    isBarber?: boolean

@@ -150,7 +150,23 @@
       "update": "Actualizar",
       "back": "Atras",
       "edit": "Editar",
-      "save": "Guardar"
+      "save": "Guardar",
+      "close": "Cerrar",
+      "confirm": "Confirmar",
+      "complete": "Completar",
+      "delete": "Borrar",
+      "no_action": "No accion"
+   },
+   "alerts": {
+      "cancel": {
+         "title": "Cancelar Cita",
+         "message": "Esta seguro que quiere cancelar esta cita?",
+         "yes": "Si"
+      },
+      "success": "Listo",
+      "error": "Error",
+      "warning": "Advertencia",
+      "info": "Aviso"
    },
    "appointment": {
       "today": "Hoy",
@@ -285,7 +301,8 @@
       "date": "Fecha",
       "amount": "Cantidad",
       "status": "Estado",
-      "customer": "Cliente"
+      "customer": "Cliente",
+      "search": "Buscar por nombre, estado o precio"
    },
    "misc": {
       "of": "de",

@@ -80,7 +80,7 @@
       "select_service": "Select a Service",
       "service_required": "Service Required",
       "service_required_message": "You must select a service to book an appointment",
-      "payment": "Paymment will be make in cash after service complition",
+      "payment": "Payment will be make in cash after service complition",
       "confirm": "Confirm & Book",
       "review": "Review & Confirm",
       "clients": "Clients",
@@ -123,7 +123,12 @@
       "update": "Update",
       "edit": "Edit",
       "back": "Back",
-      "save": "Save"
+      "save": "Save",
+      "close": "Close",
+      "confirm": "Confirm",
+      "complete": "Complete",
+      "delete": "Delete",
+      "no_action": "No Action"
    },
    "schedule": {
       "name": "Final Schedule",
@@ -179,6 +184,18 @@
          }
       }
    },
+   "alerts": {
+      "cancel": {
+         "title": "Cancel Appointment",
+         "message": "Are you sure you want to cancel this appointment?",
+         "yes": "Yes"
+      },
+      "success": "Success",
+      "error": "Error",
+      "warning": "Warning",
+      "info": "Info"
+   },
+
    "barber": {
       "search": "Search Barbers",
       "title": "Barberos",
@@ -279,7 +296,8 @@
       "date": "Date",
       "amount": "Amount",
       "status": "Status",
-      "customer": "Customer"
+      "customer": "Customer",
+      "search": "Search by name, status or price"
    },
    "misc": {
       "of": "of",

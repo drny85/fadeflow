@@ -15,6 +15,7 @@ import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { AppUser } from '~/shared/types'
+import { getDeviceLanguage } from '~/utils/languague'
 
 const signupSchema = z
    .object({
@@ -76,6 +77,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             data.password,
             data.isBarber || false
          )
+         const lng = getDeviceLanguage() || 'en'
          if (user) {
             let newUser: AppUser
             if (data.isBarber) {
@@ -91,6 +93,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
                   gallery: [],
                   minutesInterval: 15,
                   isAvailable: true,
+                  languague: lng,
                   bio: '',
                   image: null,
                   subscriptionStatus: 'trialing',
@@ -106,6 +109,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
                   phone: data.phone || '',
                   image: null,
                   provider: 'email',
+                  languague: lng,
                   pushToken: null,
                   name: data.name || '',
                   isBarber: false,

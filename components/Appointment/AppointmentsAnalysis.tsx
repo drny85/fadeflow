@@ -1,19 +1,19 @@
+import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import { FlashList } from '@shopify/flash-list'
+import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View } from 'react-native'
 import { BarChart } from 'react-native-gifted-charts' // For bar chart
 import Animated, {
    FadeIn,
    FadeOut,
-   SlideInDown,
-   SlideOutDown
+   SlideInLeft,
+   SlideOutLeft
 } from 'react-native-reanimated'
-import { Text } from '../nativewindui/Text'
-import { format } from 'date-fns'
-import { FlashList } from '@shopify/flash-list'
-import { useColorScheme } from '~/lib/useColorScheme'
-import SegmentedControl from '@react-native-segmented-control/segmented-control'
-import { translation } from '~/locales/translate'
 import { useTranslate } from '~/hooks/useTranslation'
+import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
+import { Text } from '../nativewindui/Text'
 
 type AppointmentStatus =
    | 'pending'
@@ -106,10 +106,6 @@ const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
 
    return (
       <View style={{ flex: 1, padding: 10 }}>
-         <Text variant={'largeTitle'} className="text-center mb-2">
-            {translation('sorting', 'sortBy')}
-         </Text>
-
          <SegmentedControl
             values={[
                translation('sorting', 'date'),
@@ -144,6 +140,34 @@ const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
 
          <FlashList
             data={appointmentData}
+            ListHeaderComponent={
+               showChart === 'customer' ? (
+                  <Animated.View
+                     entering={SlideInLeft}
+                     exiting={SlideOutLeft}
+                     style={{ marginVertical: 10 }}
+                  >
+                     <BarChart
+                        data={customerBarData}
+                        barWidth={30}
+                        spacing={15}
+                        yAxisLabelPrefix="$"
+                        roundedTop
+                        xAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
+                        yAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
+                        hideRules
+                        xAxisLabelTextStyle={{
+                           fontSize: 12,
+                           color: isDarkColorScheme ? '#ffffff' : '#212121'
+                        }}
+                        yAxisTextStyle={{
+                           fontSize: 12,
+                           color: isDarkColorScheme ? '#ffffff' : '#212121'
+                        }}
+                     />
+                  </Animated.View>
+               ) : undefined
+            }
             keyExtractor={(item) => item.id}
             estimatedItemSize={120}
             contentContainerStyle={{
@@ -183,32 +207,15 @@ const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
             )}
          />
 
-         {showChart === 'customer' && (
+         {/* {showChart === 'customer' && (
             <Animated.View
                entering={SlideInDown}
                exiting={SlideOutDown}
                style={{ marginVertical: 10 }}
             >
-               <BarChart
-                  data={customerBarData}
-                  barWidth={30}
-                  spacing={15}
-                  yAxisLabelPrefix="$"
-                  roundedTop
-                  xAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
-                  yAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
-                  hideRules
-                  xAxisLabelTextStyle={{
-                     fontSize: 12,
-                     color: isDarkColorScheme ? '#ffffff' : '#212121'
-                  }}
-                  yAxisTextStyle={{
-                     fontSize: 12,
-                     color: isDarkColorScheme ? '#ffffff' : '#212121'
-                  }}
-               />
+              
             </Animated.View>
-         )}
+         )} */}
       </View>
    )
 }

@@ -1,5 +1,7 @@
+import { Octicons } from '@expo/vector-icons'
+import { router } from 'expo-router'
 import React from 'react'
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 
 import { Container } from '~/components/Container'
 import EarningComponent from '~/components/EarningsChart'
@@ -28,9 +30,18 @@ const Earnings = () => {
    return (
       <Container>
          <View className="flex-1">
-            <Text className="text-center" variant="largeTitle">
-               {translation('tabs', 'earnings')}
-            </Text>
+            <View className="flex-row items-center justify-between mx-4 mt-4">
+               <Text className="text-center" variant="largeTitle">
+                  {translation('tabs', 'earnings')}
+               </Text>
+               <TouchableOpacity
+                  className="h-12 w-12 rounded-full justify-center items-center bg-primary"
+                  onPress={() => router.push('/analyties')}
+               >
+                  <Octicons name="graph" size={28} color={'white'} />
+               </TouchableOpacity>
+            </View>
+
             <EarningComponent appointments={appointments} />
          </View>
       </Container>

@@ -1,14 +1,15 @@
 import { MMKV } from 'react-native-mmkv'
+import { Languague } from '~/shared/types'
 
 export const storage = new MMKV({
    id: 'fadeflow-languague-storage'
 })
 
 // Functions to get/set data from MMKV
-export const getStoredLanguage = (): string | null => {
-   return storage.getString('language') || null
+export const getStoredLanguage = (): Languague | null => {
+   return storage.getString('language') as Languague | null
 }
 
-export const setStoredLanguage = (language: string) => {
+export const setStoredLanguage = (language: Languague) => {
    storage.set('language', language)
 }

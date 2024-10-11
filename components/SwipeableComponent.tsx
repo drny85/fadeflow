@@ -9,6 +9,7 @@ import {
    View
 } from 'react-native'
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler'
+import { translation } from '~/locales/translate'
 
 import { AppointmentStatus } from '~/shared/types'
 
@@ -60,12 +61,12 @@ const SwipeableComponent: React.FC<Props> = ({
                      <View className="flex-row items-center gap-1">
                         <Icon name="close" color="red" size={26} />
                         <Text className="text-red-500 font-roboto-bold">
-                           Cancel
+                           {translation('button', 'cancel')}
                         </Text>
                      </View>
                   ) : (
                      <Text className="text-red-500 font-roboto-bold">
-                        Close
+                        {translation('button', 'close')}
                      </Text>
                   )}
                </TouchableOpacity>
@@ -86,10 +87,10 @@ const SwipeableComponent: React.FC<Props> = ({
                   <View className="flex-row gap-2 items-center">
                      <Text className="font-roboto-bold text-slate-900 dark:text-slate-100">
                         {status === 'pending'
-                           ? 'Confirm'
+                           ? translation('button', 'confirm')
                            : status === 'confirmed'
-                             ? 'Complete'
-                             : 'No action'}
+                             ? translation('button', 'complete')
+                             : translation('button', 'no_action')}
                      </Text>
                      <Icon name="check" color="green" size={26} />
                   </View>

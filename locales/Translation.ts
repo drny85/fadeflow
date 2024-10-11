@@ -21,6 +21,7 @@ export interface Translation {
     button:       TranslationButton;
     schedule:     Schedule;
     appointment:  TranslationAppointment;
+    alerts:       Alerts;
     barber:       Barber;
     settings:     Settings;
     signup:       Signup;
@@ -30,6 +31,20 @@ export interface Translation {
     misc:         Misc;
     terms:        Privacy;
     privacy:      Privacy;
+}
+
+export interface Alerts {
+    cancel:  Cancel;
+    success: string;
+    error:   string;
+    warning: string;
+    info:    string;
+}
+
+export interface Cancel {
+    title:   string;
+    message: string;
+    yes:     string;
 }
 
 export interface TranslationAppointment {
@@ -56,12 +71,6 @@ export interface Broadcast {
 
 export interface AppointmentConfirmation {
     cancel: Cancel;
-}
-
-export interface Cancel {
-    title:   string;
-    message: string;
-    yes:     string;
 }
 
 export interface Details {
@@ -135,6 +144,11 @@ export interface TranslationButton {
     edit:       string;
     back:       string;
     save:       string;
+    close:      string;
+    confirm:    string;
+    complete:   string;
+    delete:     string;
+    no_action:  string;
 }
 
 export interface Days {
@@ -346,6 +360,7 @@ export interface Sorting {
     amount:   string;
     status:   string;
     customer: string;
+    search:   string;
 }
 
 export interface Subscription {
@@ -552,6 +567,7 @@ const typeMap: any = {
         { json: "button", js: "button", typ: r("TranslationButton") },
         { json: "schedule", js: "schedule", typ: r("Schedule") },
         { json: "appointment", js: "appointment", typ: r("TranslationAppointment") },
+        { json: "alerts", js: "alerts", typ: r("Alerts") },
         { json: "barber", js: "barber", typ: r("Barber") },
         { json: "settings", js: "settings", typ: r("Settings") },
         { json: "signup", js: "signup", typ: r("Signup") },
@@ -561,6 +577,18 @@ const typeMap: any = {
         { json: "misc", js: "misc", typ: r("Misc") },
         { json: "terms", js: "terms", typ: r("Privacy") },
         { json: "privacy", js: "privacy", typ: r("Privacy") },
+    ], false),
+    "Alerts": o([
+        { json: "cancel", js: "cancel", typ: r("Cancel") },
+        { json: "success", js: "success", typ: "" },
+        { json: "error", js: "error", typ: "" },
+        { json: "warning", js: "warning", typ: "" },
+        { json: "info", js: "info", typ: "" },
+    ], false),
+    "Cancel": o([
+        { json: "title", js: "title", typ: "" },
+        { json: "message", js: "message", typ: "" },
+        { json: "yes", js: "yes", typ: "" },
     ], false),
     "TranslationAppointment": o([
         { json: "today", js: "today", typ: "" },
@@ -584,11 +612,6 @@ const typeMap: any = {
     ], false),
     "AppointmentConfirmation": o([
         { json: "cancel", js: "cancel", typ: r("Cancel") },
-    ], false),
-    "Cancel": o([
-        { json: "title", js: "title", typ: "" },
-        { json: "message", js: "message", typ: "" },
-        { json: "yes", js: "yes", typ: "" },
     ], false),
     "Details": o([
         { json: "main", js: "main", typ: "" },
@@ -655,6 +678,11 @@ const typeMap: any = {
         { json: "edit", js: "edit", typ: "" },
         { json: "back", js: "back", typ: "" },
         { json: "save", js: "save", typ: "" },
+        { json: "close", js: "close", typ: "" },
+        { json: "confirm", js: "confirm", typ: "" },
+        { json: "complete", js: "complete", typ: "" },
+        { json: "delete", js: "delete", typ: "" },
+        { json: "no_action", js: "no_action", typ: "" },
     ], false),
     "Days": o([
         { json: "Mon", js: "Mon", typ: "" },
@@ -844,6 +872,7 @@ const typeMap: any = {
         { json: "amount", js: "amount", typ: "" },
         { json: "status", js: "status", typ: "" },
         { json: "customer", js: "customer", typ: "" },
+        { json: "search", js: "search", typ: "" },
     ], false),
     "Subscription": o([
         { json: "end", js: "end", typ: "" },

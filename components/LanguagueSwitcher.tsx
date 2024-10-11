@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { View, Button, Text } from 'react-native'
+import { View, Button } from 'react-native'
 import Animated, {
    useSharedValue,
    useAnimatedStyle,
    withTiming
 } from 'react-native-reanimated'
+import { updateUser } from '~/actions/users'
 
 import { i18n } from '~/locales/i18n'
+import { useAuth } from '~/providers/AuthContext'
 import { setStoredLanguage, getStoredLanguage } from '~/providers/languague'
+import { Languague } from '~/shared/types'
 
 const LanguageSwitcher = () => {
+   const { user } = useAuth()
    const lng = getStoredLanguage()
    const [language, setLanguage] = useState(lng)
 
@@ -17,7 +21,7 @@ const LanguageSwitcher = () => {
    const animationValue = useSharedValue(1)
 
    // Set the language in MMKV and animate
-   const changeLanguage = (lang: string) => {
+   const changeLanguage = async (lang: Languague) => {
       // Trigger animation
       animationValue.value = 0.5
       setLanguage(lang)
@@ -26,6 +30,9 @@ const LanguageSwitcher = () => {
 
       // Animate back to normal
       animationValue.value = withTiming(1, { duration: 500 })
+      if (user) {
+         await updateUser({ ...user, languague: lang })
+      }
    }
 
    useEffect(() => {
@@ -60,13 +67,6 @@ const LanguageSwitcher = () => {
                title="Español"
                onPress={() => changeLanguage('es')}
                disabled={language === 'es'}
-            />
-         </Animated.View>
-         <Animated.View style={animatedStyle}>
-            <Button
-               title="中文"
-               onPress={() => changeLanguage('zh')}
-               disabled={language === 'zh'}
             />
          </Animated.View>
       </View>

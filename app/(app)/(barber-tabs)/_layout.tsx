@@ -114,6 +114,7 @@ export default function BarberTabLayout() {
             options={{
                title: 'Earnings',
                //headerShown: false,
+
                tabBarIcon: ({ size, focused }) => (
                   <Icon
                      name="chart-pie"

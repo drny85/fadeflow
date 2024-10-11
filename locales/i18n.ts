@@ -1,6 +1,5 @@
 // src/i18n.js
 
-import { getLocales } from 'expo-localization'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
@@ -9,6 +8,7 @@ import en from '~/locales/en.json'
 import es from '~/locales/es.json'
 import zh from '~/locales/zh.json'
 import fr from '~/locales/fr.json'
+import { getDeviceLanguage } from '~/utils/languague'
 
 const resources = {
    en: { translation: en },
@@ -16,26 +16,13 @@ const resources = {
    zh: { translation: zh },
    fr: { translation: fr }
 }
-
-import { getStoredLanguage } from '~/providers/languague'
-const languague = getStoredLanguage()
-// Detect the device language
-const getDeviceLanguage = () => {
-   if (languague) {
-      return languague
-   }
-   const locales = getLocales()
-   if (Array.isArray(locales)) {
-      return locales[0].languageCode
-   }
-   return 'en' // default language
-}
+const lng = getDeviceLanguage() || 'en'
 
 i18n
    .use(initReactI18next) // Passes i18n down to react-i18next
    .init({
       resources,
-      lng: getDeviceLanguage() || 'en',
+      lng,
       fallbackLng: 'en',
       compatibilityJSON: 'v3',
 

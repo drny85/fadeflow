@@ -36,22 +36,6 @@ const BarberAppointments = () => {
          new Date(a.date) > new Date(b.date) ? 1 : -1
       )
    )
-   const appointmentsToAnalyzed = useMemo(
-      () =>
-         appointments.map((a) => {
-            return {
-               id: a.id!,
-               date: a.date,
-               customer: a.customer,
-               amount: a.services.reduce(
-                  (curr, acc) => curr + acc.price * acc.quantity,
-                  0
-               ),
-               status: a.status
-            }
-         }) as AppointmentToAnalyzeProps[],
-      [appointments]
-   )
 
    const pendingAppointments = useMemo(() => {
       return appointments.filter((a) => a.status === 'pending')
@@ -276,26 +260,10 @@ const BarberAppointments = () => {
                />
             </View>
          </Sheet>
-         <Sheet
-            snapPoints={['100%']}
-            ref={bottomSheetAnalysisRef}
-            topInset={SIZES.statusBarHeight}
-         >
-            <TouchableOpacity
-               className="p-2 "
-               onPress={() => bottomSheetAnalysisRef.current?.close()}
-            >
-               <Feather
-                  name="chevron-left"
-                  size={30}
-                  color={isDarkColorScheme ? '#ffffff' : colors.accent}
-               />
-            </TouchableOpacity>
-            <AppointmentAnalysis appointments={appointmentsToAnalyzed} />
-         </Sheet>
+
          <TouchableOpacity
             className="justify-center items-center absolute bottom-10 right-6 z-10 rounded-full bg-primary h-12 w-12 shadow-sm dark:shadow-none"
-            onPress={() => bottomSheetAnalysisRef.current?.present()}
+            onPress={() => router.push('/analyties')}
          >
             <Octicons name="graph" size={24} color={'#ffffff'} />
          </TouchableOpacity>
