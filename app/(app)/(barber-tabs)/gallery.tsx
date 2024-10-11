@@ -29,8 +29,6 @@ import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { IconNames, Photo, Service } from '~/shared/types'
 
-const VALUES = ['Services', 'Photos', 'Reviews', 'Schedule']
-
 const GalleryReviews = () => {
    const { user } = useAuth()
    const { services, loading } = useServices(user?.id!)

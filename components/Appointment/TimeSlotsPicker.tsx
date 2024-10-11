@@ -68,13 +68,13 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       .filter((b) => isSameDay(b.date, day.toISOString()))
       .map((appointment) => appointment.startTime)
 
-   // const durationTotal = appointments
-   //    .filter((app) => app.status !== 'cancelled')
-   //    .filter((a) => a.barber.id === barber?.id)
-   //    .filter((b) => isSameDay(b.date, day.toISOString()))
-   //    .map((appointment) => appointment.services)
-   //    .flat()
-   //    .reduce((acc, curr) => curr.duration * curr.quantity + acc, 0);
+   const durationTotal = appointments
+      .filter((app) => app.status !== 'cancelled')
+      .filter((a) => a.barber.id === barber?.id)
+      .filter((b) => isSameDay(b.date, day.toISOString()))
+      .map((appointment) => appointment.services)
+      .flat()
+      .reduce((acc, curr) => curr.duration * curr.quantity + acc, 0)
 
    const unaivailableTimeSlots = addUnavailableTimeSlots(
       bookedSlots,
@@ -106,7 +106,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
              unaivailableTimeSlots,
              day,
              lunckBreak,
-             duration,
+             durationTotal,
              blocked
           )
 

@@ -1,4 +1,4 @@
-import { Feather, MaterialIcons } from '@expo/vector-icons'
+import { Feather, MaterialIcons, Octicons } from '@expo/vector-icons'
 import { Icon } from '@roninoss/icons'
 import { FlashList } from '@shopify/flash-list'
 import { format, isSameDay } from 'date-fns'
@@ -6,6 +6,9 @@ import { router } from 'expo-router'
 import { MotiView } from 'moti'
 import React, { useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import AppointmentAnalysis, {
+   AppointmentToAnalyzeProps
+} from '~/components/Appointment/AppointmentsAnalysis'
 
 import WeekSelector from '~/components/Appointment/WeekSelectorComponent'
 import { Button } from '~/components/Button'
@@ -25,12 +28,29 @@ const BarberAppointments = () => {
    const { colors, isDarkColorScheme } = useColorScheme()
    const blockedDates = user?.isBarber && user.blockedTimes
    const bottomSheetRef = useSheetRef()
+   const bottomSheetAnalysisRef = useSheetRef()
    const [showNoData, setShowData] = useState(true)
    const [selectedDate, setSelectedDate] = useState<Date>(new Date())
    const appointments = useAppointmentStore((s) =>
       s.appointments.sort((a, b) =>
          new Date(a.date) > new Date(b.date) ? 1 : -1
       )
+   )
+   const appointmentsToAnalyzed = useMemo(
+      () =>
+         appointments.map((a) => {
+            return {
+               id: a.id!,
+               date: a.date,
+               customer: a.customer,
+               amount: a.services.reduce(
+                  (curr, acc) => curr + acc.price * acc.quantity,
+                  0
+               ),
+               status: a.status
+            }
+         }) as AppointmentToAnalyzeProps[],
+      [appointments]
    )
 
    const pendingAppointments = useMemo(() => {
@@ -44,6 +64,7 @@ const BarberAppointments = () => {
    }, [appointments, selectedDate])
 
    useStatusBarColor('dark')
+
    return (
       <Container>
          <View className="flex-row items-center justify-between mx-4">
@@ -255,6 +276,29 @@ const BarberAppointments = () => {
                />
             </View>
          </Sheet>
+         <Sheet
+            snapPoints={['100%']}
+            ref={bottomSheetAnalysisRef}
+            topInset={SIZES.statusBarHeight}
+         >
+            <TouchableOpacity
+               className="p-2 "
+               onPress={() => bottomSheetAnalysisRef.current?.close()}
+            >
+               <Feather
+                  name="chevron-left"
+                  size={30}
+                  color={isDarkColorScheme ? '#ffffff' : colors.accent}
+               />
+            </TouchableOpacity>
+            <AppointmentAnalysis appointments={appointmentsToAnalyzed} />
+         </Sheet>
+         <TouchableOpacity
+            className="justify-center items-center absolute bottom-10 right-6 z-10 rounded-full bg-primary h-12 w-12 shadow-sm dark:shadow-none"
+            onPress={() => bottomSheetAnalysisRef.current?.present()}
+         >
+            <Octicons name="graph" size={24} color={'#ffffff'} />
+         </TouchableOpacity>
       </Container>
    )
 }

@@ -266,7 +266,7 @@
       "greeting": "¡Hola, {{name}}!"
    },
    "subscription": {
-      "end":"Terminar Prueba & Subscribirme Ya"
+      "end": "Terminar Prueba & Subscribirme Ya",
       "pay": "Subscribirme",
       "title:": "Suscripción",
       "heading": "Impulsa Tu Negocio de Barbería con la App FadeFlow",

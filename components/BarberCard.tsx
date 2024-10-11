@@ -83,23 +83,26 @@ const BarberCard = ({
                   </View>
 
                   <View className="mt-4 flex-row items-center justify-between">
-                     <View className="flex-row items-center gap-1">
-                        <FontAwesome name="star" size={20} color="orange" />
-                        {/* <Text className="text-muted text-sm opacity-80 dark:text-white">
+                     <View>
+                        <View className="flex-row items-center gap-1">
+                           <FontAwesome name="star" size={20} color="orange" />
+                           {/* <Text className="text-muted text-sm opacity-80 dark:text-white">
                            {barberRating.toFixed(0)} {translate('home.rating')}
                         </Text> */}
-                        <Text className="text-sm text-muted dark:text-slate-200">
-                           {barberRating === 0 ? (
-                              translate('barber.no_review')
-                           ) : (
-                              <Text>
-                                 {barberRating.toFixed(0)}{' '}
-                                 {translate('barber.rating')}
-                              </Text>
-                           )}
-                        </Text>
-                        {barberReviews.length > 0 && (
+
                            <Text className="text-sm text-muted dark:text-slate-200">
+                              {barberRating === 0 ? (
+                                 translate('barber.no_review')
+                              ) : (
+                                 <Text>
+                                    {barberRating.toFixed(0)}{' '}
+                                    {translate('barber.rating')}
+                                 </Text>
+                              )}
+                           </Text>
+                        </View>
+                        {barberReviews.length > 0 && (
+                           <Text className="text-xs text-muted dark:text-slate-200">
                               ({barberReviews.length}{' '}
                               {translate('barber.review')})
                            </Text>
