@@ -153,6 +153,7 @@ const AppointmentAnalysis: React.FC<Props> = ({ appointments }) => {
                         spacing={15}
                         yAxisLabelPrefix="$"
                         roundedTop
+                        xAxisTextNumberOfLines={2}
                         xAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
                         yAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
                         hideRules

@@ -195,7 +195,7 @@
          "past": "Pasadas"
       },
       "status": "Estado",
-      "mark_completed": "Completado",
+      "mark_completed": "Completar",
       "filter": {
          "title": "Filtrar Citas Por",
          "Pending": "Pendiente",
@@ -297,7 +297,7 @@
    "subscription": {
       "end": "Terminar Prueba & Subscribirme Ya",
       "pay": "Subscribirme",
-      "title:": "Suscripción",
+      "title:": "Susbcripción",
       "heading": "Impulsa Tu Negocio de Barbería con la App FadeFlow",
       "button": "Suscríbete Ahora",
       "monthly": "Facturado mensualmente",
@@ -315,7 +315,12 @@
       "amount": "Cantidad",
       "status": "Estado",
       "customer": "Cliente",
-      "search": "Buscar por nombre, estado o precio"
+      "search": "Buscar por nombre, estado o precio",
+      "name": "Buscar por nombre del cliente",
+      "show": {
+         "all": "Mostrar",
+         "hide": "Ocultar"
+      }
    },
    "misc": {
       "of": "de",

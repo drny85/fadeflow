@@ -64,7 +64,7 @@ const SubscriptionButton = () => {
       return () => deepLinkListener.remove()
    }, [handleDeepLink])
 
-   const onSubscrivePress = useCallback(async () => {
+   const onSubscribePress = useCallback(async () => {
       try {
          if (!user?.email || !user.isBarber) return
          setLoading(true)
@@ -186,7 +186,7 @@ const SubscriptionButton = () => {
                <Button
                   textStyle={{ paddingHorizontal: 16 }}
                   title={translation('subscription', 'button')}
-                  onPress={onSubscrivePress}
+                  onPress={onSubscribePress}
                />
             )}
             <ConfettiComponent ref={confettiRef} />

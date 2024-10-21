@@ -371,6 +371,13 @@ export interface Sorting {
     status:   string;
     customer: string;
     search:   string;
+    name:     string;
+    show:     Show;
+}
+
+export interface Show {
+    all:  string;
+    hide: string;
 }
 
 export interface Subscription {
@@ -893,6 +900,12 @@ const typeMap: any = {
         { json: "status", js: "status", typ: "" },
         { json: "customer", js: "customer", typ: "" },
         { json: "search", js: "search", typ: "" },
+        { json: "name", js: "name", typ: "" },
+        { json: "show", js: "show", typ: r("Show") },
+    ], false),
+    "Show": o([
+        { json: "all", js: "all", typ: "" },
+        { json: "hide", js: "hide", typ: "" },
     ], false),
     "Subscription": o([
         { json: "end", js: "end", typ: "" },

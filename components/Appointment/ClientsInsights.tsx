@@ -169,14 +169,23 @@ const CustomerInsights: React.FC<Props> = ({ appointments }) => {
          </View>
          <BarChart
             data={frequencyChartData}
-            barWidth={30}
+            barWidth={(SIZES.width * 0.45) / frequencyChartData.length}
             spacing={15}
             roundedTop
-            hideRules
+            //hideRules
             width={SIZES.width * 0.7}
-            xAxisLabelTextStyle={{ fontSize: 12, color: 'black' }}
-            yAxisTextStyle={{ fontSize: 12, color: 'black' }}
+            xAxisLabelTextStyle={{
+               fontSize: 12,
+               color: isDarkColorScheme ? '#ffffff' : '#212121'
+            }}
+            yAxisTextStyle={{
+               fontSize: 12,
+               color: isDarkColorScheme ? '#ffffff' : '#212121'
+            }}
+            rulesColor={colors.primary}
             yAxisLabelWidth={SIZES.width * 0.18}
+            xAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
+            yAxisColor={isDarkColorScheme ? '#ffffff' : '#212121'}
             xAxisTextNumberOfLines={2}
             xAxisLength={SIZES.width * 0.7}
             maxValue={4}

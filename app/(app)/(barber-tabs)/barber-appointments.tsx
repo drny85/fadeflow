@@ -260,9 +260,9 @@ const BarberAppointments = () => {
 
          <TouchableOpacity
             className="justify-center items-center absolute bottom-10 right-6 z-10 rounded-full bg-primary h-12 w-12 shadow-sm dark:shadow-none"
-            onPress={() => router.push('/analyties')}
+            onPress={() => router.push('/all-appointments')}
          >
-            <Octicons name="graph" size={24} color={'#ffffff'} />
+            <Octicons name="list-ordered" size={24} color={'#ffffff'} />
          </TouchableOpacity>
       </Container>
    )

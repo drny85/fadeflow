@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { addDays, differenceInDays, format, isPast, isToday } from 'date-fns'
 import { router } from 'expo-router'
 import { useMemo } from 'react'
-import { Alert, ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { updateUser } from '~/actions/users'
 import WaitingAppoinmentCard from '~/components/Appointment/WaitingAppoinmentCard'

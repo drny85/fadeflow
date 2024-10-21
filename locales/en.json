@@ -310,7 +310,12 @@
       "amount": "Amount",
       "status": "Status",
       "customer": "Customer",
-      "search": "Search by name, status or price"
+      "search": "Search by name, status or price",
+      "name": "Search by client's name",
+      "show": {
+         "all": "Expand All",
+         "hide": "Hide All"
+      }
    },
    "misc": {
       "of": "of",

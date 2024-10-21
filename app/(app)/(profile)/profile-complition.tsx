@@ -70,10 +70,14 @@ const ProfileComplition = () => {
    const onSubmit = async (data: Profile) => {
       if (!user || !user.isBarber) return
       try {
+         const newCreatedAt = user.profileCompleted
+            ? user.createdAt
+            : new Date().toISOString()
          const saved = await updateUser({
             ...user,
             profile: { ...data, coords: data.coords || null },
             profileCompleted: true,
+            createdAt: newCreatedAt,
             phone: data.phone
          })
          if (saved) {

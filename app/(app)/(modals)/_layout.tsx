@@ -37,6 +37,22 @@ const ModalLayout = () => {
          <Stack.Screen name="barbers-map" options={{ headerShown: false }} />
          <Stack.Screen name="insights" options={{ headerShown: false }} />
          <Stack.Screen
+            name="all-appointments"
+            options={{
+               title: translation('tabs', 'appointments'),
+               headerLeft: () => (
+                  <TouchableOpacity onPress={router.back}>
+                     <Icon
+                        name="chevron-left"
+                        size={32}
+                        color={isDarkColorScheme ? '#ffffff' : colors.primary}
+                     />
+                  </TouchableOpacity>
+               ),
+               ...StackScreenWithSearchBar
+            }}
+         />
+         <Stack.Screen
             name="analyties"
             options={{
                title: translation('sorting', 'sortBy'),

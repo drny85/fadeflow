@@ -229,7 +229,7 @@ const BarberAppointmentView = () => {
                   }
                />
                <Button
-                  title="Confirm"
+                  title={translation('button', 'confirm')}
                   iconName="thumbs-up"
                   style={{ paddingHorizontal: 10 }}
                   textStyle={{ paddingHorizontal: 20 }}
@@ -242,8 +242,8 @@ const BarberAppointmentView = () => {
 
                      if (updated) {
                         toastMessage({
-                           title: 'Confirmed',
-                           message: 'The appointment has been confirmed',
+                           title: translation('alerts', 'success'),
+                           message: translation('alerts', 'confirmed'),
                            preset: 'done',
                            duration: 2
                         })
