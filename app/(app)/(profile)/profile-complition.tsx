@@ -44,6 +44,7 @@ const ProfileComplition = () => {
    const segment = useSegments()
    console.log(segment[1])
    const { user } = useAuth()
+   console.log('P', user?.isBarber && user.profileCompleted)
    const googleRef = useRef<GooglePlacesAutocompleteRef>(null)
    const { colors, isDarkColorScheme } = useColorScheme()
    const profile = user?.isBarber && user.profile
@@ -75,7 +76,10 @@ const ProfileComplition = () => {
             : new Date().toISOString()
          const saved = await updateUser({
             ...user,
-            profile: { ...data, coords: data.coords || null },
+            profile: {
+               ...data,
+               coords: data.coords || user.profile?.coords || null
+            },
             profileCompleted: true,
             createdAt: newCreatedAt,
             phone: data.phone

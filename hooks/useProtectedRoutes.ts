@@ -32,7 +32,7 @@ export function useProtectedRoute() {
          const isIncomplete = checkObjectValues(user.profile, ['apt', 'bio'])
 
          if (isIncomplete) return
-
+         console.log('NOT COMOPELTE', isIncomplete)
          updateUser({ ...user, profileCompleted: false })
          console.log('updated user profile to false')
          // Update the user's profile as incomplete
@@ -45,13 +45,23 @@ export function useProtectedRoute() {
    }, [loading])
 
    useEffect(() => {
+      if (daysRemaining > 0) return
+      if (
+         user?.isBarber &&
+         user.subscriptionStatus === 'trialing' &&
+         daysRemaining < 0
+      ) {
+         console.log('UPDATE MEMBERSHIP')
+         updateUser({ ...user, subscriptionStatus: 'incomplete_expired' })
+      }
+   }, [daysRemaining, user])
+
+   useEffect(() => {
       if (!mounted) return
 
       const inAuthGroup = segments[1] === '(auth)'
       const inBarberGroup = segments[1] === '(barber-tabs)'
       const inUserGroup = segments[1] === '(tabs)'
-      console.log('SEGMENTS', segments[1])
-      console.log('COMPLETED', profileCompleted)
 
       updateProfileIsIncomplete()
 

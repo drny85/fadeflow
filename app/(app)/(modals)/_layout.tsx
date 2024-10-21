@@ -7,9 +7,11 @@ import BroadcastMessageScreen from '~/components/BroadcastMessageScreen'
 import { StackScreenWithSearchBar } from '~/constants/layout'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
+import { useAuth } from '~/providers/AuthContext'
 
 const ModalLayout = () => {
    const { isDarkColorScheme, colorScheme, colors } = useColorScheme()
+   const { user } = useAuth()
 
    return (
       <Stack>
@@ -21,7 +23,13 @@ const ModalLayout = () => {
             name="clients"
             options={{
                title: translation('booking', 'clients'),
-               headerRight: () => <BroadcastMessageScreen />,
+               headerRight: () =>
+                  user &&
+                  user.isBarber &&
+                  (user.subscriptionStatus === 'trialing' ||
+                     user.subscriptionStatus === 'active') && (
+                     <BroadcastMessageScreen />
+                  ),
                headerLeft: () => (
                   <TouchableOpacity onPress={router.back}>
                      <Icon

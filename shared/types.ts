@@ -81,6 +81,7 @@ export type AppUser = {
    isBarber?: boolean
    provider: 'google' | 'apple' | 'email'
    createdAt: string
+   emailVerified: boolean
 } & (
    | {
         isBarber: false

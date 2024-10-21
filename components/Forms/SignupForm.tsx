@@ -16,6 +16,7 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { AppUser } from '~/shared/types'
 import { getDeviceLanguage } from '~/utils/languague'
+import { sendEmailVerification } from 'firebase/auth'
 
 const signupSchema = z
    .object({
@@ -100,6 +101,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
                   schedule: DEFAULT_SCHEDULE,
                   profileCompleted: false,
                   profile: null,
+                  emailVerified: false,
                   createdAt: new Date().toISOString()
                }
             } else {
@@ -114,6 +116,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
                   name: data.name || '',
                   isBarber: false,
                   favoriteBarber: null,
+                  emailVerified: false,
                   createdAt: new Date().toISOString()
                }
             }
@@ -121,6 +124,9 @@ const SignupForm: React.FC<SignupFormProps> = ({ isBarber }) => {
             const userSaved = await createUser(newUser)
             if (userSaved) {
                if (user) {
+                  if (newUser.isBarber && !user.emailVerified) {
+                     await sendEmailVerification(user)
+                  }
                   if (params && params.returnUrl) {
                      router.canDismiss() && router.dismiss()
                      router.replace(params.returnUrl as any)

@@ -51,8 +51,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
                   id: data.id,
                   ...data.data()
                }
-               console.log('USER', user)
-               setUser({ ...userData } as AppUser)
+               console.log('EMAIL VERIFIED => ', authUser?.emailVerified)
+               setUser({
+                  ...userData,
+                  emailVerified: authUser.emailVerified
+               } as AppUser)
             } else {
                setUser(null)
             }

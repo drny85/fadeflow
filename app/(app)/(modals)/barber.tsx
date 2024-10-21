@@ -147,9 +147,7 @@ const BarberDetails = () => {
                      <Text variant="title3">
                         {translate('barber.about', { name: barber.name })}
                      </Text>
-                     <Text className="opacity-60">
-                        {barber.bio || barber.profile?.bio}
-                     </Text>
+                     <Text className="opacity-60">{barber.profile?.bio}</Text>
                   </View>
 
                   <TopServices services={services} />
