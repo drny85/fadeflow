@@ -62,6 +62,8 @@ export function useProtectedRoute() {
       const inAuthGroup = segments[1] === '(auth)'
       const inBarberGroup = segments[1] === '(barber-tabs)'
       const inUserGroup = segments[1] === '(tabs)'
+      const inAdminGroup = segments[1] === '(admin)'
+      const inModalGroup = segments[1] === '(modals)'
 
       updateProfileIsIncomplete()
 
@@ -69,6 +71,14 @@ export function useProtectedRoute() {
          // Redirect signed-in non-barber users away from the sign-in page
          console.log('00')
          router.replace('/(tabs)')
+      } else if (
+         user &&
+         user.email === process.env.EXPO_PUBLIC_CONTACT_EMAIL &&
+         !inAdminGroup &&
+         !inModalGroup
+      ) {
+         console.log(process.env.EXPO_PUBLIC_CONTACT_EMAIL)
+         router.replace('/(admin)')
       } else if (user && user.isBarber && inUserGroup && profileCompleted) {
          console.log(`01 => redirected from ${segments[1]}`)
          router.replace('/(barber-tabs)')
@@ -77,7 +87,13 @@ export function useProtectedRoute() {
       } else if (user && inBarberGroup && user.isBarber && !profileCompleted) {
          console.log('1-----')
          router.push('/profile-complition')
-      } else if (user && inAuthGroup && user.isBarber && profileCompleted) {
+      } else if (
+         user &&
+         inAuthGroup &&
+         user.isBarber &&
+         profileCompleted &&
+         !inBarberGroup
+      ) {
          console.log('2')
          router.replace('/(barber-tabs)')
       } else if (user && inBarberGroup && !user.isBarber) {

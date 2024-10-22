@@ -26,7 +26,7 @@ const BarbersPage = () => {
    const segment = useSegments()
    const translate = useTranslate()
    const { location, loading: locationLoading } = useLocation()
-   const { barbers: data, loading, barbersFilter } = useBarbersStore()
+   const { barbers: data, barbersFilter } = useBarbersStore()
    const { isDarkColorScheme, colors } = useColorScheme()
    const { reviews } = useReviews()
 

@@ -3,7 +3,7 @@ import { Feather } from '@expo/vector-icons'
 import { ThemeProvider as NavThemeProvider } from '@react-navigation/native'
 import 'expo-dev-client'
 import { useFonts } from 'expo-font'
-import { router, Stack } from 'expo-router'
+import { Redirect, router, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { Fragment, useEffect } from 'react'
@@ -37,7 +37,8 @@ export default function RootLayout() {
    useLinking()
    useSchemeListener()
    useUser()
-   useAppointments()
+
+   //useAppointments()
    const [loaded, error] = useFonts(Fonts)
    const { colorScheme, isDarkColorScheme, colors } = useColorScheme()
    const { loading, logOut } = useAuth()
@@ -57,7 +58,6 @@ export default function RootLayout() {
    }
 
    if (loading) return <Loading />
-   // if (user && user.isBarber) return <Redirect href={'/(app)/(barber-tabs)'} />;
 
    return (
       <Fragment>
@@ -76,6 +76,7 @@ export default function RootLayout() {
                         name="(barber-tabs)"
                         options={TABS_OPTIONS}
                      />
+                     <Stack.Screen name="(admin)" options={TABS_OPTIONS} />
                      <Stack.Screen name="(terms)" options={TABS_OPTIONS} />
                      <Stack.Screen name="(modals)" options={TABS_OPTIONS} />
                      <Stack.Screen

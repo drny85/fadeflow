@@ -1,30 +1,31 @@
-import { Tabs } from 'expo-router'
+import { Icon } from '@roninoss/icons'
+import { Tabs, useSegments } from 'expo-router'
 import { Image } from 'react-native'
 
 import { TabBarIcon } from '../../../components/TabBarIcon'
 
-import FilterAppointments from '~/components/Filters/FilterAppointments'
-import { useBarbers } from '~/hooks/useBarbers'
-import { useNotifications } from '~/hooks/useNotification'
-import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
+import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
-import { useAppointments } from '~/hooks/useAppointments'
 
-export default function TabLayout() {
-   const translate = useTranslate()
+export default function AdminTabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme()
    const { user } = useAuth()
-   useAppointments()
-   useNotifications()
-   useBarbers()
+   const segs = useSegments()
+   console.log(segs[2])
+   //    useAppointments()
+   //    useNotifications()
 
+   // if (!user) return <Redirect href="/(app)/(tabs)" />
    return (
       <Tabs
+         initialRouteName="dashboard"
          screenOptions={{
+            headerShown: false,
+            tabBarShowLabel: false,
             tabBarActiveTintColor: isDarkColorScheme
-               ? colors.primary
-               : colors.grey,
+               ? colors.accent
+               : colors.primary,
             tabBarInactiveTintColor: isDarkColorScheme
                ? '#ffffff'
                : colors.accent,
@@ -35,11 +36,11 @@ export default function TabLayout() {
          }}
       >
          <Tabs.Screen
-            name="index"
+            name="dashboard"
             options={{
                headerShown: false,
-               title: translate('tabs.home'),
-               tabBarIcon: ({ color, focused }) => (
+               title: translation('tabs', 'home'),
+               tabBarIcon: ({ focused }) => (
                   <Image
                      source={require('~/assets/images/barbershop.png')}
                      tintColor={
@@ -55,35 +56,14 @@ export default function TabLayout() {
             }}
          />
          <Tabs.Screen
-            name="appointments"
+            name="(admin-barbers)"
             options={{
-               title: translate('tabs.appointments'),
-               headerRight: () => <FilterAppointments />,
+               title: translation('tabs', 'appointments'),
 
-               tabBarIcon: ({ focused }) => (
-                  <Image
-                     source={require('~/assets/images/appointment.png')}
-                     tintColor={
-                        focused
-                           ? colors.primary
-                           : isDarkColorScheme
-                             ? '#ffffff'
-                             : colors.accent
-                     }
-                     className="-mb-1 h-8 w-8"
-                  />
-               )
-            }}
-         />
-         <Tabs.Screen
-            name="(barbers)"
-            options={{
-               title: translate('tabs.barbers'),
-               headerShown: false,
-
-               tabBarIcon: ({ focused }) => (
-                  <TabBarIcon
-                     name="scissors"
+               tabBarIcon: ({ size, focused }) => (
+                  <Icon
+                     name="person"
+                     size={size + 10}
                      color={
                         focused
                            ? colors.primary
@@ -97,21 +77,15 @@ export default function TabLayout() {
          />
 
          <Tabs.Screen
-            name="profile"
+            name="admin-settings"
             options={{
+               title: 'Profile',
                headerShown: false,
-               title: translate('tabs.profile'),
-
-               tabBarIcon: ({ focused, size }) =>
-                  user && user.image ? (
+               tabBarIcon: ({ focused }) =>
+                  user && user.isBarber && user.image ? (
                      <Image
                         source={{ uri: user.image }}
-                        style={{
-                           resizeMode: 'cover',
-                           height: size + 4,
-                           width: size + 4,
-                           borderRadius: (size + 4) / 2
-                        }}
+                        className="h-8 w-8 rounded-full"
                      />
                   ) : (
                      <TabBarIcon
