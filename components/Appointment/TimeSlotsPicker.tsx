@@ -58,6 +58,8 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       (acc, curr) => curr.duration * curr.quantity + acc,
       0
    )
+
+   console.log('DURATION', duration)
    const isGreater = incrementMinutes > duration
 
    const lunckBreak = (barber?.schedule[shortDay]).lunchBreak

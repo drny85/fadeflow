@@ -126,26 +126,30 @@ export const generateAvailableTimeSlots = (
          if (currentBookedSlot) {
             const [bookedHours, bookedMinutes] = currentBookedSlot
 
-            const slotEnd = addMinutes(
-               //@ts-ignore
-               new Date().setHours(startHours, startMinutes),
-               duration
-            )
-            const bookedSlotStart = new Date().setHours(
-               bookedHours,
-               bookedMinutes
-            )
+            // Create a Date object for the booked slot start and current slot end
+            const slotStartDate = new Date(currentDate)
+            slotStartDate.setHours(startHours, startMinutes)
+
+            const slotEndDate = addMinutes(new Date(currentDate), duration)
+            slotEndDate.setHours(startHours, startMinutes)
+
+            const bookedSlotStart = new Date(currentDate)
+            bookedSlotStart.setHours(bookedHours, bookedMinutes)
 
             // Check if the current slot ends after the start of the booked slot
-            if (slotEnd.getTime() > bookedSlotStart) {
+            if (slotEndDate.getTime() > bookedSlotStart.getTime()) {
                slotEndConflictsWithBookedSlot = true
             }
 
-            const bookedSlotEnd = addMinutes(
-               //@ts-ignore
-               new Date().setHours(bookedHours, bookedMinutes),
-               duration
-            )
+            const timeDifference =
+               (bookedSlotStart.getTime() - slotStartDate.getTime()) /
+               (1000 * 60)
+            // If time difference is greater or equal to duration, the slot is valid
+            if (timeDifference >= duration) {
+               slotEndConflictsWithBookedSlot = false
+            }
+
+            const bookedSlotEnd = addMinutes(bookedSlotStart, duration)
             const nextBookedSlotStart = addMinutes(
                bookedSlotEnd,
                incrementMinutes
