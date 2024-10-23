@@ -3,7 +3,6 @@ import {
    Feather,
    FontAwesome,
    FontAwesome6,
-   Ionicons,
    MaterialIcons
 } from '@expo/vector-icons'
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
@@ -41,6 +40,7 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
+import LogoutButton from './LogoutButton'
 
 const MINUTES_INTERVAL = [15, 30, 45]
 const IMAGE_HEIGHT = 100
@@ -62,17 +62,6 @@ export default function ModernSettingsPage() {
    const snapoints = useMemo(() => ['100%'], [])
    const [name, setName] = useState('')
    const [phone, setPhone] = useState('')
-
-   const handleSignOut = () => {
-      Alert.alert('Signing Out', 'Are you sure you want to sign out?', [
-         {
-            text: 'Yes',
-            style: 'destructive',
-            onPress: logOut
-         },
-         { text: 'Cancel', style: 'cancel' }
-      ])
-   }
 
    const deleteAccount = async () => {
       try {
@@ -209,21 +198,7 @@ export default function ModernSettingsPage() {
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                     className="flex-row items-center gap-2"
-                     onPress={handleSignOut}
-                  >
-                     <Text
-                        className={`font-semibold mr-2 ${user?.image ? 'text-accent' : 'text-slate-200'}`}
-                     >
-                        {translate('profile.logout')}
-                     </Text>
-                     <Ionicons
-                        name="exit"
-                        size={26}
-                        color={user?.image ? colors.accent : '#ffffff'}
-                     />
-                  </TouchableOpacity>
+                  <LogoutButton />
                </View>
                <BlurView
                   tint="prominent"

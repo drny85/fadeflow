@@ -169,12 +169,14 @@
       "error": "Error",
       "warning": "Advertencia",
       "info": "Aviso",
+      "maximum_services": "Solo puedes seleccionar {{number}} servicios",
       "cannot": "No se pudo completar la acción",
       "updated": "Cita Actualizado",
       "confirmed": "Cita Confirmada",
       "cancelled": "Cita Cancelada",
       "completed": "Cita Completada",
       "booked": "Cita agendada!",
+      "no_subscription": "{{name}} no esta tomando citas",
       "conflicts": {
          "title": "Conflicto de Horario",
          "message": "Ya hay una cita agendada para este horario"

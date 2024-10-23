@@ -202,6 +202,8 @@
       "cancelled": "Appointment Cancelled",
       "completed": "Appointment Completed",
       "info": "Info",
+      "maximum_services": "Maximum number of {{number}} services reached ",
+      "no_subscription": "{{name}} is not available for booking",
       "booked": "Appointment Booked!",
       "conflicts": {
          "title": "Appointment Conflict",

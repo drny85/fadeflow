@@ -11,6 +11,8 @@ import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Service } from '~/shared/types'
+import { toast } from 'burnt'
+import { toastAlert, toastMessage } from '~/lib/toast'
 
 type Props = {
    services: Service[]
@@ -37,6 +39,18 @@ const ServicePicker = ({ services, isBarber, onPressServiceEdit }: Props) => {
    } = useAppointmentFlowStore()
 
    const onAddPress = (service: Service) => {
+      const totalServices = selectedServices.reduce(
+         (acc, curr) => acc + curr.quantity,
+         0
+      )
+
+      if (totalServices >= 4) {
+         return toastAlert({
+            title: translation('alerts', 'warning'),
+            message: translate('alerts.maximum_services', { number: 4 }),
+            preset: 'error'
+         })
+      }
       onServiceQuantityUpdates(service, service.quantity + 1)
    }
    const onRemovePress = (service: Service) => {

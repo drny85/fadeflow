@@ -1,5 +1,6 @@
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import { format } from 'date-fns'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -19,6 +20,7 @@ import { Sheet, useSheetRef } from '~/components/nativewindui/Sheet'
 import { Text } from '~/components/nativewindui/Text'
 import { useServices } from '~/hooks/useServices'
 import { useTranslate } from '~/hooks/useTranslation'
+import { cn } from '~/lib/cn'
 import { toastAlert } from '~/lib/toast'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
@@ -135,6 +137,39 @@ const BarberDetails = () => {
                setSelectedIndex(event.nativeEvent.selectedSegmentIndex)
             }}
          />
+
+         {user &&
+            user.isBarber &&
+            barber &&
+            user.email === process.env.EXPO_PUBLIC_CONTACT_EMAIL && (
+               <View className="gap-2 bg-card m-1 rounded-md p-1 items-center">
+                  <Text>ID: {barber.id}</Text>
+                  <View className="p-2 justify-center items-center flex-row gap-2">
+                     <Text>Subscription Status</Text>
+                     <View
+                        className={cn(
+                           'rounded-full w-fit p-1 px-2 justify-center items-center',
+                           {
+                              'bg-green-500':
+                                 barber.subscriptionStatus === 'active',
+                              'bg-red-500':
+                                 barber.subscriptionStatus !== 'active'
+                           }
+                        )}
+                     >
+                        <Text
+                           adjustsFontSizeToFit
+                           className="capitalize text-white font-semibold"
+                        >
+                           {barber.subscriptionStatus}
+                        </Text>
+                     </View>
+                  </View>
+                  <Text className="text-center text-sm">
+                     {format(barber.createdAt, 'PPpp')}
+                  </Text>
+               </View>
+            )}
 
          {selectedIndex === 0 && (
             <ScrollView

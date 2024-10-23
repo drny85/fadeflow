@@ -15,6 +15,7 @@ export type Barber = {
    minutesInterval: number
    schedule: Schedule
    profileCompleted: boolean
+   createdAt: string
    profile: BarberProfile | null
    blockedTimes?: BlockTimeParams[]
    subscriptionStatus: Stripe.Subscription.Status // Optional biography or description of the barber

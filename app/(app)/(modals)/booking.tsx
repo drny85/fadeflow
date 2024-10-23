@@ -272,6 +272,32 @@ const BookingPage = () => {
                iconName: 'nosign.app.fill'
             })
          }
+         if (
+            barber.subscriptionStatus !== 'active' &&
+            barber.subscriptionStatus !== 'trialing'
+         ) {
+            router.dismiss()
+            return toastAlert({
+               title: translation('alerts', 'warning'),
+               message: translate('alerts.no_subscription', {
+                  name: barber.name
+               }),
+               preset: 'custom',
+               duration: 3,
+               iconName: 'hand.raised.slash'
+            })
+         }
+         if (user && user.email === process.env.EXPO_PUBLIC_CONTACT_EMAIL) {
+            bottomSheetModalRefConfirm.current?.close()
+            return toastAlert({
+               title: 'Demo Success',
+               message: 'You cannot book an appointment in demo mode',
+               preset: 'custom',
+               duration: 3,
+               iconName: 'hand.raised.slash'
+            })
+         }
+         return alert('Sucesss')
          const saved = await addNewAppointment(appointment)
          await cleanUpAfterSave(saved)
       } catch (error) {

@@ -34,18 +34,20 @@ export interface Translation {
 }
 
 export interface Alerts {
-    cancel:    Cancel;
-    success:   string;
-    confirmed: string;
-    error:     string;
-    warning:   string;
-    updated:   string;
-    cannot:    string;
-    cancelled: string;
-    completed: string;
-    info:      string;
-    booked:    string;
-    conflicts: Conflicts;
+    cancel:           Cancel;
+    success:          string;
+    confirmed:        string;
+    error:            string;
+    warning:          string;
+    updated:          string;
+    cannot:           string;
+    cancelled:        string;
+    completed:        string;
+    info:             string;
+    maximum_services: string;
+    no_subscription:  string;
+    booked:           string;
+    conflicts:        Conflicts;
 }
 
 export interface Cancel {
@@ -606,6 +608,8 @@ const typeMap: any = {
         { json: "cancelled", js: "cancelled", typ: "" },
         { json: "completed", js: "completed", typ: "" },
         { json: "info", js: "info", typ: "" },
+        { json: "maximum_services", js: "maximum_services", typ: "" },
+        { json: "no_subscription", js: "no_subscription", typ: "" },
         { json: "booked", js: "booked", typ: "" },
         { json: "conflicts", js: "conflicts", typ: r("Conflicts") },
     ], false),

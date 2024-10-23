@@ -13,6 +13,7 @@ import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber, Days, TimeSlot } from '~/shared/types'
 import { addUnavailableTimeSlots } from '~/utils/addUnavailableTimeSlots'
 import { generateAvailableTimeSlots } from '~/utils/getTimeSlots'
+import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 
 const _spacing = 10
 
@@ -80,7 +81,14 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       bookedSlots,
       isGreater ? duration : incrementMinutes
    )
-   //if (!duration) return;
+
+   // const totalAppts = selectedServices.reduce(
+   //    (acc, curr) => curr.duration * curr.quantity + acc,
+   //    0
+   // )
+   // //if (!duration) return;
+   // console.log('DT', durationTotal)
+   // console.log(totalAppts)
 
    const blocked = useMemo(() => {
       if (!barber.blockedTimes || barber.blockedTimes.length === 0)

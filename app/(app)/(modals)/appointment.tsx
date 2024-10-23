@@ -183,57 +183,57 @@ const AppointmentDetails = () => {
                </Text>
             </View>
          </ScrollView>
-         {appointment.status === 'pending' ||
-            (appointment.status === 'confirmed' && (
-               <View
-                  style={{ paddingBottom: bottom }}
-                  className="flex-row justify-evenly"
-               >
-                  <Button
-                     textStyle={{ color: 'orange', paddingHorizontal: 12 }}
-                     style={{
-                        backgroundColor: '#fff'
-                     }}
-                     title={translate('button.cancel')}
-                     onPress={() =>
-                        Alert.alert(
-                           translate('appointment.confirmation.cancel.title'),
-                           translate('appointment.confirmation.cancel.message'),
+         {(appointment.status === 'pending' ||
+            appointment.status === 'confirmed') && (
+            <View
+               style={{ paddingBottom: bottom }}
+               className="flex-row justify-evenly"
+            >
+               <Button
+                  textStyle={{ color: 'orange', paddingHorizontal: 12 }}
+                  style={{
+                     backgroundColor: '#fff'
+                  }}
+                  title={translate('button.cancel')}
+                  onPress={() =>
+                     Alert.alert(
+                        translate('appointment.confirmation.cancel.title'),
+                        translate('appointment.confirmation.cancel.message'),
 
-                           [
-                              {
-                                 text: 'No',
-                                 style: 'cancel'
-                              },
-                              {
-                                 text: translate(
-                                    'appointment.confirmation.cancel.yes'
-                                 ),
-                                 style: 'destructive',
-                                 onPress: handleCancelAppointment
-                                 // Perform cancellation logic here
-                              }
-                           ]
-                        )
-                     }
-                  />
-                  <Button
-                     title={translate('button.reschedule')}
-                     iconName="calendar-o"
-                     textStyle={{ paddingHorizontal: 12 }}
-                     style={{ paddingHorizontal: 30 }}
-                     onPress={() => {
-                        router.push({
-                           pathname: '/booking',
-                           params: {
-                              appointmentId: appointmentId.toString(),
-                              barberId: appointment.barber.id.toString()
+                        [
+                           {
+                              text: 'No',
+                              style: 'cancel'
+                           },
+                           {
+                              text: translate(
+                                 'appointment.confirmation.cancel.yes'
+                              ),
+                              style: 'destructive',
+                              onPress: handleCancelAppointment
+                              // Perform cancellation logic here
                            }
-                        })
-                     }}
-                  />
-               </View>
-            ))}
+                        ]
+                     )
+                  }
+               />
+               <Button
+                  title={translate('button.reschedule')}
+                  iconName="calendar-o"
+                  textStyle={{ paddingHorizontal: 12 }}
+                  style={{ paddingHorizontal: 30 }}
+                  onPress={() => {
+                     router.push({
+                        pathname: '/booking',
+                        params: {
+                           appointmentId: appointmentId.toString(),
+                           barberId: appointment.barber.id.toString()
+                        }
+                     })
+                  }}
+               />
+            </View>
+         )}
       </View>
    )
 }
