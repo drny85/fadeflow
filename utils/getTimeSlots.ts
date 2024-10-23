@@ -1,11 +1,19 @@
 import { format } from 'date-fns'
 
-import { LunchBreak, TimeSlot } from '~/shared/types'
+type LunchBreak = {
+   start: string
+   end: string
+}
 
 type BlockTime = {
    date: string
    start: string
    end: string
+}
+
+type TimeSlot = {
+   time: string
+   isBooked: boolean
 }
 
 export const generateAvailableTimeSlots = (
@@ -15,29 +23,25 @@ export const generateAvailableTimeSlots = (
    bookedSlots: string[],
    currentDate: Date,
    lunchBreak: LunchBreak,
-   duration: number,
-   blockedTime?: BlockTime // Added blocked time
+   duration: number, // Total duration of the next appointment to be booked
+   blockedTime?: BlockTime
 ): TimeSlot[] => {
    const slots: TimeSlot[] = []
    const now = new Date()
-
    const isToday = currentDate.toDateString() === now.toDateString()
 
-   // Parse startTime and endTime into 24-hour format
    const [startHoursDefault, startMinutesDefault] = parseTime12Hour(startTime)
    const [endHours, endMinutes] = parseTime12Hour(endTime)
 
-   // Parse lunchBreak times in 24-hour format
    const [lunchStartHours, lunchStartMinutes] = parseTime12Hour(
       lunchBreak.start
    )
    const [lunchEndHours, lunchEndMinutes] = parseTime12Hour(lunchBreak.end)
 
-   // Initialize startHours and startMinutes with default start time
    let startHours = startHoursDefault
    let startMinutes = startMinutesDefault
 
-   // Adjust startHours and startMinutes if today and current time is after the startTime
+   // Adjust start if current time is after startTime and it's today
    if (
       isToday &&
       (now.getHours() > startHoursDefault ||
@@ -47,7 +51,7 @@ export const generateAvailableTimeSlots = (
       startHours = now.getHours()
       startMinutes = now.getMinutes()
 
-      // Adjust startMinutes to the next increment if needed
+      // Adjust to the nearest increment
       if (startMinutes % incrementMinutes !== 0) {
          startMinutes =
             Math.ceil(startMinutes / incrementMinutes) * incrementMinutes
@@ -58,11 +62,11 @@ export const generateAvailableTimeSlots = (
       }
    }
 
-   // Calculate the latest start time for a slot to finish within endTime
+   // Calculate the latest time a slot can start based on the total duration
    const [latestSlotHours, latestSlotMinutes] = calculateLatestSlot(
       endHours,
       endMinutes,
-      duration
+      duration // Use total duration to calculate the latest available slot
    )
 
    // Sort bookedSlots by time
@@ -70,8 +74,7 @@ export const generateAvailableTimeSlots = (
       (a, b) =>
          parseTime12Hour(a)[0] * 60 +
          parseTime12Hour(a)[1] -
-         parseTime12Hour(b)[0] * 60 -
-         parseTime12Hour(b)[1]
+         (parseTime12Hour(b)[0] * 60 + parseTime12Hour(b)[1])
    )
 
    let currentSlotIndex = 0
@@ -93,6 +96,7 @@ export const generateAvailableTimeSlots = (
       blockEndMinutes = parseTime12Hour(blockedTime.end)[1]
    }
 
+   // Loop through each time slot and check conditions
    while (
       (startHours < latestSlotHours ||
          (startHours === latestSlotHours &&
@@ -117,14 +121,31 @@ export const generateAvailableTimeSlots = (
                   startMinutes >= lunchStartMinutes))
 
          let isBookedSlot = false
+         let slotEndConflictsWithBookedSlot = false
+
          if (currentBookedSlot) {
             const [bookedHours, bookedMinutes] = currentBookedSlot
+
+            const slotEnd = addMinutes(
+               //@ts-ignore
+               new Date().setHours(startHours, startMinutes),
+               duration
+            )
+            const bookedSlotStart = new Date().setHours(
+               bookedHours,
+               bookedMinutes
+            )
+
+            // Check if the current slot ends after the start of the booked slot
+            if (slotEnd.getTime() > bookedSlotStart) {
+               slotEndConflictsWithBookedSlot = true
+            }
+
             const bookedSlotEnd = addMinutes(
                //@ts-ignore
                new Date().setHours(bookedHours, bookedMinutes),
                duration
             )
-
             const nextBookedSlotStart = addMinutes(
                bookedSlotEnd,
                incrementMinutes
@@ -163,12 +184,18 @@ export const generateAvailableTimeSlots = (
                (startHours === blockStartHours &&
                   startMinutes >= blockStartMinutes))
 
-         // Only add slot if it's not during lunch break, not booked, and not blocked
-         if (!isDuringLunchBreak && !isBookedSlot && !isBlockedTime) {
+         // Add the slot if it's not during lunch, not booked, not blocked, and no conflict with booked slot
+         if (
+            !isDuringLunchBreak &&
+            !isBookedSlot &&
+            !isBlockedTime &&
+            !slotEndConflictsWithBookedSlot
+         ) {
             slots.push({ time: timeSlot, isBooked: false })
          }
       }
 
+      // Increment to the next slot
       startMinutes += incrementMinutes
       if (startMinutes >= 60) {
          startMinutes %= 60

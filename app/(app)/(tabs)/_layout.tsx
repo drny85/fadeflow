@@ -9,13 +9,13 @@ import { useNotifications } from '~/hooks/useNotification'
 import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
-import { useAppointments } from '~/hooks/useAppointments'
 
 export default function TabLayout() {
    const translate = useTranslate()
    const { colors, isDarkColorScheme } = useColorScheme()
    const { user } = useAuth()
-   useAppointments()
+   console.log('TABS_LAYOUT')
+   //useAppointments()
    useNotifications()
    useBarbers()
 

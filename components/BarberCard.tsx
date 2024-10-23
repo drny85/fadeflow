@@ -94,7 +94,7 @@ const BarberCard = ({
                               {barberRating === 0 ? (
                                  translate('barber.no_review')
                               ) : (
-                                 <Text>
+                                 <Text className="text-sm">
                                     {barberRating.toFixed(0)}{' '}
                                     {translate('barber.rating')}
                                  </Text>

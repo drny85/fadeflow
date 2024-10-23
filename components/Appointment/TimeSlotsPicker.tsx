@@ -13,7 +13,6 @@ import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber, Days, TimeSlot } from '~/shared/types'
 import { addUnavailableTimeSlots } from '~/utils/addUnavailableTimeSlots'
 import { generateAvailableTimeSlots } from '~/utils/getTimeSlots'
-import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 
 const _spacing = 10
 
@@ -69,26 +68,18 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       .filter((b) => isSameDay(b.date, day.toISOString()))
       .map((appointment) => appointment.startTime)
 
-   const durationTotal = appointments
-      .filter((app) => app.status !== 'cancelled')
-      .filter((a) => a.barber.id === barber?.id)
-      .filter((b) => isSameDay(b.date, day.toISOString()))
-      .map((appointment) => appointment.services)
-      .flat()
-      .reduce((acc, curr) => curr.duration * curr.quantity + acc, 0)
+   // const durationTotal = appointments
+   //    .filter((app) => app.status !== 'cancelled')
+   //    .filter((a) => a.barber.id === barber?.id)
+   //    .filter((b) => isSameDay(b.date, day.toISOString()))
+   //    .map((appointment) => appointment.services)
+   //    .flat()
+   //    .reduce((acc, curr) => curr.duration * curr.quantity + acc, 0)
 
    const unaivailableTimeSlots = addUnavailableTimeSlots(
       bookedSlots,
       isGreater ? duration : incrementMinutes
    )
-
-   // const totalAppts = selectedServices.reduce(
-   //    (acc, curr) => curr.duration * curr.quantity + acc,
-   //    0
-   // )
-   // //if (!duration) return;
-   // console.log('DT', durationTotal)
-   // console.log(totalAppts)
 
    const blocked = useMemo(() => {
       if (!barber.blockedTimes || barber.blockedTimes.length === 0)
@@ -114,7 +105,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
              unaivailableTimeSlots,
              day,
              lunckBreak,
-             durationTotal,
+             duration,
              blocked
           )
 

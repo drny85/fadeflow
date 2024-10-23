@@ -13,6 +13,7 @@ import MapHeader from '~/components/MapHeader'
 import ParallaxScrollView from '~/components/ParallaxScrollView'
 import HomeSkelenton from '~/components/Skeletons/HomeSkeleton'
 import { Text } from '~/components/nativewindui/Text'
+import { useAppointments } from '~/hooks/useAppointments'
 import { useLocation } from '~/hooks/useLocation'
 import { useStatusBarColor } from '~/hooks/useStatusBarColor'
 import { useAuth } from '~/providers/AuthContext'
@@ -22,6 +23,7 @@ import { COLORS } from '~/theme/colors'
 import { getDistanceFromLatLonInMeters } from '~/utils/getDistanceBetweenLocations'
 
 const Home = () => {
+   useAppointments()
    const { t } = useTranslation()
    const { user, loading: loadingUser } = useAuth()
    const { location, loading } = useLocation()

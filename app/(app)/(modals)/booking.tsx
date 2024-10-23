@@ -297,7 +297,7 @@ const BookingPage = () => {
                iconName: 'hand.raised.slash'
             })
          }
-         return alert('Sucesss')
+
          const saved = await addNewAppointment(appointment)
          await cleanUpAfterSave(saved)
       } catch (error) {
@@ -443,14 +443,22 @@ const BookingPage = () => {
                shadowColor: colors.grey
             }}
          >
-            <View className="my-3 flex-row items-start gap-2 self-center">
-               <FontAwesome name="money" size={24} color="grey" />
-               <Text className="text-center text-muted dark:text-white">
-                  $
-                  {selectedServices.length > 0 &&
-                     getAppointmentPrice(selectedServices)}{' '}
-                  {translate('booking.cash')}
-               </Text>
+            <View className="flex-row justify-evenly">
+               <View className="my-3 flex-row items-start gap-1 self-center">
+                  <FontAwesome name="clock-o" size={24} color="grey" />
+                  <Text className="text-center text-muted dark:text-white">
+                     {getAppointmentDuration(selectedServices)} mins
+                  </Text>
+               </View>
+               <View className="my-3 flex-row items-start gap-2 self-center">
+                  <FontAwesome name="money" size={24} color="grey" />
+                  <Text className="text-center text-muted dark:text-white">
+                     $
+                     {selectedServices.length > 0 &&
+                        getAppointmentPrice(selectedServices)}{' '}
+                     {translate('booking.cash')}
+                  </Text>
+               </View>
             </View>
             <View className="w-[80%] self-center">
                <Button
@@ -520,18 +528,23 @@ const BookingPage = () => {
             ref={bottomSheetModalRef}
             handleIndicatorStyle={{ backgroundColor: colors.primary }}
             snapPoints={['70%']}
+            enableHandlePanningGesture={false}
+            pressBahavior={'none'}
             onChange={handleSheetChanges}
          >
             <View className="mt-5 flex-1 items-center justify-center bg-card pb-8">
                <TouchableOpacity
-                  onPress={() => bottomSheetModalRef.current?.close()}
+                  onPress={() => {
+                     bottomSheetModalRef.current?.close()
+                     setSelectedTimeSlot(null)
+                  }}
                   style={{
                      justifyContent: 'flex-end',
                      alignSelf: 'flex-end',
                      marginRight: 20
                   }}
                >
-                  <Text className="text-muted dark:text-slate-300">
+                  <Text className="text-muted font-semibold dark:text-slate-300">
                      {translation('button', 'cancel')}
                   </Text>
                </TouchableOpacity>

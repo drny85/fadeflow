@@ -37,6 +37,7 @@ import { useTranslate } from '~/hooks/useTranslation'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { formatPhone } from '~/utils/formatPhone'
+import LogoutButton from './LogoutButton'
 
 const IMAGE_HEIGHT = 100
 export default function CustomerModernSettingsPage() {
@@ -55,21 +56,6 @@ export default function CustomerModernSettingsPage() {
    const snapoints = useMemo(() => ['80%'], [])
    const [name, setName] = useState('')
    const [phone, setPhone] = useState('')
-
-   const handleSignOut = () => {
-      Alert.alert(
-         translate('profile.confirmation.logout.title'),
-         translate('profile.confirmation.logout.message'),
-         [
-            {
-               text: translate('profile.confirmation.logout.yes'),
-               style: 'destructive',
-               onPress: logOut
-            },
-            { text: 'No', style: 'cancel' }
-         ]
-      )
-   }
 
    const deleteAccount = async () => {
       try {
@@ -183,21 +169,7 @@ export default function CustomerModernSettingsPage() {
                   >
                      <AntDesign name="edit" size={24} color="white" />
                   </TouchableOpacity>
-                  <TouchableOpacity
-                     className="flex-row items-center gap-2"
-                     onPress={handleSignOut}
-                  >
-                     <Text
-                        className={`font-semibold mr-2 ${user?.image ? 'text-accent' : 'text-slate-200'}`}
-                     >
-                        {translate('profile.logout')}
-                     </Text>
-                     <Ionicons
-                        name="exit"
-                        size={26}
-                        color={user?.image ? colors.accent : '#ffffff'}
-                     />
-                  </TouchableOpacity>
+                  <LogoutButton />
                </View>
                <BlurView
                   tint="prominent"

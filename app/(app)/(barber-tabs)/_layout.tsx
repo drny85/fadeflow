@@ -14,6 +14,7 @@ import { useAuth } from '~/providers/AuthContext'
 export default function BarberTabLayout() {
    const { colors, isDarkColorScheme } = useColorScheme()
    const { user } = useAuth()
+   console.log('BARBERS_TABS')
    useAppointments()
    useNotifications()
 

@@ -7,12 +7,25 @@ import * as React from 'react'
 
 import { useColorScheme } from '~/lib/useColorScheme'
 
-const Sheet = React.forwardRef<
-   BottomSheetModal,
-   React.ComponentPropsWithoutRef<typeof BottomSheetModal>
->(
+type pressBehavior = 'close' | 'none' | 'collapse' | number
+type SheetProps = React.ComponentPropsWithoutRef<typeof BottomSheetModal> & {
+   index?: number
+   backgroundStyle?: object
+   style?: object
+   handleIndicatorStyle?: object
+   pressBahavior?: pressBehavior
+}
+
+const Sheet = React.forwardRef<BottomSheetModal, SheetProps>(
    (
-      { index = 0, backgroundStyle, style, handleIndicatorStyle, ...props },
+      {
+         index = 0,
+         backgroundStyle,
+         style,
+         handleIndicatorStyle,
+         pressBahavior = 'close',
+         ...props
+      },
       ref
    ) => {
       const { colors } = useColorScheme()
@@ -23,6 +36,7 @@ const Sheet = React.forwardRef<
                {...props}
                disappearsOnIndex={-1}
                appearsOnIndex={0}
+               pressBehavior={pressBahavior}
             />
          ),
          []
