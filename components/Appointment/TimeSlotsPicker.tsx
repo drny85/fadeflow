@@ -59,7 +59,6 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       0
    )
 
-   console.log('DURATION', duration)
    const isGreater = incrementMinutes > duration
 
    const lunckBreak = (barber?.schedule[shortDay]).lunchBreak
@@ -82,6 +81,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       bookedSlots,
       isGreater ? duration : incrementMinutes
    )
+   console.log('DURATION', duration, isGreater, unaivailableTimeSlots)
 
    const blocked = useMemo(() => {
       if (!barber.blockedTimes || barber.blockedTimes.length === 0)

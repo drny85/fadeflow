@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { addMinutes, format } from 'date-fns'
 import { AnimatePresence, MotiView } from 'moti'
 import { ScrollView, View } from 'react-native'
 
@@ -10,13 +10,16 @@ import { Text } from '../nativewindui/Text'
 import { toastMessage } from '~/lib/toast'
 import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber } from '~/shared/types'
+import { getBookingDate } from '~/utils/getBookingDate'
+import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
 
 type Props = {
    onPress: () => void
    barber: Barber
 }
 const DateTimeAppointmentPicker = ({ onPress, barber }: Props) => {
-   const { selectedDate, selectedTimeSlot } = useAppointmentFlowStore()
+   const { selectedDate, selectedTimeSlot, selectedServices } =
+      useAppointmentFlowStore()
 
    return (
       <View className="bg-card">
@@ -49,9 +52,24 @@ const DateTimeAppointmentPicker = ({ onPress, barber }: Props) => {
                   transition={{ type: 'timing' }}
                   exit={{ opacity: 0, translateY: -20 }}
                >
-                  <Text className="text-center font-roboto-bold mb-5">
-                     {format(selectedDate, 'E, PP')} at {selectedTimeSlot.time}
-                  </Text>
+                  <View className="gap-2 items-center mb-3">
+                     <Text className="text-center font-roboto-bold text-muted dark:text-slate-300">
+                        {format(selectedDate, 'E, PP')}
+                     </Text>
+                     <Text className="font-roboto-bold text-muted dark:text-slate-300">
+                        {selectedTimeSlot.time} -
+                        {format(
+                           addMinutes(
+                              getBookingDate(
+                                 new Date(selectedDate),
+                                 selectedTimeSlot.time
+                              ),
+                              getAppointmentDuration(selectedServices)
+                           ),
+                           'p'
+                        )}
+                     </Text>
+                  </View>
                </MotiView>
             )}
          </AnimatePresence>

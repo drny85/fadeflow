@@ -227,7 +227,7 @@
    "barber": {
       "search": "Buscar Barberos",
       "title": "Barberos",
-      "rating": "Calificación",
+      "rating": "Estrellas",
       "distance": "Distancia",
       "no_barber": "No barbero disponible",
       "review": "reseñas",
@@ -280,7 +280,7 @@
       "miles": "millas",
       "signup": "Quieres regístrarte como Barbero?",
       "signup_title": "Regístrate",
-      "rating": "calificación",
+      "rating": "estrellas",
       "estimated": "Estimacion de hoy",
       "earned": "Ganado",
       "pending": "Pendiente",
