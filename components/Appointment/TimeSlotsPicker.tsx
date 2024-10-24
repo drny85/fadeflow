@@ -82,20 +82,6 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
          )
       }))
 
-   // const durationTotal = appointments
-   //    .filter((app) => app.status !== 'cancelled')
-   //    .filter((a) => a.barber.id === barber?.id)
-   //    .filter((b) => isSameDay(b.date, day.toISOString()))
-   //    .map((appointment) => appointment.services)
-   //    .flat()
-   //    .reduce((acc, curr) => curr.duration * curr.quantity + acc, 0)
-
-   // const unaivailableTimeSlots = addUnavailableTimeSlots(
-   //    bookedSlots,
-   //    isGreater ? duration : incrementMinutes
-   // )
-   // console.log('DURATION', duration, isGreater, unaivailableTimeSlots)
-
    const booked = [
       ...bookedSlots,
       {
@@ -103,7 +89,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
          end: barber.schedule[shortDay].lunchBreak.end
       }
    ]
-   console.log(booked)
+
    const blocked = useMemo(() => {
       if (!barber.blockedTimes || barber.blockedTimes.length === 0)
          return undefined
