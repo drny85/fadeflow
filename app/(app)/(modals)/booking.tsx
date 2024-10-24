@@ -226,6 +226,7 @@ const BookingPage = () => {
             date: d.toISOString(),
             startTime: selectedTimeSlot?.time,
             status: 'pending',
+            duration: getAppointmentDuration(selectedServices),
             changesMadeBy: 'customer'
          }
 

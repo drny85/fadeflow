@@ -12,7 +12,7 @@ const CommunicationButtons = ({ phone, color }: Props) => {
    const { colors, isDarkColorScheme } = useColorScheme()
    if (!phone) return null
    return (
-      <View className="flex-1 flex-row items-center justify-evenly gap-2">
+      <View className="flex-1 flex-row items-center justify-evenly gap-3">
          <TouchableOpacity onPress={() => handlePhoneAction('text', phone)}>
             <Feather
                name="message-circle"

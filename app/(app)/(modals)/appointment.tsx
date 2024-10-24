@@ -117,15 +117,17 @@ const AppointmentDetails = () => {
                   </Pressable>
                   <View className="flex-grow">
                      <Text variant="heading">{barber.name}</Text>
-                     <Text className="text-muted dark:text-white">
+                     <Text className="text-muted text-sm dark:text-white">
                         {barber.profile?.address.split(',')[0]}
                      </Text>
-                     <Text className="text-muted dark:text-white">
+                     <Text className="text-muted text-sm dark:text-white">
                         {barber.phone}
                      </Text>
                   </View>
 
-                  <CommunicationButtons phone={barber.phone} />
+                  <View>
+                     <CommunicationButtons phone={barber.phone} />
+                  </View>
                </View>
             </View>
             <View className="m-2 gap-1 rounded-lg bg-card p-4 shadow-sm">

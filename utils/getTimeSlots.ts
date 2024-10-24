@@ -20,7 +20,7 @@ export const generateAvailableTimeSlots = (
    startTime: string,
    endTime: string,
    incrementMinutes: number,
-   bookedSlots: string[],
+   bookedSlots: { start: string; end: string }[], // Booked slots now contain start and end times
    currentDate: Date,
    lunchBreak: LunchBreak,
    duration: number, // Total duration of the next appointment to be booked
@@ -66,22 +66,16 @@ export const generateAvailableTimeSlots = (
    const [latestSlotHours, latestSlotMinutes] = calculateLatestSlot(
       endHours,
       endMinutes,
-      duration // Use total duration to calculate the latest available slot
+      duration
    )
 
-   // Sort bookedSlots by time
+   // Sort booked slots by start time for comparison
    bookedSlots.sort(
       (a, b) =>
-         parseTime12Hour(a)[0] * 60 +
-         parseTime12Hour(a)[1] -
-         (parseTime12Hour(b)[0] * 60 + parseTime12Hour(b)[1])
+         parseTime12Hour(a.start)[0] * 60 +
+         parseTime12Hour(a.start)[1] -
+         (parseTime12Hour(b.start)[0] * 60 + parseTime12Hour(b.start)[1])
    )
-
-   let currentSlotIndex = 0
-   let currentBookedSlot =
-      bookedSlots.length > 0
-         ? parseTime12Hour(bookedSlots[currentSlotIndex])
-         : null
 
    // Parse blocked time if provided
    let blockStartHours: number | null = null
@@ -96,7 +90,6 @@ export const generateAvailableTimeSlots = (
       blockEndMinutes = parseTime12Hour(blockedTime.end)[1]
    }
 
-   // Loop through each time slot and check conditions
    while (
       (startHours < latestSlotHours ||
          (startHours === latestSlotHours &&
@@ -105,101 +98,63 @@ export const generateAvailableTimeSlots = (
          (startHours === startHoursDefault &&
             startMinutes >= startMinutesDefault))
    ) {
-      if (
-         !isToday ||
-         startHours > now.getHours() ||
-         (startHours === now.getHours() && startMinutes >= now.getMinutes())
-      ) {
-         const timeSlot = formatTime12Hour(startHours, startMinutes)
+      const timeSlotStart = formatTime12Hour(startHours, startMinutes)
+      const timeSlotEnd = addMinutesToTime(startHours, startMinutes, duration)
 
-         const isDuringLunchBreak =
-            (startHours < lunchEndHours ||
-               (startHours === lunchEndHours &&
-                  startMinutes < lunchEndMinutes)) &&
-            (startHours > lunchStartHours ||
-               (startHours === lunchStartHours &&
-                  startMinutes >= lunchStartMinutes))
+      // Check if the slot is during lunch break
+      const isDuringLunchBreak =
+         (startHours < lunchEndHours ||
+            (startHours === lunchEndHours && startMinutes < lunchEndMinutes)) &&
+         (startHours > lunchStartHours ||
+            (startHours === lunchStartHours &&
+               startMinutes >= lunchStartMinutes))
 
-         let isBookedSlot = false
-         let slotEndConflictsWithBookedSlot = false
+      // Check if the slot is blocked
+      const isBlockedTime =
+         blockStartHours !== null &&
+         blockEndHours !== null &&
+         blockStartMinutes !== null &&
+         blockEndMinutes !== null &&
+         isTimeInRange(
+            startHours,
+            startMinutes,
+            blockStartHours,
+            blockStartMinutes,
+            blockEndHours,
+            blockEndMinutes
+         )
 
-         if (currentBookedSlot) {
-            const [bookedHours, bookedMinutes] = currentBookedSlot
+      // Check if the slot overlaps with a booked slot
+      let isBookedSlot = false
+      for (const booked of bookedSlots) {
+         const [bookedStartHours, bookedStartMinutes] = parseTime12Hour(
+            booked.start
+         )
+         const [bookedEndHours, bookedEndMinutes] = parseTime12Hour(booked.end)
 
-            // Create a Date object for the booked slot start and current slot end
-            const slotStartDate = new Date(currentDate)
-            slotStartDate.setHours(startHours, startMinutes)
-
-            const slotEndDate = addMinutes(new Date(currentDate), duration)
-            slotEndDate.setHours(startHours, startMinutes)
-
-            const bookedSlotStart = new Date(currentDate)
-            bookedSlotStart.setHours(bookedHours, bookedMinutes)
-
-            // Check if the current slot ends after the start of the booked slot
-            if (slotEndDate.getTime() > bookedSlotStart.getTime()) {
-               slotEndConflictsWithBookedSlot = true
-            }
-
-            const timeDifference =
-               (bookedSlotStart.getTime() - slotStartDate.getTime()) /
-               (1000 * 60)
-            // If time difference is greater or equal to duration, the slot is valid
-            if (timeDifference >= duration) {
-               slotEndConflictsWithBookedSlot = false
-            }
-
-            const bookedSlotEnd = addMinutes(bookedSlotStart, duration)
-            const nextBookedSlotStart = addMinutes(
-               bookedSlotEnd,
-               incrementMinutes
-            )
-
-            if (
-               startHours * 60 + startMinutes >=
-                  bookedHours * 60 + bookedMinutes &&
-               startHours * 60 + startMinutes <
-                  nextBookedSlotStart.getHours() * 60 +
-                     nextBookedSlotStart.getMinutes()
-            ) {
-               isBookedSlot = true
-            } else if (
-               startHours * 60 + startMinutes >=
-               nextBookedSlotStart.getHours() * 60 +
-                  nextBookedSlotStart.getMinutes()
-            ) {
-               currentSlotIndex++
-               currentBookedSlot = bookedSlots[currentSlotIndex]
-                  ? parseTime12Hour(bookedSlots[currentSlotIndex])
-                  : null
-            }
-         }
-
-         const isBlockedTime =
-            blockedTime &&
-            blockStartHours !== null &&
-            blockEndHours !== null &&
-            blockStartMinutes !== null &&
-            blockEndMinutes !== null &&
-            (startHours < blockEndHours ||
-               (startHours === blockEndHours &&
-                  startMinutes < blockEndMinutes)) &&
-            (startHours > blockStartHours ||
-               (startHours === blockStartHours &&
-                  startMinutes >= blockStartMinutes))
-
-         // Add the slot if it's not during lunch, not booked, not blocked, and no conflict with booked slot
          if (
-            !isDuringLunchBreak &&
-            !isBookedSlot &&
-            !isBlockedTime &&
-            !slotEndConflictsWithBookedSlot
+            isTimeOverlap(
+               startHours,
+               startMinutes,
+               timeSlotEnd.hours,
+               timeSlotEnd.minutes,
+               bookedStartHours,
+               bookedStartMinutes,
+               bookedEndHours,
+               bookedEndMinutes
+            )
          ) {
-            slots.push({ time: timeSlot, isBooked: false })
+            isBookedSlot = true
+            break
          }
       }
 
-      // Increment to the next slot
+      // Only add slot if it's not during lunch break, not booked, and not blocked
+      if (!isDuringLunchBreak && !isBookedSlot && !isBlockedTime) {
+         slots.push({ time: timeSlotStart, isBooked: false })
+      }
+
+      // Increment start time
       startMinutes += incrementMinutes
       if (startMinutes >= 60) {
          startMinutes %= 60
@@ -208,6 +163,39 @@ export const generateAvailableTimeSlots = (
    }
 
    return slots
+}
+
+// Helper function to check if time is in a range
+const isTimeInRange = (
+   hours: number,
+   minutes: number,
+   rangeStartHours: number,
+   rangeStartMinutes: number,
+   rangeEndHours: number,
+   rangeEndMinutes: number
+): boolean => {
+   const time = hours * 60 + minutes
+   const rangeStart = rangeStartHours * 60 + rangeStartMinutes
+   const rangeEnd = rangeEndHours * 60 + rangeEndMinutes
+   return time >= rangeStart && time < rangeEnd
+}
+
+// Helper function to check if two time periods overlap
+const isTimeOverlap = (
+   startHours1: number,
+   startMinutes1: number,
+   endHours1: number,
+   endMinutes1: number,
+   startHours2: number,
+   startMinutes2: number,
+   endHours2: number,
+   endMinutes2: number
+): boolean => {
+   const start1 = startHours1 * 60 + startMinutes1
+   const end1 = endHours1 * 60 + endMinutes1
+   const start2 = startHours2 * 60 + startMinutes2
+   const end2 = endHours2 * 60 + endMinutes2
+   return start1 < end2 && end1 > start2
 }
 
 // Helper function to calculate the latest start time for a slot to finish within endTime
@@ -226,16 +214,30 @@ const calculateLatestSlot = (
 }
 
 // Helper function to parse time in 12-hour format (e.g., "2:30 PM") into 24-hour format numbers
-const parseTime12Hour = (time: string): [number, number] => {
+// Helper function to parse time in 12-hour format (e.g., "2:30 PM") into 24-hour format numbers
+const parseTime12Hour = (time: string | undefined): [number, number] => {
+   if (!time || typeof time !== 'string') {
+      throw new Error('Invalid time format or undefined time')
+   }
+
    const [timePart, period] = time.split(' ')
+   if (!timePart || !period) {
+      throw new Error('Invalid time format. Expected format: "hh:mm AM/PM"')
+   }
+
    let [hours, minutes] = timePart.split(':').map(Number)
+
+   if (isNaN(hours) || isNaN(minutes)) {
+      throw new Error(
+         'Invalid time values. Hours and minutes should be numbers.'
+      )
+   }
 
    if (period === 'PM' && hours < 12) hours += 12
    if (period === 'AM' && hours === 12) hours = 0
 
    return [hours, minutes]
 }
-
 // Helper function to format time as 12-hour clock with AM/PM
 const formatTime12Hour = (hours: number, minutes: number): string => {
    const period = hours >= 12 ? 'PM' : 'AM'
@@ -244,9 +246,17 @@ const formatTime12Hour = (hours: number, minutes: number): string => {
    return `${formattedHours}:${formattedMinutes} ${period}`
 }
 
-// Helper function to add minutes to a Date object and return a new Date object
-const addMinutes = (date: Date, minutes: number): Date => {
-   const newDate = new Date(date)
-   newDate.setMinutes(newDate.getMinutes() + minutes)
-   return newDate
+// Helper function to add minutes to a time
+const addMinutesToTime = (
+   hours: number,
+   minutes: number,
+   duration: number
+): { hours: number; minutes: number } => {
+   let newMinutes = minutes + duration
+   let newHours = hours
+   if (newMinutes >= 60) {
+      newHours += Math.floor(newMinutes / 60)
+      newMinutes %= 60
+   }
+   return { hours: newHours, minutes: newMinutes }
 }

@@ -109,6 +109,7 @@ export type Appointment = {
    status: AppointmentStatus
    changesMadeBy: 'customer' | 'barber'
    reminderSent: boolean
+   duration: number
 }
 
 export type BarberFilter = {

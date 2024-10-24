@@ -1,5 +1,5 @@
 // TimeSlotPicker.tsx
-import { addDays, format, isSameDay } from 'date-fns'
+import { addDays, addMinutes, format, isSameDay } from 'date-fns'
 import { router, useSegments } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { FlatList, ListRenderItem, TouchableOpacity, View } from 'react-native'
@@ -13,6 +13,7 @@ import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber, Days, TimeSlot } from '~/shared/types'
 import { addUnavailableTimeSlots } from '~/utils/addUnavailableTimeSlots'
 import { generateAvailableTimeSlots } from '~/utils/getTimeSlots'
+import { getBookingDate } from '~/utils/getBookingDate'
 
 const _spacing = 10
 
@@ -67,7 +68,19 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       .filter((app) => app.status !== 'cancelled')
       .filter((a) => a.barber.id === barber?.id)
       .filter((b) => isSameDay(b.date, day.toISOString()))
-      .map((appointment) => appointment.startTime)
+      .map((appointment) => ({
+         start: appointment.startTime,
+         end: format(
+            addMinutes(
+               getBookingDate(
+                  new Date(appointment.date),
+                  appointment.startTime
+               ),
+               appointment.duration
+            ),
+            'p'
+         )
+      }))
 
    // const durationTotal = appointments
    //    .filter((app) => app.status !== 'cancelled')
@@ -77,12 +90,12 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
    //    .flat()
    //    .reduce((acc, curr) => curr.duration * curr.quantity + acc, 0)
 
-   const unaivailableTimeSlots = addUnavailableTimeSlots(
-      bookedSlots,
-      isGreater ? duration : incrementMinutes
-   )
-   console.log('DURATION', duration, isGreater, unaivailableTimeSlots)
-
+   // const unaivailableTimeSlots = addUnavailableTimeSlots(
+   //    bookedSlots,
+   //    isGreater ? duration : incrementMinutes
+   // )
+   // console.log('DURATION', duration, isGreater, unaivailableTimeSlots)
+   console.log(bookedSlots)
    const blocked = useMemo(() => {
       if (!barber.blockedTimes || barber.blockedTimes.length === 0)
          return undefined
@@ -104,7 +117,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
              startTime,
              endTime,
              incrementMinutes,
-             unaivailableTimeSlots,
+             bookedSlots,
              day,
              lunckBreak,
              duration,
