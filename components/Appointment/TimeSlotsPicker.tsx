@@ -80,6 +80,10 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
          )
       }))
 
+   const todayIsBlocked = barber.blockedTimes?.find(
+      (d) => !d.allDay && d.date === format(day, 'yyyy-MM-dd')
+   ) as { start: string; end: string }
+
    const booked = [
       ...bookedSlots,
       {
@@ -87,6 +91,15 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
          end: barber.schedule[shortDay].lunchBreak.end
       }
    ]
+   const bookedWithBlocked = todayIsBlocked
+      ? [
+           ...booked,
+           {
+              start: format(todayIsBlocked.start, 'hh:mm a'),
+              end: format(todayIsBlocked.end, 'hh:mm a')
+           }
+        ]
+      : [...booked]
 
    const blocked = useMemo(() => {
       if (!barber.blockedTimes || barber.blockedTimes.length === 0)
@@ -109,7 +122,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
              startTime,
              endTime,
              incrementMinutes,
-             booked,
+             bookedWithBlocked,
              day,
              lunckBreak,
              duration,

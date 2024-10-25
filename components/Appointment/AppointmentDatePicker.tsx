@@ -28,7 +28,7 @@ const AppointmentDatePicker = ({ onPress }: Props) => {
       >
          <View className="flex-row items-center  justify-between">
             <View className="gap-1">
-               <Text variant="heading">
+               <Text className="font-roboto-bold">
                   {selectedDate && selectedTimeSlot
                      ? `${translate(
                           `longDays.${format(
@@ -52,7 +52,7 @@ const AppointmentDatePicker = ({ onPress }: Props) => {
                         </Text>
                         {selectedServices.length > 0 && (
                            <Text className="text-lg font-semibold text-muted dark:text-white">
-                              -
+                              -{' '}
                               {format(
                                  addMinutes(
                                     getBookingDate(
