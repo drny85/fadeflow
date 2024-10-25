@@ -3,7 +3,7 @@ import { router } from 'expo-router'
 import React from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
 
-import { Text } from '../nativewindui/Text'
+import { Text } from '~/components/nativewindui/Text'
 
 import { translation } from '~/locales/translate'
 import { Appointment } from '~/shared/types'
@@ -45,10 +45,9 @@ const WaitingAppoinmentCard = ({ appointments, title }: Props) => {
                      className="m-2 items-center justify-center rounded-md bg-background p-2 shadow-sm"
                   >
                      <Text className="font-roboto-bold text-muted dark:text-slate-300">
-                        {format(item.date, 'eee')} (
+                        {format(item.date, 'eee')}
                         <Text className="text-sm text-muted dark:text-slate-400">
-                           {' '}
-                           {format(item.date, 'dd')})
+                           ({format(item.date, 'dd')})
                         </Text>
                      </Text>
                      <Text>{item.startTime}</Text>

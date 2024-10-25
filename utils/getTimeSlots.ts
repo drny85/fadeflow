@@ -15,12 +15,16 @@ type TimeSlot = {
    time: string
    isBooked: boolean
 }
+type BlockSlots = {
+   start: string
+   end: string
+}
 
 export const generateAvailableTimeSlots = (
    startTime: string,
    endTime: string,
    incrementMinutes: number,
-   bookedSlots: { start: string; end: string }[], // Booked slots now contain start and end times
+   bookedSlots: BlockSlots[], // Booked slots now contain start and end times
    currentDate: Date,
    lunchBreak: LunchBreak,
    duration: number, // Total duration of the next appointment to be booked

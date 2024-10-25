@@ -12,6 +12,7 @@ import { useAppointmentFlowStore } from '~/providers/useAppoitmentFlowStore'
 import { Barber } from '~/shared/types'
 import { getBookingDate } from '~/utils/getBookingDate'
 import { getAppointmentDuration } from '~/utils/getAppointmentDuration'
+import { FontAwesome } from '@expo/vector-icons'
 
 type Props = {
    onPress: () => void
@@ -52,23 +53,30 @@ const DateTimeAppointmentPicker = ({ onPress, barber }: Props) => {
                   transition={{ type: 'timing' }}
                   exit={{ opacity: 0, translateY: -20 }}
                >
-                  <View className="gap-2 items-center mb-3">
-                     <Text className="text-center font-roboto-bold text-muted dark:text-slate-300">
-                        {format(selectedDate, 'E, PP')}
-                     </Text>
-                     <Text className="font-roboto-bold text-muted dark:text-slate-300">
-                        {selectedTimeSlot.time} -
-                        {format(
-                           addMinutes(
-                              getBookingDate(
-                                 new Date(selectedDate),
-                                 selectedTimeSlot.time
+                  <View className="items-center mb-4 flex-row justify-evenly">
+                     <View className="flex-row items-center gap-2">
+                        <FontAwesome name="calendar" size={24} color={'grey'} />
+                        <Text className="text-center font-roboto-bold text-muted dark:text-slate-300">
+                           {format(selectedDate, 'E, PP')}
+                        </Text>
+                     </View>
+
+                     <View className="flex-row items-center gap-2">
+                        <FontAwesome name="clock-o" size={24} color={'grey'} />
+                        <Text className="font-roboto-bold text-muted dark:text-slate-300">
+                           {selectedTimeSlot.time} -{' '}
+                           {format(
+                              addMinutes(
+                                 getBookingDate(
+                                    new Date(selectedDate),
+                                    selectedTimeSlot.time
+                                 ),
+                                 getAppointmentDuration(selectedServices)
                               ),
-                              getAppointmentDuration(selectedServices)
-                           ),
-                           'p'
-                        )}
-                     </Text>
+                              'p'
+                           )}
+                        </Text>
+                     </View>
                   </View>
                </MotiView>
             )}

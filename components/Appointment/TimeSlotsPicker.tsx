@@ -60,8 +60,6 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
       0
    )
 
-   const isGreater = incrementMinutes > duration
-
    const lunckBreak = (barber?.schedule[shortDay]).lunchBreak
 
    const bookedSlots = appointments
@@ -144,7 +142,7 @@ const TimeSlotPickerComponent: React.FC<TimeSlotPickerProps> = ({
          >
             <View className=" items-center justify-center">
                <Text
-                  className={`py-1 text-center ${selectedTimeSlot?.time === item.time ? 'font-semibold text-white' : 'text-slate-600 dark:text-white'}`}
+                  className={`py-2 text-center ${selectedTimeSlot?.time === item.time ? 'font-semibold text-white' : 'text-slate-600 dark:text-white'}`}
                >
                   {item.time}
                </Text>
