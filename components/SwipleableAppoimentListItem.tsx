@@ -115,9 +115,12 @@ const SwipleableAppoimentListItem = ({
                   </View>
                </View>
                <View
-                  className={`${item.status === 'confirmed' ? 'bg-green-400' : item.status === 'pending' ? 'bg-orange-400' : item.status === 'cancelled' ? 'bg-primary' : 'bg-gray-400'} w-1/4 rounded-2xl p-1 px-2`}
+                  className={`${item.status === 'confirmed' ? 'bg-green-400' : item.status === 'pending' ? 'bg-orange-400' : item.status === 'cancelled' ? 'bg-primary' : 'bg-gray-400'} rounded-2xl p-1 px-2`}
                >
-                  <Text className="text-center text-sm font-semibold capitalize text-white">
+                  <Text
+                     adjustsFontSizeToFit
+                     className="text-center text-sm font-semibold capitalize text-white px-2 "
+                  >
                      {translate(
                         `appointment.filter.${item.status.charAt(0).toUpperCase() + item.status.slice(1)}`
                      )}

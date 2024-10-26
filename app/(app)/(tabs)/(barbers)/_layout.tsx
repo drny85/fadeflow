@@ -17,7 +17,10 @@ const _layout = () => {
             options={{
                title: translate('tabs.barbers'),
                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.push('/barbers-map')}>
+                  <TouchableOpacity
+                     className="mr-2"
+                     onPress={() => router.push('/barbers-map')}
+                  >
                      <Feather
                         name="map"
                         size={24}

@@ -1,12 +1,12 @@
 import { AntDesign, Feather } from '@expo/vector-icons'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, ColorValue } from 'react-native'
 
 import { useColorScheme } from '~/lib/useColorScheme'
 import { handlePhoneAction } from '~/utils/handlePhoneAction'
 
 type Props = {
    phone: string
-   color?: string
+   color?: ColorValue
 }
 const CommunicationButtons = ({ phone, color }: Props) => {
    const { colors, isDarkColorScheme } = useColorScheme()
@@ -24,7 +24,9 @@ const CommunicationButtons = ({ phone, color }: Props) => {
             <AntDesign
                name="phone"
                size={30}
-               color={isDarkColorScheme ? '#ffffff' : colors.accent}
+               color={
+                  color ? color : isDarkColorScheme ? '#ffffff' : colors.accent
+               }
             />
          </TouchableOpacity>
       </View>

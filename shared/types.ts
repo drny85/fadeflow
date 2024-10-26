@@ -196,6 +196,8 @@ export type BroadcastMessage = {
    title: string
    message: string
    users: string[]
+   userId: string
+   from?: string
    barberId: string
    createdAt?: string
 }

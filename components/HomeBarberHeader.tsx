@@ -17,6 +17,7 @@ import { translation } from '~/locales/translate'
 import { useAuth } from '~/providers/AuthContext'
 import { convertMinutesToHours } from '~/utils/convertMinutesIntoHours'
 import { shareBarberLink } from '~/utils/shareBarberLink'
+import ViewNotificationButton from './ViewNotificationButton'
 
 type Props = {
    confirmedTotal: number
@@ -112,12 +113,15 @@ const HomeBarberHeader = ({
                {translate('welcome', { name: user?.name?.split(' ')[0] })}
             </Text>
             {user && (
-               <TouchableOpacity
-                  onPress={() => shareBarberLink(user?.id!)}
-                  className="h-10 w-10 items-center justify-center rounded-full bg-slate-200 p-1"
-               >
-                  <Feather name="share" size={26} color={colors.accent} />
-               </TouchableOpacity>
+               <View className="flex-row items-center gap-4">
+                  <ViewNotificationButton iconColor={'#ffffff'} />
+                  <TouchableOpacity
+                     onPress={() => shareBarberLink(user?.id!)}
+                     className="h-10 w-10 items-center justify-center rounded-full bg-slate-200 p-1"
+                  >
+                     <Feather name="share" size={26} color={colors.accent} />
+                  </TouchableOpacity>
+               </View>
             )}
          </View>
 

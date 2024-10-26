@@ -53,11 +53,11 @@ const AppointmentDetails = () => {
       }
    }
 
-   if (!barber)
+   if (!barber || !appointment)
       return (
          <Container>
             <View className="flex-1 justify-center items-center gap-4">
-               <Text>Barber not found</Text>
+               <Text>Barber or appointment not found </Text>
                <Button
                   title="Go Back"
                   textStyle={{ paddingHorizontal: 12 }}
@@ -135,7 +135,7 @@ const AppointmentDetails = () => {
                   {translate('appointment.details.title')}
                </Text>
                <View>
-                  {appointment.services.map((s, index) => (
+                  {appointment?.services.map((s, index) => (
                      <Text
                         variant="heading"
                         className="text-muted dark:text-white"

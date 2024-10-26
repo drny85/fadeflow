@@ -95,7 +95,7 @@ const BarbersPage = () => {
          contentContainerStyle={{
             paddingTop:
                Platform.OS === 'android' && segment[2] !== 'quick-booking'
-                  ? SIZES.statusBarHeight + 36
+                  ? SIZES.statusBarHeight + 40
                   : undefined
          }}
       >

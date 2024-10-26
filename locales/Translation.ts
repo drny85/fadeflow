@@ -82,6 +82,7 @@ export interface Broadcast {
     message:     string;
     placeholder: string;
     button:      string;
+    verify:      string;
 }
 
 export interface AppointmentConfirmation {
@@ -642,6 +643,7 @@ const typeMap: any = {
         { json: "message", js: "message", typ: "" },
         { json: "placeholder", js: "placeholder", typ: "" },
         { json: "button", js: "button", typ: "" },
+        { json: "verify", js: "verify", typ: "" },
     ], false),
     "AppointmentConfirmation": o([
         { json: "cancel", js: "cancel", typ: r("Cancel") },

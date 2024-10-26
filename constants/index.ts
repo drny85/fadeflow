@@ -1,14 +1,15 @@
 import Constants from 'expo-constants'
-import { Dimensions } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 
-import { BlockTimeParams, Days, IconImageType, Schedule } from '~/shared/types'
+import { Days, IconImageType, Schedule } from '~/shared/types'
 
 const { width, height } = Dimensions.get('screen')
 
 export const SIZES = {
    width,
    height,
-   statusBarHeight: Constants.statusBarHeight
+   statusBarHeight: Constants.statusBarHeight,
+   hairlineWidth: StyleSheet.hairlineWidth
 }
 
 export const SITE_URL = 'https://fadeflow.vercel.app'

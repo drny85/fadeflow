@@ -45,11 +45,10 @@ export function useProtectedRoute() {
    }, [loading])
 
    useEffect(() => {
-      if (daysRemaining > 0) return
       if (
          user?.isBarber &&
          user.subscriptionStatus === 'trialing' &&
-         daysRemaining < 0
+         daysRemaining <= 0
       ) {
          console.log('UPDATE MEMBERSHIP')
          updateUser({ ...user, subscriptionStatus: 'incomplete_expired' })

@@ -16,6 +16,7 @@ import { useColorScheme } from '~/lib/useColorScheme'
 import { useAuth } from '~/providers/AuthContext'
 import { useBarbersStore } from '~/providers/useBarbersStore'
 import { Barber } from '~/shared/types'
+import ViewNotificationButton from './ViewNotificationButton'
 
 type Props = {
    shouldGoBack: boolean
@@ -135,7 +136,7 @@ const MapHeader = ({ shouldGoBack, containerStyle, barberInfo }: Props) => {
                />
             )}
             {user && !barberInfo ? (
-               <Text className="font-raleway-bold text-2xl text-accent">
+               <Text className="font-raleway-bold text-2xl text-white">
                   {t('welcome', { name: user?.name?.split(' ')[0] })}
                </Text>
             ) : (
@@ -143,26 +144,33 @@ const MapHeader = ({ shouldGoBack, containerStyle, barberInfo }: Props) => {
                   Location
                </Text>
             )}
-            {coords && !user?.isBarber && user?.favoriteBarber && (
-               <TouchableOpacity
-                  onPress={() => {
-                     mapRef.current?.animateCamera({
-                        center: {
-                           longitude: coords?.lng!,
-                           latitude: coords?.lat!
-                        },
-                        pitch: 60,
-                        heading: 90,
-                        altitude: 100
-                     })
-                  }}
-               >
-                  <MaterialIcons
-                     name="location-searching"
-                     size={28}
-                     color={isDarkColorScheme ? 'white' : 'black'}
-                  />
-               </TouchableOpacity>
+            {coords && !user?.isBarber && user?.favoriteBarber ? (
+               <View className="flex-row items-center gap-4">
+                  <ViewNotificationButton />
+                  <TouchableOpacity
+                     onPress={() => {
+                        mapRef.current?.animateCamera({
+                           center: {
+                              longitude: coords?.lng!,
+                              latitude: coords?.lat!
+                           },
+                           pitch: 60,
+                           heading: 90,
+                           altitude: 100
+                        })
+                     }}
+                  >
+                     <MaterialIcons
+                        name="location-searching"
+                        size={28}
+                        color={isDarkColorScheme ? 'white' : 'black'}
+                     />
+                  </TouchableOpacity>
+               </View>
+            ) : (
+               <View className="mr-2">
+                  <ViewNotificationButton iconColor={'#ffffff'} />
+               </View>
             )}
          </View>
       </View>

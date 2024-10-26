@@ -6,6 +6,14 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useCallback, useEffect, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
+import Animated, {
+   SlideInDown,
+   SlideInLeft,
+   SlideInRight,
+   SlideOutLeft,
+   SlideOutRight,
+   SlideOutUp
+} from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { updateAppointmentInDatabase } from '~/actions/appointments'
@@ -53,6 +61,7 @@ const BookingPage = () => {
    const { user } = useAuth()
 
    const barber = barbers.find((barber) => barber.id === barberId)
+
    const [phone, setPhone] = useState(user?.phone)
    const [name, setName] = useState(user?.name)
    const bottomSheetModalRef = useSheetRef()
@@ -435,7 +444,7 @@ const BookingPage = () => {
          </ScrollView>
 
          <View
-            className="shas rounded-3xl bg-card"
+            className="rounded-3xl bg-card"
             style={{
                marginBottom: bottom,
                shadowOffset: { width: -2, height: -2 },
@@ -444,22 +453,40 @@ const BookingPage = () => {
                shadowColor: colors.grey
             }}
          >
-            <View className="flex-row justify-evenly">
-               <View className="my-3 flex-row items-start gap-1 self-center">
-                  <FontAwesome name="clock-o" size={24} color="grey" />
-                  <Text className="text-center text-muted dark:text-white">
-                     {getAppointmentDuration(selectedServices)} mins
-                  </Text>
-               </View>
-               <View className="my-3 flex-row items-start gap-2 self-center">
-                  <FontAwesome name="money" size={24} color="grey" />
-                  <Text className="text-center text-muted dark:text-white">
-                     $
-                     {selectedServices.length > 0 &&
-                        getAppointmentPrice(selectedServices)}{' '}
-                     {translate('booking.cash')}
-                  </Text>
-               </View>
+            <View className="flex-row justify-evenly min-h-12 items-center">
+               {selectedServices.length > 0 && (
+                  <Animated.View entering={SlideInLeft} exiting={SlideOutLeft}>
+                     <View className="my-3 flex-row items-start gap-1 self-center">
+                        <FontAwesome name="clock-o" size={24} color="grey" />
+                        <AnimatedNumber
+                           prefix=""
+                           fixed={false}
+                           value={getAppointmentDuration(selectedServices)}
+                        />
+                        <Text className="text-center text-muted dark:text-white">
+                           mins
+                        </Text>
+                     </View>
+                  </Animated.View>
+               )}
+
+               {selectedServices.length > 0 && (
+                  <Animated.View
+                     entering={SlideInRight}
+                     exiting={SlideOutRight}
+                  >
+                     <View className="my-3 flex-row items-start gap-2 self-center">
+                        <FontAwesome name="money" size={24} color="grey" />
+                        <AnimatedNumber
+                           fixed={false}
+                           value={getAppointmentPrice(selectedServices)}
+                        />
+                        <Text className="text-center text-muted dark:text-white">
+                           {translate('booking.cash')}
+                        </Text>
+                     </View>
+                  </Animated.View>
+               )}
             </View>
             <View className="w-[80%] self-center">
                <Button

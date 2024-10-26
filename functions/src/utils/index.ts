@@ -40,13 +40,12 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
          .then(async (doc) => {
             const user = doc.data()
             if (user?.pushToken) {
-               await sendPushNotification(
-                  doc.id,
-                  'subscription',
-                  user.pushToken,
-                  'Subscription Update',
-                  `Your subscription status has changed to ${status}.`
-               )
+               await sendPushNotification({
+                  to: user.pushToken,
+                  data: { notificationType: 'subscription', id: doc.id },
+                  body: `Your subscription status has changed to ${status}.`,
+                  title: 'Subscription Update'
+               })
             }
          })
 

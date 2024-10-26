@@ -7,12 +7,21 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
 
 type Props = {
    value: number
+   fontSize?: number
+   prefix?: string
+   fixed?: boolean
    textStyle?: TextStyle
 }
-const AnimatedNumber = ({ value, textStyle }: Props) => {
+const AnimatedNumber = ({
+   value,
+   fontSize = 20,
+   prefix = '$',
+   fixed = true,
+   textStyle
+}: Props) => {
    const inputRef = React.useRef<TextInput>(null)
    const animated = React.useRef(new Animated.Value(0)).current
-   const { colors } = useColorScheme()
+   const { colors, isDarkColorScheme } = useColorScheme()
    const animation = (toValue: number) => {
       return Animated.timing(animated, {
          delay: 200,
@@ -28,14 +37,16 @@ const AnimatedNumber = ({ value, textStyle }: Props) => {
       animated.addListener(({ value }) => {
          if (inputRef.current) {
             inputRef.current.setNativeProps({
-               text: `$${value.toFixed(2)}`
+               text: fixed
+                  ? `${prefix}${value.toFixed(2)}`
+                  : `${prefix}${Math.ceil(value)}`
             })
          }
       })
       return () => {
          animated.removeAllListeners()
       }
-   }, [value])
+   }, [value, fixed])
 
    return (
       <AnimatedTextInput
@@ -43,7 +54,13 @@ const AnimatedNumber = ({ value, textStyle }: Props) => {
          underlineColorAndroid="transparent"
          editable={false}
          defaultValue="0"
-         style={[{ fontSize: 20, color: colors.accent }, textStyle]}
+         style={[
+            {
+               fontSize: fontSize,
+               color: isDarkColorScheme ? '#dedede' : colors.accent
+            },
+            textStyle
+         ]}
       />
    )
 }

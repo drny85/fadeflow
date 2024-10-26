@@ -52,9 +52,10 @@ const AnimatedCheckbox = ({ isSelected }: { isSelected: boolean }) => {
                height: CIRCLE_SIZE,
                borderRadius: CIRCLE_SIZE / 2,
                borderColor: colors.accent,
+
                borderWidth: 2,
                justifyContent: 'center',
-               marginVertical: 4,
+               marginVertical: 6,
                alignItems: 'center',
                backgroundColor: isSelected ? colors.primary : colors.accent
             },
@@ -64,12 +65,14 @@ const AnimatedCheckbox = ({ isSelected }: { isSelected: boolean }) => {
          <Animated.View
             style={[
                {
-                  width: CIRCLE_SIZE - 4,
-                  height: CIRCLE_SIZE - 4,
-                  borderRadius: (CIRCLE_SIZE - 4) / 2,
+                  width: CIRCLE_SIZE,
+                  height: CIRCLE_SIZE,
+                  borderRadius: CIRCLE_SIZE / 2,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: '#ffffff'
+                  backgroundColor: isSelected
+                     ? colors.background
+                     : colors.primary
                },
                animatedStyle
             ]}

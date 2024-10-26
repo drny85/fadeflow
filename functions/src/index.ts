@@ -80,13 +80,18 @@ exports.notifyOnAppointmentCreation = onDocumentCreated(
          const appointmentDate = format(data.date, 'E, PPP')
          if (!barberData.pushToken) return
          logger.log('Notification Sent!')
-         return await sendPushNotification(
-            event.params.appointmentId,
-            'new-appointment',
-            barberData.pushToken,
-            'New Appointment',
-            `${data.customer.name} has scheduled an appointment with you for ${appointmentDate} at ${data.startTime}.`
-         )
+         return await sendPushNotification({
+            to: barberData.pushToken,
+            data: {
+               notificationType: 'new-appointment',
+               id: event.params.appointmentId
+            },
+
+            title: 'New Appointment',
+            body: `${data.customer.name} has scheduled an appointment with you for ${appointmentDate} at ${data.startTime}.`,
+            barberId: barberData.id,
+            userId: data.customer.id
+         })
       } catch (error) {
          logger.error(error)
       }
@@ -285,7 +290,7 @@ exports.createSubscrition = onCall<CreateSubscriptionRequest, any>(
 exports.onAppointmentUpdates = onDocumentUpdated(
    '/appointments/{appointmentId}',
    async (event) => {
-      logger.info(`New document with ID ${event.id} was created.`)
+      logger.info(`New document with ID ${event.id} was updated.`)
       try {
          const data = event.data?.after.data() as Appointment
          const dataBefore = event.data?.before.data() as Appointment
@@ -327,22 +332,32 @@ exports.onAppointmentUpdates = onDocumentUpdated(
             if (!customerData.pushToken) return
 
             if (data.status === 'confirmed') {
-               await sendPushNotification(
-                  event.params.appointmentId,
-                  'appointment-updates',
-                  customerData.pushToken,
-                  confirmationTitle,
-                  `${data.barber.name} ${confirmationMessage} ${appointmentDate} at ${data.startTime}.`
-               )
+               const messageBody = `${data.barber.name} ${confirmationMessage} ${appointmentDate} at ${data.startTime}.`
+               await sendPushNotification({
+                  to: customerData.pushToken,
+                  title: confirmationTitle,
+                  body: messageBody,
+                  data: {
+                     notificationType: 'appointment-updates',
+                     id: event.params.appointmentId
+                  },
+                  barberId: data.barber.id,
+                  userId: data.customer.id
+               })
             }
             if (data.status === 'cancelled') {
-               await sendPushNotification(
-                  event.params.appointmentId,
-                  'appointment-updates',
-                  customerData.pushToken,
-                  cancelTitle,
-                  `${data.barber.name} ${cancelationMessage} ${appointmentDate}.`
-               )
+               const messageBody = `${data.barber.name} ${cancelationMessage} ${appointmentDate}.`
+               await sendPushNotification({
+                  to: customerData.pushToken,
+                  title: cancelTitle,
+                  body: messageBody,
+                  data: {
+                     notificationType: 'appointment-updates',
+                     id: event.params.appointmentId
+                  },
+                  barberId: data.barber.id,
+                  userId: data.customer.id
+               })
             }
          } else if (data.changesMadeBy === 'customer') {
             const barberDoc = getFirestore()
@@ -373,13 +388,18 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                rescheduledMessage = 'has rescheduled the appointment from'
             }
             if (data.status === 'cancelled') {
-               await sendPushNotification(
-                  event.params.appointmentId,
-                  'appointment-updates',
-                  barberData.pushToken,
-                  updateTitle,
-                  `${data.customer.name} ${cancelMessage} ${appointmentDate} at ${data.startTime}.`
-               )
+               const messageBody = `${data.customer.name} ${cancelMessage} ${appointmentDate} at ${data.startTime}.`
+               await sendPushNotification({
+                  to: barberData.pushToken,
+                  title: updateTitle,
+                  body: messageBody,
+                  data: {
+                     notificationType: 'appointment-updates',
+                     id: event.params.appointmentId
+                  },
+                  barberId: data.barber.id,
+                  userId: data.customer.id
+               })
             }
 
             if (
@@ -387,26 +407,36 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                dataBefore
                //dataBefore.service.name !== data.service.name
             ) {
-               await sendPushNotification(
-                  event.params.appointmentId,
-                  'appointment-updates',
-                  barberData.pushToken,
-                  updateTitle,
-                  `${data.customer.name} has changed the service.`
-               )
+               const messageBody = `${data.customer.name} has changed the service.`
+               await sendPushNotification({
+                  to: barberData.pushToken,
+                  title: updateTitle,
+                  body: messageBody,
+                  data: {
+                     notificationType: 'appointment-updates',
+                     id: event.params.appointmentId
+                  },
+                  barberId: data.barber.id,
+                  userId: data.customer.id
+               })
             }
             if (
                (data.status === 'pending' && data.date !== dataBefore.date) ||
                (data.status === 'pending' &&
                   data.startTime !== dataBefore.startTime)
             ) {
-               await sendPushNotification(
-                  event.params.appointmentId,
-                  'appointment-updates',
-                  barberData.pushToken,
-                  updateTitle,
-                  `${data.customer.name} ${rescheduledMessage} ${prevDate} at ${dataBefore.startTime} to ${appointmentDate} at ${data.startTime}.`
-               )
+               const messageBody = `${data.customer.name} ${rescheduledMessage} ${prevDate} at ${dataBefore.startTime} to ${appointmentDate} at ${data.startTime}.`
+               await sendPushNotification({
+                  to: barberData.pushToken,
+                  title: updateTitle,
+                  body: messageBody,
+                  data: {
+                     notificationType: 'appointment-updates',
+                     id: event.params.appointmentId
+                  },
+                  barberId: data.barber.id,
+                  userId: data.customer.id
+               })
             }
 
             if (changesMade) {
@@ -416,22 +446,25 @@ exports.onAppointmentUpdates = onDocumentUpdated(
                      rescheduledMessage =
                         'made changes to existing appointmeent'
                   } else {
-                     ;(updateTitle = 'Actualizaciones de cita'),
-                        (rescheduledMessage =
-                           'hizo cambios en la cita existente')
+                     updateTitle = 'Actualizaciones de cita'
+                     rescheduledMessage = 'hizo cambios en la cita existente'
                   }
                } else {
-                  ;(updateTitle = 'Appointment Updates'),
-                     (rescheduledMessage =
-                        'made changes to existing appointmeent')
+                  updateTitle = 'Appointment Updates'
+                  rescheduledMessage = 'made changes to existing appointmeent'
                }
-               await sendPushNotification(
-                  event.params.appointmentId,
-                  'appointment-updates',
-                  barberData.pushToken,
-                  updateTitle,
-                  `${data.customer.name} ${rescheduledMessage}.`
-               )
+               const messageBody = `${data.customer.name} ${rescheduledMessage}.`
+               await sendPushNotification({
+                  to: barberData.pushToken,
+                  title: updateTitle,
+                  body: messageBody,
+                  data: {
+                     notificationType: 'appointment-updates',
+                     id: event.params.appointmentId
+                  },
+                  barberId: data.barber.id,
+                  userId: data.customer.id
+               })
             }
          }
       } catch (error) {
@@ -632,7 +665,9 @@ exports.sendBroadcastMessage = onDocumentCreated(
             .get()
          const tokens = users.docs
             .map((doc) => doc.data().pushToken)
-            .filter((token) => token !== undefined) as string[]
+            .filter(
+               (token) => token !== undefined || token !== null
+            ) as string[]
          if (tokens.length === 0) return
          await sendNotificationToAllUsers(
             `Message from ${name}`,

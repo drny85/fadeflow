@@ -4,6 +4,7 @@ import { router, Stack } from 'expo-router'
 import { TouchableOpacity } from 'react-native'
 
 import BroadcastMessageScreen from '~/components/BroadcastMessageScreen'
+import { ThemeToggle } from '~/components/nativewindui/ThemeToggle'
 import { StackScreenWithSearchBar } from '~/constants/layout'
 import { useColorScheme } from '~/lib/useColorScheme'
 import { translation } from '~/locales/translate'
@@ -17,7 +18,31 @@ const ModalLayout = () => {
       <Stack>
          <Stack.Screen name="barber" options={{ headerShown: false }} />
          <Stack.Screen name="booking" options={{ headerShown: false }} />
-         <Stack.Screen name="appointment" options={{ headerShown: false }} />
+         <Stack.Screen
+            name="appointment"
+            options={{
+               headerShown: false
+            }}
+         />
+         <Stack.Screen
+            name="notifications"
+            options={{
+               title: 'Notifications',
+               headerStyle: {
+                  backgroundColor: colors.background
+               },
+               headerRight: () => <ThemeToggle />,
+               headerLeft: () => (
+                  <TouchableOpacity onPress={router.back}>
+                     <Icon
+                        name="chevron-left"
+                        size={32}
+                        color={isDarkColorScheme ? '#ffffff' : colors.primary}
+                     />
+                  </TouchableOpacity>
+               )
+            }}
+         />
          <Stack.Screen name="block-times" options={{ headerShown: false }} />
          <Stack.Screen
             name="clients"
@@ -48,6 +73,10 @@ const ModalLayout = () => {
             name="all-appointments"
             options={{
                title: translation('tabs', 'appointments'),
+               headerStyle: {
+                  backgroundColor: colors.background
+               },
+
                headerLeft: () => (
                   <TouchableOpacity onPress={router.back}>
                      <Icon
@@ -64,6 +93,9 @@ const ModalLayout = () => {
             name="analyties"
             options={{
                title: translation('sorting', 'sortBy'),
+               headerStyle: {
+                  backgroundColor: colors.background
+               },
                headerLeft: () => (
                   <TouchableOpacity onPress={router.back}>
                      <Icon

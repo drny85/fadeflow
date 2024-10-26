@@ -1,7 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
-import { ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Animated, { SlideInLeft } from 'react-native-reanimated'
 
@@ -12,6 +12,7 @@ import { Text } from './nativewindui/Text'
 import { useReviews } from '~/hooks/useReviews'
 import { useTranslate } from '~/hooks/useTranslation'
 import { Barber } from '~/shared/types'
+import { barberRating } from '~/utils/barberRating'
 
 type Props = {
    barber: Barber
@@ -39,9 +40,7 @@ const BarberCard = ({
    const { reviews } = useReviews()
    const translate = useTranslate()
    const barberReviews = reviews.filter((r) => r.barberId === barber?.id)
-   const barberRating =
-      barberReviews.reduce((acc, curr) => acc + curr.rating, 0) /
-         reviews.length || 0
+   const rating = barberRating(reviews, barber.id)
 
    if (!barber) return null
    return (
@@ -91,11 +90,11 @@ const BarberCard = ({
                         </Text> */}
 
                            <Text className="text-sm text-muted dark:text-slate-200">
-                              {barberRating === 0 ? (
+                              {rating === 0 ? (
                                  translate('barber.no_review')
                               ) : (
                                  <Text className="text-sm">
-                                    {barberRating.toFixed(0)}{' '}
+                                    {rating.toFixed(0)}{' '}
                                     {translate('barber.rating')}
                                  </Text>
                               )}

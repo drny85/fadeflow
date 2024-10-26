@@ -56,6 +56,13 @@ const Clients = () => {
             data={data}
             estimatedItemSize={20}
             contentContainerClassName="p-2"
+            ListEmptyComponent={
+               <View>
+                  <Text className="text-center text-lg text-muted dark:text-slate-400">
+                     No {translation('booking', 'clients')}
+                  </Text>
+               </View>
+            }
             ItemSeparatorComponent={() => (
                <View
                   style={{

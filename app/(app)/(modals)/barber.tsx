@@ -178,12 +178,16 @@ const BarberDetails = () => {
                showsVerticalScrollIndicator={false}
             >
                <View className="gap-7">
-                  <View className="mt-2 gap-1">
-                     <Text variant="title3">
-                        {translate('barber.about', { name: barber.name })}
-                     </Text>
-                     <Text className="opacity-60">{barber.profile?.bio}</Text>
-                  </View>
+                  {barber.profile?.bio && (
+                     <View className="mt-2 gap-1">
+                        <Text variant="title3">
+                           {translate('barber.about', { name: barber.name })}
+                        </Text>
+                        <Text variant={'callout'} className="opacity-60">
+                           {barber.profile?.bio}
+                        </Text>
+                     </View>
+                  )}
 
                   <TopServices services={services} />
 

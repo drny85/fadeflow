@@ -177,7 +177,8 @@
          "title": "Title",
          "message": "Message",
          "placeholder": "Type a message for all your clients",
-         "button": "Send Message"
+         "button": "Send Message",
+         "verify": "Verify Message"
       },
       "confirmation": {
          "cancel": {
@@ -213,10 +214,10 @@
 
    "barber": {
       "search": "Search Barbers",
-      "title": "Barberos",
-      "rating": "Calificación",
-      "distance": "Distancia",
-      "no_barber": "No barbero disponible",
+      "title": "Barbers",
+      "rating": "rating",
+      "distance": "Distance",
+      "no_barber": "No barbers available",
       "review": "reviews",
       "no_review": "no review yet",
       "about": "About {{name}}",

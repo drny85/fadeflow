@@ -213,7 +213,8 @@
          "title": "Titulo",
          "placeholder": "Mensaje Para Los Clientes",
          "message": "Mensaje",
-         "button": "Enviar Mensaje"
+         "button": "Enviar Mensaje",
+         "verify": "Revisar y Enviar Mensaje"
       },
       "confirmation": {
          "cancel": {
@@ -227,7 +228,7 @@
    "barber": {
       "search": "Buscar Barberos",
       "title": "Barberos",
-      "rating": "Estrellas",
+      "rating": "estrellas",
       "distance": "Distancia",
       "no_barber": "No barbero disponible",
       "review": "reseñas",
@@ -281,7 +282,7 @@
       "signup": "Quieres regístrarte como Barbero?",
       "signup_title": "Regístrate",
       "rating": "estrellas",
-      "estimated": "Estimacion de hoy",
+      "estimated": "Estimado de hoy",
       "earned": "Ganado",
       "pending": "Pendiente",
       "waiting": {

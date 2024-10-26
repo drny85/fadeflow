@@ -4,6 +4,7 @@ import { Appointment, AppUser } from '@shared/types'
 import { Expo } from 'expo-server-sdk'
 import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 import moment from 'moment-timezone'
+import { addBroadcastMessage } from './common'
 // Initialize Firebase Admin
 
 // Initialize Expo SDK
@@ -46,15 +47,25 @@ export const notificationReminder = async (): Promise<any> => {
 
       const messages: any[] = []
 
-      snapshot.forEach((doc) => {
+      snapshot.forEach(async (doc) => {
          const appointment = doc.data() as Appointment
          const userId = appointment.customer.id
+         const body = `You have an upcoming appointment with ${appointment.barber.name.split(' ')[0]} at ${appointment.startTime}.`
          // Get the user's Expo Push Token
          // Ensure each appointment has a reference to the user
          if (!userId) {
             console.error(`No userId found for appointment ${doc.id}`)
             return
          }
+
+         await addBroadcastMessage({
+            title: 'Appointment Reminder',
+            barberId: appointment.barber.id,
+            userId,
+            users: [userId],
+            message: body,
+            createdAt: moment(new Date()).tz('America/New_York').toISOString()
+         })
 
          const userRef = db.collection('users').doc(userId)
          messages.push(
@@ -78,7 +89,7 @@ export const notificationReminder = async (): Promise<any> => {
                   to: pushToken,
                   sound: 'default',
                   title: 'Appointment Reminder',
-                  body: `You have an upcoming appointment with ${appointment.barber.name.split(' ')[0]} at ${appointment.startTime}.`,
+                  body,
                   data: { id: doc.id, notificationType: 'reminder' }
                }
             })
