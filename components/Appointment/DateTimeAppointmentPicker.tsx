@@ -55,14 +55,14 @@ const DateTimeAppointmentPicker = ({ onPress, barber }: Props) => {
                >
                   <View className="items-center mb-4 flex-row justify-evenly">
                      <View className="flex-row items-center gap-2">
-                        <FontAwesome name="calendar" size={24} color={'grey'} />
+                        <FontAwesome name="calendar" size={22} color={'grey'} />
                         <Text className="text-center font-roboto-bold text-muted dark:text-slate-300">
-                           {format(selectedDate, 'E, PP')}
+                           {format(selectedDate, 'PP')}
                         </Text>
                      </View>
 
                      <View className="flex-row items-center gap-2">
-                        <FontAwesome name="clock-o" size={24} color={'grey'} />
+                        <FontAwesome name="clock-o" size={22} color={'grey'} />
                         <Text className="font-roboto-bold text-muted dark:text-slate-300">
                            {selectedTimeSlot.time} -{' '}
                            {format(

@@ -448,7 +448,7 @@ const BookingPage = () => {
             style={{
                marginBottom: bottom,
                shadowOffset: { width: -2, height: -2 },
-               shadowRadius: 3,
+               shadowRadius: 4,
                shadowOpacity: 0.5,
                shadowColor: colors.grey
             }}
@@ -456,7 +456,7 @@ const BookingPage = () => {
             <View className="flex-row justify-evenly min-h-12 items-center">
                {selectedServices.length > 0 && (
                   <Animated.View entering={SlideInLeft} exiting={SlideOutLeft}>
-                     <View className="my-3 flex-row items-start gap-1 self-center">
+                     <View className="my-3 flex-row items-center gap-1">
                         <FontAwesome name="clock-o" size={24} color="grey" />
                         <AnimatedNumber
                            prefix=""
@@ -475,7 +475,7 @@ const BookingPage = () => {
                      entering={SlideInRight}
                      exiting={SlideOutRight}
                   >
-                     <View className="my-3 flex-row items-start gap-2 self-center">
+                     <View className="my-3 flex-row items-center gap-2">
                         <FontAwesome name="money" size={24} color="grey" />
                         <AnimatedNumber
                            fixed={false}
@@ -561,21 +561,22 @@ const BookingPage = () => {
             onChange={handleSheetChanges}
          >
             <View className="mt-5 flex-1 items-center justify-center bg-card pb-8">
-               <TouchableOpacity
-                  onPress={() => {
-                     bottomSheetModalRef.current?.close()
-                     setSelectedTimeSlot(null)
-                  }}
-                  style={{
-                     justifyContent: 'flex-end',
-                     alignSelf: 'flex-end',
-                     marginRight: 20
-                  }}
-               >
-                  <Text className="text-muted font-semibold dark:text-slate-300">
-                     {translation('button', 'cancel')}
-                  </Text>
-               </TouchableOpacity>
+               <View className="flex-row justify-end bg-card self-end">
+                  <TouchableOpacity
+                     onPress={() => {
+                        bottomSheetModalRef.current?.close()
+                        setSelectedTimeSlot(null)
+                     }}
+                     style={{
+                        marginRight: 20
+                     }}
+                  >
+                     <Text className="text-muted font-semibold dark:text-slate-300">
+                        {translation('button', 'cancel')}
+                     </Text>
+                  </TouchableOpacity>
+               </View>
+
                <DateTimeAppointmentPicker
                   barber={barber}
                   onPress={() => {
